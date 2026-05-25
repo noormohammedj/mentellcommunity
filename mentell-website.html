@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mentell Community — Reconstruct Body. Rebuild Mind.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --deep: #111318;
+    --card: #16191f;
+    --border: #252830;
+    --orange: #ff6b2b;
+    --orange-glow: rgba(255,107,43,0.18);
+    --orange-soft: rgba(255,107,43,0.08);
+    --white: #f5f3ef;
+    --muted: #8a8d96;
+    --green: #2ecc71;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5vw;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--orange); }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--white); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-cta {
+    background: var(--orange);
+    color: var(--black) !important;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px var(--orange-glow) !important;
+    color: var(--black) !important;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 5vw 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,107,43,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--orange-soft);
+    border: 1px solid rgba(255,107,43,0.3);
+    color: var(--orange);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 6vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    max-width: 860px;
+    word-break: break-word;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--orange);
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--muted);
+    max-width: 560px;
+    margin-top: 24px;
+    font-weight: 300;
+    line-height: 1.7;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 500; }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: var(--black);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 16px 32px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px var(--orange-glow);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 16px 32px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--orange);
+    background: var(--orange-soft);
+  }
+
+  /* ── PROOF BANNER ── */
+  .proof-banner {
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 5vw;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    overflow: hidden;
+  }
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .proof-item .dot { color: var(--orange); font-size: 1.2rem; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 5vw; position: relative; }
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    max-width: 700px;
+  }
+  h2 em { font-style: normal; color: var(--orange); }
+
+  /* ── STORY SECTION ── */
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 60px;
+    align-items: center;
+  }
+  .story-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .story-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--orange), transparent);
+  }
+  .story-avatar {
+    width: 64px; height: 64px;
+    background: var(--orange-glow);
+    border: 2px solid var(--orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+  }
+  .story-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .story-card p { color: var(--muted); line-height: 1.8; font-size: 0.95rem; }
+  .story-card p strong { color: var(--white); }
+  .story-right { display: flex; flex-direction: column; gap: 20px; }
+  .story-fact {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: border-color 0.2s;
+  }
+  .story-fact:hover { border-color: var(--orange); }
+  .fact-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .fact-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+  .fact-text p { color: var(--muted); font-size: 0.875rem; }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--orange);
+    box-shadow: 0 20px 60px var(--orange-glow);
+  }
+  .service-card.featured {
+    border-color: var(--orange);
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255,107,43,0.06) 100%);
+  }
+  .service-card.featured::after {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .service-icon {
+    width: 52px; height: 52px;
+    background: var(--orange-soft);
+    border: 1px solid rgba(255,107,43,0.2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  .service-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--orange);
+    letter-spacing: -1px;
+  }
+  .service-price span {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .service-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
+  .service-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .service-features li {
+    font-size: 0.875rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .service-features li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .service-btn {
+    margin-top: auto;
+    padding: 14px 24px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s;
+  }
+  .service-btn:hover, .service-card.featured .service-btn {
+    background: var(--orange);
+    color: var(--black);
+    border-color: var(--orange);
+  }
+
+  /* ── HABIT TRACKER ── */
+  .tracker-section {
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .tracker-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .tracker-left h2 { margin-bottom: 20px; }
+  .tracker-left p { color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+  .tracker-visual {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+  }
+  .tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .tracker-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .tracker-days {
+    font-size: 0.8rem;
+    color: var(--orange);
+    background: var(--orange-soft);
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+  .habit-list { display: flex; flex-direction: column; gap: 12px; }
+  .habit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--deep);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .habit-name { font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+  .habit-dots { display: flex; gap: 6px; }
+  .dot-fill {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--orange);
+  }
+  .dot-empty {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .tracker-progress {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--orange), #ff9a6b);
+    border-radius: 100px;
+    width: 73%;
+  }
+
+  /* ── COMMUNITY ── */
+  .community-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .community-card {
+    background: var(--card);
+    border: 1px solid var(--orange);
+    border-radius: 28px;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .community-card::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,107,43,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .wa-icon {
+    width: 64px; height: 64px;
+    background: #25D366;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+  }
+  .community-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .community-card p { color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
+  .community-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .perk {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+  }
+  .perk-icon { font-size: 1.1rem; }
+  .community-right { display: flex; flex-direction: column; gap: 24px; }
+  .community-stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .community-stat-card:hover { border-color: var(--orange); }
+  .community-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .community-stat-label { font-size: 0.85rem; color: var(--muted); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 60px;
+  }
+  .testi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .testi-card:hover { border-color: var(--orange); }
+  .testi-stars { color: var(--orange); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 14px; }
+  .testi-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--orange-glow);
+    border: 1px solid var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+  .testi-name { font-size: 0.875rem; font-weight: 600; }
+  .testi-role { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    text-align: center;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+  }
+  .cta-section h2 { margin: 0 auto 20px; text-align: center; max-width: 600px; }
+  .cta-section p { color: var(--muted); max-width: 500px; margin: 0 auto 40px; }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 5vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 20px;
+  }
+  footer p { color: var(--muted); font-size: 0.85rem; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .story-grid, .services-grid, .tracker-inner,
+    .community-inner, .testimonials-grid { grid-template-columns: 1fr; gap: 24px; }
+    h1 { letter-spacing: -1px; }
+    .hero-stats { gap: 24px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">men<span>tell</span>.community</div>
+  <div class="nav-links">
+    <a href="#story">Our Story</a>
+    <a href="#services">Services</a>
+    <a href="#tracker">Habit Tracker</a>
+    <a href="#community">Community</a>
+    <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank" class="nav-cta">Join Free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag">270 Day Transformation • Day 50 🔥</div>
+  <h1>Reconstruct<br/>Your <em>Body.</em><br/>Rebuild Your <em>Mind.</em></h1>
+  <p class="hero-sub">
+    <strong>உன் body மாத்தும்போது, mind automatically மாறும்.</strong><br/>
+    Real transformation. No shortcuts. No excuses. — Even with a polio leg & an IT job.
+  </p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Days Documented</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4kg</div>
+      <div class="stat-label">Lost So Far</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">270</div>
+      <div class="stat-label">Day Journey</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Excuses Killed</div>
+    </div>
+  </div>
+  <div class="hero-btns">
+    <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank" class="btn-primary">Join Free Community 💬</a>
+    <a href="https://www.instagram.com/mentell.community/" target="_blank" class="btn-secondary">Read My Story →</a>
+  </div>
+</section>
+
+<!-- PROOF BANNER -->
+<div class="proof-banner">
+  <div class="proof-item"><span class="dot">●</span> IT Employee → Daily Athlete</div>
+  <div class="proof-item"><span class="dot">●</span> Polio leg. Still shows up.</div>
+  <div class="proof-item"><span class="dot">●</span> 84kg → 80kg in 50 days</div>
+  <div class="proof-item"><span class="dot">●</span> Anxiety குறஞ்சுச்சு</div>
+  <div class="proof-item"><span class="dot">●</span> Community growing daily 🚀</div>
+  <div class="proof-item"><span class="dot">●</span> Tamil Nadu's #1 Mind-Body Journey</div>
+</div>
+
+<!-- STORY -->
+<section id="story">
+  <div class="section-tag">Our Story</div>
+  <h2>I am not a doctor.<br/><em>I am proof.</em></h2>
+  <div class="story-grid">
+    <div class="story-card">
+      <div class="story-avatar">🙋</div>
+      <h3>என் கதை (My Story)</h3>
+      <p>
+        IT employee. 9–6 job. Left leg-ல polio. Overweight by 12kg.
+        <strong> Every excuse was valid.</strong> But one day I decided —
+        body சரி பண்ணினா, mind சரி ஆகும்.
+        <br/><br/>
+        50 days ago I started. <strong>No trainer. No diet plan. Just one decision.</strong>
+        4kg gone. Anxiety gone. Fear gone. Mirror பாக்க பயம் போச்சு.
+        <br/><br/>
+        That's why I built Mentell — because <strong>if I can do it, you can too.</strong>
+        This isn't fitness. This is a full mind-body reconstruction.
+      </p>
+    </div>
+    <div class="story-right">
+      <div class="story-fact">
+        <div class="fact-icon">🦵</div>
+        <div class="fact-text">
+          <h4>Physical Limitation — Zero Excuses</h4>
+          <p>Polio in left leg. Still workouts daily. Your limitation is valid. Your excuse is not.</p>
+        </div>
+      </div>
+      <div class="story-fact">
+        <div class="fact-icon">💻</div>
+        <div class="fact-text">
+          <h4>Full-time IT Job</h4>
+          <p>9–6 job. Zero free time. Still shows up every single day. Time is made, not found.</p>
+        </div>
+      </div>
+      <div class="story-fact">
+        <div class="fact-icon">🧠</div>
+        <div class="fact-text">
+          <h4>Mind Changed First</h4>
+          <p>Body transformation is just the beginning. The real change happens in your mind.</p>
+        </div>
+      </div>
+      <div class="story-fact">
+        <div class="fact-icon">🤝</div>
+        <div class="fact-text">
+          <h4>Community Over Solo</h4>
+          <p>Alone is hard. Together is unstoppable. Join 100+ people on the same journey.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background: var(--deep); border-top: 1px solid var(--border);">
+  <div class="section-tag">3 Ways We Help</div>
+  <h2>Pick where you<br/>want to <em>start.</em></h2>
+  <div class="services-grid">
+
+    <!-- Free -->
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <div class="service-price">FREE <span>/ forever</span></div>
+      <h3>Habit Tracker</h3>
+      <p>A simple daily tracker built for Tamil Nadu people — water, workout, sleep, food, mood. Download and start today.</p>
+      <ul class="service-features">
+        <li>Daily habit checklist</li>
+        <li>7-day & 30-day view</li>
+        <li>Works offline</li>
+        <li>Tamil & English</li>
+      </ul>
+      <a href="mentell_habit_tracker.xlsx" download="Mentell_Habit_Tracker.xlsx" class="service-btn">Download Free →</a>
+    </div>
+
+    <!-- Diet -->
+    <div class="service-card featured">
+      <div class="service-icon">🥗</div>
+      <div class="service-price">₹499 <span>/ one-time</span></div>
+      <h3>Custom Diet Chart</h3>
+      <p>Personalised diet plan based on your weight, goal, food preference and lifestyle. Tamil food. Real food. No starvation.</p>
+      <ul class="service-features">
+        <li>Based on your body stats</li>
+        <li>Tamil food included</li>
+        <li>Breakfast to dinner plan</li>
+        <li>WhatsApp support</li>
+        <li>Monthly revision included</li>
+      </ul>
+      <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank" class="service-btn">Get My Diet Plan →</a>
+    </div>
+
+    <!-- Coaching -->
+    <div class="service-card">
+      <div class="service-icon">🎯</div>
+      <div class="service-price">₹4,999 <span>/ 90 days</span></div>
+      <h3>90-Day Focus Coaching</h3>
+      <p>Full mind-body transformation program. Accountability, weekly check-ins, diet, workout, and mental health focus.</p>
+      <ul class="service-features">
+        <li>Weekly 1:1 check-in calls</li>
+        <li>Custom workout plan</li>
+        <li>Diet + habit support</li>
+        <li>Mental health guidance</li>
+        <li>Private group access</li>
+      </ul>
+      <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank" class="service-btn">Apply Now →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- HABIT TRACKER -->
+<section id="tracker" class="tracker-section">
+  <div class="tracker-inner">
+    <div class="tracker-left">
+      <div class="section-tag">Free Tool</div>
+      <h2>Your daily <em>habit tracker</em> — starts here.</h2>
+      <p>
+        சின்ன habits தான் big life change பண்ணும். This free tracker helps you stay consistent —
+        water intake, workout, sleep, food, mood. Everything in one place.
+        <br/><br/>
+        No app needed. Just download, print or use on your phone.
+      </p>
+      <a href="mentell_habit_tracker.xlsx" download="Mentell_Habit_Tracker.xlsx" class="btn-primary">Get Free Tracker 📋</a>
+    </div>
+    <div class="tracker-visual">
+      <div class="tracker-header">
+        <div class="tracker-title">🔥 Week 7 — Day 50</div>
+        <div class="tracker-days">73% Complete</div>
+      </div>
+      <div class="habit-list">
+        <div class="habit-row">
+          <div class="habit-name">💧 Water (3L)</div>
+          <div class="habit-dots">
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-fill"></div>
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-fill"></div>
+            <div class="dot-empty"></div>
+          </div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">🏋️ Workout</div>
+          <div class="habit-dots">
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-fill"></div>
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-empty"></div>
+            <div class="dot-empty"></div>
+          </div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">😴 Sleep 7hrs</div>
+          <div class="habit-dots">
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-fill"></div>
+            <div class="dot-fill"></div><div class="dot-empty"></div><div class="dot-empty"></div>
+            <div class="dot-empty"></div>
+          </div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">🥗 Clean Eating</div>
+          <div class="habit-dots">
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-fill"></div>
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-fill"></div>
+            <div class="dot-fill"></div>
+          </div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">🧠 Mindfulness</div>
+          <div class="habit-dots">
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-empty"></div>
+            <div class="dot-fill"></div><div class="dot-fill"></div><div class="dot-empty"></div>
+            <div class="dot-empty"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tracker-progress">
+        <div class="progress-label">
+          <span>Weekly Progress</span>
+          <span style="color: var(--orange);">73%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="section-tag">Free Community</div>
+  <h2>Don't go alone.<br/><em>Come together.</em></h2>
+  <div class="community-inner" style="margin-top: 60px;">
+    <div class="community-card">
+      <div class="wa-icon">💬</div>
+      <h3>Join the Mentell WhatsApp Community</h3>
+      <p>
+        Daily motivation, workout tips, diet check-ins, real talk — எல்லாமே free.
+        Tamil Nadu-ல உள்ள real people, real results.
+      </p>
+      <div class="community-perks">
+        <div class="perk"><span class="perk-icon">✅</span> Daily accountability check-in</div>
+        <div class="perk"><span class="perk-icon">✅</span> Free workout & diet tips</div>
+        <div class="perk"><span class="perk-icon">✅</span> Mental health conversations</div>
+        <div class="perk"><span class="perk-icon">✅</span> Real transformation stories</div>
+        <div class="perk"><span class="perk-icon">✅</span> 100% free. Forever.</div>
+      </div>
+      <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank" class="btn-primary" style="width: fit-content;">Join Free Now 💬</a>
+    </div>
+    <div class="community-right">
+      <div class="community-stat-card">
+        <div class="community-stat-num">50+</div>
+        <div class="community-stat-label">Active Members & Growing</div>
+      </div>
+      <div class="community-stat-card">
+        <div class="community-stat-num">Daily</div>
+        <div class="community-stat-label">New Content & Check-ins</div>
+      </div>
+      <div class="community-stat-card">
+        <div class="community-stat-num">₹0</div>
+        <div class="community-stat-label">Cost to Join. Always Free.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background: var(--deep); border-top: 1px solid var(--border);">
+  <div class="section-tag">Community Voices</div>
+  <h2>Real people.<br/><em>Real results.</em></h2>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Naan IT la work pannuren, gym pogave time illanu sonnean. Avan story paathu inspire aanen. Ippo 3rd week la irukken!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div>
+          <div class="testi-name">Karthik R.</div>
+          <div class="testi-role">Software Engineer, Chennai</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Anxiety pathhi open-a pesa oru community kidaichen. Mentell community vera level da. Daily motivation kedaikuthu."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div>
+          <div class="testi-name">Priya M.</div>
+          <div class="testi-role">Teacher, Coimbatore</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Polio irukku inum gym poraan — ithu paathu en excuses ellam pochu. 2 weeks la 1.5kg reduce aanen!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div>
+          <div class="testi-name">Muthu S.</div>
+          <div class="testi-role">Business Owner, Madurai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-tag" style="text-align:center;">Start Today</div>
+  <h2>220 days பாக்கி இருக்கு.<br/><em>நீ இருக்கியா?</em></h2>
+  <p>Your body transformation starts with one decision. Join thousands of Tamil Nadu people rebuilding their body and mind — together.</p>
+  <div class="cta-btns">
+    <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank" class="btn-primary">Join Free Community 💬</a>
+    <a href="#services" class="btn-secondary">See All Services →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">men<span>tell</span>.community</div>
+  <p>© 2025 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/mentell.community/" target="_blank">Instagram</a>
+    <a href="https://chat.whatsapp.com/BVG4MZML5KVAB7VloTDmWH" target="_blank">WhatsApp</a>
+    <a href="https://youtube.com/@mentell.community" target="_blank">YouTube</a>
+  </div>
+</footer>
+
+</body>
+</html>
