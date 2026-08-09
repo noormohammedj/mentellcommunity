@@ -11,24 +11,7 @@
 </script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Free BMR Calculator & 21-Day Diet Plan — Mentell Physical Wellness</title>
-<meta name="description" content="Calculate your BMR, get a free 21-day South Indian diet plan, and track daily habits. Built for real Tamil Nadu life — no login required."/>
-<link rel="canonical" href="https://mentell.co.in/physical.html"/>
-<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-
-<!-- Open Graph -->
-<meta property="og:type" content="website"/>
-<meta property="og:site_name" content="Mentell"/>
-<meta property="og:title" content="Free BMR Calculator & 21-Day Diet Plan — Mentell Physical Wellness"/>
-<meta property="og:description" content="Calculate your BMR, get a free 21-day South Indian diet plan, and track daily habits. Built for real Tamil Nadu life — no login required."/>
-<meta property="og:url" content="https://mentell.co.in/physical.html"/>
-<meta property="og:image" content="https://mentell.co.in/mentell-og-image.jpg"/>
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Free BMR Calculator & 21-Day Diet Plan — Mentell Physical Wellness"/>
-<meta name="twitter:description" content="Calculate your BMR, get a free 21-day South Indian diet plan, and track daily habits. Built for real Tamil Nadu life — no login required."/>
-<meta name="twitter:image" content="https://mentell.co.in/mentell-og-image.jpg"/>
+<title>Physical Wellness — Mentell</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
 <style>
 /* ── RESET & BASE ── */
@@ -277,9 +260,9 @@ a{text-decoration:none;color:inherit}
 .plan-features li{font-size:.875rem;color:var(--text-muted);display:flex;align-items:flex-start;gap:.625rem}
 .plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:.05rem}
 .plan-btn{
-  margin-top:auto;display:block;text-align:center;
-  padding:.875rem;border-radius:100px;
-  font-size:.9rem;font-weight:600;
+  margin-top:auto;display:block;text-align:center;width:100%;
+  padding:.875rem;border-radius:100px;cursor:pointer;
+  font-size:.9rem;font-weight:600;font-family:inherit;
   border:1.5px solid var(--border);color:var(--text);
   background:transparent;transition:all .2s;
 }
@@ -607,11 +590,53 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
 @media(max-width:900px){
   .pillar-grid{grid-template-columns:1fr}
 }
+
+/* ── WHATSAPP LEAD GATE ── */
+.wagate-overlay{
+  position:fixed;inset:0;background:rgba(16,16,16,.6);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.25rem;z-index:9999;opacity:0;pointer-events:none;
+  transition:opacity .2s ease;
+}
+.wagate-overlay.active{opacity:1;pointer-events:auto}
+.wagate-box{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:2rem;max-width:400px;width:100%;
+  box-shadow:var(--shadow-lg);position:relative;
+  transform:translateY(12px);transition:transform .2s ease;
+}
+.wagate-overlay.active .wagate-box{transform:translateY(0)}
+.wagate-close{
+  position:absolute;top:1rem;right:1rem;background:none;border:none;
+  font-size:1.3rem;color:var(--text-light);cursor:pointer;line-height:1;padding:.25rem;
+}
+.wagate-close:hover{color:var(--text)}
+.wagate-icon{
+  width:48px;height:48px;border-radius:50%;background:var(--blue-light);
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem;
+}
+.wagate-box h3{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:.375rem;letter-spacing:-.02em}
+.wagate-box p{font-size:.88rem;color:var(--text-muted);font-weight:300;margin-bottom:1.25rem;line-height:1.5}
+.wagate-input-row{
+  display:flex;align-items:stretch;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s;
+}
+.wagate-input-row:focus-within{border-color:var(--blue)}
+.wagate-prefix{
+  display:flex;align-items:center;padding:0 .75rem;background:var(--slate);
+  color:var(--text-muted);font-size:.9rem;font-weight:600;border-right:1.5px solid var(--border);
+}
+.wagate-input-row input{
+  flex:1;border:none;padding:.75rem .9rem;font-size:.95rem;font-family:inherit;
+  color:var(--text);background:var(--white);min-width:0;
+}
+.wagate-input-row input:focus{outline:none}
+.wagate-error{color:#dc2626;font-size:.82rem;font-weight:600;margin-top:.6rem;display:none}
+.wagate-submit{width:100%;justify-content:center;margin-top:1.25rem}
+.wagate-note{font-size:.72rem;color:var(--text-light);margin-top:.9rem;line-height:1.5;font-weight:300}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
-<body>
-
 <!-- NAV -->
 <nav class="nav">
   <a href="index.html" class="nav-logo" style="text-decoration:none">
@@ -754,8 +779,8 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
         <div class="df-plan-footer">
           <button class="df-back" onclick="dfGoStep(2)">← Back to my numbers</button>
           <div style="display:flex;gap:.75rem;flex-wrap:wrap">
-            <button class="btn btn-outline" onclick="dfDownloadPDF()">Download PDF 📄</button>
-            <button class="btn btn-outline" onclick="dfDownloadWord()">Download Word 📝</button>
+            <button class="btn btn-outline" onclick="wagateOpen('Diet Chart (PDF)', dfDownloadPDF)">Download PDF 📄</button>
+            <button class="btn btn-outline" onclick="wagateOpen('Diet Chart (Word)', dfDownloadWord)">Download Word 📝</button>
             <a href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" class="btn btn-blue">Get Support in Community 💬</a>
           </div>
         </div>
@@ -771,7 +796,7 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
         <h2 class="section-title">Your daily <em>habit tracker</em><br>starts here.</h2>
         <p class="section-sub">சின்ன habits தான் big life change பண்ணும். This free tracker helps you stay consistent — water, workout, sleep, food, mood. Everything in one place.</p>
         <p style="margin-top:1rem;color:var(--text-muted);font-size:.95rem;font-weight:300">No app needed. Download, print, or use on your phone. Built for real people with real lives.</p>
-        <a href="mentell_habit_tracker.xlsx" download="Mentell_Habit_Tracker.xlsx" class="btn btn-blue" style="margin-top:2rem">Download Free Tracker 📋</a>
+        <button class="btn btn-blue" style="margin-top:2rem" onclick="wagateOpen('Habit Tracker', wagateDownloadTracker)">Download Free Tracker 📋</button>
       </div>
       <div class="tracker-widget">
         <div class="tw-header">
@@ -811,7 +836,7 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
           <li>Works offline</li>
           <li>Tamil &amp; English</li>
         </ul>
-        <a href="mentell_habit_tracker.xlsx" download="Mentell_Habit_Tracker.xlsx" class="plan-btn">Download Free →</a>
+        <button class="plan-btn" onclick="wagateOpen('Habit Tracker', wagateDownloadTracker)">Download Free →</button>
       </div>
 
       <div class="plan-card featured">
@@ -883,6 +908,24 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
     </div>
   </div>
 </footer>
+
+<!-- WHATSAPP LEAD GATE MODAL -->
+<div class="wagate-overlay" id="wagateOverlay">
+  <div class="wagate-box">
+    <button class="wagate-close" onclick="wagateClose()" aria-label="Close">×</button>
+    <div class="wagate-icon">📲</div>
+    <h3>Enter your WhatsApp number</h3>
+    <p>Unga <span id="wagateItemLabel">chart</span> ready. Number kudunga, download start aagum + namma WhatsApp-la record aagum.</p>
+    <div class="wagate-input-row">
+      <span class="wagate-prefix">+91</span>
+      <input type="tel" id="wagateNumber" placeholder="98765 43210" maxlength="10" inputmode="numeric" autocomplete="tel-national">
+    </div>
+    <div class="wagate-error" id="wagateError">Please enter a valid 10-digit WhatsApp number.</div>
+    <button class="btn btn-blue wagate-submit" onclick="wagateSubmit()">Get It on WhatsApp →</button>
+    <p class="wagate-note">Naanga unga number-ah unga chart anupa mattum use pannuvom, spam illa. — Mentell</p>
+  </div>
+</div>
+
 <!-- WA STICKY -->
 <a href="https://wa.me/919629843122?text=Would%20like%20to%20join%20mentell%20because%20i%20want%20to%20improve%20myself" target="_blank" class="wa-sticky" aria-label="Chat on WhatsApp">
   <div class="wa-tooltip">Chat with Noor</div>
@@ -1295,6 +1338,67 @@ function dfDownloadWord(){
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+/* ── WHATSAPP LEAD GATE ── */
+var MENTELL_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzecaytBA9X0c7woha69R-hThL6I0SHrFxihk4A1UfEKl2R2z8ljgrEQjj81MC7lf6yMA/exec';
+var wagateCallback = null;
+var wagateItem = '';
+
+function wagateDownloadTracker(){
+  var a = document.createElement('a');
+  a.href = 'mentell_habit_tracker.xlsx';
+  a.download = 'Mentell_Habit_Tracker.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function wagateOpen(itemLabel, callback){
+  wagateItem = itemLabel;
+  wagateCallback = callback;
+  document.getElementById('wagateItemLabel').textContent = itemLabel;
+  document.getElementById('wagateNumber').value = '';
+  document.getElementById('wagateError').style.display = 'none';
+  document.getElementById('wagateOverlay').classList.add('active');
+  setTimeout(function(){ document.getElementById('wagateNumber').focus(); }, 150);
+}
+function wagateClose(){
+  document.getElementById('wagateOverlay').classList.remove('active');
+}
+function wagateSubmit(){
+  var raw = document.getElementById('wagateNumber').value.trim().replace(/\D/g,'');
+  var errEl = document.getElementById('wagateError');
+  if(!/^[6-9]\d{9}$/.test(raw)){
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  var fullNumber = '91' + raw;
+
+  try{
+    fetch(MENTELL_SHEET_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'text/plain'},
+      body: JSON.stringify({
+        number: fullNumber,
+        item: wagateItem,
+        page: window.location.pathname,
+        bmr: (typeof dfState !== 'undefined' && dfState && dfState.bmr) ? dfState.bmr : '',
+        timestamp: new Date().toISOString()
+      })
+    });
+  }catch(e){ /* logging failure should never block the download */ }
+
+  if(typeof gtag === 'function'){ gtag('event','whatsapp_lead_captured', {item: wagateItem}); }
+
+  if(typeof wagateCallback === 'function'){ wagateCallback(); }
+
+  var msg = 'Hi Mentell, I just downloaded my ' + wagateItem + '. My WhatsApp number is +' + fullNumber;
+  window.open('https://wa.me/919629843122?text=' + encodeURIComponent(msg), '_blank');
+
+  wagateClose();
 }
 </script>
 </body>
