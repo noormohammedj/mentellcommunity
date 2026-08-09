@@ -775,7 +775,7 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
 
         <div class="df-error" id="brError1">Please answer all 10 questions before continuing.</div>
         <div class="df-actions" style="justify-content:flex-end">
-          <button class="btn btn-blue" onclick="brCalculate()">See My Burnout Score →</button>
+          <button class="btn btn-blue" onclick="wagateOpen('Your Burnout Score', brCalculate)">See My Burnout Score →</button>
         </div>
       </div>
 
@@ -797,7 +797,7 @@ footer p{font-size:.85rem;color:rgba(255,255,255,.3)}
         <div class="df-actions">
           <button class="df-back" onclick="brGoStep(1)">← Back</button>
           <div style="display:flex;gap:.75rem;flex-wrap:wrap">
-            <button class="btn btn-outline" onclick="if(typeof gtag==='function')gtag('event','burnout_habit_tracker_click'); wagateOpen('Habit Tracker', wagateDownloadTracker)">Track This Daily 📋</button>
+            <button class="btn btn-outline" onclick="if(typeof gtag==='function')gtag('event','burnout_habit_tracker_click'); wagateDownloadTracker()">Track This Daily 📋</button>
             <a href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" class="btn btn-blue" onclick="if(typeof gtag==='function')gtag('event','burnout_cta_click')">Get My Mental Reset Plan — ₹499 →</a>
           </div>
         </div>
@@ -973,7 +973,7 @@ function brCalculate(){
 }
 
 /* ── WHATSAPP LEAD GATE ── */
-var MENTELL_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzecaytBA9X0c7woha69R-hThL6I0SHrFxihk4A1UfEKl2R2z8ljgrEQjj81MC7lf6yMA/exec';
+var MENTELL_SHEET_ENDPOINT = 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
 var wagateCallback = null;
 var wagateItem = '';
 
@@ -988,6 +988,10 @@ function wagateDownloadTracker(){
 
 
 function wagateOpen(itemLabel, callback){
+  if(sessionStorage.getItem('mentell_wa_captured')){
+    if(typeof callback === 'function'){ callback(); }
+    return;
+  }
   wagateItem = itemLabel;
   wagateCallback = callback;
   document.getElementById('wagateItemLabel').textContent = itemLabel;
@@ -1008,6 +1012,7 @@ function wagateSubmit(){
   }
   errEl.style.display = 'none';
   var fullNumber = '91' + raw;
+  sessionStorage.setItem('mentell_wa_captured', fullNumber);
 
   try{
     fetch(MENTELL_SHEET_ENDPOINT, {
@@ -1029,7 +1034,8 @@ function wagateSubmit(){
   if(typeof wagateCallback === 'function'){ wagateCallback(); }
 
   var msg = 'Hi Mentell, I just downloaded my ' + wagateItem + '. My WhatsApp number is +' + fullNumber;
-  window.open('https://wa.me/919629843122?text=' + encodeURIComponent(msg), '_blank');
+  var waLink = 'https://wa.me/919629843122?text=' + encodeURIComponent(msg);
+  window.open('whatsapp-redirect.html?wa=' + encodeURIComponent(waLink) + '&back=' + encodeURIComponent(window.location.pathname), '_blank');
 
   wagateClose();
 }

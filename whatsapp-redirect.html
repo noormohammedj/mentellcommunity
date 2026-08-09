@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Opening WhatsApp — Mentell</title>
+<style>
+  :root{
+    --navy:#101010; --blue:#E8434F; --blue-dark:#C92E39; --blue-light:#FDEAEB;
+    --white:#ffffff; --text:#101010; --text-muted:#5C5C5C; --border:#E7E7E7;
+    --radius-lg:20px; --shadow-lg:0 12px 40px rgba(0,0,0,.1);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--navy);min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:1.25rem;
+  }
+  .card{
+    background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+    padding:2.5rem 2rem;max-width:380px;width:100%;text-align:center;
+  }
+  .icon{
+    width:56px;height:56px;border-radius:50%;background:var(--blue-light);
+    display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+    margin:0 auto 1.25rem;
+  }
+  .spinner{
+    width:22px;height:22px;border:3px solid var(--blue-light);border-top-color:var(--blue);
+    border-radius:50%;margin:0 auto 1rem;animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  h1{font-size:1.15rem;font-weight:800;color:var(--text);margin:0 0 .5rem;letter-spacing:-.01em}
+  p{font-size:.9rem;color:var(--text-muted);font-weight:300;line-height:1.5;margin:0 0 1.5rem}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    width:100%;padding:.875rem 1.5rem;border-radius:100px;
+    font-size:.95rem;font-weight:600;text-decoration:none;transition:all .2s;
+  }
+  .btn-blue{background:var(--blue);color:#fff}
+  .btn-blue:hover{background:var(--blue-dark)}
+  .back-link{
+    display:inline-block;margin-top:1.25rem;font-size:.85rem;font-weight:600;
+    color:var(--text-muted);text-decoration:none;
+  }
+  .back-link:hover{color:var(--blue)}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="spinner" id="spinnerEl"></div>
+    <div class="icon" id="iconEl" style="display:none">📲</div>
+    <h1>Opening WhatsApp…</h1>
+    <p>Unga chart pathi WhatsApp-la confirm pannunga. Automatic-a open aagalana, kீழே click pannunga.</p>
+    <a href="#" class="btn btn-blue" id="openWaBtn">Open WhatsApp →</a>
+    <a href="/" class="back-link" id="backLink">← Back to Mentell</a>
+  </div>
+
+<script>
+  function getParam(name){
+    var m = new URLSearchParams(window.location.search).get(name);
+    return m || '';
+  }
+
+  var waLink = getParam('wa');
+  var backPath = getParam('back') || '/';
+
+  document.getElementById('openWaBtn').href = waLink || 'https://wa.me/919629843122';
+  document.getElementById('backLink').href = backPath;
+
+  // Auto-redirect shortly after paint, so the branded card is visible first
+  // and this page stays in history (pressing Back in WhatsApp returns here,
+  // not to a blank tab).
+  if (waLink) {
+    setTimeout(function(){
+      window.location.href = waLink;
+      document.getElementById('spinnerEl').style.display = 'none';
+      document.getElementById('iconEl').style.display = 'flex';
+    }, 500);
+  }
+</script>
+</body>
+</html>
