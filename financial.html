@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lifestyle Leak Calculator | Mentell — Financial Wellness</title>
 <meta name="description" content="Unga panam enga leak aagudhu? Find the small daily habits draining your money, and see what just one small change becomes in 10 years.">
+<!-- Google Analytics (same GA4 property as the rest of mentell.co.in) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -302,6 +305,16 @@
   .soc.done .soc-st{background:#1E9E55}
   .soc.miss{border-color:var(--red);animation:shake .3s}
   @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .socials.row{grid-template-columns:repeat(3,1fr);gap:8px}
+  .soc.mini{grid-template-columns:1fr;justify-items:center;text-align:center;gap:6px;padding:12px 8px}
+  .soc.mini .soc-ic{width:34px;height:34px}
+  .soc.mini .soc-t b{font-size:12px;font-weight:600}
+  .soc.mini .soc-st{font-size:12px;padding:4px 10px}
+  .soc-divider{display:flex;align-items:center;gap:10px;margin:18px 0 10px;color:var(--text-light);font-size:12px;font-weight:600}
+  .soc-divider::before,.soc-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+  .opt{font-weight:500;color:var(--text-light);font-size:12px;margin-left:4px}
+  .card.connect{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:center}
+  @media(max-width:760px){.card.connect{grid-template-columns:1fr}}
   .soc-prog{font-size:12px;font-weight:600;color:var(--muted);margin:4px 0 14px!important}
   .fine{font-size:11px!important;text-align:center;margin:10px 0 0!important}
   .inp.bad{border-color:var(--red)}
@@ -472,6 +485,30 @@
       </div>
     </div>
 
+    <div class="card connect" style="margin-top:14px">
+      <div>
+        <h3 class="ct">Get one money tip every week</h3>
+        <p class="hint">Short videos and reminders to keep your leaks fixed. Pick whatever app you use.</p>
+      </div>
+      <div class="socials row">
+      <a class="soc mini" data-soc="yt" data-where="dashboard" href="https://www.youtube.com/@Noormohammed.j" target="_blank" rel="noopener">
+        <span class="soc-ic yt" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM9.8 15V9l5.8 3-5.8 3Z"/></svg></span>
+        <span class="soc-t"><b>YouTube</b></span>
+        <span class="soc-st">Subscribe</span>
+      </a>
+      <a class="soc mini" data-soc="ig" data-where="dashboard" href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">
+        <span class="soc-ic ig" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.5 2.1-5.7 5.7-.1 1-.1 1.3-.1 4s0 3 .1 4c.2 3.6 2.1 5.5 5.7 5.7 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.5-2.1 5.7-5.7.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.1-5.5-5.7-5.7-1-.1-1.3-.1-4-.1Z"/></svg></span>
+        <span class="soc-t"><b>Instagram</b></span>
+        <span class="soc-st">Follow</span>
+      </a>
+      <a class="soc mini" data-soc="wa" data-where="dashboard" href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" rel="noopener">
+        <span class="soc-ic wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg></span>
+        <span class="soc-t"><b>WhatsApp community</b></span>
+        <span class="soc-st">Join</span>
+      </a>
+      </div>
+    </div>
+
     <div class="final">
       <h2>Knowing is step one. Doing it for 90 days is the transformation.</h2>
       <p>Mentell's 90-day program keeps you accountable on body, mind and money, with a real coach on WhatsApp.</p>
@@ -502,38 +539,36 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg>
 </a>
 
-<!-- ============ UNLOCK GATE MODAL (follow + join + details) ============ -->
+<!-- ============ UNLOCK GATE MODAL (Name + WhatsApp required; socials optional) ============ -->
 <div class="modal" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
   <div class="modal-box" id="gateForm">
     <button type="button" class="x" id="gateClose" aria-label="Close">×</button>
-    <h3 id="gateTitle">1 step left: follow, join &amp; unlock</h3>
-    <p>Unga report ready. Follow all three, details kudunga, udane unlock aagum.</p>
-
-    <div class="socials" role="list">
-      <a class="soc" role="listitem" data-soc="yt" href="https://www.youtube.com/@Noormohammed.j" target="_blank" rel="noopener">
+    <h3 id="gateTitle">Your leak report is ready</h3>
+    <p>Name and WhatsApp number kudunga, udane unlock aagum.</p>
+    <div class="field"><label for="gName">Your name</label><div class="inp"><input id="gName" autocomplete="name" placeholder="Noor"></div></div>
+    <div class="field"><label for="gPhone">WhatsApp number</label><div class="inp"><span>+91</span><input id="gPhone" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="98765 43210"></div></div>
+    <div class="field"><label for="gEmail">Email ID <span class="opt">optional</span></label><div class="inp"><input id="gEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com"></div></div>
+    <span class="err" id="gErr" role="alert"></span>
+    <button class="btn" type="button" id="gateSubmit" style="margin-top:10px">Show my report</button>
+    <p class="fine">We'll only use this to send your report and Mentell updates. No spam.</p>
+    <div class="soc-divider"><span>Optional: free weekly money tips</span></div>
+    <div class="socials row">
+      <a class="soc mini" data-soc="yt" data-where="popup" href="https://www.youtube.com/@Noormohammed.j" target="_blank" rel="noopener">
         <span class="soc-ic yt" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM9.8 15V9l5.8 3-5.8 3Z"/></svg></span>
-        <span class="soc-t"><b>Subscribe on YouTube</b><small>@Noormohammed.j</small></span>
+        <span class="soc-t"><b>YouTube</b></span>
         <span class="soc-st">Subscribe</span>
       </a>
-      <a class="soc" role="listitem" data-soc="ig" href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">
+      <a class="soc mini" data-soc="ig" data-where="popup" href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">
         <span class="soc-ic ig" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.5 2.1-5.7 5.7-.1 1-.1 1.3-.1 4s0 3 .1 4c.2 3.6 2.1 5.5 5.7 5.7 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.5-2.1 5.7-5.7.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.1-5.5-5.7-5.7-1-.1-1.3-.1-4-.1Z"/></svg></span>
-        <span class="soc-t"><b>Follow on Instagram</b><small>@mentell.community</small></span>
+        <span class="soc-t"><b>Instagram</b></span>
         <span class="soc-st">Follow</span>
       </a>
-      <a class="soc" role="listitem" data-soc="wa" href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" rel="noopener">
+      <a class="soc mini" data-soc="wa" data-where="popup" href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" rel="noopener">
         <span class="soc-ic wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg></span>
-        <span class="soc-t"><b>Join WhatsApp community</b><small>Daily tips &amp; accountability</small></span>
+        <span class="soc-t"><b>WhatsApp community</b></span>
         <span class="soc-st">Join</span>
       </a>
     </div>
-    <p class="soc-prog" id="socProg">0 of 3 done</p>
-
-    <div class="field"><label for="gName">Your name</label><div class="inp"><input id="gName" autocomplete="name" placeholder="Noor"></div></div>
-    <div class="field"><label for="gEmail">Email ID</label><div class="inp"><input id="gEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com"></div></div>
-    <div class="field"><label for="gPhone">WhatsApp number</label><div class="inp"><span>+91</span><input id="gPhone" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="98765 43210"></div></div>
-    <span class="err" id="gErr" role="alert"></span>
-    <button class="btn" type="button" id="gateSubmit" style="margin-top:10px">Unlock my report</button>
-    <p class="fine">We'll only use these to send your report and Mentell updates. No spam.</p>
   </div>
 </div>
 
@@ -546,6 +581,7 @@ const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE'; // same doPost e
 const GATE_KEY        = 'mentell_gate_ok';   // use the SAME sessionStorage key as physical/mental pages
 const WA_NUMBER       = '919629843122';      // Mentell WhatsApp (from physical.html)
 const STORE_KEY       = 'mentell_leak_v2';
+const SOURCE          = 'financial-leak-calculator';
 /* ======================================================= */
 
 const WK = 52/12;      // weeks per month
@@ -624,11 +660,11 @@ LEAKS.forEach(L=>{
 try{
   const saved = JSON.parse(localStorage.getItem(STORE_KEY)||'null');
   if (saved && saved.leaks){
-    state.income = saved.income||0; state.rate = saved.rate||12; state.name = saved.name||'';
+    state.income = saved.income||0; state.rate = saved.rate||12; state.name = saved.name||''; state.phone = saved.phone||'';
     Object.keys(saved.leaks).forEach(id=>{ if(state.leaks[id]) Object.assign(state.leaks[id], saved.leaks[id]); });
   }
 }catch(e){}
-function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({income:state.income,rate:state.rate,name:state.name||'',leaks:state.leaks})); }catch(e){} }
+function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({income:state.income,rate:state.rate,name:state.name||'',phone:state.phone||'',leaks:state.leaks})); }catch(e){} }
 
 function cutOf(L){
   const s = state.leaks[L.id], max = Math.max(0, L.cut.max(s.v));
@@ -743,7 +779,7 @@ leaksEl.addEventListener('change', e=>{ if (e.target.dataset.sub!==undefined && 
 /* ---------- gate ---------- */
 const gate = $('#gate');
 function gateOk(){ try{ return sessionStorage.getItem(GATE_KEY)==='1'; }catch(e){ return false; } }
-function openGate(){ gate.classList.add('open'); paintSocials(); setTimeout(()=>$('.soc').focus(),50); }
+function openGate(){ gate.classList.add('open'); track('gate_open'); setTimeout(()=>$('#gName').focus(),50); }
 function closeGate(){ gate.classList.remove('open'); $('#goResults').focus(); }
 $('#gateClose').addEventListener('click', closeGate);
 gate.addEventListener('click', e=>{ if (e.target===gate) closeGate(); });
@@ -751,52 +787,65 @@ document.addEventListener('keydown', e=>{ if (e.key==='Escape' && gate.classList
 // Plain click handler, NOT a <form> submit: sandboxed previews/iframes block form submission silently.
 $('#gateForm').addEventListener('keydown', e=>{ if (e.key==='Enter' && e.target.tagName==='INPUT' && e.target.type!=='checkbox'){ e.preventDefault(); submitGate(); } });
 $('#gateSubmit').addEventListener('click', submitGate);
-// Social steps: tapping a card opens the link in a new tab and marks it done.
-// NOTE: a static page cannot verify an actual subscribe/follow/join; this records that they tapped through.
+/* ---------- tracking ----------
+   Two layers, both fire-and-forget (never block the user):
+   1. Google Sheet (Apps Script): one "lead" row when they unlock, plus small event rows
+      (social_tap, coach_click) tied to the same Lead ID, so you see what each lead did.
+   2. Google Analytics (same GA4 tag as the rest of the site): funnel counts incl. people
+      who never submit (calc_start → gate_open → generate_lead).                       */
+function uid(){ return 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+let LEAD_ID = '';
+try{ LEAD_ID = localStorage.getItem('mentell_lead_id') || ''; if (!LEAD_ID){ LEAD_ID = uid(); localStorage.setItem('mentell_lead_id', LEAD_ID); } }catch(e){ LEAD_ID = uid(); }
+function sendRow(data){
+  try{
+    if (!APPS_SCRIPT_URL.startsWith('https://')) return;
+    fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(Object.assign({leadId:LEAD_ID, source:SOURCE, timestamp:new Date().toISOString()}, data))});
+  }catch(e){}
+}
+function track(name, params){ try{ if (typeof window.gtag==='function') window.gtag('event', name, Object.assign({page:'financial'}, params||{})); }catch(e){} }
+let started = false;
+function markStarted(){ if (!started){ started = true; track('calc_start'); } }
+incEl.addEventListener('input', markStarted, {once:true});
+leaksEl.addEventListener('click', e=>{ if (e.target.closest('[data-yn]')) markStarted(); });
+
+/* ---------- optional socials (never block the report) ---------- */
 const SOC_KEY = 'mentell_socials';
-const SOC_LABEL = {yt:'Subscribe on YouTube', ig:'Follow on Instagram', wa:'Join the WhatsApp community'};
+const SOC_NAME = {yt:'youtube', ig:'instagram', wa:'whatsapp_community'};
+const SOC_VERB = {yt:'Subscribe', ig:'Follow', wa:'Join'};
 let socDone = {};
 try{ socDone = JSON.parse(localStorage.getItem(SOC_KEY)||'{}')||{}; }catch(e){}
 function paintSocials(){
   document.querySelectorAll('.soc').forEach(a=>{
     const k=a.dataset.soc, d=!!socDone[k];
-    a.classList.toggle('done', d); a.classList.remove('miss');
-    a.querySelector('.soc-st').textContent = d ? 'Done ✓' : ({yt:'Subscribe',ig:'Follow',wa:'Join'})[k];
+    a.classList.toggle('done', d);
+    a.querySelector('.soc-st').textContent = d ? 'Done ✓' : SOC_VERB[k];
   });
-  const n = Object.keys(SOC_LABEL).filter(k=>socDone[k]).length;
-  $('#socProg').textContent = n===3 ? 'All 3 done. Now fill your details below.' : `${n} of 3 done`;
 }
 document.querySelectorAll('.soc').forEach(a=>a.addEventListener('click', ()=>{
-  // let the link open normally; mark done slightly after so the tap isn't blocked
-  setTimeout(()=>{ socDone[a.dataset.soc]=true; try{ localStorage.setItem(SOC_KEY, JSON.stringify(socDone)); }catch(e){} paintSocials(); $('#gErr').textContent=''; }, 300);
+  const k = a.dataset.soc, where = a.dataset.where;
+  track('social_click', {platform:SOC_NAME[k], location:where});
+  // If the lead already exists, log the tap against it in the Sheet
+  if (state.phone) sendRow({event:'social_tap', platform:SOC_NAME[k], location:where, name:state.name, phone:state.phone});
+  setTimeout(()=>{ socDone[k]=true; try{ localStorage.setItem(SOC_KEY, JSON.stringify(socDone)); }catch(e){} paintSocials(); }, 300);
 }));
 paintSocials();
 
 function submitGate(){
   const name = $('#gName').value.trim(), email = $('#gEmail').value.trim(), phone = $('#gPhone').value.replace(/\D/g,'');
   document.querySelectorAll('#gateForm .inp').forEach(x=>x.classList.remove('bad'));
-  const missing = Object.keys(SOC_LABEL).filter(k=>!socDone[k]);
   const fail = (msg, el) => { $('#gErr').textContent = msg; if (el){ el.closest('.inp')?.classList.add('bad'); el.focus(); } };
-  if (missing.length){
-    missing.forEach(k=>document.querySelector(`.soc[data-soc="${k}"]`).classList.add('miss'));
-    return fail(`Almost there. Still to do: ${missing.map(k=>SOC_LABEL[k]).join(', ')}.`);
-  }
   if (!name) return fail('Enter your name.', $('#gName'));
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('Enter a valid email ID, like name@gmail.com.', $('#gEmail'));
   if (!/^[6-9]\d{9}$/.test(phone)) return fail('Enter a valid 10-digit WhatsApp number.', $('#gPhone'));
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('That email looks incomplete. Fix it or leave it empty.', $('#gEmail'));
   $('#gErr').textContent = '';
   const t = totals();
-  // Fire-and-forget, same pattern as physical/mental. Match field names to your doPost (email is NEW).
-  try{
-    if (APPS_SCRIPT_URL.startsWith('https://')){
-      fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify({name, email, phone:'91'+phone, source:'financial-leak-calculator',
-          youtube:'tapped', instagram:'tapped', whatsappCommunity:'tapped',
-          item:`Leak ${inr(t.spend)}/mo · Cut ${inr(t.save)}/mo`, income:state.income, timestamp:new Date().toISOString()})});
-    }
-  }catch(err){}
+  sendRow({event:'lead', name, email, phone:'91'+phone,
+    youtube: socDone.yt?'tapped':'', instagram: socDone.ig?'tapped':'', whatsappCommunity: socDone.wa?'tapped':'',
+    income: state.income, item:`Leak ${inr(t.spend)}/mo · Cut ${inr(t.save)}/mo`});
+  track('generate_lead', {method:'leak_calculator'});
   try{ sessionStorage.setItem(GATE_KEY,'1'); }catch(err){}
-  state.name = name; persist();
+  state.name = name; state.phone = '91'+phone; persist();
   gate.classList.remove('open');
   reveal();
 }
@@ -951,6 +1000,7 @@ function renderResults(){
   $('#waCta').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hi Mentell! I did the Leak Calculator. I can free up ${inr(save)}/month. I want to know about the 90-day program.`)}`;
 }
 
+$('#waCta').addEventListener('click', ()=>{ track('coach_click'); if (state.phone) sendRow({event:'coach_click', name:state.name, phone:state.phone}); });
 $('#resetBtn').addEventListener('click', ()=>{
   try{ localStorage.removeItem(STORE_KEY); }catch(e){}
   location.reload();
