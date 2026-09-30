@@ -13,13 +13,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <title>Mentell — Body, Mind &amp; Money. One Place.</title>
-<meta name="description" content="Mentell helps Tamil Nadu people build daily habits across physical, mental and financial wellness. Pick a pillar to start — free tools, no signup."/>
+<meta name="description" content="Free wellness tools for Tamil Nadu: BMR + 21-day South Indian diet plan, 2-minute burnout test, and a salary leak calculator. No signup. Then 90-day coaching if you want it."/>
 <link rel="canonical" href="https://mentell.co.in/"/>
 <meta property="og:title" content="Mentell — Body, Mind &amp; Money."/>
 <meta property="og:description" content="Pick a pillar. Start today. Free tools for physical, mental and financial wellness."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://mentell.co.in/"/>
-<meta name="twitter:card" content="summary"/>
+<meta property="og:site_name" content="Mentell"/>
+<meta property="og:locale" content="en_IN"/>
+<meta property="og:image" content="https://mentell.co.in/og-home.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Mentell — Body. Mind. Money. Free tools for Tamil Nadu."/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://mentell.co.in/og-home.png"/>
+<meta name="theme-color" content="#7C3AED"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<script src="mentell-config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -72,8 +82,8 @@ a{text-decoration:none;color:inherit}
 .home-hero::after{content:'';position:absolute;top:-220px;right:-220px;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.16) 0%,transparent 65%);pointer-events:none}
 .home-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--teal);font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.375rem 1rem;border-radius:100px;margin-bottom:1.75rem;position:relative;z-index:1}
 .home-eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 2s infinite}
-.home-hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:800;color:var(--text);line-height:1.12;letter-spacing:-.03em;margin-bottom:1rem;max-width:760px;position:relative;z-index:1}
-.home-hero p{font-size:1.05rem;color:var(--text-muted);max-width:480px;font-weight:300;margin-bottom:3rem;position:relative;z-index:1}
+.home-hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:800;color:var(--text);line-height:1.12;letter-spacing:-.03em;margin-bottom:1rem;max-width:900px;position:relative;z-index:1}
+.home-hero p{font-size:1.05rem;color:var(--text-muted);max-width:520px;font-weight:300;margin-bottom:3rem;position:relative;z-index:1}
 
 /* PILLAR PICKER */
 .pillar-grid{width:100%;max-width:1100px;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;position:relative;z-index:1}
@@ -90,6 +100,25 @@ a{text-decoration:none;color:inherit}
 .pillar-link{font-size:.82rem;font-weight:700;color:var(--blue);display:inline-flex;align-items:center;gap:.4rem}
 .pillar-link .arrow{transition:transform .25s ease;display:inline-block}
 .pillar-card:hover .pillar-link .arrow{transform:translateX(4px)}
+
+.pillar-card{display:flex;flex-direction:column}
+.pillar-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
+.pillar-top .pillar-icon{margin-bottom:0}
+.pillar-chip{font-size:.7rem;font-weight:700;letter-spacing:.04em;color:var(--green);background:rgba(22,163,74,.10);border:1px solid rgba(22,163,74,.25);padding:.25rem .6rem;border-radius:100px;white-space:nowrap}
+.pillar-for-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:.5rem}
+.pillar-for{list-style:none;margin:0 0 1.5rem;padding:0;display:grid;gap:.4rem}
+.pillar-for li{font-size:.85rem;color:var(--text);line-height:1.45;padding-left:1.4rem;position:relative}
+.pillar-for li::before{content:'✓';position:absolute;left:0;top:0;color:var(--blue);font-weight:800}
+.pillar-btn{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:.5rem;background:var(--blue);color:#fff;font-weight:700;font-size:.92rem;padding:.8rem 1rem;border-radius:100px;transition:background .2s ease,box-shadow .2s ease}
+.pillar-btn .arrow{display:inline-block;transition:transform .25s ease}
+.pillar-card:hover .pillar-btn{background:var(--blue-dark);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.pillar-card:hover .pillar-btn .arrow{transform:translateX(4px)}
+.pillar-card:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+/* HOW IT WORKS */
+.how{width:100%;max-width:1100px;display:flex;align-items:center;gap:1rem;margin-top:2.5rem;position:relative;z-index:1}
+.how-step{display:flex;align-items:center;gap:.6rem;text-align:left;font-size:.88rem;color:var(--text-muted);flex:1}
+.how-step b{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.how-line{flex:0 0 32px;height:1px;background:var(--border)}
 
 /* FOOTER */
 footer{background:var(--navy);border-top:1px solid var(--border);padding:2.5rem 5vw}
@@ -115,11 +144,21 @@ footer p{font-size:.85rem;color:var(--text-light)}
   .nav-links a{display:block;padding:.9rem 0;width:100%;border-bottom:1px solid var(--border)}
   .nav-links .nav-cta{display:inline-block;margin-top:1rem;border-bottom:none;padding:.7rem 1.5rem}
   .pillar-grid{grid-template-columns:1fr}
+  .how{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .how-line{display:none}
   .home-hero{padding:100px 6vw 60px;min-height:auto}
   .footer-inner{flex-direction:column;text-align:center}
   .footer-links{justify-content:center}
 }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Organization","@id":"https://mentell.co.in/#org","name":"Mentell","url":"https://mentell.co.in/","logo":"https://mentell.co.in/apple-touch-icon.png",
+  "founder":{"@type":"Person","name":"Noor Mohammed J"},"areaServed":"Tamil Nadu, India",
+  "sameAs":["https://www.instagram.com/mentell.community/","https://www.youtube.com/@Noormohammed.j"]},
+ {"@type":"WebSite","@id":"https://mentell.co.in/#website","url":"https://mentell.co.in/","name":"Mentell","inLanguage":"en-IN","publisher":{"@id":"https://mentell.co.in/#org"}}
+]}
+</script>
 </head>
 <body>
 <!-- NAV -->
@@ -142,29 +181,64 @@ footer p{font-size:.85rem;color:var(--text-light)}
 
 <!-- HERO: the one choice -->
 <section class="home-hero">
-  <div class="home-eyebrow"><span></span> Mentell</div>
-  <h1>Body. Mind. Money.<br>Pick where you start <span class="grad-text">today.</span></h1>
-  <p>One free tool per pillar. No signup. Choose one below.</p>
+  <div class="home-eyebrow"><span></span> Free tools · No signup · 2 minutes</div>
+  <h1>Body. Mind. Money.<br>Where do you want to <span class="grad-text">start today?</span></h1>
+  <p>Pick the one problem bothering you most right now. Tap that card, get your free result in 2 minutes.</p>
 
   <div class="pillar-grid">
-    <a href="physical.html" class="pillar-card">
-      <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M4 9l3-3 3 3-3 3-3-3zm10 10l3-3 3 3-3 3-3-3zM3 17l4 4M17 3l4 4"/></svg></div>
+    <a href="physical.html" class="pillar-card" data-pillar="physical">
+      <div class="pillar-top">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M4 9l3-3 3 3-3 3-3-3zm10 10l3-3 3 3-3 3-3-3zM3 17l4 4M17 3l4 4"/></svg></div>
+        <span class="pillar-chip">Free · 1 min</span>
+      </div>
       <div class="pillar-name">Physical Wellness</div>
-      <div class="pillar-desc">Free BMR calculator + 21-day Tamil Nadu diet plan.</div>
-      <div class="pillar-link">Start here <span class="arrow">→</span></div>
+      <div class="pillar-desc">BMR calculator + 21-day Tamil Nadu diet plan. Real home food, no starving.</div>
+      <div class="pillar-for-label">Tap this if…</div>
+      <ul class="pillar-for">
+        <li>Weight is not moving, whatever you try</li>
+        <li>Confused what to eat — idli, rice, chapati?</li>
+        <li>No energy by evening</li>
+      </ul>
+      <div class="pillar-btn">Get my free diet plan <span class="arrow">→</span></div>
     </a>
-    <a href="mental.html" class="pillar-card">
-      <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V16h8v-1.3A7 7 0 0012 2z"/></svg></div>
+    <a href="mental.html" class="pillar-card" data-pillar="mental">
+      <div class="pillar-top">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V16h8v-1.3A7 7 0 0012 2z"/></svg></div>
+        <span class="pillar-chip">Free · 2 min</span>
+      </div>
       <div class="pillar-name">Mental Wellness</div>
-      <div class="pillar-desc">Free 2-minute Burnout Risk Assessment.</div>
-      <div class="pillar-link">Start here <span class="arrow">→</span></div>
+      <div class="pillar-desc">Burnout Risk Assessment. See what is driving your stress + one step to fix it today.</div>
+      <div class="pillar-for-label">Tap this if…</div>
+      <ul class="pillar-for">
+        <li>Always tired, even after sleeping</li>
+        <li>Sunday night-la Monday tension</li>
+        <li>Small things irritate you fast</li>
+      </ul>
+      <div class="pillar-btn">Check my burnout score <span class="arrow">→</span></div>
     </a>
-    <a href="financial.html" class="pillar-card">
-      <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h11l4 4v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M16 12a2 2 0 100 .01"/></svg></div>
+    <a href="financial.html" class="pillar-card" data-pillar="financial">
+      <div class="pillar-top">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h11l4 4v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M16 12a2 2 0 100 .01"/></svg></div>
+        <span class="pillar-chip">Free · 2 min</span>
+      </div>
       <div class="pillar-name">Financial Wellness</div>
-      <div class="pillar-desc">Find clarity on money and purpose.</div>
-      <div class="pillar-link">Start here <span class="arrow">→</span></div>
+      <div class="pillar-desc">Lifestyle Leak Calculator. Find where your salary leaks + what one change becomes in 10 years.</div>
+      <div class="pillar-for-label">Tap this if…</div>
+      <ul class="pillar-for">
+        <li>Salary gone by the 20th</li>
+        <li>Swiggy, chai, subscriptions add up</li>
+        <li>Want to save, but it never happens</li>
+      </ul>
+      <div class="pillar-btn">Find my money leaks <span class="arrow">→</span></div>
     </a>
+  </div>
+
+  <div class="how">
+    <div class="how-step"><b>1</b><span>Pick one card above</span></div>
+    <div class="how-line"></div>
+    <div class="how-step"><b>2</b><span>Get your free result in 2 min</span></div>
+    <div class="how-line"></div>
+    <div class="how-step"><b>3</b><span>Want help sticking to it? Join our 90-day coaching</span></div>
   </div>
 </section>
 
@@ -172,7 +246,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">mentell<span>.</span>community</div>
-    <p>© 2025 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
+    <p>© 2026 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
     <div class="footer-links">
       <a href="about.html">About</a>
       <a href="https://www.instagram.com/mentell.community/" target="_blank">Instagram</a>
@@ -187,6 +261,14 @@ footer p{font-size:.85rem;color:var(--text-light)}
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
+<script>
+/* GA4: which pillar do visitors pick from the home page? (Reports → Events → pillar_select) */
+document.querySelectorAll('.pillar-card[data-pillar]').forEach(function(card){
+  card.addEventListener('click', function(){
+    if(typeof gtag === 'function'){ gtag('event','pillar_select',{pillar:card.dataset.pillar, from:'home'}); }
+  });
+});
+</script>
 <script>
 (function(){
   var toggle = document.getElementById('navToggle');

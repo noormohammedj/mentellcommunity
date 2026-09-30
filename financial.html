@@ -4,7 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lifestyle Leak Calculator | Mentell — Financial Wellness</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <meta name="description" content="Unga panam enga leak aagudhu? Find the small daily habits draining your money, and see what just one small change becomes in 10 years.">
+<link rel="canonical" href="https://mentell.co.in/financial.html"/>
+<meta property="og:title" content="Unga panam enga leak aagudhu? — Mentell"/>
+<meta property="og:description" content="Free Lifestyle Leak Calculator. Find the small daily habits draining your salary, and what one change becomes in 10 years."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://mentell.co.in/financial.html"/>
+<meta name="twitter:title" content="Unga panam enga leak aagudhu? — Mentell"/>
+<meta name="twitter:description" content="Free Lifestyle Leak Calculator. Find where your salary leaks."/>
+<meta property="og:site_name" content="Mentell"/>
+<meta property="og:locale" content="en_IN"/>
+<meta property="og:image" content="https://mentell.co.in/og-financial.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Lifestyle Leak Calculator — find where your salary leaks"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://mentell.co.in/og-financial.png"/>
+<meta name="theme-color" content="#7C3AED"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<script src="mentell-config.js"></script>
 <!-- Google Analytics (same GA4 property as the rest of mentell.co.in) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
@@ -524,7 +543,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">mentell<span>.</span>community</div>
-    <p>© 2025 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
+    <p>© 2026 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
     <div class="footer-links">
       <a href="about.html">About</a>
       <a href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">Instagram</a>
@@ -577,7 +596,7 @@
 'use strict';
 
 /* ================= CONFIG — SWAP THESE ================= */
-const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE'; // same doPost endpoint as physical/mental
+const APPS_SCRIPT_URL = String(window.MENTELL_LEADS_URL || ''); // set ONCE in mentell-config.js (shared with physical/mental)
 const GATE_KEY        = 'mentell_gate_ok';   // use the SAME sessionStorage key as physical/mental pages
 const WA_NUMBER       = '919629843122';      // Mentell WhatsApp (from physical.html)
 const STORE_KEY       = 'mentell_leak_v2';

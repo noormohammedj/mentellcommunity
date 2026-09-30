@@ -19,7 +19,17 @@
 <meta property="og:description" content="Free 2-minute Burnout Risk Assessment."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://mentell.co.in/mental.html"/>
-<meta name="twitter:card" content="summary"/>
+<meta property="og:site_name" content="Mentell"/>
+<meta property="og:locale" content="en_IN"/>
+<meta property="og:image" content="https://mentell.co.in/og-mental.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Free 2-minute Burnout Risk Assessment"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://mentell.co.in/og-mental.png"/>
+<meta name="theme-color" content="#7C3AED"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<script src="mentell-config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
 <style>
 /* ── RESET & BASE ── */
@@ -668,6 +678,8 @@ footer p{font-size:.85rem;color:var(--text-light)}
 .wagate-note{font-size:.72rem;color:var(--text-light);margin-top:.9rem;line-height:1.5;font-weight:300}
 
 </style>
+</head>
+<body>
 <!-- NAV -->
 <nav class="nav">
   <a href="index.html" class="nav-logo" style="text-decoration:none">
@@ -866,7 +878,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">mentell<span>.</span>community</div>
-    <p>© 2025 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
+    <p>© 2026 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
     <div class="footer-links">
       <a href="about.html">About</a>
       <a href="https://www.instagram.com/mentell.community/" target="_blank">Instagram</a>
@@ -1142,7 +1154,12 @@ function mentellUpdateTrackerCTA(){
 mentellUpdateTrackerCTA();
 
 /* ── WHATSAPP LEAD GATE ── */
-var MENTELL_SHEET_ENDPOINT = 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+var MENTELL_SHEET_ENDPOINT = String(window.MENTELL_LEADS_URL || ''); /* set ONCE in mentell-config.js */
+function mentellLeadId(){
+  try{ var id = localStorage.getItem('mentell_lead_id');
+    if(!id){ id = 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); localStorage.setItem('mentell_lead_id', id); }
+    return id; }catch(e){ return ''; }
+}
 var wagateCallback = null;
 var wagateItem = '';
 var wagateFollowedIG = false;
@@ -1233,11 +1250,14 @@ function wagateSubmit(){
   sessionStorage.setItem('mentell_wa_followed', '1');
 
   try{
-    fetch(MENTELL_SHEET_ENDPOINT, {
+    if(/^https:\/\//.test(MENTELL_SHEET_ENDPOINT)) fetch(MENTELL_SHEET_ENDPOINT, {
       method: 'POST',
       mode: 'no-cors',
       headers: {'Content-Type':'text/plain'},
       body: JSON.stringify({
+        event: 'lead',
+        source: 'mental-burnout',
+        leadId: mentellLeadId(),
         number: fullNumber,
         item: wagateItem,
         page: window.location.pathname,
