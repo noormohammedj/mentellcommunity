@@ -340,6 +340,140 @@
 
   .x{float:right;border:0;background:none;font-size:22px;color:var(--muted);line-height:1}
 
+
+  /* ── LOAN CLOSING ROADMAP (2A) — additive; tokens only, no new colours ── */
+  #roadmap{margin-top:48px;scroll-margin-top:84px}
+  .rm-story{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px}
+  .rm-story li{position:relative;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow-sm)}
+  .rm-story li:last-child{background:var(--navy-2);border-color:rgba(124,58,237,.25)}
+  .rm-story li:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:var(--blue);color:var(--white);font-size:13px;font-weight:700;display:grid;place-items:center;z-index:1}
+  .rm-n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-weight:700;font-size:12px}
+  .rm-story small{display:block;font-size:13px;color:var(--muted);margin:8px 0 4px;line-height:1.4}
+  .rm-story b{display:block;font-size:20px;font-weight:800;color:var(--text);line-height:1.2}
+  .rm-story li:last-child b{color:var(--blue)}
+  @media(max-width:760px){.rm-story{grid-template-columns:1fr;gap:14px}.rm-story li:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-18px;transform:translateX(-50%)}}
+  .rm-loans{display:grid;gap:12px}
+  .rm-teaser{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
+  .rm-teaser div{background:var(--card);border:1.5px solid rgba(124,58,237,.25);border-radius:var(--radius);padding:14px}
+  .rm-teaser small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+  .rm-teaser b{display:block;font-size:clamp(20px,5vw,28px);font-weight:800;color:var(--blue);line-height:1.15;margin-top:2px}
+  .rm-gap{font-size:15px;margin:4px 0 10px}
+  ul.rm-stack{list-style:none;display:grid;gap:10px;margin:0 0 18px}
+  .rm-locked ul.rm-stack li{display:block;padding:0 0 0 28px;position:relative;font-size:15px;border:0}
+  ul.rm-stack li::before{content:"✓";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--blue);color:var(--white);font-size:12px;font-weight:700;display:grid;place-items:center}
+  ul.rm-stack small{display:block;color:var(--muted);font-size:13px}
+  .rm-paybtn{width:100%;justify-content:center}
+  .rm-allocrow{margin-top:12px;display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--navy-2);border:1.5px dashed rgba(124,58,237,.35);border-radius:14px;padding:14px}
+  .rm-allocrow small{font-size:12px;color:var(--blue);font-weight:700}
+  .rm-allocrow b{display:block;font-size:20px;font-weight:800}
+  .rm-allocrow span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+  .rm-allocrow .btn{flex:none}
+  @media(max-width:560px){.rm-allocrow{flex-direction:column;align-items:flex-start}}
+  ol.rm-steps{list-style:none;display:grid;gap:12px;margin-top:12px;border-left:2px solid var(--coral-soft);padding-left:16px}
+  ol.rm-steps li{position:relative;font-size:14px}
+  ol.rm-steps li::before{content:"";position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--blue)}
+  .rm-when{display:block;font-size:12px;font-weight:700;color:var(--teal)}
+  .rm-pv{margin:0}
+  .rm-pvlist{display:grid;gap:8px;margin-top:12px}
+  .rm-pvlist div{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1.5px solid var(--border);border-radius:14px;padding:10px 12px;background:var(--white)}
+  .rm-pvlist div.win{border-color:var(--blue);background:var(--navy-2)}
+  .rm-pvlist small{display:block;font-size:12px;color:var(--muted)}
+  .rm-pvlist strong{font-size:18px;font-weight:800;white-space:nowrap}
+  .rm-pvlist .win strong{color:var(--blue)}
+  .rm-pvlist em{font-style:normal;font-size:11px;font-weight:700;background:var(--blue);color:var(--white);border-radius:99px;padding:2px 8px;margin-left:4px}
+  .rm-pvgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .rm-pvgrid div{border:1.5px solid var(--border);border-radius:14px;padding:12px;background:var(--white)}
+  .rm-pvgrid div.win{border-color:var(--blue);background:var(--navy-2)}
+  .rm-pvgrid small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+  .rm-pvgrid b{display:block;font-size:22px;font-weight:800}
+  .rm-pvgrid .win b{color:var(--blue)}
+  .rm-pvgrid span{font-size:12px;color:var(--muted)}
+  .rm-verdict{font-size:14px;margin-top:10px}
+  .rm-check ul{list-style:none;display:grid;gap:10px;margin-top:10px}
+  .rm-check li{font-size:14px;padding-left:18px;position:relative}
+  .rm-check li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:2px;background:var(--blue)}
+  @media print{
+    body.rm-print .nav, body.rm-print footer, body.rm-print .wa-sticky, body.rm-print .rm-sticky, body.rm-print #formView,
+    body.rm-print #results .wrap > :not(#roadmap), body.rm-print #roadmap .rm-story, body.rm-print #rmMain > .card:first-child,
+    body.rm-print .rm-ctrl, body.rm-print #rmPrint, body.rm-print .modal{display:none!important}
+    body.rm-print #results{display:block!important;padding:0}
+    body.rm-print .card{box-shadow:none;break-inside:avoid}
+    body.rm-print{background:var(--white)}
+  }
+  .rm-sumrow{display:flex;align-items:center;gap:10px;padding:12px 14px}
+  .rm-sumtxt{flex:1;min-width:0}
+  .rm-sumtxt b{display:block;font-size:15px}
+  .rm-sumtxt small{display:block;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+  .rm-sumtxt .rm-soon{color:var(--amber);font-weight:600}
+  .rm-x.rm-x-in{position:static;flex:none}
+  .rm-loan .rm-core{grid-template-columns:1fr 1fr}
+  @media(max-width:560px){.rm-loan .rm-core .field:nth-child(-n+2){grid-column:1/-1}}
+  .rm-more{margin-top:12px}
+  .rm-more summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--blue);padding:4px 0;list-style-position:inside}
+  .rm-more .fields{margin-top:8px}
+  .rm-loan{border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 18px 18px;background:var(--card);position:relative;min-width:0}
+  .rm-loan legend{font-weight:700;font-size:15px;padding:0 6px;margin-left:-6px}
+  .rm-loan .fields{margin-top:6px}
+  .rm-x{position:absolute;top:8px;right:10px;border:0;background:none;font-size:22px;line-height:1;color:var(--muted);width:36px;height:36px;border-radius:50%}
+  .rm-x:hover{background:var(--soft);color:var(--ink)}
+  .rm-sel{border:1.5px solid var(--line);border-radius:12px;padding:11px 10px;background:var(--white);font-size:16px;width:100%}
+  .rm-sel:focus{border-color:var(--blue);outline:0}
+  .rm-ferr{display:block;font-size:12px;color:var(--red);font-weight:600;min-height:0;margin-top:4px}
+  .rm-ferr:empty{display:none}
+  .rm-msg{font-size:13px;font-weight:600;margin-top:12px}
+  .rm-msg:empty{display:none}
+  .rm-msg.bad{color:var(--red)} .rm-msg.info{color:var(--amber)} .rm-msg.note{color:var(--text-muted);font-weight:500}
+  .rm-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:14px}
+  .rm-priv{font-size:13px;color:var(--muted);margin-top:12px}
+  .rm-link{border:0;background:none;color:var(--muted);font-size:13px;text-decoration:underline;padding:6px 0}
+  .rm-locked{margin-top:14px;background:var(--navy-2);border:1.5px solid rgba(124,58,237,.25)}
+  .rm-locked ul{list-style:none;display:grid;gap:8px;margin:12px 0 18px}
+  .rm-locked li{display:flex;justify-content:space-between;gap:10px;font-size:15px;border-bottom:1px solid var(--border);padding-bottom:8px}
+  .rm-locked li:last-child{border-bottom:0}
+  .rm-blk{color:var(--coral-soft);letter-spacing:-1px;white-space:nowrap;user-select:none}
+  .rm-sub{font-size:12px;color:var(--muted);margin-top:8px}
+  .rm-res{margin-top:14px}
+  .rm-ctrl{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media(max-width:640px){.rm-ctrl{grid-template-columns:1fr}}
+  .rm-why{font-size:13px;color:var(--ink-2);margin-top:8px}
+  .rm-headline{font-size:16px;margin:18px 0 12px}
+  .rm-headline b{color:var(--blue)}
+  .rm-bars{margin-top:14px;width:100%;height:auto;display:block}
+  .rm-bars .t{fill:var(--text-muted);font-size:12px}
+  .rm-bars .tb{fill:var(--text);font-size:13px;font-weight:700}
+  .rm-bars .track{fill:var(--soft)}
+  .rm-bars .cur{fill:var(--coral-soft)}
+  .rm-bars .new{fill:var(--blue)}
+  .rm-bars .dot{fill:var(--white);stroke:var(--blue);stroke-width:2}
+  .rm-order{list-style:none;counter-reset:o;display:grid;gap:8px;margin-top:10px}
+  .rm-order li{counter-increment:o;display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;font-size:15px}
+  .rm-order li::before{content:counter(o);width:26px;height:26px;border-radius:50%;background:var(--navy-2);color:var(--blue);font-weight:700;font-size:13px;display:grid;place-items:center}
+  .rm-order small{display:block;color:var(--muted);font-size:12px}
+  .rm-order b{white-space:nowrap}
+  .rm-tbl{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+  .rm-tbl th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line)}
+  .rm-tbl td{padding:8px 4px;border-bottom:1px solid var(--soft)}
+  .rm-tbl td:not(:first-child),.rm-tbl th:not(:first-child){text-align:right;white-space:nowrap}
+  .rm-sticky{position:fixed;z-index:998;background:var(--white);border:1.5px solid rgba(124,58,237,.25);box-shadow:var(--shadow-lg);display:flex;gap:12px;align-items:center}
+  .rm-sticky[hidden]{display:none}
+  .rm-sticky b{display:block;font-size:14px;line-height:1.3}
+  .rm-sticky small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .rm-sticky .btn{flex:none;padding:.7rem 1.1rem;font-size:.95rem}
+  @media(min-width:761px){
+    .rm-sticky{right:1.75rem;bottom:calc(1.75rem + 72px);width:310px;border-radius:var(--radius-lg);padding:16px;flex-direction:column;align-items:stretch}
+    .rm-sticky .btn{justify-content:center}
+  }
+  @media(max-width:760px){
+    .rm-sticky{left:0;right:0;bottom:0;border-radius:var(--radius) var(--radius) 0 0;border-bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));flex-direction:column;align-items:stretch;gap:8px}
+    .rm-sticky b{font-size:13px}
+    .rm-sticky small{display:none}
+    .rm-sticky .btn{justify-content:center;padding:.65rem 1rem}
+    body.rm-bar-on{padding-bottom:var(--rm-bar-h,100px)}
+    body.rm-bar-on .wa-sticky{bottom:calc(var(--rm-bar-h,100px) + 12px)}
+    body.rm-typing .rm-sticky{display:none}
+    body.rm-typing.rm-bar-on .wa-sticky{bottom:1.75rem}
+  }
+
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -484,6 +618,7 @@
         <p class="hint" id="allocNote"></p>
         <div class="meter" aria-hidden="true"><div id="meterFill" style="width:0"></div></div>
         <div class="alloc" id="alloc"></div>
+        <div id="rmAlloc"></div>
       </div>
       <div class="card">
         <h3 class="ct">In 5 years, this alone could pay for</h3>
@@ -503,6 +638,59 @@
         <ul class="wins" id="wins" style="margin-top:12px"></ul>
       </div>
     </div>
+
+    <!-- ============ LOAN CLOSING ROADMAP (2A) — additive section ============ -->
+    <section id="roadmap" aria-labelledby="rmTitle">
+      <div class="step-head">
+        <div class="eyebrow">Next step · Loan Closing Roadmap</div>
+        <h2 class="section-title" id="rmTitle">Save pannina panam-a vachu <em>loan-a seekiram close pannunga.</em></h2>
+      </div>
+      <ol class="rm-story" aria-label="How it works">
+        <li><span class="rm-n">1</span><small>Leak-la neenga save pannalaam</small><b id="rmS">—</b></li>
+        <li><span class="rm-n">2</span><small>Adhe panam-a ovvoru maasamum loan-ku extra-va podunga</small><b id="rmS2">EMI + savings</b></li>
+        <li><span class="rm-n">3</span><small>Indha tool sollum: edha first close pannanum, eppo debt-free, evlo interest save</small><b id="rmS3">Unga plan ↓</b></li>
+      </ol>
+
+      <div class="card" id="rmEmpty" hidden>
+        <h3 class="ct">First fill the leak calculator</h3>
+        <p class="hint">Monthly savings ₹0-va irukku. Mela simulator-la oru habit-a <b>+</b> pannunga, apram loan plan paakalaam.</p>
+        <div class="cta-row"><button type="button" class="btn ghost sm" id="rmUp">↑ Go to simulator</button></div>
+      </div>
+
+      <div id="rmMain">
+        <div class="card">
+          <h3 class="ct">Unga loans</h3>
+          <p class="hint">Each loan-ku outstanding, EMI, interest rate podunga. Free-a fill pannalaam.</p>
+          <div class="rm-loans" id="rmLoans" style="margin-top:14px"></div>
+          <div class="rm-tools">
+            <button type="button" class="btn ghost sm" id="rmAdd">+ Add another loan</button>
+            <span class="hint" id="rmCap" hidden>Max 10 loans.</span>
+          </div>
+          <p class="rm-priv">🔒 Ungal loan details indha phone/browser-la mattum irukkum. Engalukku anuppa maattom.
+            <button type="button" class="rm-link" id="rmClear">Clear my loan data</button></p>
+        </div>
+
+        <!-- Locked card: static placeholders only. No real numbers are computed or rendered before payment. -->
+        <div class="card rm-locked" id="rmLocked" hidden>
+          <span class="eyebrow">Free preview · unga numbers-la</span>
+          <div class="rm-teaser" id="rmTeaser"></div>
+          <p class="rm-gap"><b>Evlo</b> save aagum nu ippo theriyum. <b>Eppadi</b> nu ₹99 plan step-by-step sollum:</p>
+          <ul class="rm-stack">
+            <li><b>Edha first close pannanum</b><small>Unga loans-ku correct order, ovvoru loan-um close aagura date-oda</small></li>
+            <li><b>Maasam-maasam action plan</b><small>"Indha maasam ₹X → indha loan." Oru loan close aana, next enna nu clear-a</small></li>
+            <li><b>Prepay vs Invest: unga numbers-ku edhu best?</b><small>Same panam-a SIP-la pottaa vs loan-ku pottaa, ending wealth compare</small></li>
+            <li><b>Avalanche vs Snowball</b><small>Rendu method-um unga loans-la compare</small></li>
+            <li><b>Bank-la prepay panna checklist</b><small>RBI prepayment-charge rule, "reduce tenure" kekkanum, enna document vaanganum</small></li>
+            <li><b>Plan-a PDF-a save pannalaam</b><small>Phone-la vachukkonga, bank-ku pogum podhu kaattalaam</small></li>
+          </ul>
+          <a class="btn rm-paybtn" data-rm-pay href="#" rel="noopener">Unlock my plan, ₹99</a>
+          <p class="rm-sub" id="rmAnchor">One-time payment. UPI / card via Razorpay.</p>
+          <p class="err" id="rmPayErr" role="alert"></p>
+        </div>
+
+        <div id="rmResult" class="rm-res" hidden></div>
+      </div>
+    </section>
 
     <div class="card connect" style="margin-top:14px">
       <div>
@@ -527,6 +715,8 @@
       </a>
       </div>
     </div>
+
+
 
     <div class="final">
       <h2>Knowing is step one. Doing it for 90 days is the transformation.</h2>
@@ -557,6 +747,12 @@
   <div class="wa-tooltip">Chat with Noor</div>
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg>
 </a>
+
+<!-- Loan roadmap sticky unlock CTA (shown only after 1+ valid loan, while the roadmap section is on screen) -->
+<div class="rm-sticky" id="rmSticky" hidden role="region" aria-label="Unlock loan roadmap">
+  <div class="rm-sticky-t"><b>Unga savings-a vachu loan-a சீக்கிரம் close pannunga</b><small>One-time payment. Unga numbers-ku apram dhaan result.</small></div>
+  <a class="btn" data-rm-pay href="#" rel="noopener">Unlock my plan, ₹99</a>
+</div>
 
 <!-- ============ UNLOCK GATE MODAL (Name + WhatsApp required; socials optional) ============ -->
 <div class="modal" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
@@ -1013,10 +1209,11 @@ function renderResults(){
   const ott = state.leaks.ott; if (ott.on){ const u = unusedSubs(ott.v); if (u.length) ins.push(`You pay for <b>${u.length}</b> subscription${u.length>1?'s':''} you hardly used this month. That's <b>${inr(u.reduce((a,s)=>a+s.price,0))}/month</b> for nothing.`); }
   if (save>0) ins.push(`Put even <b>${inr(save/3)}/month</b> into Active Capital, like a course, a certification or a tool, and it can raise what you earn next year. That's the fastest return there is.`);
   if (save>0 && fv(save,R,120)>=500000) ins.push(`You're a few habits away from <b>${compact(fv(save,R,120))}</b> over the next decade. No salary hike needed.`);
-  $('#insights').innerHTML = ins.map(t=>`<div class="insight">${t}</div>`).join('');
+  $('#insights').innerHTML = ins.concat(rmInsights(save)).map(t=>`<div class="insight">${t}</div>`).join(''); // [Roadmap hook] + loan insights
 
   // WhatsApp CTA
   $('#waCta').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hi Mentell! I did the Leak Calculator. I can free up ${inr(save)}/month. I want to know about the 90-day program.`)}`;
+  roadmapSync(); // [Roadmap 2A hook] read-only: refresh loan roadmap with the new savings value
 }
 
 $('#waCta').addEventListener('click', ()=>{ track('coach_click'); if (state.phone) sendRow({event:'coach_click', name:state.name, phone:state.phone}); });
@@ -1052,9 +1249,570 @@ const navToggle = $('#navToggle'), navLinks = $('#navLinks');
 navToggle.addEventListener('click', ()=>{ const o = navLinks.classList.toggle('open'); navToggle.classList.toggle('open', o); navToggle.setAttribute('aria-expanded', String(o)); });
 navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ navLinks.classList.remove('open'); navToggle.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); }));
 
+
+/* ================= LOAN CLOSING ROADMAP (2A) — additive block =================
+   Reads the existing monthly savings via totals().save (read-only).
+   Privacy: loan numbers live ONLY in localStorage (mentell_loans_v1). Never sent to Sheet or GA4.
+   Premium gate: results HTML is generated only when the paid flag is set. Trust-based at ₹99
+   (anyone can add ?paid=1). Razorpay dashboard is the real payment record.               */
+const LOAN_KEY = 'mentell_loans_v1', PAID_KEY = 'mentell_roadmap_paid';
+const PAY_URL_DEFAULT = 'https://rzp.io/rzp/xAvsKApO'; // fallback if mentell-config.js is old/cached
+const PAY_URL = (function(u){ u = String(u||''); return (/^https:\/\//.test(u) && u.indexOf('PASTE_')<0) ? u : PAY_URL_DEFAULT; })(window.MENTELL_ROADMAP_PAY_URL);
+const LTYPES = [['home','Home Loan'],['personal','Personal Loan'],['vehicle','Vehicle Loan'],['education','Education Loan'],
+                ['credit','Credit Card'],['gold','Gold Loan'],['business','Business Loan'],['other','Other']];
+const LTN = Object.fromEntries(LTYPES);
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Mentell Loan Closing Roadmap — pure math engine (no DOM). Kept as a standalone
+// block so it can be pasted into financial.html inside an IIFE and unit-tested in Node.
+var MLR = (function () {
+  var MAX_MONTHS = 600;
+  var SUPPORTED = { home: 1, personal: 1, vehicle: 1, education: 1 };
+
+  function num(v) {
+    var n = typeof v === 'number' ? v : parseFloat(String(v == null ? '' : v).replace(/[^0-9.\-]/g, ''));
+    return isFinite(n) ? n : NaN;
+  }
+
+  // Returns {ok, reason} — reason: 'unsupported' | 'missing' | 'emi_low'
+  function validate(l) {
+    if (!SUPPORTED[l.type]) return { ok: false, reason: 'unsupported' };
+    var B = num(l.balance), E = num(l.emi), R = num(l.rate);
+    if (!(B > 0) || !(E > 0) || !(R >= 0 && R <= 36) || isNaN(R)) return { ok: false, reason: 'missing' };
+    if (E <= B * R / 1200) return { ok: false, reason: 'emi_low' };
+    return { ok: true };
+  }
+
+  // Closed-form months (used only for the tenure cross-check note)
+  function nperMonths(B, R, E) {
+    var r = R / 1200;
+    if (r === 0) return Math.ceil(B / E);
+    return Math.ceil(-Math.log(1 - B * r / E) / Math.log(1 + r) - 1e-9);
+  }
+
+  // Month-by-month simulation of a set of loans.
+  // extra: amount added each month to ONE target loan; freed EMIs roll into it.
+  // order: array of indices in target priority.
+  function simulate(loans, extra, order) {
+    var st = loans.map(function (l) {
+      return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true };
+    });
+    var freed = 0, m = 0, left = st.length;
+    while (left > 0 && m < MAX_MONTHS) {
+      m++;
+      // Rollover only when the user redirects savings (spec 14: savings=0 => same as current path)
+      var pool = extra > 0 ? extra + freed : 0;
+      var freedThisMonth = 0;
+      // 1) regular EMIs + interest on every open loan
+      for (var i = 0; i < st.length; i++) {
+        var s = st[i]; if (!s.open) continue;
+        var int = Math.round(s.B * s.r * 100) / 100;
+        s.interest += int;
+        var pay = Math.min(s.E, s.B + int); // last month: leftover only
+        s.B = s.B + int - pay;
+        if (s.B <= 0.005) { s.B = 0; s.open = false; s.month = m; left--; freedThisMonth += s.E; if (extra > 0) pool += s.E - pay; }
+      }
+      // 2) extra pool to targets in priority order (spills to next target if one closes)
+      for (var k = 0; k < order.length && pool > 0.005; k++) {
+        var t = st[order[k]]; if (!t.open) continue;
+        var p = Math.min(pool, t.B);
+        t.B -= p; pool -= p;
+        if (t.B <= 0.005) { t.B = 0; t.open = false; t.month = m; left--; freedThisMonth += t.E; }
+      }
+      freed += freedThisMonth; // rollover starts next month
+    }
+    var totalInterest = 0, maxM = 0, capped = left > 0;
+    st.forEach(function (s) { totalInterest += s.interest; if (s.month > maxM) maxM = s.month; });
+    return {
+      months: capped ? MAX_MONTHS : maxM, capped: capped, totalInterest: Math.round(totalInterest),
+      perLoan: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; })
+    };
+  }
+
+  function strategyOrder(loans, kind) {
+    var idx = loans.map(function (_, i) { return i; });
+    idx.sort(function (a, b) {
+      var A = loans[a], B = loans[b];
+      if (kind === 'avalanche') return (num(B.rate) - num(A.rate)) || (num(A.balance) - num(B.balance));
+      return (num(A.balance) - num(B.balance)) || (num(B.rate) - num(A.rate));
+    });
+    return idx;
+  }
+
+  // Full roadmap for the supported, valid loans
+  function plan(loans, extra) {
+    extra = Math.max(0, num(extra) || 0);
+    var none = loans.map(function () { return 0; });
+    var current = simulate(loans, 0, []); // each loan on its own EMI; no extra/rollover
+    var av = strategyOrder(loans, 'avalanche'), sn = strategyOrder(loans, 'snowball');
+    var withAv = simulate(loans, extra, av), withSn = simulate(loans, extra, sn);
+    return { current: current, avalanche: withAv, snowball: withSn, orderAv: av, orderSn: sn };
+  }
+
+  return { validate: validate, nperMonths: nperMonths, simulate: simulate, strategyOrder: strategyOrder, plan: plan, num: num, MAX_MONTHS: MAX_MONTHS };
+})();
+
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const grp = n => (n===''||n==null||!isFinite(n)) ? '' : Math.round(n).toLocaleString('en-IN');
+function newLoan(){ return {id:'ln'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), type:'', name:'', balance:'', emi:'', rate:'', tenure:'', lender:'', touched:{}}; }
+function loanName(l){
+  if (l.name && l.name.trim()) return l.name.trim();
+  if (!l.type) return 'Loan ' + (rm.loans.indexOf(l)+1);
+  const same = rm.loans.filter(x=>x.type===l.type && !(x.name&&x.name.trim()));
+  return LTN[l.type] + ' ' + (same.indexOf(l)+1);
+}
+function monthsLabel(m, capped){ if (capped) return '40+ yrs'; const y=Math.floor(m/12), r=m%12; return (y? y+(y===1?' yr':' yrs'):'') + (y&&r?' ':'') + (r||!y? r+' mo':''); }
+function dateIn(m, capped){ if (capped) return '40+ years'; const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+m); return MON[d.getMonth()]+' '+d.getFullYear(); }
+
+/* ---------- state ---------- */
+let rm = {loans:[], redirect:null, strategy:'avalanche'};
+try{
+  const s = JSON.parse(localStorage.getItem(LOAN_KEY)||'null');
+  if (s && Array.isArray(s.loans)){
+    rm.loans = s.loans.slice(0,10).map(l=>Object.assign(newLoan(), l, {touched:l.touched||{}}));
+    rm.redirect = typeof s.redirect==='number' ? s.redirect : null;
+    rm.strategy = s.strategy==='snowball' ? 'snowball' : 'avalanche';
+  }
+}catch(e){}
+function rmSave(){ try{ localStorage.setItem(LOAN_KEY, JSON.stringify(rm)); }catch(e){} }
+
+let rmPaid = false;
+try{ rmPaid = localStorage.getItem(PAID_KEY)==='1'; }catch(e){}
+const rmQS = new URLSearchParams(location.search);
+const rmReturn = rmQS.get('paid')==='1';
+if (rmReturn){
+  rmPaid = true;
+  try{ localStorage.setItem(PAID_KEY,'1'); }catch(e){}
+  track('purchase_return');
+  // Drop ?paid=1 from the address bar so refreshes don't re-fire purchase_return
+  try{ rmQS.delete('paid'); history.replaceState(null,'', location.pathname + (rmQS.toString()?'?'+rmQS:'') + '#roadmap'); }catch(e){}
+}
+
+/* ---------- loan cards ---------- */
+const rmLoansEl = $('#rmLoans');
+function fieldErr(l, f){
+  if (!l.touched[f]) return '';
+  const v = MLR.num(l[f]);
+  if (f==='type')    return l.type ? '' : 'Loan type select pannunga';
+  if (f==='balance') return v>0 ? '' : 'Outstanding amount podunga';
+  if (f==='emi')     return v>0 ? '' : 'EMI amount podunga';
+  if (f==='rate')    return (l.rate!=='' && v>=0 && v<=36) ? '' : 'Rate 0 to 36% kulla podunga';
+  return '';
+}
+function loanCard(l){
+  const id = l.id, nm = esc(loanName(l));
+  const inp = (f,label,pre,post,mode,val,req,ph) => `<div class="field"><label for="${id}-${f}">${label}${req?'':' <span class="opt">optional</span>'}</label>
+      <div class="inp">${pre?`<span>${pre}</span>`:''}<input id="${id}-${f}" data-rm-f="${f}" inputmode="${mode}" autocomplete="off" value="${esc(val)}" placeholder="${ph||''}" ${req?'aria-required="true"':''} aria-describedby="${id}-${f}-e">${post?`<span>${post}</span>`:''}</div>
+      <span class="rm-ferr" id="${id}-${f}-e"></span></div>`;
+  const vr = MLR.validate(l);
+  if (!l.open && (vr.ok || (l.type && vr.reason==='unsupported'))){
+    const bits = [LTN[l.type]];
+    if (MLR.num(l.balance)>0) bits.push(inr(MLR.num(l.balance)));
+    if (MLR.num(l.emi)>0) bits.push('EMI '+inr(MLR.num(l.emi)));
+    if (l.rate!=='') bits.push(esc(l.rate)+'%');
+    return `<div class="rm-loan rm-sumrow" data-id="${id}">
+      <div class="rm-sumtxt"><b>${nm}</b><small>${bits.join(' · ')}</small>${vr.ok?'':'<small class="rm-soon">Roadmap for this type coming soon</small>'}</div>
+      <button type="button" class="btn ghost sm" data-rm-edit="${id}" aria-label="Edit ${nm}">Edit</button>
+      <button type="button" class="rm-x rm-x-in" data-rm-del="${id}" aria-label="Remove ${nm}">×</button>
+    </div>`;
+  }
+  const hasOpt = !!(l.name || l.tenure || l.lender);
+  return `<fieldset class="rm-loan" data-id="${id}">
+    <legend id="${id}-lg">${nm}</legend>
+    <button type="button" class="rm-x" data-rm-del="${id}" aria-label="Remove ${nm}">×</button>
+    <div class="fields rm-core">
+      <div class="field"><label for="${id}-type">Loan type</label>
+        <select class="rm-sel" id="${id}-type" data-rm-f="type" aria-required="true" aria-describedby="${id}-type-e">
+          <option value="" ${l.type?'':'selected'} disabled>Choose type</option>
+          ${LTYPES.map(([k,n])=>`<option value="${k}" ${l.type===k?'selected':''}>${n}</option>`).join('')}
+        </select><span class="rm-ferr" id="${id}-type-e"></span></div>
+      ${inp('balance','Outstanding balance','₹','', 'numeric', grp(MLR.num(l.balance)), true, '10,00,000')}
+      ${inp('emi','Current EMI','₹','/mo', 'numeric', grp(MLR.num(l.emi)), true, '20,000')}
+      ${inp('rate','Interest rate','','%', 'decimal', l.rate, true, '10.5')}
+    </div>
+    <details class="rm-more" ${hasOpt?'open':''}><summary>More details <span class="opt">optional: name, tenure, lender</span></summary>
+      <div class="fields">
+      ${inp('name','Loan name','', '', 'text', l.name, false, 'e.g. SBI home loan')}
+      ${inp('tenure','Remaining tenure','','months', 'numeric', l.tenure, false, '60')}
+      ${inp('lender','Lender','', '', 'text', l.lender, false, 'Bank / NBFC')}
+      </div></details>
+    <p class="rm-msg" id="${id}-msg" role="status"></p>
+  </fieldset>`;
+}
+function renderLoanCards(){
+  rmLoansEl.innerHTML = rm.loans.map(loanCard).join('');
+  rm.loans.forEach(updateCard);
+  $('#rmAdd').hidden = rm.loans.length>=10; $('#rmCap').hidden = rm.loans.length<10;
+}
+function updateCard(l){
+  ['type','balance','emi','rate'].forEach(f=>{
+    const e = document.getElementById(l.id+'-'+f+'-e'); if (!e) return;
+    const msg = fieldErr(l,f); e.textContent = msg;
+    const box = document.getElementById(l.id+'-'+f); if (box) (box.closest('.inp')||box).classList.toggle('bad', !!msg);
+  });
+  const lg = document.getElementById(l.id+'-lg'); if (lg) lg.textContent = loanName(l);
+  const m = document.getElementById(l.id+'-msg'); if (!m) return;
+  const v = MLR.validate(l);
+  m.className = 'rm-msg'; m.textContent = '';
+  if (l.type && v.reason==='unsupported'){ m.classList.add('info'); m.textContent = 'Roadmap for this type coming soon. Indha loan calculation-la include aagala.'; }
+  else if (v.reason==='emi_low'){ m.classList.add('bad'); m.textContent = 'Indha EMI-la loan close aagaadhu. EMI or rate check pannunga.'; }
+  else if (v.ok && rmPaid && MLR.num(l.tenure)>0){
+    const n = MLR.nperMonths(MLR.num(l.balance), MLR.num(l.rate), MLR.num(l.emi));
+    if (Math.abs(MLR.num(l.tenure)-n)/n > 0.10){ m.classList.add('note'); m.textContent = 'Neenga kudutha tenure vs EMI-la calculation vera. EMI-based date use pannirukkom.'; }
+  }
+}
+function onLoanInput(e){
+  const t = e.target, f = t.dataset.rmF; if (!f) return;
+  const card = t.closest('.rm-loan'), l = rm.loans.find(x=>x.id===card.dataset.id); if (!l) return;
+  if (f==='balance' || f==='emi'){
+    const d = t.value.replace(/\D/g,'').slice(0,12);
+    l[f] = d ? +d : ''; t.value = d ? grp(+d) : '';
+  } else if (f==='rate'){
+    let d = t.value.replace(/[^\d.]/g,''); const p = d.split('.'); if (p.length>2) d = p[0]+'.'+p.slice(1).join('');
+    d = d.slice(0,6); t.value = d; l.rate = d;
+  } else if (f==='tenure'){
+    const d = t.value.replace(/\D/g,'').slice(0,4); t.value = d; l.tenure = d ? +d : '';
+  } else if (f==='type'){ l.type = t.value; }
+  else { l[f] = t.value.slice(0,40); }
+  if (f!=='name' && f!=='lender' && f!=='tenure') l.touched[f] = true;
+  const wasValid = l._valid; l._valid = MLR.validate(l).ok;
+  if (l._valid && !l.tracked){ l.tracked = true; track('loan_added', {loan_type:l.type}); } // no amounts
+  updateCard(l); rmSave(); rmSchedule();
+}
+rmLoansEl.addEventListener('input', onLoanInput);
+rmLoansEl.addEventListener('change', e=>{ if (e.target.dataset.rmF==='type') onLoanInput(e); });
+rmLoansEl.addEventListener('focusout', e=>{
+  const f = e.target.dataset && e.target.dataset.rmF; if (!f || !['balance','emi','rate','type'].includes(f)) return;
+  const l = rm.loans.find(x=>x.id===e.target.closest('.rm-loan').dataset.id); if (!l) return;
+  l.touched[f] = true; updateCard(l); rmSave();
+});
+rmLoansEl.addEventListener('click', e=>{
+  const ed = e.target.closest('[data-rm-edit]');
+  if (ed){ const l = rm.loans.find(x=>x.id===ed.dataset.rmEdit); if (!l) return; l.open = true; renderLoanCards();
+    const f = document.getElementById(l.id+'-balance'); if (f) f.focus(); return; }
+  const b = e.target.closest('[data-rm-del]'); if (!b) return;
+  const i = rm.loans.findIndex(x=>x.id===b.dataset.rmDel); if (i<0) return;
+  rm.loans.splice(i,1); if (!rm.loans.length) rm.loans.push(newLoan());
+  renderLoanCards(); rmSave(); rmRefresh();
+  const next = rmLoansEl.querySelectorAll('.rm-loan')[Math.max(0,i-1)]; if (next) next.querySelector('select,input').focus();
+});
+$('#rmAdd').addEventListener('click', ()=>{
+  if (rm.loans.length>=10) return;
+  rm.loans.forEach(x=>{ x.open = false; }); // fold finished loans into one-line summaries
+  const l = newLoan(); l.open = true; rm.loans.push(l); renderLoanCards(); rmSave(); rmRefresh();
+  const s = document.getElementById(l.id+'-type'); if (s){ s.focus(); s.scrollIntoView({block:'center', behavior: reduced?'auto':'smooth'}); }
+});
+let rmClearArm = 0;
+$('#rmClear').addEventListener('click', e=>{
+  const b = e.currentTarget;
+  if (Date.now() - rmClearArm > 4000){ rmClearArm = Date.now(); b.textContent = 'Sure? Tap again to clear'; setTimeout(()=>{ b.textContent='Clear my loan data'; }, 4000); return; }
+  rmClearArm = 0; b.textContent = 'Cleared ✓';
+  rm = {loans:[newLoan()], redirect:null, strategy:'avalanche'};
+  try{ localStorage.removeItem(LOAN_KEY); }catch(err){}
+  renderLoanCards(); rmRefresh();
+  setTimeout(()=>{ b.textContent='Clear my loan data'; }, 2000);
+});
+$('#rmUp').addEventListener('click', ()=>{ const s = $('#simCard'); if (s) s.scrollIntoView({block:'start', behavior: reduced?'auto':'smooth'}); });
+
+/* ---------- pay ---------- */
+function validLoans(){ return rm.loans.filter(l=>MLR.validate(l).ok); }
+document.addEventListener('click', e=>{
+  const a = e.target.closest('[data-rm-pay]'); if (!a) return;
+  e.preventDefault();
+  const n = validLoans().length;
+  track('unlock_click', {loans_count:n});
+  if (state.phone) sendRow({event:'unlock_click', name:state.name, phone:state.phone, loans_count:n}); // no amounts
+  if (!/^https:\/\//.test(PAY_URL) || PAY_URL.indexOf('PASTE_')>=0){
+    document.querySelectorAll('#rmPayErr').forEach(x=>x.textContent = 'Payment link innum set aagala. Konjam neram kazhichu try pannunga.');
+    return;
+  }
+  setTimeout(()=>{ location.href = PAY_URL; }, 180); // let the tracking calls leave first
+});
+
+/* ---------- results (only ever built when paid) ---------- */
+const rmResEl = $('#rmResult');
+let rmCtrlBuilt = false, rmT = 0;
+function rmSchedule(){ clearTimeout(rmT); rmT = setTimeout(rmRefresh, 120); }
+function rmSavings(){ return Math.max(0, Math.round(totals().save)); }
+function rmEffective(S){ return rm.redirect==null ? S : Math.min(Math.max(0,rm.redirect), S); }
+
+function buildControls(){
+  rmResEl.innerHTML = `<div class="card">
+    <div class="rm-ctrl">
+      <div class="field"><label for="rmRedirect">Evlo monthly loan-ku redirect pannuveenga?</label>
+        <div class="inp"><span>₹</span><input id="rmRedirect" inputmode="numeric" autocomplete="off" aria-describedby="rmRedirHint"><span>/mo</span></div>
+        <span class="hint" id="rmRedirHint"></span></div>
+      <div><span class="field"><label id="rmStratLbl">Strategy</label></span>
+        <div class="rates" role="group" aria-labelledby="rmStratLbl" style="margin-top:6px">
+          <button type="button" data-rm-strat="avalanche">Avalanche · recommended</button>
+          <button type="button" data-rm-strat="snowball">Snowball</button>
+        </div>
+        <p class="rm-why" id="rmWhy"></p></div>
+    </div>
+    <div id="rmOut" aria-live="polite"></div>
+    <p class="disclaim">Estimate only, not financial advice. Assumes fixed rate and EMI. Actual bank terms, prepayment charges and rate changes may differ. Check with your lender before prepaying.</p>
+  </div>`;
+  const ri = $('#rmRedirect');
+  ri.addEventListener('input', ()=>{
+    const S = rmSavings(), d = ri.value.replace(/\D/g,'');
+    let v = d ? +d : 0;
+    const hint = $('#rmRedirHint');
+    if (v > S){ v = S; hint.innerHTML = `<span style="color:var(--red);font-weight:600">Max ${inr(S)}. Adhu dhaan unga monthly leak savings.</span>`; }
+    else hint.textContent = `Max: unga leak savings ${inr(S)}/mo`;
+    rm.redirect = v; ri.value = d ? grp(v) : ''; rmSave(); rmSchedule();
+  });
+  rmResEl.querySelectorAll('[data-rm-strat]').forEach(b=>b.addEventListener('click', ()=>{
+    rm.strategy = b.dataset.rmStrat; rmSave(); track('strategy_toggle', {strategy:rm.strategy}); renderOut();
+  }));
+  rmCtrlBuilt = true;
+}
+
+function barsSVG(nowM, nowCap, newM, newCap, closes){
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  const W = Math.max(280, Math.round(($('#rmOut').getBoundingClientRect().width)||600)), H = 132, L = 0, R = 8;
+  const maxM = Math.max(1, nowM, newM), x = m => L + (W-L-R) * m / maxM, bh = 16;
+  let g = '';
+  g += `<text class="t" x="0" y="16">Ippo (current EMIs)</text>`;
+  g += `<rect class="track" x="0" y="24" width="${W-R}" height="${bh}" rx="8"/><rect class="cur" x="0" y="24" width="${x(nowM)}" height="${bh}" rx="8"/>`;
+  g += `<text class="tb" x="${Math.min(x(nowM), W-R)}" y="16" text-anchor="end">${dateIn(nowM,nowCap)}</text>`;
+  g += `<text class="t" x="0" y="80">With your savings</text>`;
+  g += `<rect class="track" x="0" y="88" width="${W-R}" height="${bh}" rx="8"/><rect class="new" x="0" y="88" width="${Math.max(8,x(newM))}" height="${bh}" rx="8"/>`;
+  closes.forEach(m=>{ if (m && m < newM) g += `<circle class="dot" cx="${x(m)}" cy="${88+bh/2}" r="5"/>`; });
+  const nx = x(newM);
+  g += nx > (W-R)*0.55
+    ? `<text class="tb" x="${nx}" y="80" text-anchor="end">${dateIn(newM,newCap)}</text>`
+    : `<text class="tb" x="${nx+8}" y="${88+bh/2+5}" text-anchor="start">${dateIn(newM,newCap)}</text>`; // short bar: label sits right of the bar end
+  g += `<text class="t" x="0" y="126">○ = oru loan close aagura point</text>`;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('class','rm-bars'); svg.setAttribute('role','img');
+  svg.setAttribute('aria-label', `Current: debt-free ${dateIn(nowM,nowCap)}. With your savings: ${dateIn(newM,newCap)}.`);
+  svg.innerHTML = g; return svg;
+}
+
+let rmResultSeen = false;
+document.addEventListener('click', e=>{ if (e.target.closest('#rmPrint')){ track('plan_print'); document.body.classList.add('rm-print'); window.print(); } });
+window.addEventListener('afterprint', ()=>document.body.classList.remove('rm-print'));
+function renderOut(){
+  if (!rmPaid || !rmCtrlBuilt) return;
+  const out = $('#rmOut'), loans = validLoans(), S = rmSavings(), eff = rmEffective(S);
+  const ri = $('#rmRedirect');
+  if (document.activeElement !== ri) ri.value = grp(eff);
+  if (!$('#rmRedirHint').querySelector('span')) $('#rmRedirHint').textContent = `Max: unga leak savings ${inr(S)}/mo`;
+  rmResEl.querySelectorAll('[data-rm-strat]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.rmStrat===rm.strategy)));
+  const excluded = rm.loans.filter(l=>l.type && MLR.validate(l).reason==='unsupported');
+  const lowEmi = rm.loans.filter(l=>MLR.validate(l).reason==='emi_low');
+  if (!loans.length){
+    out.innerHTML = `<p class="rm-headline">Mela oru complete loan add pannunga (type, balance, EMI, rate). Result inga varum.</p>`;
+    $('#rmWhy').textContent = ''; return;
+  }
+  const p = MLR.plan(loans, eff);
+  const ch = rm.strategy==='snowball' ? p.snowball : p.avalanche, ord = rm.strategy==='snowball' ? p.orderSn : p.orderAv;
+  const cur = p.current;
+  const diff = Math.abs(p.avalanche.totalInterest - p.snowball.totalInterest);
+  const why = rm.strategy==='snowball'
+    ? 'Chinna balance loan first. Seekiram oru loan close aagum, adhu motivation kudukkum.'
+    : 'Adhiga interest loan first. Total-a bank-ku kammi interest kattuveenga.';
+  $('#rmWhy').textContent = loans.length<2 ? 'Oru loan mattum irukku, so rendu strategy-um same.' :
+    why + (diff < 1 ? ' Unga loans-ku rendum same result dhaan.' : diff < 1000 ? ` Rendum almost same dhaan (${inr(diff)} difference).` : ` Avalanche ${inr(diff)} kammi interest.`);
+  const mSaved = Math.max(0, cur.months - ch.months), iSaved = Math.max(0, cur.totalInterest - ch.totalInterest);
+  const savedLbl = cur.capped ? monthsLabel(mSaved,false)+'+' : (mSaved ? monthsLabel(mSaved,false) : '0 mo');
+  const head = eff>0
+    ? `${inr(eff)}/month loan-ku redirect pannina, <b>${dateIn(ch.months,ch.capped)}</b>-la debt-free. <b>${savedLbl}</b> seekiram, <b>${inr(iSaved)}</b> interest save.`
+    : `Redirect ₹0-na, current EMI path-la dhaan close aagum: <b>${dateIn(cur.months,cur.capped)}</b>.`;
+  $('#rmS3').textContent = 'Debt-free ' + dateIn(ch.months, ch.capped);
+  $('#rmS2').textContent = 'EMI + ' + inr(eff) + '/mo';
+  const closing = ord.map(i=>({l:loans[i], m:ch.perLoan[i].months, now:cur.perLoan[i].months})).sort((a,b)=>(a.m||9e9)-(b.m||9e9));
+  out.innerHTML = `
+    <p class="rm-headline">${head}</p>
+    <div class="kpis">
+      <div class="kpi"><small>Debt-free (ippo)</small><b>${dateIn(cur.months,cur.capped)}</b><span>${monthsLabel(cur.months,cur.capped)}</span></div>
+      <div class="kpi"><small>Debt-free (savings-oda)</small><b>${dateIn(ch.months,ch.capped)}</b><span>${monthsLabel(ch.months,ch.capped)}</span></div>
+      <div class="kpi hl"><small>Months saved</small><b>${savedLbl}</b><span>seekiram free</span></div>
+      <div class="kpi dark"><small>Interest saved</small><b>${inr(iSaved)}</b><span>bank-ku kammi</span></div>
+    </div>
+    <div id="rmBarsBox"></div>
+    <div class="grid2" style="margin-top:18px">
+      <div><h3 class="ct">Closing order</h3>
+        <ol class="rm-order">${closing.map(o=>`<li><span>${esc(loanName(o.l))}<small>Ippo: ${dateIn(o.now||0, !o.now)}</small></span><b>${dateIn(o.m||0, !o.m)}</b></li>`).join('')}</ol></div>
+      <div><h3 class="ct">Current path, per loan</h3>
+        <table class="rm-tbl"><thead><tr><th scope="col">Loan</th><th scope="col">Closes</th><th scope="col">Interest left</th></tr></thead>
+        <tbody>${loans.map((l,i)=>`<tr><td>${esc(loanName(l))}</td><td>${dateIn(cur.perLoan[i].months||0, !cur.perLoan[i].months)}</td><td>${inr(cur.perLoan[i].interest)}</td></tr>`).join('')}</tbody></table></div>
+    </div>
+    ${rmPlanExtras(loans, ord, ch, cur, eff)}
+    ${excluded.length||lowEmi.length ? `<p class="hint" style="margin-top:14px">Include aagala: ${excluded.concat(lowEmi).map(l=>esc(loanName(l)) + (MLR.validate(l).reason==='emi_low'?' (EMI too low)':' (coming soon)')).join(', ')}.</p>`:''}`;
+  $('#rmBarsBox').appendChild(barsSVG(cur.months, cur.capped, ch.months, ch.capped, ch.perLoan.map(x=>x.months)));
+}
+
+/* ---------- paid extras: monthly steps, prepay vs invest, bank checklist ---------- */
+function rmSteps(loans, ord, ch, eff){
+  // closing events in month order; extra pool grows by each closed loan's EMI (rollover)
+  const ev = loans.map((l,i)=>({i, m:ch.perLoan[i].months})).filter(e=>e.m).sort((a,b)=>a.m-b.m);
+  const closed = new Set(); let pool = eff, start = 1; const steps = [];
+  const target = ()=> ord.find(i=>!closed.has(i));
+  for (const e of ev){
+    const tg = target(); if (tg===undefined) break;
+    if (e.m >= start) steps.push({from:start, to:e.m, target:tg, pool});
+    closed.add(e.i); pool += MLR.num(loans[e.i].emi); start = e.m + 1;
+    // merge consecutive steps with the same target
+    const n = steps.length; if (n>1 && steps[n-1].target===steps[n-2].target){ steps[n-2].to = steps[n-1].to; steps[n-2].pool2 = steps[n-1].pool; steps.pop(); }
+  }
+  return steps.filter(st=>!(ch.perLoan[st.target].months < st.from));
+}
+function rmPrepayVsInvest(loans, ch, cur, eff){
+  if (cur.capped || ch.capped || !(eff>0)) return null;
+  const R = state.rate, H = cur.months;
+  // Path A: invest the savings every month; each loan's EMI is invested after it closes on its own
+  let A = fv(eff, R, H); loans.forEach((l,i)=>{ A += fv(MLR.num(l.emi), R, H - cur.perLoan[i].months); });
+  // Path B: savings (+ freed EMIs) go to loans; once debt-free, invest savings + all EMIs till the same month
+  const allEmi = loans.reduce((a,l)=>a+MLR.num(l.emi),0);
+  const B = fv(eff + allEmi, R, H - ch.months);
+  // Path C (smart mix): prepay only loans costlier than the SIP return, then invest everything
+  let C = null, hiNames = [];
+  const hi = loans.map((l,i)=>i).filter(i=>MLR.num(loans[i].rate) > R);
+  if (hi.length && hi.length < loans.length){
+    const hl = hi.map(i=>loans[i]);
+    const sim = MLR.simulate(hl, eff, MLR.strategyOrder(hl,'avalanche'));
+    const hiEmi = hl.reduce((a,l)=>a+MLR.num(l.emi),0);
+    C = fv(eff + hiEmi, R, H - sim.months);
+    loans.forEach((l,i)=>{ if (!hi.includes(i)) C += fv(MLR.num(l.emi), R, H - cur.perLoan[i].months); });
+    hiNames = hl.map(loanName);
+  }
+  return {A, B, C, H, R, hiNames};
+}
+function rmPlanExtras(loans, ord, ch, cur, eff){
+  if (!(eff>0)) return '';
+  const steps = rmSteps(loans, ord, ch, eff);
+  const pv = rmPrepayVsInvest(loans, ch, cur, eff);
+  const stepHTML = steps.map((st,k)=>`<li><span class="rm-when">${dateIn(st.from-1,false)} – ${dateIn(st.to-1,false)}</span>
+      <span>Ella EMI-um kattunga + <b>${esc(loanName(loans[st.target]))}</b>-ku extra <b>${inr(st.pool)}${st.pool2 && st.pool2!==st.pool ? ' → '+inr(st.pool2) : ''}/mo</b>${k===0?' (indha maasame start pannunga)':''}</span></li>`).join('');
+  let pvHTML = '';
+  if (pv){
+    const opts = [
+      {k:'A', t:'Full SIP', d:'Savings-a SIP-la podunga, loans normal-a close', v:pv.A},
+      {k:'B', t:'Full prepay', d:`Ella loans-um ${dateIn(ch.months,false)}-la close, apram invest`, v:pv.B}];
+    if (pv.C!=null) opts.push({k:'C', t:'Smart mix', d:`${pv.hiNames.map(esc).join(', ')} (${pv.R}%-ku mela) mattum prepay, apram SIP`, v:pv.C});
+    let best = opts.reduce((a,b)=>b.v>a.v?b:a);
+    const near = (x,y)=> Math.abs(x-y) < 0.01*Math.max(x,y); // within 1% = a tie; prefer the guaranteed option
+    const cOpt = opts.find(o=>o.k==='C'), bOpt = opts[1];
+    let tie = false;
+    if (best.k==='A' && cOpt && near(cOpt.v, best.v)){ best = cOpt; tie = true; }
+    else if (best.k==='C' && near(cOpt.v, pv.A)) tie = true;
+    else if (best.k==='A' && near(bOpt.v, best.v)){ best = bOpt; tie = true; }
+    const verdict = best.k==='B' ? `<b>Full prepay best.</b> Plus idhu guaranteed. SIP return market-a poruthu maarum.`
+      : (best.k==='C' && tie) ? `<b>Smart mix vs Full SIP almost same.</b> Aana smart mix-la ${pv.hiNames.map(esc).join(', ')} close panradhu guaranteed saving, SIP return guaranteed illa. So smart mix choose pannunga.`
+      : best.k==='C' ? `<b>Smart mix best:</b> costly loan-a mudhalla close pannunga, apram SIP. Full SIP-a vida ${compact(best.v-pv.A)} adhigam.`
+      : `<b>Full SIP adhigam tharalaam</b> (${pv.R}% kidaicha), aana guaranteed illa. Unga loans rate ${pv.R}%-a vida kammi. Safe-a irukka, konjam prepay + konjam SIP.`;
+    pvHTML = `<div class="card rm-pv"><h3 class="ct">Prepay vs Invest: unga numbers-la</h3>
+      <p class="hint">Same ${inr(eff)}/month, ${dateIn(pv.H,false)} varaikkum unga total wealth. SIP ${pv.R}% assume pannirukkom (mela dashboard-la maathalaam). Tax kanakku pannala.</p>
+      <div class="rm-pvlist">${opts.map(o=>`<div class="${o===best?'win':''}"><span><b>${o.t}</b>${o===best?' <em>Best</em>':''}<small>${o.d}</small></span><strong>${compact(o.v)}</strong></div>`).join('')}</div>
+      <p class="rm-verdict">${verdict}</p></div>`;
+  }
+  return `<div class="grid2" style="margin-top:18px">
+    <div class="card"><h3 class="ct">Unga maasam-maasam plan</h3><p class="hint">Oru loan close aana, adhoda EMI + extra next loan-ku pogum.</p>
+      <ol class="rm-steps">${stepHTML}<li><span class="rm-when">${dateIn(ch.months,false)}</span><span><b>Debt-free!</b> Ippo ${inr(eff + loans.reduce((a,l)=>a+MLR.num(l.emi),0))}/mo full-a invest pannunga.</span></li></ol></div>
+    ${pvHTML || '<div></div>'}
+  </div>
+  <div class="card rm-check" style="margin-top:14px"><h3 class="ct">Bank-la prepay panna checklist</h3>
+    <ul>
+      <li><b>Floating rate-a, fixed-a?</b> Floating rate loans-ku individuals-ku prepayment charge illa (RBI rule, Jan 2026-la irundhu sanction/renew aana loans). Home loan floating-ku munnadiye charge illa. Fixed rate-ku 2–5% charge irukkalaam. Sanction letter check pannunga.</li>
+      <li><b>"Reduce tenure" nu kelunga, "reduce EMI" illa.</b> EMI same-a vechu tenure kuraicha dhaan indha plan-la kaatina interest save aagum.</li>
+      <li><b>Every prepayment-ku receipt + updated repayment schedule</b> vaangunga. Next maasam outstanding correct-a kuranjirukka nu check pannunga.</li>
+      <li><b>Emergency fund first.</b> 3–6 maasam selavu panam kaila illama ella panathaiyum prepay pannadheenga.</li>
+      <li><b>Home loan tax benefit</b> (old regime-la Sec 24b interest deduction) use panreengana, CA kitta oru dhadavai check pannunga.</li>
+    </ul></div>
+  <div class="cta-row"><button type="button" class="btn ghost sm" id="rmPrint">Save plan as PDF</button></div>`;
+}
+
+/* ---------- free preview (the "how much"); the paid plan is the "how" ---------- */
+function rmTeaserCalc(){
+  const loans = validLoans(), S = rmSavings(), eff = rmEffective(S);
+  if (!loans.length || !(eff>0)) return null;
+  const p = MLR.plan(loans, eff), cur = p.current;
+  const best = p.avalanche.totalInterest <= p.snowball.totalInterest ? p.avalanche : p.snowball;
+  return { eff, cur, best, iSaved: Math.max(0, cur.totalInterest - best.totalInterest), mSaved: Math.max(0, cur.months - best.months),
+           maxRate: Math.max(...loans.map(l=>MLR.num(l.rate))), top: loans.slice().sort((a,b)=>MLR.num(b.rate)-MLR.num(a.rate))[0] };
+}
+function rmInsights(save){ return rmInsightsRaw(save).map(t=>'<i data-rmi hidden></i>'+t); }
+function rmInsightsRaw(save){
+  if (!(save>0)) return [];
+  const t = rmTeaserCalc(), R = state.rate;
+  if (!t) return [`Loan EMI irukka? Indha <b>${inr(save)}/month</b>-a loan-ku extra-va pottaa, loan seekiram close aagum, interest-um save aagum. <a href="#roadmap">Unga loans add pannunga ↓</a>`];
+  const out = [`Indha <b>${inr(t.eff)}/month</b>-a SIP-ku badhila loan-ku redirect pannina: <b>${monthsLabel(t.mSaved, false)}</b> seekiram debt-free, <b>${inr(t.iSaved)}</b> interest bank-ku kammi. <a href="#roadmap">Plan paarunga ↓</a>`];
+  if (t.maxRate > R) out.push(`Unga <b>${esc(loanName(t.top))}</b> ${t.maxRate}% interest. Adha prepay panradhu = <b>guaranteed ${t.maxRate}% return</b>. SIP-la ${R}% expected, guaranteed illa. High-interest loan first close pannunga.`);
+  else out.push(`Unga loans rate (max ${t.maxRate}%) SIP expected return ${R}%-a vida kammi. Prepay-a, invest-a nu unga numbers-oda compare panni paakanum. ₹99 plan adha calculate pannum.`);
+  return out;
+}
+function rmAllocRow(){
+  const el = $('#rmAlloc'); if (!el) return;
+  const S = rmSavings(); if (!(S>0)){ el.innerHTML = ''; return; }
+  const t = rmTeaserCalc();
+  el.innerHTML = `<div class="rm-allocrow"><div><small>+ Loan irundha: first idhu</small><b>${t ? inr(t.eff)+'/mo → loans' : 'Loan irukka?'}</b>
+    <span>${t ? `Loans close aagura varaikkum mela 3 bucket panathaiyum loan-ku podunga: ${inr(t.iSaved)} interest save. Debt-free aana apram, adhe panam + freed EMI-a 3-way split pannunga.` : 'High-interest loan close panradhu dhaan best "passive return". Loans add panni check pannunga.'}</span></div>
+    <a class="btn ghost sm" href="#roadmap">${t ? 'See plan' : 'Add loans'} ↓</a></div>`;
+}
+
+/* ---------- master refresh ---------- */
+let rmInView = false;
+function rmRefresh(){
+  const S = rmSavings();
+  $('#rmS').textContent = S>0 ? inr(S)+'/month' : '₹0/month';
+  $('#rmS2').textContent = 'EMI + ' + inr(rmPaid ? rmEffective(S) : S) + '/mo';
+  if (!(rmPaid && validLoans().length)) $('#rmS3').textContent = rmPaid ? 'Loan add pannunga ↓' : 'Unga plan ↓';
+  const empty = !(S>0);
+  $('#rmEmpty').hidden = !empty; $('#rmMain').hidden = empty;
+  const nValid = validLoans().length;
+  $('#rmLocked').hidden = empty || rmPaid || !nValid;
+  if (!$('#rmLocked').hidden){
+    const t = rmTeaserCalc();
+    $('#rmTeaser').innerHTML = t ? `<div><small>Interest save (upto)</small><b>${inr(t.iSaved)}</b></div><div><small>Debt-free seekiram</small><b>${monthsLabel(t.mSaved,false)}</b></div>` : '';
+    $('#rmAnchor').innerHTML = t && t.iSaved>=990 ? `One-time ₹99, unga interest saving ${inr(t.iSaved)}-la <b>1/${Math.round(t.iSaved/99).toLocaleString('en-IN')}</b> part. UPI / card via Razorpay.` : 'One-time payment. UPI / card via Razorpay.';
+  }
+  rmAllocRow();
+  if (state.revealed){ // keep loan insights in sync when loans change
+    const box = $('#insights');
+    if (box){ box.querySelectorAll('[data-rmi]').forEach(i=>i.parentNode.remove());
+      box.insertAdjacentHTML('beforeend', rmInsights(S).map(t=>`<div class="insight">${t}</div>`).join('')); }
+  }
+  if (rmPaid && !empty){
+    if (!rmCtrlBuilt) buildControls();
+    rmResEl.hidden = false; renderOut();
+    rm.loans.forEach(updateCard); // shows tenure cross-check notes once paid
+  } else rmResEl.hidden = true;
+  rmSticky();
+}
+const stickyEl = $('#rmSticky');
+function rmSticky(){
+  const show = state.revealed && rmInView && !rmPaid && validLoans().length>0 && rmSavings()>0;
+  stickyEl.hidden = !show; document.body.classList.toggle('rm-bar-on', show);
+  if (show && stickyEl.offsetHeight) document.body.style.setProperty('--rm-bar-h', stickyEl.offsetHeight + 'px'); // keeps WhatsApp button + page end clear of the bar
+}
+function roadmapSync(){ rmRefresh(); }
+
+if ('IntersectionObserver' in window){
+  new IntersectionObserver(es=>{ rmInView = es[0].isIntersecting; rmSticky(); }).observe($('#roadmap'));
+  let lockedSeen = false;
+  new IntersectionObserver(es=>{ if (!lockedSeen && es[0].isIntersecting && !$('#rmLocked').hidden){ lockedSeen = true; track('roadmap_locked_view'); } }, {threshold:.4}).observe($('#rmLocked'));
+  new IntersectionObserver(es=>{ if (!rmResultSeen && es[0].isIntersecting && rmPaid && validLoans().length){ rmResultSeen = true; track('roadmap_result_view', {loans_count:validLoans().length}); } }, {threshold:.2}).observe(rmResEl);
+} else { rmInView = true; }
+// Hide the mobile bar while typing so it never sits on top of an input or the keyboard
+document.addEventListener('focusin', e=>{ if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) document.body.classList.add('rm-typing'); });
+document.addEventListener('focusout', ()=>{ setTimeout(()=>{ if (!/^(INPUT|SELECT|TEXTAREA)$/.test((document.activeElement||{}).tagName||'')) { document.body.classList.remove('rm-typing'); rmSticky(); } }, 50); });
+let rmRz; window.addEventListener('resize', ()=>{ clearTimeout(rmRz); rmRz = setTimeout(()=>{ if (rmPaid && state.revealed) renderOut(); }, 150); });
+
+function roadmapBoot(){
+  if (!rm.loans.length) rm.loans.push(newLoan());
+  rm.loans.forEach(l=>{ l._valid = MLR.validate(l).ok; l.open = false; });
+  renderLoanCards();
+  const want = rmReturn || location.hash==='#roadmap';
+  if (want && !state.revealed && state.income>0 && LEAKS.some(L=>state.leaks[L.id].on) && (gateOk() || state.phone)) reveal();
+  rmRefresh();
+  if (want && state.revealed) setTimeout(()=>{ $('#roadmap').scrollIntoView({block:'start'}); }, 60);
+}
+/* ================= /LOAN CLOSING ROADMAP ================= */
+
 /* ---------- init ---------- */
 $('#heroFifty').textContent = compact(fv(50*DM,12,120));
 renderSplit(); renderLeaks();
+roadmapBoot(); // [Roadmap 2A hook]
 })();
 </script>
 </body>
