@@ -548,9 +548,6 @@
   /* ── [v5] SIMPLER + MORE VISUAL ── */
   #celebrate{display:none}                       /* reality card + KPIs say it shorter */
   @media(max-width:640px){ .fifty div:nth-child(2), .fifty div:nth-child(3){display:none} section.step{padding:44px 0} .step-head{margin-bottom:18px} }
-  .leak-top h3::before{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--navy-2);margin-right:10px;font-size:19px;vertical-align:middle}
-  #leak-smoke h3::before{content:"🚬"} #leak-alcohol h3::before{content:"🍺"} #leak-food h3::before{content:"🍔"}
-  #leak-ott h3::before{content:"📺"} #leak-shop h3::before{content:"🛍️"} #leak-tea h3::before{content:"☕"}
   .leak-top p{font-size:13px}
   details.cx-30{margin-top:12px}
   details.cx-30 > summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--teal);list-style:none;padding:6px 0}
@@ -573,6 +570,126 @@
   @media(min-width:761px){ .cx-actbar{left:50%;right:auto;bottom:20px;transform:translateX(-50%);border-radius:99px;border:1.5px solid rgba(124,58,237,.25);padding:8px;width:min(520px,calc(100% - 200px))} }
   @media(max-width:760px){ body.cx-bar-on{padding-bottom:76px} body.cx-bar-on .wa-sticky{bottom:calc(76px + 12px)} }
   @media print{ body.rm-print .cx-actbar{display:none!important} }
+
+
+  /* ── [v6] RICH VISUAL + MOTION LAYER (brand tokens only; off under prefers-reduced-motion) ── */
+  .cx-ic{width:20px;height:20px;flex:none}
+  /* hero: two columns on desktop, art beside the copy */
+  .cx-hero-art{position:relative;z-index:1;width:min(340px,86vw);margin:18px auto 6px}
+  .cx-jar{width:100%;height:auto;display:block;overflow:visible}
+  .cx-shadow{fill:var(--blue);opacity:.08}
+  .cx-jar-glass{fill:rgba(255,255,255,.55);stroke:var(--blue);stroke-width:3}
+  .cx-jar-lid{fill:var(--blue)}
+  .cx-st1{stop-color:var(--blue-mid)} .cx-st2{stop-color:var(--blue-dark)}
+  .cx-liquid{animation:cxDrain 7s ease-in-out infinite}
+  @keyframes cxDrain{0%{transform:translateY(0)}70%{transform:translateY(58px)}100%{transform:translateY(0)}}
+  .cx-jar-t{font:800 15px Inter,sans-serif;letter-spacing:.18em;fill:var(--white)}
+  .cx-jar-r{font:800 30px Inter,sans-serif;fill:var(--white)}
+  .cx-crack{fill:none;stroke:var(--red);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+  .cx-drop circle{fill:var(--yellow)} .cx-drop text{font:800 10px Inter,sans-serif;fill:var(--white)}
+  .cx-drop{animation:cxFall 2.4s cubic-bezier(.55,0,.85,.4) infinite;opacity:0}
+  .cx-drop.d2{animation-delay:.8s} .cx-drop.d3{animation-delay:1.6s}
+  @keyframes cxFall{0%{opacity:0;transform:translate(0,0)}12%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translate(26px,60px)}}
+  .cx-float{position:absolute;display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1.5px solid rgba(124,58,237,.18);box-shadow:var(--shadow);border-radius:99px;padding:6px 12px 6px 8px;font-size:12px;color:var(--text);white-space:nowrap;animation:cxBob 4s ease-in-out infinite}
+  .cx-float .cx-ic{width:18px;height:18px;color:var(--blue);background:var(--navy-2);border-radius:50%;padding:3px;box-sizing:content-box}
+  .cx-float b{font-weight:700}
+  .cx-float.f1{left:-4%;top:12%} .cx-float.f2{right:-6%;top:38%;animation-delay:1.2s} .cx-float.f3{left:2%;bottom:16%;animation-delay:2.2s}
+  @keyframes cxBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .cx-art-note{position:absolute;right:0;bottom:-2px;font-size:10px;color:var(--text-light)}
+  @media(min-width:900px){
+    .page-hero{display:grid;grid-template-columns:1.05fr .95fr;column-gap:40px;text-align:left;max-width:1180px;margin:0 auto;padding:72px 5vw 56px}
+    .page-hero > *{grid-column:1}
+    .page-hero .eyebrow{justify-content:flex-start}
+    .page-hero p{margin:0}
+    .cx-hero-cta{align-items:flex-start}
+    .cx-proof{text-align:left} .cx-proof .cx-chips{justify-content:flex-start}
+    .cx-hero-art{grid-column:2;grid-row:1 / span 6;align-self:center;width:100%;max-width:400px;margin:0 auto}
+    .page-hero .fifty{grid-column:1 / -1}
+  }
+  @media(max-width:899px){
+    .page-hero{display:flex;flex-direction:column;align-items:center;padding:28px 16px 36px}
+    .page-hero .page-breadcrumb{display:none}
+    .page-hero h1{margin-top:.25rem}
+    .page-hero > .eyebrow{order:1} .page-hero > h1{order:2} .page-hero > p{order:3}
+    .page-hero > .cx-hero-cta{display:contents}
+    #cxStart{order:4;margin-top:18px} .cx-hero-note{order:5;margin-top:8px}
+    .cx-hero-art{order:6;width:min(270px,78vw);margin:14px auto 0}
+    .cx-proof{order:7} .page-hero > .fifty{order:8;width:100%}
+    .cx-float{font-size:11px;padding:5px 10px 5px 6px}
+    .cx-float.f1{left:-14%} .cx-float.f2{right:-16%;top:58%} .cx-float.f3{left:-10%;bottom:8%}
+  }
+  /* primary CTA: gentle attention pulse + sheen on paid buttons */
+  #cxStart{position:relative;animation:cxPulse 2.8s ease-in-out infinite}
+  @keyframes cxPulse{0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,.35)}50%{box-shadow:0 0 0 12px rgba(124,58,237,0)}}
+  .rm-paybtn,#cxPay,#cxBarGo{position:relative;overflow:hidden}
+  .rm-paybtn::after,#cxPay::after,#cxBarGo::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:cxSheen 3.6s ease-in-out infinite}
+  @keyframes cxSheen{0%,60%{left:-60%}100%{left:130%}}
+  /* trust strip + how it works */
+  .cx-trustbar{background:var(--white);border-block:1px solid var(--border);padding:22px 0}
+  .cx-badges{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .cx-badges li{display:flex;gap:10px;align-items:center}
+  .cx-badges .cx-ic{width:38px;height:38px;padding:9px;border-radius:12px;background:var(--navy-2);color:var(--blue);box-sizing:border-box}
+  .cx-badges span{font-size:12px;color:var(--muted);line-height:1.35} .cx-badges b{display:block;font-size:14px;color:var(--text)}
+  .cx-how{list-style:none;display:flex;justify-content:center;gap:0;margin-top:18px;position:relative}
+  .cx-how li{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--ink-2)}
+  .cx-how li:not(:last-child)::after{content:"";width:clamp(18px,6vw,60px);height:2px;margin:0 10px;background:linear-gradient(90deg,var(--blue) 50%,var(--coral-soft) 50%);background-size:200% 100%;animation:cxFlow 2.2s linear infinite}
+  @keyframes cxFlow{from{background-position:100% 0}to{background-position:0 0}}
+  .cx-how i{font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--blue);color:var(--white);display:grid;place-items:center;font-size:13px}
+  @media(max-width:760px){ .cx-badges{grid-template-columns:1fr 1fr} .cx-how li{font-size:12px} }
+  /* quick-pick salary */
+  .cx-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;max-width:420px}
+  .cx-quick button{border:1.5px solid var(--line);background:var(--white);border-radius:99px;padding:8px 6px;font-weight:600;min-height:40px;transition:all .2s}
+  .cx-quick button:hover,.cx-quick button[aria-pressed="true"]{border-color:var(--blue);background:var(--blue);color:var(--white)}
+  /* habit cards */
+  .leak-top{gap:14px}
+  .leak-top > div:not(.yn){flex:1}
+  .cx-lk-ic{flex:none;width:46px;height:46px;border-radius:14px;background:var(--navy-2);color:var(--blue);display:grid;place-items:center;transition:transform .25s,background .25s}
+  .cx-lk-ic .cx-ic{width:22px;height:22px}
+  .leak.on .cx-lk-ic{background:var(--blue);color:var(--white);transform:rotate(-6deg) scale(1.05)}
+  .leak{transition:border-color .2s,box-shadow .2s,transform .2s}
+  .leak:hover{transform:translateY(-2px)}
+  /* action bar: live leak meter */
+  .cx-bar-form{display:flex;align-items:center;gap:12px;width:100%;max-width:520px}
+  .cx-meter{display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+  .cx-meter small{font-size:11px;color:var(--muted)}
+  .cx-meter b{font-size:20px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+  .cx-bar-form:not(.has) .cx-meter{display:none}
+  .cx-bar-form #cxBarGo{flex:1;white-space:nowrap}
+  /* coaching: founder + next steps */
+  .cx-founder{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:4px 12px;margin-top:16px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+  @media(max-width:560px){ .cx-founder{grid-template-columns:48px 1fr} .cx-online{grid-column:2} }
+  .cx-avatar{width:48px;height:48px;border-radius:50%;background:var(--accent-gradient);color:var(--white);display:grid;place-items:center;font-weight:800;font-size:20px;flex:none}
+  .cx-founder b{display:block} .cx-founder small{color:var(--muted);font-size:12px}
+
+  .cx-online{font-size:12px;font-weight:600;color:var(--green);display:inline-flex;align-items:center;gap:6px}
+  .cx-online i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:cxBlink 1.6s ease-in-out infinite}
+  @keyframes cxBlink{50%{opacity:.3}}
+  ol.cx-next{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+  ol.cx-next li{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+  ol.cx-next .cx-ic{width:36px;height:36px;padding:8px;border-radius:50%;background:var(--blue-light);color:var(--blue);box-sizing:border-box;margin:0 auto 6px;display:block}
+  ol.cx-next b{display:block;font-size:14px} ol.cx-next small{font-size:12px;color:var(--muted)}
+  @media(max-width:560px){ ol.cx-next{grid-template-columns:1fr} ol.cx-next li{display:grid;grid-template-columns:40px 1fr;text-align:left;align-items:center;column-gap:10px} ol.cx-next .cx-ic{grid-row:span 2;margin:0} }
+  /* reviews */
+  .cx-rv{position:relative;padding-top:20px}
+  .cx-q{position:absolute;top:12px;right:14px;width:26px;height:26px;color:var(--coral-soft)}
+  .cx-rv blockquote{font-size:15px;line-height:1.55;padding-right:22px}
+  .cx-rv figcaption{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--ink-2)}
+  .cx-av{width:28px;height:28px;border-radius:50%;background:var(--navy-2);color:var(--blue);display:grid;place-items:center;font-weight:800;font-size:13px}
+  .cx-rv-saved{display:inline-block;background:var(--blue-light);border-radius:99px;padding:3px 10px}
+  /* reveal on scroll */
+  .cx-reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease var(--cxd,0ms),transform .5s cubic-bezier(.2,.8,.2,1) var(--cxd,0ms)}
+  .cx-reveal.in{opacity:1;transform:none}
+  @media print{ .cx-reveal{opacity:1!important;transform:none!important} .cx-hero-art,.cx-trustbar{display:none!important} }
+
+
+  /* ── [v7] sound toggle ── */
+  .cx-sound{position:fixed;left:1.25rem;bottom:1.75rem;z-index:996;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(124,58,237,.25);background:var(--white);color:var(--blue);box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:transform .2s,background .2s}
+  .cx-sound:hover{transform:scale(1.08)}
+  .cx-sound .cx-ic{width:22px;height:22px}
+  .cx-sound .cx-snd-off{display:none}
+  .cx-sound.off{color:var(--text-light)} .cx-sound.off .cx-snd-on{display:none} .cx-sound.off .cx-snd-off{display:block}
+  @media(max-width:760px){ body.cx-bar-on .cx-sound{bottom:calc(76px + 12px)} body.rm-bar-on .cx-sound{bottom:calc(var(--rm-bar-h,100px) + 12px)} }
+  @media print{ .cx-sound{display:none!important} }
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
@@ -608,11 +725,47 @@
     <p class="cx-hero-note">Free · 2 minutes · No login</p>
     <div class="cx-proof" id="cxProofHero" hidden></div>
   </div>
+  <!-- [v6] animated hero art: salary jar leaking coins into daily habits -->
+  <div class="cx-hero-art" aria-hidden="true">
+    <svg class="cx-jar" viewBox="0 0 320 300">
+      <defs><clipPath id="cxJarClip"><rect x="88" y="62" width="144" height="168" rx="30"/></clipPath>
+        <linearGradient id="cxLiquid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="cx-st1"/><stop offset="1" class="cx-st2"/></linearGradient></defs>
+      <ellipse class="cx-shadow" cx="160" cy="262" rx="96" ry="10"/>
+      <g clip-path="url(#cxJarClip)"><g class="cx-liquid"><path d="M80 110 Q120 98 160 110 T240 110 V240 H80 Z" fill="url(#cxLiquid)"/></g></g>
+      <rect class="cx-jar-glass" x="88" y="62" width="144" height="168" rx="30"/>
+      <rect class="cx-jar-lid" x="104" y="44" width="112" height="22" rx="8"/>
+      <text class="cx-jar-t" x="160" y="150" text-anchor="middle">SALARY</text>
+      <text class="cx-jar-r" x="160" y="186" text-anchor="middle">₹</text>
+      <path class="cx-crack" d="M226 196 l8 6 -6 5 9 7"/>
+      <g class="cx-drop d1"><circle cx="236" cy="214" r="9"/><text x="236" y="218" text-anchor="middle">₹</text></g>
+      <g class="cx-drop d2"><circle cx="236" cy="214" r="7"/><text x="236" y="217" text-anchor="middle">₹</text></g>
+      <g class="cx-drop d3"><circle cx="236" cy="214" r="8"/><text x="236" y="218" text-anchor="middle">₹</text></g>
+    </svg>
+    <span class="cx-float f1"><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2"/><path d="M14 2v2"/><path d="M6 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></svg><b>Tea · −₹1,824</b></span>
+    <span class="cx-float f2"><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg><b>Swiggy · −₹6,067</b></span>
+    <span class="cx-float f3"><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg><b>OTT · −₹499</b></span>
+    <small class="cx-art-note">Example numbers</small>
+  </div>
   <div class="fifty" aria-label="What ₹50 a day becomes">
     <div><small>₹50 a day</small><b>₹1,520/mo</b></div>
     <div><small>In 1 year</small><b>₹18,250</b></div>
     <div><small>Saved 10 years</small><b>₹1.8 L</b></div>
     <div><small>Invested 10 yrs @12%</small><b id="heroFifty">₹3.5 L</b></div>
+  </div>
+</section>
+
+<!-- [v6] trust strip + how it works -->
+<section class="cx-trustbar" aria-label="Why people trust this">
+  <div class="wrap">
+    <ul class="cx-badges">
+      <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span><b>Private</b>Habits stay on your phone</span></li>
+      <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span><b>2 minutes</b>Free, no login</span></li>
+      <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span><b>Secure pay</b>Razorpay · UPI</span></li>
+      <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><span><b>Real human</b>Noor on WhatsApp</span></li>
+    </ul>
+    <ol class="cx-how" aria-label="How it works">
+      <li><i>1</i><span>Salary</span></li><li><i>2</i><span>Habits</span></li><li><i>3</i><span>Your leak report</span></li>
+    </ol>
   </div>
 </section>
 
@@ -627,7 +780,8 @@
     <div class="card">
       <label class="big" for="income">Monthly take-home income</label>
       <div class="money-in"><span>₹</span><input id="income" type="text" inputmode="numeric" autocomplete="off" placeholder="45,000" aria-describedby="incHint"></div>
-      <p class="hint" id="incHint">In-hand salary after tax. 🔒 Only totals are shared when you unlock the report.</p>
+      <div class="cx-quick" role="group" aria-label="Quick pick salary"><button type="button" data-inc="25000">₹25k</button><button type="button" data-inc="40000">₹40k</button><button type="button" data-inc="60000">₹60k</button><button type="button" data-inc="100000">₹1L</button></div>
+      <p class="hint" id="incHint">In-hand salary after tax. Only totals are shared when you unlock the report.</p>
 
       <div class="split-bar" aria-hidden="true">
         <div class="sb-c"><b id="amtC">10%</b>Charity</div>
@@ -711,7 +865,7 @@
     <!-- ============ LOAN CLOSING ROADMAP (2A) — additive section ============ -->
     <section id="roadmap" aria-labelledby="rmTitle">
       <div class="step-head">
-        <div class="eyebrow">🏦 Close loan at ₹99</div>
+        <div class="eyebrow">Close loan at ₹99</div>
         <h2 class="section-title" id="rmTitle">Loan irukka? <em>Seekiram close pannalaam.</em></h2>
       </div>
       <ol class="rm-story" aria-label="How it works">
@@ -735,7 +889,7 @@
             <button type="button" class="btn ghost sm" id="rmAdd">+ Add another loan</button>
             <span class="hint" id="rmCap" hidden>Max 10 loans.</span>
           </div>
-          <p class="rm-priv">🔒 Loan details unga phone-la mattum. Naanga paakka maattom.
+          <p class="rm-priv">Loan details unga phone-la mattum. Naanga paakka maattom.
             <button type="button" class="rm-link" id="rmClear">Clear my loan data</button></p>
         </div>
 
@@ -761,10 +915,15 @@
 
     <!-- ============ [v4] ₹4,999 COACHING — premium offer ============ -->
     <section id="coaching" class="cx-coach" aria-labelledby="cxCoachTitle">
-      <span class="eyebrow">🤝 1:1 with Noor · <span class="cxDays">90</span> days</span>
+      <span class="eyebrow">1:1 with Noor · <span class="cxDays">90</span> days</span>
       <h2 id="cxCoachTitle" class="section-title">Want me to personally help you <em>become debt-free?</em></h2>
       <p class="section-sub">Calculator kaattum. Naan kooda irundhu <span class="cxDays">90</span> naal-la maathuvom.</p>
       <p class="cx-personal" id="cxPersonal" hidden></p>
+      <div class="cx-founder">
+        <div class="cx-avatar" aria-hidden="true">N</div>
+        <div><b>Noor Mohammed J</b><small>Founder, Mentell · 15 yrs program management (EY, Accenture)</small></div>
+        <span class="cx-online"><i></i>Replies on WhatsApp</span>
+      </div>
       <div class="cx-reviews" id="cxReviews" hidden></div>
       <div class="cx-grid">
         <div>
@@ -782,15 +941,20 @@
           <p class="cx-paynote" id="cxPayNote" hidden></p>
           <a class="btn cx-btn" id="cxTalk" href="#" target="_blank" rel="noopener">Talk to Noor on WhatsApp</a>
           <a class="cx-emi" id="cxEmi" href="#" target="_blank" rel="noopener"><span aria-hidden="true">💬</span> Need EMI? Pay in <span id="cxInst">3</span> instalments. Message Noor</a>
-          <p class="cx-trust">🔒 Secure payment via Razorpay · UPI / cards · No hidden charges</p>
+          <p class="cx-trust">Secure payment via Razorpay · UPI / cards · No hidden charges</p>
         </div>
       </div>
+      <ol class="cx-next" aria-label="What happens after you pay">
+        <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg><b>Pay</b><small>UPI / card, full or 1 part</small></li>
+        <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><b>WhatsApp Noor</b><small>Say "Hi Noor"</small></li>
+        <li><svg class="cx-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><b>First 1:1 call</b><small>Your plan starts</small></li>
+      </ol>
       <p class="cx-mission">“Indha price-a naan low-a vechirukken on purpose. Neraya families debt-free aaganum, adhu dhaan en mission.” <b>— Noor, Founder, Mentell</b></p>
     </section>
 
     <!-- [v5] secondary analysis folded away: fewer words on screen, all features kept -->
     <details class="cx-more" id="cxMore">
-      <summary><span>📊 See more: 10-year growth, goals, insights, 30% split</span><b aria-hidden="true">+</b></summary>
+      <summary><span>See more: 10-year growth, goals, insights, 30% split</span><b aria-hidden="true">+</b></summary>
     <div class="card" style="margin-top:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <h3 class="ct">If you invest it every month</h3>
@@ -907,12 +1071,17 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg>
 </a>
 
+<!-- [v7] coin sound toggle (sound ON by default; remembers the visitor's choice) -->
+<button type="button" class="cx-sound" id="cxSound" aria-pressed="true" aria-label="Sound on. Tap to turn off">
+  <svg class="cx-ic cx-snd-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.8"/></svg>
+  <svg class="cx-ic cx-snd-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5z"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg>
+</button>
 <!-- [v5] smart action bar: changes with where the user is -->
 <div class="cx-actbar" id="cxBar" hidden role="region" aria-label="Next step">
-  <button type="button" class="btn" id="cxBarGo" data-cx-cta="bar_report" hidden>Show my leak report →</button>
+  <div class="cx-bar-form" id="cxBarFormWrap" hidden><span class="cx-meter"><small>Leaking</small><b id="cxBarLeak">₹0</b><small>/mo</small></span><button type="button" class="btn" id="cxBarGo" data-cx-cta="bar_report">See report →</button></div>
   <div class="cx-actbar-2" id="cxBarDash" hidden>
-    <a class="btn sm" href="#roadmap" data-cx-cta="bar_loan">🏦 Close loan at ₹99</a>
-    <a class="btn ghost sm" href="#coaching" data-cx-cta="bar_coaching">🤝 1:1 coaching</a>
+    <a class="btn sm" href="#roadmap" data-cx-cta="bar_loan">Close loan at ₹99</a>
+    <a class="btn ghost sm" href="#coaching" data-cx-cta="bar_coaching">1:1 coaching</a>
   </div>
 </div>
 <!-- Loan roadmap sticky unlock CTA (shown only after 1+ valid loan, while the roadmap section is on screen) -->
@@ -932,7 +1101,7 @@
     <div class="field"><label for="gEmail">Email ID <span class="opt">optional</span></label><div class="inp"><input id="gEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@gmail.com"></div></div>
     <span class="err" id="gErr" role="alert"></span>
     <button class="btn" type="button" id="gateSubmit" style="margin-top:10px">Show my report</button>
-    <p class="fine">🔒 Secure site · We only use this to send your report and Mentell updates. No spam, ever.</p>
+    <p class="fine">Secure site · We only use this to send your report and Mentell updates. No spam, ever.</p>
     <div class="soc-divider"><span id="gSocLbl">Optional · Free</span></div>
     <p class="cx-why" id="gSocWhy">Free money tips, debt-closing strategies, and new free tools-ah first ungalukku anuppuvom.</p>
     <div class="socials row">
@@ -2040,9 +2209,10 @@ function cxProofHTML(){
 function cxReviewsHTML(){
   const rv = (CFG.reviews||[]).filter(x=>x && x.text);
   if (!rv.length) return '';
+  const QUOTE = "<svg class=\"cx-q\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z\"/><path d=\"M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z\"/></svg>";
   return `<h3 class="ct">Unga maadhiri irundhavanga sonnadhu</h3><div class="cx-rv-row">${rv.map(x=>`<figure class="cx-rv">
-      <blockquote>“${esc(x.text)}”</blockquote>${x.saved?`<span class="cx-rv-saved">${esc(x.saved)}</span>`:''}
-      <figcaption>${esc(x.name||'Mentell user')}</figcaption></figure>`).join('')}</div>`;
+      ${QUOTE}<blockquote>${esc(x.text)}</blockquote>${x.saved?`<span class="cx-rv-saved">Saved ${esc(x.saved)}</span>`:''}
+      <figcaption><span class="cx-av" aria-hidden="true">${esc((x.name||'M').trim().charAt(0))}</span>${esc(x.name||'Mentell user')}</figcaption></figure>`).join('')}</div>`;
 }
 
 /* ---------- reality check card (under KPIs) ---------- */
@@ -2055,14 +2225,15 @@ function cxRender(){
       box.innerHTML = `<div class="cx-real">
         <div class="cx-real-l"><small>Reality check</small>
           ${I ? `<p class="cx-big">Maasam <b>${days} ${days===1?'naal':'naal'}</b> unga salary indha habits-ku dhaan poguthu.</p>` : `<p class="cx-big"><b>${inr(spend)}</b> every month on these habits.</p>`}
-          ${I ? `<div class="cx-bar" role="img" aria-label="${pct}% of income goes to these habits"><i style="width:${pct}%"></i></div>
+          ${I ? `<div class="cx-bar" role="img" aria-label="${pct}% of income goes to these habits"><i style="width:0" data-w="${pct}"></i></div>
           <p class="cx-sub">${pct}% of income · ${inr(spend)}/month · 5 years-la <b>${compact(spend*60)}</b></p>` : ''}
         </div>
         <div class="cx-real-r">
-          <a class="btn sm" href="#roadmap" data-cx-cta="report_loans">🏦 Close my loans faster ↓</a>
-          <a class="btn ghost sm" href="#coaching" data-cx-cta="report_coaching">🤝 1:1 help from Noor ↓</a>
+          <a class="btn sm" href="#roadmap" data-cx-cta="report_loans">Close my loans faster ↓</a>
+          <a class="btn ghost sm" href="#coaching" data-cx-cta="report_coaching">1:1 help from Noor ↓</a>
         </div></div>`;
     } else box.innerHTML = '';
+    const bi = box.querySelector('[data-w]'); if (bi) requestAnimationFrame(()=>requestAnimationFrame(()=>{ bi.style.width = bi.dataset.w + '%'; }));
   }
   // coaching: personal maths from the user's own numbers (factual, no hype)
   const pe = $('#cxPersonal');
@@ -2129,7 +2300,7 @@ function cxCoachingReturn(){
   track('purchase', {currency:'INR', value:paid, transaction_id:'coach-'+LEAD_ID+'-'+day, items:[{item_id:'coaching_'+CX_DAYS, item_name:`${CX_DAYS}-day coaching`, price:paid, quantity:1}]});
   if (state.phone) sendRow({event:'coaching_paid', name:state.name, phone:state.phone, item:`Coaching ~${inr(paid)} (returned from Razorpay; check exact amount in Razorpay)`});
   const b = $('#cxThanks');
-  b.innerHTML = `<div class="cx-thanks" role="status"><h2>Welcome to the ${CX_DAYS}-day program 🙏</h2>
+  b.innerHTML = `<div class="cx-thanks" role="status"><h2>Welcome to the ${CX_DAYS}-day program </h2>
     <p>Payment success. Next step: WhatsApp-la "Hi Noor" nu anuppunga. First call-a naan schedule pannuren. Oru part mattum pay pannirundha, meedhi parts-um adhula pesikkalaam.</p>
     <a class="btn" href="${waLink('Hi Noor, I just paid for the '+CX_DAYS+'-day coaching. Please schedule my first call.')}" target="_blank" rel="noopener" data-cx-wa="coaching_paid">Message Noor now</a></div>`;
   b.hidden = false;
@@ -2190,7 +2361,8 @@ function cxBarUpdate(){
   if (!dash){ if (state.income>0 && !cxSeen.go) mode = 'form'; }
   else if (!cxSeen.road && !cxSeen.coach && $('#rmSticky').hidden) mode = 'dash';
   const show = !!mode && !document.body.classList.contains('rm-typing') && !$('#gate').classList.contains('open');
-  bar.hidden = !show; $('#cxBarGo').hidden = mode!=='form'; $('#cxBarDash').hidden = mode!=='dash';
+  bar.hidden = !show; $('#cxBarFormWrap').hidden = mode!=='form'; $('#cxBarDash').hidden = mode!=='dash';
+  if (mode==='form'){ const sp = totals().spend; $('#cxBarLeak').textContent = inr(sp); $('#cxBarFormWrap').classList.toggle('has', sp>0); }
   document.body.classList.toggle('cx-bar-on', show);
 }
 if ('IntersectionObserver' in window){
@@ -2206,7 +2378,93 @@ document.addEventListener('click', ()=>setTimeout(cxBarUpdate, 0));
 /* "See more" panel: draw the chart at its real width when opened */
 $('#cxMore').addEventListener('toggle', e=>{ if (e.target.open){ renderChart(totals().save, state.rate); track('more_open'); } });
 
-function cxBoot(){ cxCoachInit(); cxCoachingReturn(); cxRender(); cxBarUpdate(); }
+
+/* =================== [v6] MOTION + INTERACTION LAYER =================== */
+const CX_ICONS = {"coffee": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10 2v2\"/><path d=\"M14 2v2\"/><path d=\"M6 2v2\"/><path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\"/></svg>", "food": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\"/><path d=\"M7 2v20\"/><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\"/></svg>", "tv": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"15\" rx=\"2\"/><polyline points=\"17 2 12 7 7 2\"/></svg>", "bag": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z\"/><path d=\"M3 6h18\"/><path d=\"M16 10a4 4 0 0 1-8 0\"/></svg>", "beer": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M17 11h1a3 3 0 0 1 0 6h-1\"/><path d=\"M9 12v6\"/><path d=\"M13 12v6\"/><path d=\"M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z\"/><path d=\"M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8\"/></svg>", "smoke": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M17 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h14\"/><path d=\"M18 8c0-2.5-2-2.5-2-5\"/><path d=\"M21 16a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/><path d=\"M22 8c0-2.5-2-2.5-2-5\"/><path d=\"M7 12v4\"/></svg>", "lock": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg>", "shield": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/></svg>", "clock": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>", "chat": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/></svg>", "quote": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z\"/><path d=\"M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z\"/></svg>", "phone": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z\"/></svg>", "card": "<svg class=\"cx-ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2\"/><line x1=\"2\" x2=\"22\" y1=\"10\" y2=\"10\"/></svg>"};
+/* habit cards: line icons (renderLeaks runs once at init, so inject once) */
+function cxLeakIcons(){
+  const map = {smoke:'smoke', alcohol:'beer', food:'food', ott:'tv', shop:'bag', tea:'coffee'};
+  Object.keys(map).forEach(id=>{ const top = document.querySelector('#leak-'+id+' .leak-top'); if (top && !top.querySelector('.cx-lk-ic')) top.insertAdjacentHTML('afterbegin', `<span class="cx-lk-ic">${CX_ICONS[map[id]]}</span>`); });
+}
+/* quick-pick salary chips: reuse the existing input handler */
+document.querySelectorAll('.cx-quick [data-inc]').forEach(b=>b.addEventListener('click', ()=>{
+  const el = $('#income'); el.value = b.dataset.inc; el.dispatchEvent(new Event('input', {bubbles:true}));
+  document.querySelectorAll('.cx-quick button').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+  track('cta_click', {location:'quick_income'});
+  setTimeout(()=>{ const s2 = $('#step2'); if (s2) s2.scrollIntoView({behavior: reduced?'auto':'smooth', block:'start'}); }, 350);
+}));
+$('#leaks').addEventListener('input', ()=>setTimeout(cxBarUpdate, 0));
+/* reveal on scroll, staggered per group */
+function cxReveal(root){
+  const sel = '.step-head, .card, .kpi, .leak, .cx-coach, .rm-story li, .cx-badges li, .cx-how li, .cx-rv, .cx-next li, details.cx-more, .cx-real, .final, .cx-faq details';
+  const els = Array.from((root||document).querySelectorAll(sel)).filter(e=>!e.classList.contains('cx-reveal') && !e.closest('#gate'));
+  if (!('IntersectionObserver' in window) || reduced){ return; }
+  const io = new IntersectionObserver(es=>es.forEach(en=>{ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }), {rootMargin:'0px 0px -8% 0px', threshold:.08});
+  els.forEach(e=>{ const sib = e.parentElement ? Array.from(e.parentElement.children).indexOf(e) : 0;
+    e.style.setProperty('--cxd', Math.min(sib,6)*70+'ms'); e.classList.add('cx-reveal'); io.observe(e); });
+}
+function cxV6Boot(){ cxLeakIcons(); cxReveal(); }
+/* =================== /[v6] =================== */
+
+
+/* =================== [v7] COIN SOUND ===================
+   Synthesised with Web Audio (no sound file to download). Plays once when the page opens.
+   Browsers block sound until the visitor's first tap/click/key, so if autoplay is blocked it
+   plays on that first interaction. Visitor can switch it off; the choice is remembered. */
+const SND_KEY = 'mentell_sound';
+let cxAC = null, cxSoundOn = true, cxPlayed = false;
+try{ cxSoundOn = localStorage.getItem(SND_KEY) !== 'off'; }catch(e){}
+function cxEnsure(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return Promise.resolve(false);
+    cxAC = cxAC || new AC();
+    if (cxAC.state === 'running') return Promise.resolve(true);
+    return Promise.resolve(cxAC.resume()).then(()=>cxAC.state === 'running').catch(()=>false);
+  }catch(e){ return Promise.resolve(false); }
+}
+function cxTone(){
+  const t0 = cxAC.currentTime + 0.02, master = cxAC.createGain();
+  master.gain.value = 0.22; master.connect(cxAC.destination);
+  // a few coins landing: bright metallic "tink"s with fast decay, slightly random
+  [[0,2637,1],[0.13,3136,.8],[0.24,2349,.65],[0.33,2794,.5],[0.42,2489,.35],[0.5,2960,.22]].forEach(([dt,f,v])=>{
+    [1, 2.76].forEach((h,i)=>{ // fundamental + inharmonic partial = metal
+      const o = cxAC.createOscillator(), g = cxAC.createGain();
+      o.type = i ? 'sine' : 'triangle'; o.frequency.value = f*h*(1+(Math.random()-.5)*.01);
+      const st = t0+dt, amp = v*(i ? .25 : 1);
+      g.gain.setValueAtTime(0.0001, st); g.gain.exponentialRampToValueAtTime(amp, st+0.004); g.gain.exponentialRampToValueAtTime(0.0001, st+(i?0.12:0.32));
+      o.connect(g); g.connect(master); o.start(st); o.stop(st+0.35);
+    });
+  });
+}
+/* plays once per page open; force=true when the visitor switches sound back on */
+function cxCoins(force){
+  return cxEnsure().then(ok=>{ if (ok && cxSoundOn && (force || !cxPlayed)){ cxPlayed = true; try{ cxTone(); }catch(e){} } return ok; });
+}
+function cxSoundUI(){
+  const b = $('#cxSound'); if (!b) return;
+  b.setAttribute('aria-pressed', String(cxSoundOn));
+  b.setAttribute('aria-label', cxSoundOn ? 'Sound on. Tap to turn off' : 'Sound off. Tap to turn on');
+  b.classList.toggle('off', !cxSoundOn);
+}
+function cxTryIntro(){
+  if (!cxSoundOn) return;
+  cxCoins(false);
+  // if the browser blocked autoplay, play on the first real tap/click/key (once)
+  const evs = ['pointerdown','keydown','touchstart'];
+  const once = (e)=>{ if (e && e.target && e.target.closest && e.target.closest('#cxSound')) return;
+    evs.forEach(ev=>document.removeEventListener(ev, once, true));
+    if (cxSoundOn && !cxPlayed) cxCoins(false); };
+  evs.forEach(ev=>document.addEventListener(ev, once, true));
+}
+$('#cxSound').addEventListener('click', ()=>{
+  cxSoundOn = !cxSoundOn;
+  try{ localStorage.setItem(SND_KEY, cxSoundOn ? 'on' : 'off'); }catch(e){}
+  if (cxSoundOn){ cxCoins(true); } else if (cxAC){ try{ cxAC.suspend(); }catch(e){} }
+  cxSoundUI(); track('sound_toggle', {state: cxSoundOn ? 'on' : 'off'});
+});
+/* =================== /[v7] =================== */
+
+function cxBoot(){ cxCoachInit(); cxCoachingReturn(); cxRender(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); }
 /* ================= /[v4] CONVERSION LAYER ================= */
 
 /* ---------- init ---------- */
