@@ -6,8 +6,8 @@
    ===================================================================== */
 window.MENTELL_CONFIG = {
   /* Google Sheet lead logging: your Apps Script Web App URL (ends in /exec).
-     Paste the SAME URL that is live today. Do not leave the placeholder. */
-  googleSheetWebhook: 'https://docs.google.com/spreadsheets/d/1-bJUFeNQ_0IaDsb0eaNz1Goy0-NeJNfOSlKvpU_sguQ/edit?gid=0#gid=0',
+     New Sheet 'Mentell Leads' (owner noormohammed.j@gmail.com), set up 5 Oct 2026. */
+  googleSheetWebhook: 'https://script.google.com/macros/s/AKfycbwejRkoIlj-fz2wxOke2rz2Hydr62ZZPhj-msQAWpRmxPqPQSjofa_iaAW79ezHn6H62g/exec',
  
   /* Razorpay Payment Links (public links, not keys) */
   loanPlanPaymentLink: 'https://rzp.io/rzp/xAvsKApO',      // ₹99 Loan Closing Roadmap. Redirect: https://mentell.co.in/financial.html?paid=1#roadmap
