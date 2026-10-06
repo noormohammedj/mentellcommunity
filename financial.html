@@ -730,6 +730,30 @@
   #cxReviewsRm{margin-top:14px}
   @media print{ .cx-an{display:none!important} }
 
+
+  /* ── [v9] PAYWALL ── */
+  body.cx-paid .cx-unpaid-only{display:none!important}
+  .cx-kmask,.cx-kmask-s,body.cx-paid .cx-kmask,body.cx-paid .cx-kmask-s{display:none!important}
+  body:not(.cx-paid) .kpi .cx-kmask,body:not(.cx-paid) .kpi .cx-kmask-s{display:block!important}
+  body:not(.cx-paid) #rMonthly, body:not(.cx-paid) #rYearLine, body:not(.cx-paid) #rTenInv, body:not(.cx-paid) #rTenLine{display:none}
+  body:not(.cx-paid) .cx-kmask{display:block;font-size:clamp(22px,3.4vw,30px);font-weight:800;margin:4px 0 2px;line-height:1.1}
+  body:not(.cx-paid) .kpi.dark .cx-kmask{color:var(--white)}
+  body:not(.cx-paid) .cx-kmask-s{display:block;font-size:12px}
+  body:not(.cx-paid) #cxMore{display:none!important}
+  #cxReviewsRm{display:none!important}
+  body:not(.cx-paid) .leak-sum{display:none}
+  body:not(.cx-paid) .leak.on .leak-body::after{content:"Exact monthly cost shows in your full plan";display:block;margin-top:14px;font-size:13px;font-weight:600;color:var(--blue)}
+  .cx-lockable{position:relative}
+  body:not(.cx-paid) .cx-lockable > :not(.cx-lock-ov){filter:blur(7px);pointer-events:none;user-select:none}
+  .cx-lock-ov{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px}
+  .cx-lock-ov b{font-size:17px;max-width:28ch}
+  .cx-lock-i svg{width:48px;height:48px;padding:11px;border-radius:50%;background:var(--blue);color:var(--white);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+  .cx-plan{margin-top:22px;scroll-margin-top:84px}
+  .cx-plan-card{margin-top:14px}
+  .cx-plan-sub{font-size:15px;color:var(--ink-2);margin-bottom:4px}
+  .cx-plan-sub b{color:var(--red)}
+  @media print{ .cx-lock-ov,.cx-plan{display:none!important} .cx-lockable > *{filter:none!important} }
+
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -878,12 +902,42 @@
     <div class="kpis">
       <div class="kpi"><small>Monthly income</small><b id="kIncome">₹0</b><span id="kIncomeSub"></span></div>
       <div class="kpi"><small>Habit spend / month</small><b id="kSpend">₹0</b><span id="kSpendSub"></span></div>
-      <div class="kpi hl"><small>You can free up / month</small><b id="rMonthly">₹0</b><span id="rYearLine"></span></div>
-      <div class="kpi dark"><small>Invested 10 yrs @ <span class="rateLbl">12</span>%</small><b id="rTenInv">₹0</b><span id="rTenLine"></span></div>
+      <div class="kpi hl"><small>You can free up / month</small><b id="rMonthly">₹0</b><b class="cx-kmask" id="cxKpiFree">₹•,•••+</b><span id="rYearLine"></span><span class="cx-kmask-s">Exact amount in your plan</span></div>
+      <div class="kpi dark"><small>Invested 10 yrs @ <span class="rateLbl">12</span>%</small><b id="rTenInv">₹0</b><b class="cx-kmask cx-blur">₹00.0 L</b><span id="rTenLine"></span><span class="cx-kmask-s">Unlock to see</span></div>
     </div>
 
     <div class="celebrate" id="celebrate"></div>
     <div id="cxReality"></div><!-- [v4] -->
+    <!-- [v9] ₹99 FULL MONEY PLAN: the paid product. Free users see this instead of the detailed analysis -->
+    <section class="cx-plan cx-unpaid-only" id="cxPlan" aria-labelledby="cxPlanTitle">
+      <div class="cx-reviews" id="cxReviewsPlan" hidden></div>
+      <div class="card rm-locked cx-plan-card">
+        <span class="eyebrow">Your full money plan is ready · locked</span>
+        <h3 class="cx-offer-h" id="cxPlanTitle">Unlock your personal money plan</h3>
+        <p class="cx-plan-sub" id="cxPlanSub">We found where your money leaks. Your plan shows exactly how to stop it.</p>
+        <div class="cx-blur-dash">
+          <div><small>Cost of each habit</small><b class="cx-blur">₹0,000/mo</b></div>
+          <div><small>Your cut plan</small><b class="cx-blur">Cut 0 of 0</b></div>
+          <div><small>Exact savings</small><b class="cx-blur">₹0,000/mo</b></div>
+          <div><small>10-year growth</small><b class="cx-blur">₹00.0 L</b></div>
+          <div><small>30% salary split</small><b class="cx-blur">₹00,000</b></div>
+          <div><small>Loan roadmap</small><b class="cx-blur">Mon 2000</b></div>
+          <span class="cx-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        </div>
+        <ul class="rm-stack">
+          <li><b>Exact cost of every habit</b></li>
+          <li><b>Your personal cut plan: what to cut, how much you save</b></li>
+          <li><b>Exact monthly savings + 10-year growth</b></li>
+          <li><b>30% salary split + goals your savings can pay for</b></li>
+          <li><b>Loan roadmap: which loan first, exact debt-free date</b></li>
+          <li><b>Progress tracker + printable PDF</b></li>
+        </ul>
+        <div class="cx-price-row"><span class="cx-price99">₹99</span><span class="cx-price-note">one-time · UPI / card · instant unlock</span></div>
+        <a class="btn rm-paybtn" data-rm-pay href="#" rel="noopener">Unlock my full plan · ₹99</a>
+        <p class="rm-sub" id="cxPlanAnchor">One-time payment via Razorpay. Less than one cup of coffee a week.</p>
+        <p class="err" id="rmPayErr2" role="alert"></p>
+      </div>
+    </section>
     <div class="card connect" style="margin-top:14px"><!-- [v8] moved up: community invite right after the report -->
       <div>
         <h3 class="ct">Free money tip every week</h3>
@@ -912,7 +966,7 @@
 
 
 
-    <div class="dgrid">
+    <div class="dgrid cx-lockable" id="cxSimWrap">
       <div class="card" id="simCard">
         <h3 class="ct">Transformation simulator</h3>
         <p class="hint">What if you change just one thing? Start small and it will stick.</p>
@@ -931,7 +985,7 @@
     <!-- ============ LOAN CLOSING ROADMAP (2A) — additive section ============ -->
     <section id="roadmap" aria-labelledby="rmTitle">
       <div class="step-head">
-        <div class="eyebrow">Close loan at ₹99</div>
+        <div class="eyebrow">Loan roadmap · included in your ₹99 plan</div>
         <h2 class="section-title" id="rmTitle">Loan irukka? <em>Seekiram close pannalaam.</em></h2>
       </div>
       <ol class="rm-story" aria-label="How it works">
@@ -1133,9 +1187,10 @@
 </button>
 <!-- [v5] smart action bar: changes with where the user is -->
 <div class="cx-actbar" id="cxBar" hidden role="region" aria-label="Next step">
-  <div class="cx-bar-form" id="cxBarFormWrap" hidden><span class="cx-meter"><small>Leaking</small><b id="cxBarLeak">₹0</b><small>/mo</small></span><button type="button" class="btn" id="cxBarGo" data-cx-cta="bar_report">See report →</button></div>
+  <div class="cx-bar-form" id="cxBarFormWrap" hidden><span class="cx-meter"><b id="cxBarLeak">0</b><small id="cxBarLeakLbl">leaks found</small></span><button type="button" class="btn" id="cxBarGo" data-cx-cta="bar_report">See report →</button></div>
   <div class="cx-actbar-2" id="cxBarDash" hidden>
-    <a class="btn sm" href="#roadmap" data-cx-cta="bar_loan">Close loan at ₹99</a>
+    <a class="btn sm cx-unpaid-only" href="#cxPlan" data-cx-cta="bar_plan">Unlock my full plan · ₹99</a>
+    <a class="btn sm cx-paid-only" href="#roadmap" data-cx-cta="bar_loan">Close loan at ₹99</a>
     <a class="btn ghost sm cx-paid-only" href="#coaching" data-cx-cta="bar_coaching">1:1 coaching</a>
   </div>
 </div>
@@ -2188,8 +2243,8 @@ function rmAllocRow(){
 let rmInView = false;
 function rmRefresh(){
   const S = rmSavings();
-  $('#rmS').textContent = S>0 ? inr(S)+'/month' : '₹0/month';
-  $('#rmS2').textContent = 'EMI + ' + inr(rmPaid ? rmEffective(S) : S) + '/mo';
+  $('#rmS').textContent = S>0 ? (rmPaid ? inr(S) : cxRoughMoney(S))+'/month' : '₹0/month';
+  $('#rmS2').textContent = 'EMI + ' + (rmPaid ? inr(rmEffective(S)) : 'your savings') + '/mo';
   if (!(rmPaid && validLoans().length)) $('#rmS3').textContent = rmPaid ? 'Loan add pannunga ↓' : 'Unga plan ↓';
   const empty = !(S>0);
   $('#rmEmpty').hidden = !empty; $('#rmMain').hidden = empty;
@@ -2219,7 +2274,7 @@ function rmSticky(){
   stickyEl.hidden = !show; document.body.classList.toggle('rm-bar-on', show);
   if (show && stickyEl.offsetHeight) document.body.style.setProperty('--rm-bar-h', stickyEl.offsetHeight + 'px'); // keeps WhatsApp button + page end clear of the bar
 }
-function roadmapSync(){ rmRefresh(); cxRender(); } // [v4] also refresh reality card + coaching numbers
+function roadmapSync(){ rmRefresh(); cxRender(); if (typeof cxPaywall==='function') cxPaywall(); } // [v4] also refresh reality card + coaching numbers
 
 if ('IntersectionObserver' in window){
   new IntersectionObserver(es=>{ rmInView = es[0].isIntersecting; rmSticky(); }).observe($('#roadmap'));
@@ -2321,7 +2376,7 @@ function cxRender(){
           <p class="cx-sub">${pct}% of income · ${inr(spend)}/month · 5 years-la <b>${compact(spend*60)}</b></p>` : ''}
         </div>
         <div class="cx-real-r">
-          <a class="btn sm" href="#roadmap" data-cx-cta="report_loans">Close my loans faster ↓</a>
+          <a class="btn sm cx-unpaid-only" href="#cxPlan" data-cx-cta="report_plan">See my full plan ↓</a><a class="btn sm cx-paid-only" href="#roadmap" data-cx-cta="report_loans">Close my loans faster ↓</a>
           <a class="btn ghost sm cx-paid-only" href="#coaching" data-cx-cta="report_coaching">1:1 help from Noor ↓</a>
         </div></div>`;
     } else box.innerHTML = '';
@@ -2445,20 +2500,22 @@ if (rmReturn){
 }
 
 /* ---------- [v5] smart action bar: one next step at a time ---------- */
-const cxSeen = {go:false, road:false, coach:false};
+const cxSeen = {go:false, road:false, coach:false, plan:false};
 function cxBarUpdate(){
   const bar = $('#cxBar'); if (!bar) return;
   const dash = $('#results').classList.contains('show');
   let mode = '';
   if (!dash){ if (state.income>0 && !cxSeen.go) mode = 'form'; }
-  else if (!cxSeen.road && !cxSeen.coach && $('#rmSticky').hidden) mode = 'dash';
+  else if (!cxSeen.road && !cxSeen.coach && !cxSeen.plan && $('#rmSticky').hidden) mode = 'dash';
   const show = !!mode && !document.body.classList.contains('rm-typing') && !$('#gate').classList.contains('open');
   bar.hidden = !show; $('#cxBarFormWrap').hidden = mode!=='form'; $('#cxBarDash').hidden = mode!=='dash';
-  if (mode==='form'){ const sp = totals().spend; $('#cxBarLeak').textContent = inr(sp); $('#cxBarFormWrap').classList.toggle('has', sp>0); }
+  if (mode==='form'){ const sp = totals().spend, n = LEAKS.filter(L=>state.leaks[L.id].on).length;
+    if (rmPaid){ $('#cxBarLeak').textContent = inr(sp); $('#cxBarLeakLbl').textContent = '/mo leaking'; } else { $('#cxBarLeak').textContent = n; $('#cxBarLeakLbl').textContent = n===1 ? 'leak found' : 'leaks found'; }
+    $('#cxBarFormWrap').classList.toggle('has', sp>0); }
   document.body.classList.toggle('cx-bar-on', show);
 }
 if ('IntersectionObserver' in window){
-  [['#goResults','go'],['#roadmap','road'],['#coaching','coach']].forEach(([sel,k])=>{
+  [['#goResults','go'],['#roadmap','road'],['#coaching','coach'],['#cxPlan','plan']].forEach(([sel,k])=>{
     const el = $(sel); if (el) new IntersectionObserver(es=>{ cxSeen[k] = es[0].isIntersecting; cxBarUpdate(); }).observe(el);
   });
 }
@@ -2589,7 +2646,28 @@ reveal = function(){
 function cxPaidClass(){ document.body.classList.toggle('cx-paid', !!rmPaid || /[?&]coaching=1/.test(location.search) || !$('#cxThanks').hidden); }
 /* =================== /[v8] =================== */
 
-function cxBoot(){ cxPaidClass(); cxCoachInit(); cxCoachingReturn(); cxPaidClass(); cxRender(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); }
+
+/* =================== [v9] PAYWALL: free = half, ₹99 = full money plan =================== */
+function cxPaywall(){
+  const paid = document.body.classList.contains('cx-paid');
+  const {spend, save} = totals();
+  const k = $('#cxKpiFree'); if (k) k.textContent = save>0 ? cxRoughMoney(save) : '₹0';
+  const sub = $('#cxPlanSub');
+  if (sub) sub.innerHTML = spend>0 ? `Your habits cost <b>${inr(spend)} every month</b>. Your plan shows exactly where, and how to stop it.` : 'We found where your money leaks. Your plan shows exactly how to stop it.';
+  const an = $('#cxPlanAnchor');
+  if (an) an.innerHTML = spend>=99 ? `₹99 once. Your leaks cost you <b>${inr(spend)}</b> every month.` : 'One-time payment via Razorpay.';
+  const sw = $('#cxSimWrap');
+  if (sw && !sw.querySelector('.cx-lock-ov')) sw.insertAdjacentHTML('beforeend', `<div class="cx-lock-ov cx-unpaid-only"><span class="cx-lock-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><b>Your leak-by-leak breakdown + personal cut plan</b><a class="btn sm" href="#cxPlan" data-cx-cta="sim_lock">Unlock · ₹99</a></div>`);
+  if (sw) sw.toggleAttribute('inert', !paid);
+  const rv = cxReviewsHTML(), rp = $('#cxReviewsPlan'); if (rv && rp){ rp.innerHTML = rv; rp.hidden = false; }
+}
+if ('IntersectionObserver' in window){
+  let seenPlan = false; const pl = $('#cxPlan');
+  if (pl) new IntersectionObserver(es=>{ if (!seenPlan && es[0].isIntersecting && !document.body.classList.contains('cx-paid')){ seenPlan = true; track('plan_locked_view'); } }, {threshold:.3}).observe(pl);
+}
+/* =================== /[v9] =================== */
+
+function cxBoot(){ cxPaidClass(); cxCoachInit(); cxCoachingReturn(); cxPaidClass(); cxRender(); cxPaywall(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); }
 /* ================= /[v4] CONVERSION LAYER ================= */
 
 /* ---------- init ---------- */
