@@ -21,12 +21,13 @@ window.MENTELL_CONFIG = {
   // Value breakdown shown on the page. Set "worth" only to a TRUE number (what you charge
   // or would charge for that part on its own). Leave it '' to show no amount.
   coachingIncludes: [
-    { title: '1:1 personal consultation', desc: 'Unga income, EMIs, selavu ellam serndhu full picture paarpom', worth: '' },
-    { title: 'Expense optimisation plan', desc: 'Leak-by-leak cut plan, unga lifestyle-ku fit aagura maadhiri', worth: '' },
-    { title: 'Close loan at ₹99 plan', desc: 'Edha first close pannanum, maasam-maasam evlo, included', worth: '₹99' },
-    { title: 'Savings & 70-30 plan', desc: 'Charity, Active, Passive buckets unga salary-ku set pannuvom', worth: '' },
-    { title: 'Custom written action plan', desc: 'Unga numbers-la, step-by-step, PDF-a', worth: '' },
-    { title: '90-day accountability', desc: 'WhatsApp check-ins, plan-la irundhu vilagaama paathukkuvom', worth: '' }
+    { title: 'Weekly accountability', desc: '', worth: '' },
+    { title: 'Personal strategy for your numbers', desc: '', worth: '' },
+    { title: 'Expense review', desc: '', worth: '' },
+    { title: 'Loan optimisation', desc: '', worth: '' },
+    { title: 'Habit building', desc: '', worth: '' },
+    { title: 'WhatsApp support from Noor', desc: '', worth: '' },
+    { title: 'Financial wellness coaching', desc: '', worth: '' }
   ],
  
   /* Contact + community */
