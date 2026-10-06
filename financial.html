@@ -691,6 +691,45 @@
   @media(max-width:760px){ body.cx-bar-on .cx-sound{bottom:calc(76px + 12px)} body.rm-bar-on .cx-sound{bottom:calc(var(--rm-bar-h,100px) + 12px)} }
   @media print{ .cx-sound{display:none!important} }
 
+
+  /* ── [v8] FUNNEL: analysis overlay, blurred premium dashboard, paid-only coaching ── */
+  body:not(.cx-paid) #coaching, body:not(.cx-paid) .cx-paid-only{display:none!important}
+  body:not(.cx-paid) .cx-actbar-2{grid-template-columns:1fr}
+  .cx-an{position:fixed;inset:0;z-index:10001;background:rgba(26,19,48,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
+  .cx-an[hidden]{display:none}
+  .cx-an-box{width:min(440px,100%);background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:26px 24px;animation:rise .3s ease}
+  .cx-an-box h3{font-size:21px;margin:6px 0 14px}
+  .cx-spin{width:44px;height:44px;border-radius:50%;border:4px solid var(--navy-2);border-top-color:var(--blue);animation:cxSpin .9s linear infinite}
+  @keyframes cxSpin{to{transform:rotate(360deg)}}
+  ol.cx-an-steps{list-style:none;display:grid;gap:10px}
+  ol.cx-an-steps li{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--text-light);transition:color .25s}
+  ol.cx-an-steps li::before{content:"";width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;box-sizing:border-box}
+  ol.cx-an-steps li.now{color:var(--text);font-weight:600}
+  ol.cx-an-steps li.now::before{border-color:var(--blue);border-top-color:transparent;animation:cxSpin .7s linear infinite}
+  ol.cx-an-steps li.done{color:var(--ink-2)}
+  ol.cx-an-steps li.done::before{content:"✓";border:0;background:var(--green);color:var(--white);font-size:11px;font-weight:800;display:grid;place-items:center}
+  ul.cx-opps{list-style:none;display:grid;gap:8px;margin-bottom:16px}
+  ul.cx-opps li{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:600;animation:rise .35s ease both}
+  ul.cx-opps li:nth-child(2){animation-delay:.08s} ul.cx-opps li:nth-child(3){animation-delay:.16s} ul.cx-opps li:nth-child(4){animation-delay:.24s} ul.cx-opps li:nth-child(5){animation-delay:.32s}
+  ul.cx-opps li::before{content:"✓";width:20px;height:20px;border-radius:50%;background:var(--green);color:var(--white);font-size:12px;font-weight:800;display:grid;place-items:center;flex:none}
+  .cx-an-go{width:100%;justify-content:center;margin-top:14px}
+  body.cx-an-open .cx-actbar, body.cx-an-open .cx-sound{display:none!important}
+  /* blurred premium dashboard: placeholders only (no real numbers in the DOM) */
+  .cx-blur-dash{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 14px;padding:12px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(255,255,255,.75),rgba(241,236,251,.75));border:1.5px solid rgba(124,58,237,.18);overflow:hidden}
+  .cx-blur-dash.sm{grid-template-columns:repeat(3,1fr)}
+  .cx-blur-dash > div{background:var(--white);border-radius:12px;padding:10px;border:1px solid var(--border)}
+  .cx-blur-dash small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+  .cx-blur{display:block;font-size:17px;font-weight:800;color:var(--blue);filter:blur(6px);user-select:none;margin-top:2px}
+  .cx-lock{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+  .cx-lock svg{width:46px;height:46px;padding:10px;border-radius:50%;background:var(--blue);color:var(--white);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+  @media(max-width:560px){ .cx-blur-dash{grid-template-columns:1fr 1fr} .cx-blur-dash.sm{grid-template-columns:repeat(3,1fr)} .cx-blur-dash.sm b{font-size:14px} }
+  .cx-offer-h{font-size:clamp(20px,4vw,26px);margin:4px 0 8px}
+  .cx-price-row{display:flex;align-items:baseline;gap:10px;margin:4px 0 12px}
+  .cx-price99{font-size:40px;font-weight:800;letter-spacing:-.03em;color:var(--text)}
+  .cx-price-note{font-size:13px;color:var(--muted)}
+  #cxReviewsRm{margin-top:14px}
+  @media print{ .cx-an{display:none!important} }
+
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -717,11 +756,11 @@
 <section class="page-hero">
   <div class="page-breadcrumb"><a href="index.html">Home</a> / Financial Wellness</div>
   <div class="eyebrow">Financial Pillar</div>
-  <h1>Unga panam enga <span class="grad-text">leak</span> aagudhu?</h1>
-  <p>Small daily habits silently eat your salary. Find yours in 2 minutes.</p>
+  <h1>Unga salary-la <span class="grad-text">evlo panam</span> silent-a leak aagudhu?</h1>
+  <p>Most people lose thousands every month without noticing. Find your hidden money leaks in 2 minutes.</p>
   <!-- [v4] Hero CTA + real (anonymised) results -->
   <div class="cx-hero-cta">
-    <a class="btn" href="#step1" id="cxStart" data-cx-cta="hero">Find my money leaks, free →</a>
+    <a class="btn" href="#step1" id="cxStart" data-cx-cta="hero">Find my hidden money leaks →</a>
     <p class="cx-hero-note">Free · 2 minutes · No login</p>
     <div class="cx-proof" id="cxProofHero" hidden></div>
   </div>
@@ -845,6 +884,33 @@
 
     <div class="celebrate" id="celebrate"></div>
     <div id="cxReality"></div><!-- [v4] -->
+    <div class="card connect" style="margin-top:14px"><!-- [v8] moved up: community invite right after the report -->
+      <div>
+        <h3 class="ct">Free money tip every week</h3>
+        <p class="hint">Pick your app.</p>
+      </div>
+      <div class="socials row">
+      <a class="soc mini" data-soc="yt" data-where="dashboard" href="https://www.youtube.com/@Noormohammed.j" target="_blank" rel="noopener">
+        <span class="soc-ic yt" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM9.8 15V9l5.8 3-5.8 3Z"/></svg></span>
+        <span class="soc-t"><b>YouTube</b></span>
+        <span class="soc-st">Subscribe</span>
+      </a>
+      <a class="soc mini" data-soc="ig" data-where="dashboard" href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">
+        <span class="soc-ic ig" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.5 2.1-5.7 5.7-.1 1-.1 1.3-.1 4s0 3 .1 4c.2 3.6 2.1 5.5 5.7 5.7 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.5-2.1 5.7-5.7.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.1-5.5-5.7-5.7-1-.1-1.3-.1-4-.1Z"/></svg></span>
+        <span class="soc-t"><b>Instagram</b></span>
+        <span class="soc-st">Follow</span>
+      </a>
+      <a class="soc mini" data-soc="wa" data-where="dashboard" href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" rel="noopener">
+        <span class="soc-ic wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg></span>
+        <span class="soc-t"><b>WhatsApp community</b></span>
+        <span class="soc-st">Join</span>
+      </a>
+      </div>
+    </div>
+
+
+
+
 
     <div class="dgrid">
       <div class="card" id="simCard">
@@ -894,17 +960,32 @@
         </div>
 
         <!-- Locked card: static placeholders only. No real numbers are computed or rendered before payment. -->
+        <div class="cx-reviews" id="cxReviewsRm" hidden></div>
         <div class="card rm-locked" id="rmLocked" hidden>
-          <span class="eyebrow">Free preview · unga numbers-la</span>
+          <span class="eyebrow">Your plan is ready · locked</span>
+          <h3 class="cx-offer-h">Unlock your personal financial roadmap</h3>
           <div class="rm-teaser" id="rmTeaser"></div>
-          <p class="rm-gap"><b>Evlo</b> save aagum nu theriyum. <b>Eppadi</b> nu ₹99 plan sollum:</p>
+          <!-- Blurred premium dashboard: static placeholders only, no real numbers in the page before payment -->
+          <div class="cx-blur-dash" aria-label="Locked premium dashboard">
+            <div><small>Exact interest saved</small><b class="cx-blur">₹ 00,00,000</b></div>
+            <div><small>Debt-free date</small><b class="cx-blur">Mon 2000</b></div>
+            <div><small>Close this loan first</small><b class="cx-blur">Loan name</b></div>
+            <div><small>Month-by-month plan</small><b class="cx-blur">₹00,000 → loan</b></div>
+            <div><small>Payment calendar</small><b class="cx-blur">00 months</b></div>
+            <div><small>Progress tracker</small><b class="cx-blur">00 / 00</b></div>
+            <span class="cx-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+          </div>
+          <p class="rm-gap">Inside your roadmap:</p>
           <ul class="rm-stack">
-            <li><b>Edha first close pannanum + dates</b></li>
-            <li><b>Maasam-maasam action plan</b></li>
-            <li><b>Prepay vs SIP: edhu best?</b></li>
-            <li><b>Bank checklist · tracker · PDF</b></li>
+            <li><b>Exact interest savings</b></li>
+            <li><b>Exact debt-free timeline</b></li>
+            <li><b>Which loan to close first</b></li>
+            <li><b>Month-by-month action plan</b></li>
+            <li><b>Personalised bank checklist</b></li>
+            <li><b>Progress tracker + printable PDF</b></li>
           </ul>
-          <a class="btn rm-paybtn" data-rm-pay href="#" rel="noopener">Close my loan at ₹99</a>
+          <div class="cx-price-row"><span class="cx-price99">₹99</span><span class="cx-price-note">one-time · UPI / card · instant unlock</span></div>
+          <a class="btn rm-paybtn" data-rm-pay href="#" rel="noopener">Unlock my roadmap · ₹99</a>
           <p class="rm-sub" id="rmAnchor">One-time payment. UPI / card via Razorpay.</p>
           <p class="err" id="rmPayErr" role="alert"></p>
         </div>
@@ -916,8 +997,8 @@
     <!-- ============ [v4] ₹4,999 COACHING — premium offer ============ -->
     <section id="coaching" class="cx-coach" aria-labelledby="cxCoachTitle">
       <span class="eyebrow">1:1 with Noor · <span class="cxDays">90</span> days</span>
-      <h2 id="cxCoachTitle" class="section-title">Want me to personally help you <em>become debt-free?</em></h2>
-      <p class="section-sub">Calculator kaattum. Naan kooda irundhu <span class="cxDays">90</span> naal-la maathuvom.</p>
+      <h2 id="cxCoachTitle" class="section-title">I'll personally help you <em>execute this roadmap.</em></h2>
+      <p class="section-sub">Many people know what to do. Very few do it consistently. That's where I help, for <span class="cxDays">90</span> days.</p>
       <p class="cx-personal" id="cxPersonal" hidden></p>
       <div class="cx-founder">
         <div class="cx-avatar" aria-hidden="true">N</div>
@@ -997,37 +1078,11 @@
 
     </details>
 
-    <div class="card connect" style="margin-top:14px">
-      <div>
-        <h3 class="ct">Free money tip every week</h3>
-        <p class="hint">Pick your app.</p>
-      </div>
-      <div class="socials row">
-      <a class="soc mini" data-soc="yt" data-where="dashboard" href="https://www.youtube.com/@Noormohammed.j" target="_blank" rel="noopener">
-        <span class="soc-ic yt" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM9.8 15V9l5.8 3-5.8 3Z"/></svg></span>
-        <span class="soc-t"><b>YouTube</b></span>
-        <span class="soc-st">Subscribe</span>
-      </a>
-      <a class="soc mini" data-soc="ig" data-where="dashboard" href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">
-        <span class="soc-ic ig" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.5 2.1-5.7 5.7-.1 1-.1 1.3-.1 4s0 3 .1 4c.2 3.6 2.1 5.5 5.7 5.7 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.5-2.1 5.7-5.7.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.1-5.5-5.7-5.7-1-.1-1.3-.1-4-.1Z"/></svg></span>
-        <span class="soc-t"><b>Instagram</b></span>
-        <span class="soc-st">Follow</span>
-      </a>
-      <a class="soc mini" data-soc="wa" data-where="dashboard" href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" rel="noopener">
-        <span class="soc-ic wa" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1a17 17 0 0 1-1.8-.7 13.6 13.6 0 0 1-5.2-4.6c-.4-.5-1.1-1.6-1.1-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l1 2.3c.1.2.1.4 0 .6l-.3.5-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.3.7-.2l2.1 1c.3.2.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg></span>
-        <span class="soc-t"><b>WhatsApp community</b></span>
-        <span class="soc-st">Join</span>
-      </a>
-      </div>
-    </div>
-
-
-
     <div class="final">
-      <h2>Knowing is step one. Doing it for 90 days is the transformation.</h2>
+      <h2>Stuck somewhere? Talk to me.</h2>
       <p>Body, mind, money: one coach on WhatsApp.</p>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a class="btn" id="waCta" href="#" target="_blank" rel="noopener">Talk to a coach on WhatsApp</a>
+        <a class="btn" id="waCta" href="#" target="_blank" rel="noopener">Chat with Noor on WhatsApp</a>
         <button class="btn ghost" id="resetBtn">Start over</button>
       </div>
     </div>
@@ -1081,13 +1136,40 @@
   <div class="cx-bar-form" id="cxBarFormWrap" hidden><span class="cx-meter"><small>Leaking</small><b id="cxBarLeak">₹0</b><small>/mo</small></span><button type="button" class="btn" id="cxBarGo" data-cx-cta="bar_report">See report →</button></div>
   <div class="cx-actbar-2" id="cxBarDash" hidden>
     <a class="btn sm" href="#roadmap" data-cx-cta="bar_loan">Close loan at ₹99</a>
-    <a class="btn ghost sm" href="#coaching" data-cx-cta="bar_coaching">1:1 coaching</a>
+    <a class="btn ghost sm cx-paid-only" href="#coaching" data-cx-cta="bar_coaching">1:1 coaching</a>
   </div>
 </div>
 <!-- Loan roadmap sticky unlock CTA (shown only after 1+ valid loan, while the roadmap section is on screen) -->
 <div class="rm-sticky" id="rmSticky" hidden role="region" aria-label="Unlock loan roadmap">
   <div class="rm-sticky-t"><b>Unga savings-a vachu loan-a சீக்கிரம் close pannunga</b><small>One-time payment. Unga numbers-ku apram dhaan result.</small></div>
   <a class="btn" data-rm-pay href="#" rel="noopener">Close my loan at ₹99</a>
+</div>
+
+<!-- [v8] analysis + opportunity screens (shown between the calculator and the report) -->
+<div class="cx-an" id="cxAn" hidden role="dialog" aria-modal="true" aria-labelledby="cxAnTitle">
+  <div class="cx-an-box">
+    <div id="cxAnRun">
+      <div class="cx-spin" aria-hidden="true"></div>
+      <h3 id="cxAnTitle">Checking your numbers…</h3>
+      <ol class="cx-an-steps" aria-live="polite">
+        <li>Checking your spending</li><li>Finding money leaks</li><li>Comparing with your salary</li><li>Looking for loan savings</li><li>Building your plan</li>
+      </ol>
+    </div>
+    <div id="cxAnDone" hidden>
+      <span class="eyebrow">Analysis complete</span>
+      <h3>We found opportunities in your money.</h3>
+      <ul class="cx-opps">
+        <li>Hidden expense leak found</li><li>Monthly savings possible</li><li>Savings you can redirect to loans or SIP</li><li>If you have loans: closure can be accelerated</li><li>Personal plan ready</li>
+      </ul>
+      <div class="cx-blur-dash sm" aria-hidden="true">
+        <div><small>Monthly leak</small><b class="cx-blur">₹0,000</b></div>
+        <div><small>You can free up</small><b class="cx-blur">₹0,000</b></div>
+        <div><small>10-year value</small><b class="cx-blur">₹0.0 L</b></div>
+      </div>
+      <button type="button" class="btn cx-an-go" id="cxAnGo">Show my free leak report →</button>
+      <p class="fine">Free. Name + WhatsApp only. No spam.</p>
+    </div>
+  </div>
 </div>
 
 <!-- ============ UNLOCK GATE MODAL (Name + WhatsApp required; socials optional) ============ -->
@@ -2074,11 +2156,21 @@ function rmTeaserCalc(){
            maxRate: Math.max(...loans.map(l=>MLR.num(l.rate))), top: loans.slice().sort((a,b)=>MLR.num(b.rate)-MLR.num(a.rate))[0] };
 }
 function rmInsights(save){ return rmInsightsRaw(save).map(t=>'<i data-rmi hidden></i>'+t); }
+/* [v8] rounded hints shown before payment; exact values only in the paid plan */
+function cxRoughMoney(n){
+  if (n >= 1e5) return '₹' + Math.floor(n/1e5) + ' Lakh+';
+  if (n >= 1e4) return '₹' + (Math.floor(n/1e4)*10) + ',000+';
+  if (n >= 1e3) return '₹' + Math.floor(n/1e3) + ',000+';
+  return 'some';
+}
+function cxRoughTime(m){ return m >= 24 ? 'years earlier' : m >= 12 ? '1+ year earlier' : m > 0 ? 'months earlier' : 'on track'; }
 function rmInsightsRaw(save){
   if (!(save>0)) return [];
   const t = rmTeaserCalc(), R = state.rate;
   if (!t) return [`Loan EMI irukka? Indha <b>${inr(save)}/month</b>-a loan-ku extra-va pottaa, loan seekiram close aagum, interest-um save aagum. <a href="#roadmap">Unga loans add pannunga ↓</a>`];
-  const out = [`Indha <b>${inr(t.eff)}/month</b>-a SIP-ku badhila loan-ku redirect pannina: <b>${monthsLabel(t.mSaved, false)}</b> seekiram debt-free, <b>${inr(t.iSaved)}</b> interest bank-ku kammi. <a href="#roadmap">Plan paarunga ↓</a>`];
+  const out = rmPaid
+    ? [`Indha <b>${inr(t.eff)}/month</b>-a loan-ku redirect pannina: <b>${monthsLabel(t.mSaved, false)}</b> seekiram debt-free, <b>${inr(t.iSaved)}</b> interest bank-ku kammi. <a href="#roadmap">Plan paarunga ↓</a>`]
+    : [`Indha <b>${inr(t.eff)}/month</b>-a loan-ku redirect pannina, neenga <b>${cxRoughTime(t.mSaved)}</b> debt-free aagalaam, <b>${cxRoughMoney(t.iSaved)}</b> interest save aagalaam. <a href="#roadmap">Exact roadmap ↓</a>`];
   if (t.maxRate > R) out.push(`Unga <b>${esc(loanName(t.top))}</b> ${t.maxRate}% interest. Adha prepay panradhu = <b>guaranteed ${t.maxRate}% return</b>. SIP-la ${R}% expected, guaranteed illa. High-interest loan first close pannunga.`);
   else out.push(`Unga loans rate (max ${t.maxRate}%) SIP expected return ${R}%-a vida kammi. Prepay-a, invest-a nu unga numbers-oda compare panni paakanum. ₹99 plan adha calculate pannum.`);
   return out;
@@ -2088,7 +2180,7 @@ function rmAllocRow(){
   const S = rmSavings(); if (!(S>0)){ el.innerHTML = ''; return; }
   const t = rmTeaserCalc();
   el.innerHTML = `<div class="rm-allocrow"><div><small>+ Loan irundha: first idhu</small><b>${t ? inr(t.eff)+'/mo → loans' : 'Loan irukka?'}</b>
-    <span>${t ? `Loans close aagura varaikkum mela 3 bucket panathaiyum loan-ku podunga: ${inr(t.iSaved)} interest save. Debt-free aana apram, adhe panam + freed EMI-a 3-way split pannunga.` : 'High-interest loan close panradhu dhaan best "passive return". Loans add panni check pannunga.'}</span></div>
+    <span>${t ? `Loans close aagura varaikkum mela 3 bucket panathaiyum loan-ku podunga: ${rmPaid ? inr(t.iSaved) : cxRoughMoney(t.iSaved)} interest save. Debt-free aana apram, adhe panam + freed EMI-a 3-way split pannunga.` : 'High-interest loan close panradhu dhaan best "passive return". Loans add panni check pannunga.'}</span></div>
     <a class="btn ghost sm" href="#roadmap">${t ? 'See plan' : 'Add loans'} ↓</a></div>`;
 }
 
@@ -2105,8 +2197,8 @@ function rmRefresh(){
   $('#rmLocked').hidden = empty || rmPaid || !nValid;
   if (!$('#rmLocked').hidden){
     const t = rmTeaserCalc();
-    $('#rmTeaser').innerHTML = t ? `<div><small>Interest save (upto)</small><b>${inr(t.iSaved)}</b></div><div><small>Debt-free seekiram</small><b>${monthsLabel(t.mSaved,false)}</b></div>` : '';
-    $('#rmAnchor').innerHTML = t && t.iSaved>=990 ? `One-time ₹99, unga interest saving ${inr(t.iSaved)}-la <b>1/${Math.round(t.iSaved/99).toLocaleString('en-IN')}</b> part. UPI / card via Razorpay.` : 'One-time payment. UPI / card via Razorpay.';
+    $('#rmTeaser').innerHTML = t ? `<div><small>You may save interest of</small><b>more than ${cxRoughMoney(t.iSaved).replace('+','')}</b></div><div><small>Debt-free</small><b>${cxRoughTime(t.mSaved)}</b></div>` : '';
+    $('#rmAnchor').innerHTML = t && t.iSaved>=1e4 ? `₹99 once, for a plan that can save you <b>${cxRoughMoney(t.iSaved)}</b>. UPI / card via Razorpay.` : 'One-time payment. UPI / card via Razorpay.';
   }
   rmAllocRow();
   if (state.revealed){ // keep loan insights in sync when loans change
@@ -2230,7 +2322,7 @@ function cxRender(){
         </div>
         <div class="cx-real-r">
           <a class="btn sm" href="#roadmap" data-cx-cta="report_loans">Close my loans faster ↓</a>
-          <a class="btn ghost sm" href="#coaching" data-cx-cta="report_coaching">1:1 help from Noor ↓</a>
+          <a class="btn ghost sm cx-paid-only" href="#coaching" data-cx-cta="report_coaching">1:1 help from Noor ↓</a>
         </div></div>`;
     } else box.innerHTML = '';
     const bi = box.querySelector('[data-w]'); if (bi) requestAnimationFrame(()=>requestAnimationFrame(()=>{ bi.style.width = bi.dataset.w + '%'; }));
@@ -2282,7 +2374,7 @@ function cxCoachInit(){
   }
   const ph = cxProofHTML();
   ['#cxProofHero','#cxProofCoach'].forEach(id=>{ const el=$(id); if (el && ph){ el.innerHTML = ph; el.hidden = false; } });
-  const rv = cxReviewsHTML(); if (rv){ $('#cxReviews').innerHTML = rv; $('#cxReviews').hidden = false; }
+  const rv = cxReviewsHTML(); if (rv){ $('#cxReviews').innerHTML = rv; $('#cxReviews').hidden = false; const r2 = $('#cxReviewsRm'); if (r2){ r2.innerHTML = rv; r2.hidden = false; } }
   // config-driven links (existing hrefs kept as fallback)
   const set = (sel, url) => { if (/^https:\/\//.test(String(url||''))) document.querySelectorAll(sel).forEach(a=>a.href = url); };
   set('[data-soc="yt"]', CFG.youtubeLink); set('[data-soc="ig"]', CFG.instagramLink); set('[data-soc="wa"]', CFG.communityLink);
@@ -2464,7 +2556,40 @@ $('#cxSound').addEventListener('click', ()=>{
 });
 /* =================== /[v7] =================== */
 
-function cxBoot(){ cxCoachInit(); cxCoachingReturn(); cxRender(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); }
+
+/* =================== [v8] FUNNEL: analysis → opportunities → lead → report ===================
+   Wraps the existing openGate()/reveal(): their logic is unchanged, they just run after a short
+   honest "checking your numbers" screen the first time in a session. */
+let cxAnalyzed = false;
+try{ cxAnalyzed = sessionStorage.getItem('mentell_analyzed') === '1'; }catch(e){}
+function cxAnalyze(done){
+  const an = $('#cxAn'); if (!an){ done(); return; }
+  an.hidden = false; $('#cxAnRun').hidden = false; $('#cxAnDone').hidden = true;
+  document.body.classList.add('cx-an-open');
+  track('analysis_view');
+  const lis = an.querySelectorAll('.cx-an-steps li'); lis.forEach(l=>l.className='');
+  let i = 0; const per = reduced ? 250 : 650;
+  (function step(){
+    if (i > 0) lis[i-1].className = 'done';
+    if (i < lis.length){ lis[i].className = 'now'; i++; setTimeout(step, per); return; }
+    cxAnalyzed = true; try{ sessionStorage.setItem('mentell_analyzed','1'); }catch(e){}
+    $('#cxAnRun').hidden = true; $('#cxAnDone').hidden = false; track('opportunity_view');
+    const go = $('#cxAnGo');
+    go.onclick = ()=>{ an.hidden = true; document.body.classList.remove('cx-an-open'); track('opportunity_continue'); done(); };
+    go.focus();
+  })();
+}
+const cxOpenGate0 = openGate, cxReveal0 = reveal;
+openGate = function(){ if (cxAnalyzed) return cxOpenGate0(); cxAnalyze(cxOpenGate0); };
+reveal = function(){
+  const direct = cxAnalyzed || rmReturn || location.hash==='#roadmap' || /[?&]coaching=1/.test(location.search);
+  if (direct) return cxReveal0(); cxAnalyze(cxReveal0);
+};
+/* coaching (₹4,999) is shown in full only to ₹99 buyers / coaching buyers */
+function cxPaidClass(){ document.body.classList.toggle('cx-paid', !!rmPaid || /[?&]coaching=1/.test(location.search) || !$('#cxThanks').hidden); }
+/* =================== /[v8] =================== */
+
+function cxBoot(){ cxPaidClass(); cxCoachInit(); cxCoachingReturn(); cxPaidClass(); cxRender(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); }
 /* ================= /[v4] CONVERSION LAYER ================= */
 
 /* ---------- init ---------- */
