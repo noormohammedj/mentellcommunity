@@ -1150,7 +1150,8 @@
     <h2 class="section-title" id="faqTitle">Doubts irundha, <em>inga paarunga.</em></h2>
     <div class="cx-faq-list">
       <details data-faq="free"><summary>Leak Calculator really free-a?</summary><p>Aamam. Name and WhatsApp number mattum kudutha, full leak report free-a paakalaam. Card details, login edhuvum thevai illa.</p></details>
-      <details data-faq="privacy"><summary>Ennoda data safe-a?</summary><p>Unga habit and loan details indha phone/browser-la mattum dhaan save aagum. Report anuppa unga name, number, income and leak total mattum engaluku varum. Loan balance, EMI, lender details engalukku anuppave maattom. Spam pannave maattom.</p></details>
+      <details data-faq="privacy"><summary>Ennoda data safe-a?</summary><p>Unga habit and loan details indha phone/browser-la mattum dhaan save aagum. Report anuppa unga name, number, income and leak total mattum engaluku varum. Loan balance, EMI, lender details engalukku anuppa maattom, <b>neenga ₹99 plan vaangi "Save my plan" tick panni PIN set panna mattum</b> unga numbers engaloda Google Sheet-la save aagum (unga number + PIN vechu restore panna). Eppo venumnaalum "Delete saved plan" panni azhikkalaam. Spam pannave maattom.</p></details>
+      <details data-faq="restore" class="v10-faq-restore"><summary>₹99 pay pannen, plan kaanom. Enna pannuradhu?</summary><p>Kavalai vendaam. Indha page-la <a href="#" data-v10-restore="faq">"Restore my plan"</a> tap panni, pay panna phone number type pannunga. Razorpay-la check panni udane unlock aagum. Plan save panniyirundha, unga PIN vechu unga numbers-um thirumba varum. Edhavadhu problem-na WhatsApp pannunga.</p></details>
       <details data-faq="roadmap"><summary>Close loan at ₹99-la enna kidaikkum?</summary><p>Edha first close pannanum (order + dates), maasam-maasam action plan, Prepay vs SIP comparison unga numbers-la, Avalanche vs Snowball, bank-la prepay panna checklist, progress tracker and PDF. Evlo interest save aagum nu payment-ku munnadiye free-a kaattuvom.</p></details>
       <details data-faq="coaching"><summary>₹4,999 coaching-um ₹99 plan-um enna difference?</summary><p>₹99 plan oru calculator report. Coaching-la Noor unga kooda 1:1-a pesi, unga full financial picture paathu, custom plan pottu, 90 naal WhatsApp-la follow up pannuvaar. ₹99 roadmap adhula included.</p></details>
       <details data-faq="emi"><summary>Instalment-la pay pannalaama?</summary><p id="cxFaqEmi">Pannalaam. 3 instalments-la pay panna WhatsApp-la Noor-ku message pannunga. Unga situation-ku yetha maadhiri pesi set pannuvom.</p></details>
@@ -1730,7 +1731,8 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ navL
 
 /* ================= LOAN CLOSING ROADMAP (2A) — additive block =================
    Reads the existing monthly savings via totals().save (read-only).
-   Privacy: loan numbers live ONLY in localStorage (mentell_loans_v1). Never sent to Sheet or GA4.
+   Privacy: loan numbers live in localStorage (mentell_loans_v1). Never sent to GA4. [v10] Sent to the
+   Sheet ('Plans' tab) ONLY if a paid user ticks "Save my plan" and sets a PIN.
    Premium gate: results HTML is generated only when the paid flag is set. Trust-based at ₹99
    (anyone can add ?paid=1). Razorpay dashboard is the real payment record.               */
 const LOAN_KEY = 'mentell_loans_v1', PAID_KEY = 'mentell_roadmap_paid';
@@ -1857,8 +1859,14 @@ function rmSave(){ try{ localStorage.setItem(LOAN_KEY, JSON.stringify(rm)); }cat
 let rmPaid = false;
 try{ rmPaid = localStorage.getItem(PAID_KEY)==='1'; }catch(e){}
 const rmQS = new URLSearchParams(location.search);
-const rmReturn = rmQS.get('paid')==='1';
-if (rmReturn){
+const PAYCHK_URL = (function(u){ u = String(u||''); return /^https:\/\/script\.google(usercontent)?\.com\//.test(u) ? u : ''; })(CFG.paymentCheckUrl); // [v10] '' = old behaviour
+const rmPayId = String(rmQS.get('razorpay_payment_id')||'').replace(/[^A-Za-z0-9_]/g,'').slice(0,40); // [v10] Razorpay's own return param, when present
+const rmReturn = rmQS.get('paid')==='1' || !!rmPayId; // [v10] + razorpay_payment_id
+const rmVerify = rmReturn && !!PAYCHK_URL && !rmPaid; // [v10] check with Razorpay (via Payments script) before unlocking
+if (rmVerify){ // [v10] clean the address bar now; unlock happens after the check (see [v10] block)
+  try{ ['paid','razorpay_payment_id','razorpay_payment_link_id','razorpay_payment_link_reference_id','razorpay_payment_link_status','razorpay_signature'].forEach(k=>rmQS.delete(k)); history.replaceState(null,'', location.pathname + (rmQS.toString()?'?'+rmQS:'') + '#roadmap'); }catch(e){}
+}
+if (rmReturn && !rmVerify){ // [v10] was: if (rmReturn){
   rmPaid = true;
   try{ localStorage.setItem(PAID_KEY,'1'); }catch(e){}
   track('purchase_return');
@@ -2494,7 +2502,7 @@ document.addEventListener('click', e=>{
 document.querySelectorAll('.cx-faq details').forEach(d=>d.addEventListener('toggle', ()=>{ if (d.open) track('faq_open', {question:d.dataset.faq}); }));
 
 /* ₹99 purchase: rmReturn was set above when the page loaded with ?paid=1 */
-if (rmReturn){
+if (rmReturn && !rmVerify){ // [v10] verified returns fire purchase after the check instead
   track('purchase', {currency:'INR', value:99, transaction_id:'rm-'+LEAD_ID, items:[{item_id:'loan_roadmap', item_name:'Loan Closing Roadmap', price:99, quantity:1}]});
   if (state.phone) sendRow({event:'roadmap_paid', name:state.name, phone:state.phone, item:'Loan Closing Roadmap ₹99 (returned from Razorpay)'});
 }
@@ -2667,7 +2675,430 @@ if ('IntersectionObserver' in window){
 }
 /* =================== /[v9] =================== */
 
-function cxBoot(){ cxPaidClass(); cxCoachInit(); cxCoachingReturn(); cxPaidClass(); cxRender(); cxPaywall(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); }
+/* =====================================================================
+   [v10] Instagram → Chrome · verified ₹99 · Restore my plan · Save my plan
+   Additive. Uses existing state / persist / track / sendRow / keys.
+   - In-app browser (Instagram/Facebook…): soft strip + a prompt before ₹99 pay,
+     with a one-tap "Open in Chrome" (Android) or copy-link steps (iPhone).
+     Answers travel in ?mh=… and are saved by mentell-config.js before GA runs.
+   - PAYCHK_URL set (mentell-config.js → paymentCheckUrl):
+       • ?paid=1 / Razorpay return → check the payment with Razorpay, then unlock.
+         If the check service can't be reached, unlock anyway (old behaviour).
+       • "Restore my plan": phone number → unlock; PIN → bring the numbers back.
+       • "Save my plan" (paid users, with consent) → Sheet 'Plans' tab, PIN-protected,
+         then kept up to date automatically.
+     PAYCHK_URL empty → none of that shows; the page behaves exactly as before.
+   GA4 (no phone/amounts): inapp_detected, inapp_open_browser, inapp_pay_here,
+   handoff_arrived, pay_verify_start, pay_verify_result, restore_open,
+   restore_result, plan_saved, plan_restored, plan_deleted.
+   ===================================================================== */
+const V10 = (function(){
+  const ua = navigator.userAgent || '';
+  const app = /Instagram/i.test(ua) ? 'Instagram' : /FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua) ? 'Facebook'
+            : /LinkedInApp/i.test(ua) ? 'LinkedIn' : /Snapchat/i.test(ua) ? 'Snapchat' : /\bLine\//i.test(ua) ? 'LINE' : '';
+  return { app, android: /Android/i.test(ua), ios: /iPhone|iPad|iPod/i.test(ua), payOk: false };
+})();
+const V10K = { paidPhone:'mentell_paid_phone', planPhone:'mentell_plan_phone', token:'mentell_plan_token', snap:'mentell_plan_snap' };
+const v10Get = k => { try{ return localStorage.getItem(k); }catch(e){ return null; } };
+const v10Set = (k,v) => { try{ localStorage.setItem(k,v); }catch(e){} };
+const v10Del = k => { try{ localStorage.removeItem(k); }catch(e){} };
+const v10Ph = p => { const d = String(p||'').replace(/\D/g,''); return d.length>=10 ? d.slice(-10) : ''; };
+const v10Ok = p => /^[6-9]\d{9}$/.test(p);
+const v10Mask = p => p ? '+91 ' + p.slice(0,2) + 'xxx xx' + p.slice(-3) : '';
+const v10Esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const v10Wa = msg => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+const v10Sleep = ms => new Promise(r=>setTimeout(r, ms));
+
+async function v10Api(action, body){
+  if (!PAYCHK_URL) return {ok:false, error:'off'};
+  const ctl = ('AbortController' in window) ? new AbortController() : null;
+  const t = ctl ? setTimeout(()=>ctl.abort(), 30000) : 0;
+  try{
+    const r = await fetch(PAYCHK_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(Object.assign({action}, body||{})), signal: ctl ? ctl.signal : undefined});
+    const j = await r.json();
+    return (j && typeof j==='object') ? j : {ok:false, error:'bad'};
+  }catch(e){ return {ok:false, error:'network'}; }
+  finally{ if (t) clearTimeout(t); }
+}
+
+/* ---------- styles (scoped to v10-*) ---------- */
+(function v10Css(){
+  const st = document.createElement('style');
+  st.textContent = `
+  .v10-strip{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--navy-2,#F1ECFB);border-bottom:1px solid var(--line);padding:10px 16px;font-size:13.5px;color:var(--ink);position:relative;z-index:5}
+  .v10-strip p{margin:0;flex:1 1 220px;line-height:1.4}
+  .v10-strip .btn{flex:none;padding:8px 14px;font-size:13px}
+  .v10-strip .v10-x{border:0;background:none;color:var(--muted);font-size:20px;line-height:1;padding:2px 6px}
+  .v10-steps{margin:10px 0 4px;padding-left:20px;font-size:14px;color:var(--ink);display:grid;gap:6px}
+  .v10-link{display:flex;gap:8px;margin:8px 0}
+  .v10-link input{flex:1;min-width:0;font-size:12px;padding:10px;border:1px solid var(--line);border-radius:10px;color:var(--muted)}
+  .v10-link .btn{width:auto!important;flex:none;padding:10px 14px;font-size:13px}
+  .v10-alt{display:block;margin-top:10px;text-align:center;font-size:13px;color:var(--muted)}
+  .v10-alt a,.v10-textlink{color:var(--blue);font-weight:600;text-decoration:underline;background:none;border:0;padding:0;font-size:inherit;cursor:pointer}
+  .v10-restore-hero{font-size:13px;margin-top:2px;order:5}
+  .v10-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+  .v10-msg{font-size:14px;font-weight:600;margin:8px 0 0;min-height:1em}
+  .v10-msg.bad{color:var(--red)} .v10-msg.good{color:var(--green)}
+  .v10-spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--blue-light);border-top-color:var(--blue);margin:8px auto 12px;animation:v10spin 1s linear infinite}
+  @keyframes v10spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion: reduce){.v10-spin{animation:none}}
+  .v10-center{text-align:center}
+  .v10-ok-ic{width:46px;height:46px;border-radius:50%;background:rgba(22,163,74,.12);color:var(--green);display:grid;place-items:center;margin:4px auto 10px;font-size:24px;font-weight:800}
+  .v10-check{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink);margin:6px 0 10px;text-align:left}
+  .v10-check input{margin-top:3px;flex:none;width:18px;height:18px}
+  .v10-save{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg,20px);padding:18px;margin:18px 0;box-shadow:var(--shadow,0 6px 24px rgba(124,58,237,.08))}
+  .v10-save h3{font-size:18px;margin:0 0 4px}
+  .v10-save p{color:var(--muted);font-size:14px;margin:0 0 12px}
+  .v10-save .v10-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .v10-save .field{margin-bottom:8px}
+  .v10-save .btn{margin-top:4px}
+  .v10-save-done{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
+  .v10-save-done b{color:var(--green)}
+  body:not(.cx-paid) .v10-save{display:none}
+  .v10-toast{position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:10001;background:var(--ink);color:#fff;font-size:14px;padding:10px 16px;border-radius:12px;box-shadow:var(--shadow-lg,0 10px 30px rgba(0,0,0,.2));max-width:calc(100% - 32px);text-align:center}
+  @media (max-width:480px){.v10-save .v10-row{grid-template-columns:1fr}}
+  @media print{.v10-strip,.v10-save,.v10-toast{display:none!important}}`;
+  document.head.appendChild(st);
+})();
+
+/* ---------- one reusable modal ---------- */
+function v10Modal(html, onClose){
+  let m = $('#v10Modal');
+  if (!m){
+    m = document.createElement('div');
+    m.className = 'modal'; m.id = 'v10Modal';
+    m.setAttribute('role','dialog'); m.setAttribute('aria-modal','true');
+    m.innerHTML = '<div class="modal-box" id="v10Box"></div>';
+    document.body.appendChild(m);
+    m.addEventListener('click', e=>{ if (e.target===m || e.target.closest('[data-v10-close]')) v10Close(); });
+  }
+  m._onClose = onClose || null;
+  $('#v10Box').innerHTML = html;
+  m.classList.add('open');
+  const f = m.querySelector('input:not([type=checkbox]):not([readonly])'); if (f) setTimeout(()=>f.focus(), 60);
+  return m;
+}
+function v10Close(){ const m = $('#v10Modal'); if (!m) return; m.classList.remove('open'); if (m._onClose){ const f = m._onClose; m._onClose = null; f(); } }
+const v10X = '<button type="button" class="x" data-v10-close aria-label="Close">×</button>';
+function v10Toast(t, ms){ const d = document.createElement('div'); d.className = 'v10-toast'; d.setAttribute('role','status'); d.textContent = t; document.body.appendChild(d); setTimeout(()=>d.remove(), ms||5000); }
+function v10Reload(hash){ try{ history.replaceState(null,'', location.pathname + location.search + (hash||'#roadmap')); }catch(e){} location.reload(); }
+
+/* =================== 1) Instagram / in-app browser =================== */
+function v10HandoffUrl(target){
+  const u = new URL(location.origin + location.pathname);
+  const utm = cxUtm();
+  u.searchParams.set('utm_source', utm.utm_source || (V10.app||'inapp').toLowerCase());
+  u.searchParams.set('utm_medium', utm.utm_medium || 'social');
+  u.searchParams.set('utm_campaign', utm.utm_campaign || 'open_in_browser');
+  if (target) u.searchParams.set('mt', target);
+  try{
+    const l = JSON.parse(localStorage.getItem(STORE_KEY)||'null'); if (l){ delete l.name; delete l.phone; }
+    const n = JSON.parse(localStorage.getItem(LOAN_KEY)||'null');
+    let a = false; try{ a = sessionStorage.getItem('mentell_analyzed')==='1'; }catch(e){}
+    if (l || n){
+      const p = btoa(unescape(encodeURIComponent(JSON.stringify({v:1, l, n, id:LEAD_ID, g:(gateOk() || !!state.phone), a}))))
+        .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+      if (p.length < 15000) u.searchParams.set('mh', p);
+    }
+  }catch(e){}
+  return u.toString();
+}
+function v10OpenChrome(target, where){
+  const url = v10HandoffUrl(target);
+  track('inapp_open_browser', {app:V10.app, location:where, platform:'android'});
+  const u = new URL(url);
+  location.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+}
+function v10IosHtml(target){
+  const url = v10HandoffUrl(target);
+  return `<ol class="v10-steps">
+      <li><b>Copy your link</b> (unga numbers-um kooda varum)</li>
+      <li><b>Safari</b> open pannunga</li>
+      <li>Address bar-la <b>paste</b> panni open pannunga</li>
+    </ol>
+    <div class="v10-link"><input readonly value="${v10Esc(url)}" aria-label="Your link" id="v10Url"><button type="button" class="btn sm" data-v10-copy>Copy</button></div>
+    <p class="v10-note">Or: top-right <b>⋯</b> tap panni <b>"Open in external browser"</b> select pannunga.</p>`;
+}
+document.addEventListener('click', async e=>{
+  const c = e.target.closest && e.target.closest('[data-v10-copy]'); if (!c) return;
+  const inp = $('#v10Url'); if (!inp) return;
+  let ok = false;
+  try{ await navigator.clipboard.writeText(inp.value); ok = true; }catch(err){}
+  if (!ok){ try{ inp.select(); inp.setSelectionRange(0, 99999); ok = document.execCommand('copy'); }catch(err){} }
+  c.textContent = ok ? 'Copied ✓' : 'Select & copy';
+  track('inapp_open_browser', {app:V10.app, location:'copy_link', platform:'ios'});
+});
+
+function v10Strip(){
+  if (!V10.app) return;
+  try{ if (sessionStorage.getItem('mentell_v10_strip')==='x') return; }catch(e){}
+  const nav = document.querySelector('nav.nav'); if (!nav || $('#v10Strip')) return;
+  const browser = V10.ios ? 'Safari' : 'Chrome';
+  const d = document.createElement('div');
+  d.className = 'v10-strip'; d.id = 'v10Strip'; d.setAttribute('role','note');
+  d.innerHTML = `<p><b>${v10Esc(V10.app)}-la open aagirukku.</b> Unga plan safe-a irukka ${browser}-la open pannunga.</p>
+    <button type="button" class="btn sm" data-v10-open="strip">Open in ${browser}</button>
+    <button type="button" class="v10-x" data-v10-strip-x aria-label="Dismiss">×</button>`;
+  nav.insertAdjacentElement('afterend', d);
+}
+document.addEventListener('click', e=>{
+  if (e.target.closest && e.target.closest('[data-v10-strip-x]')){
+    const s = $('#v10Strip'); if (s) s.remove();
+    try{ sessionStorage.setItem('mentell_v10_strip','x'); }catch(err){}
+    return;
+  }
+  const o = e.target.closest && e.target.closest('[data-v10-open]'); if (!o) return;
+  e.preventDefault();
+  const where = o.getAttribute('data-v10-open');
+  const target = o.getAttribute('data-v10-target') || (state.revealed ? (location.hash.replace('#','') || 'roadmap') : '');
+  if (V10.android) return v10OpenChrome(target, where);
+  v10Modal(`${v10X}<h3>Safari-la open pannunga</h3><p>Instagram browser close panna unga plan poidum. Safari-la eppavum irukkum.</p>${v10IosHtml(target)}`);
+  track('inapp_open_browser', {app:V10.app, location:where, platform:'ios_steps'});
+});
+
+/* Before ₹99 payment inside Instagram: suggest Chrome first (never blocks) */
+document.addEventListener('click', e=>{
+  const a = e.target.closest && e.target.closest('[data-rm-pay]');
+  if (!a || !V10.app || V10.payOk) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const target = a.closest('#roadmap, #rmSticky') ? 'roadmap' : 'cxPlan';
+  const browser = V10.ios ? 'Safari' : 'Chrome';
+  const main = V10.android
+    ? `<button type="button" class="btn" data-v10-open="prepay" data-v10-target="${target}">Open in Chrome &amp; pay (recommended)</button>`
+    : v10IosHtml(target);
+  const restore = PAYCHK_URL ? `<p class="v10-note">Already paid? <button type="button" class="v10-textlink" data-v10-restore="prepay">Restore my plan</button> with the number you paid from.</p>` : '';
+  v10Modal(`${v10X}<h3>Pay pannradhukku munnaadi</h3>
+    <p>Neenga ${v10Esc(V10.app)} browser-la irukkeenga. Idha close pannina unga ₹99 plan kaanaama pogalaam. <b>${browser}-la pay pannunga</b>, plan eppavum safe.</p>
+    ${main}
+    <span class="v10-alt"><a href="#" data-v10-payhere>Inga-ve pay pannuren</a></span>${restore}`);
+  const ph = $('#v10Box [data-v10-payhere]');
+  if (ph) ph.addEventListener('click', ev=>{ ev.preventDefault(); V10.payOk = true; track('inapp_pay_here', {app:V10.app}); v10Close(); a.click(); });
+}, true);
+
+/* =================== 2) Payment check on return =================== */
+async function v10VerifyReturn(){
+  track('pay_verify_start', {has_payment_id: rmPayId ? 1 : 0});
+  const checking = (t) => v10Modal(`<div class="v10-center"><div class="v10-spin" aria-hidden="true"></div><h3>Payment check pannurom…</h3><p>${t||'Razorpay-la unga ₹99 payment confirm aagudhu. Konjam wait pannunga.'}</p></div>`);
+  checking();
+  const phone = v10Ph(state.phone) || v10Ph(v10Get(V10K.paidPhone));
+  if (!phone && !rmPayId) return v10AskPhone('return');
+  let fails = 0;
+  for (let i = 0; i < 5; i++){
+    const r = await v10Api('check', {phone, paymentId: rmPayId});
+    if (r.ok && r.paid) return v10Unlocked(r, phone, 'return');
+    if (!r.ok && (r.error==='network' || r.error==='server' || r.error==='bad')){ if (++fails >= 2) return v10TrustUnlock(); }
+    else if (!r.ok) break;
+    if (i < 4){ checking('Payment record update aaga few seconds aagum… (' + (i+2) + '/5)'); await v10Sleep(9000); }
+  }
+  track('pay_verify_result', {result:'not_found'});
+  v10AskPhone('return', phone);
+}
+/* Check service down → keep the old behaviour so a real payer is never stuck */
+function v10TrustUnlock(){
+  track('pay_verify_result', {result:'service_down'});
+  v10Set(PAID_KEY, '1');
+  track('purchase_return', {verified:'no'});
+  track('purchase', {currency:'INR', value:99, transaction_id:'rm-'+LEAD_ID, items:[{item_id:'loan_roadmap', item_name:'Loan Closing Roadmap', price:99, quantity:1}]});
+  if (state.phone) sendRow({event:'roadmap_paid', name:state.name, phone:state.phone, item:'Loan Closing Roadmap ₹99 (returned from Razorpay, NOT verified: check service unreachable)'});
+  setTimeout(()=>v10Reload('#roadmap'), 400);
+}
+function v10Unlocked(r, phone, how){
+  v10Set(PAID_KEY, '1');
+  if (phone){ v10Set(V10K.paidPhone, phone); if (!state.phone){ state.phone = '91'+phone; persist(); } }
+  try{ sessionStorage.setItem(GATE_KEY, '1'); }catch(e){}
+  if (how==='return'){
+    track('pay_verify_result', {result:'paid'});
+    track('purchase_return', {verified:'yes'});
+    track('purchase', {currency:'INR', value:99, transaction_id: r.paymentId ? 'rm-'+r.paymentId : 'rm-'+LEAD_ID, items:[{item_id:'loan_roadmap', item_name:'Loan Closing Roadmap', price:99, quantity:1}]});
+    if (state.phone) sendRow({event:'roadmap_paid', name:state.name, phone:state.phone, item:'Loan Closing Roadmap ₹99 (verified with Razorpay' + (r.paymentId ? ': '+r.paymentId : '') + ')'});
+  } else {
+    track('restore_result', {result:'paid', has_plan: r.hasPlan ? 1 : 0});
+    if (state.phone) sendRow({event:'roadmap_restore', name:state.name, phone:state.phone, item:'Restored ₹99 plan' + (r.paymentId ? ': '+r.paymentId : '')});
+  }
+  if (r.hasPlan && phone) return v10AskPin(phone, how);
+  const haveNumbers = state.income>0 && LEAKS.some(L=>state.leaks[L.id].on);
+  v10Modal(`<div class="v10-center"><div class="v10-ok-ic" aria-hidden="true">✓</div><h3>${how==='return' ? 'Payment confirmed' : 'Plan unlocked'}</h3>
+    <p>${haveNumbers ? 'Unga full plan open aagudhu…' : 'Unlock aagiduchu ✓. Unga numbers indha browser-la illa, 2 nimisham-la fill pannunga, full plan udane varum.'}</p>
+    ${haveNumbers ? '' : '<button type="button" class="btn" data-v10-go-form>Fill my numbers</button>'}</div>`);
+  const go = $('#v10Box [data-v10-go-form]');
+  if (go) go.addEventListener('click', ()=>v10Reload('#step1'));
+  if (haveNumbers) setTimeout(()=>v10Reload('#roadmap'), 900);
+}
+
+/* =================== 3) Restore my plan =================== */
+function v10AskPhone(how, triedPhone){
+  const tried = triedPhone ? `<p class="v10-msg bad">${v10Mask(triedPhone)} number-la ₹99 payment innum kidaikkala.</p>` : '';
+  v10Modal(`${v10X}<h3>${how==='return' ? 'Pay panna number podunga' : 'Restore my plan'}</h3>
+    <p>Razorpay-la pay pannumbodhu kudutha phone number type pannunga. Naanga check panni unlock pannuvom.</p>${tried}
+    <div class="field"><label for="v10Phone">Phone number used to pay</label><div class="inp"><span>+91</span><input id="v10Phone" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="98765 43210"></div></div>
+    <p class="v10-msg" id="v10Msg" role="alert"></p>
+    <button type="button" class="btn" id="v10CheckBtn">Check &amp; unlock</button>
+    <span class="v10-alt">Problem-a? <a href="${v10Wa('Hi Noor, I paid ₹99 for the money plan but can\'t open it.')}" target="_blank" rel="noopener">WhatsApp Noor</a></span>`);
+  const inp = $('#v10Phone'), btn = $('#v10CheckBtn'), msg = $('#v10Msg');
+  inp.addEventListener('input', ()=>{ inp.value = inp.value.replace(/\D/g,'').slice(0,10); });
+  inp.addEventListener('keydown', e=>{ if (e.key==='Enter') btn.click(); });
+  btn.addEventListener('click', async ()=>{
+    const p = v10Ph(inp.value);
+    if (!v10Ok(p)){ msg.className = 'v10-msg bad'; msg.textContent = '10-digit mobile number podunga.'; return; }
+    btn.disabled = true; btn.textContent = 'Checking…'; msg.className = 'v10-msg'; msg.textContent = 'Razorpay-la check pannurom… (10–20 seconds aagalaam)';
+    const r = await v10Api('check', {phone:p});
+    btn.disabled = false; btn.textContent = 'Check & unlock';
+    if (r.ok && r.paid) return v10Unlocked(r, p, how==='return' ? 'return' : 'restore');
+    msg.className = 'v10-msg bad';
+    if (r.ok){ msg.textContent = 'Indha number-la ₹99 payment kidaikkala. Vera number-la pay panneengala? Adhai try pannunga.'; track(how==='return'?'pay_verify_result':'restore_result', {result:'not_found'}); }
+    else if (r.error==='busy') msg.textContent = 'Romba tries aagiduchu. 1 mani neram kazhichu try pannunga, illa WhatsApp pannunga.';
+    else msg.textContent = 'Net problem. Konjam neram kazhichu try pannunga.';
+  });
+}
+function v10AskPin(phone, how){
+  v10Modal(`${v10X}<div class="v10-center"><div class="v10-ok-ic" aria-hidden="true">✓</div></div><h3>Unlocked. Unga numbers-um venumaa?</h3>
+    <p>${v10Mask(phone)}-ku oru saved plan irukku. Save pannumbodhu vachcha <b>4-digit PIN</b> podunga.</p>
+    <div class="field"><label for="v10Pin">4-digit PIN</label><div class="inp"><input id="v10Pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="••••"></div></div>
+    <p class="v10-msg" id="v10Msg" role="alert"></p>
+    <button type="button" class="btn" id="v10PinBtn">Bring back my plan</button>
+    <span class="v10-alt"><a href="#" data-v10-skip>Skip, naane fill pannuren</a> · <a href="${v10Wa('Hi Noor, I forgot my Mentell plan PIN.')}" target="_blank" rel="noopener">Forgot PIN?</a></span>`);
+  const inp = $('#v10Pin'), btn = $('#v10PinBtn'), msg = $('#v10Msg');
+  inp.addEventListener('input', ()=>{ inp.value = inp.value.replace(/\D/g,'').slice(0,4); });
+  inp.addEventListener('keydown', e=>{ if (e.key==='Enter') btn.click(); });
+  $('#v10Box [data-v10-skip]').addEventListener('click', ev=>{ ev.preventDefault(); v10Reload(state.income>0 ? '#roadmap' : '#step1'); });
+  btn.addEventListener('click', async ()=>{
+    if (!/^\d{4}$/.test(inp.value)){ msg.className = 'v10-msg bad'; msg.textContent = '4 digits podunga.'; return; }
+    btn.disabled = true; btn.textContent = 'Restoring…';
+    const r = await v10Api('load_plan', {phone, pin: inp.value});
+    btn.disabled = false; btn.textContent = 'Bring back my plan';
+    if (r.ok && r.data){
+      let d = null; try{ d = (window.MentellClean || (x=>x))(JSON.parse(r.data)); }catch(e){}
+      if (d && d.leak && d.leak.leaks) v10Set(STORE_KEY, JSON.stringify(d.leak));
+      if (d && d.loans && Array.isArray(d.loans.loans)) v10Set(LOAN_KEY, JSON.stringify(d.loans));
+      if (r.token){ v10Set(V10K.token, r.token); v10Set(V10K.planPhone, phone); v10Set(V10K.snap, v10Snapshot()); }
+      try{ sessionStorage.setItem(GATE_KEY, '1'); }catch(e){}
+      track('plan_restored', {how});
+      msg.className = 'v10-msg good'; msg.textContent = 'Restored ✓ Opening your plan…';
+      return setTimeout(()=>v10Reload('#roadmap'), 600);
+    }
+    msg.className = 'v10-msg bad';
+    msg.textContent = r.error==='pin' ? 'PIN thappu. Thirumba try pannunga.' : r.error==='busy' ? 'Romba tries. 1 mani neram kazhichu try pannunga.' : r.error==='no_plan' ? 'Saved plan kidaikkala. Skip panni fill pannunga.' : 'Net problem. Thirumba try pannunga.';
+  });
+}
+document.addEventListener('click', e=>{
+  const r = e.target.closest && e.target.closest('[data-v10-restore]'); if (!r) return;
+  e.preventDefault();
+  if (!PAYCHK_URL) return;
+  track('restore_open', {location: r.getAttribute('data-v10-restore')});
+  v10AskPhone('restore');
+});
+
+/* =================== 4) Save my plan (paid users, with consent) =================== */
+function v10Snapshot(){ return (v10Get(STORE_KEY)||'') + '|' + (v10Get(LOAN_KEY)||''); }
+function v10PlanData(){
+  let leak = null, loans = null;
+  try{ leak = JSON.parse(v10Get(STORE_KEY)||'null'); }catch(e){}
+  try{ loans = JSON.parse(v10Get(LOAN_KEY)||'null'); }catch(e){}
+  return JSON.stringify({v:1, leak, loans, savedAt:new Date().toISOString()});
+}
+function v10SaveCard(){
+  if (!PAYCHK_URL) return;
+  let card = $('#v10Save');
+  if (!card){
+    const road = $('#roadmap'); if (!road) return;
+    card = document.createElement('section');
+    card.className = 'v10-save'; card.id = 'v10Save'; card.setAttribute('aria-labelledby','v10SaveT');
+    road.insertAdjacentElement('beforebegin', card);
+  }
+  const token = v10Get(V10K.token), pp = v10Get(V10K.planPhone);
+  if (token && pp){
+    card.innerHTML = `<div class="v10-save-done"><span><b>✓ Plan saved</b> to ${v10Mask(pp)} · PIN protected · updates automatically</span>
+      <button type="button" class="v10-textlink" id="v10Del">Delete saved plan</button></div><p class="v10-msg" id="v10SaveMsg" role="status"></p>`;
+    let arm = 0;
+    $('#v10Del').addEventListener('click', async ev=>{
+      const b = ev.currentTarget;
+      if (Date.now() - arm > 4000){ arm = Date.now(); b.textContent = 'Sure? Tap again to delete'; setTimeout(()=>{ if (b.isConnected) b.textContent = 'Delete saved plan'; }, 4000); return; }
+      b.disabled = true; b.textContent = 'Deleting…';
+      const r = await v10Api('delete_plan', {phone:pp, token});
+      if (r.ok){ v10Del(V10K.token); v10Del(V10K.planPhone); v10Del(V10K.snap); track('plan_deleted'); v10SaveCard(); v10Toast('Saved plan deleted from Mentell.'); }
+      else { b.disabled = false; b.textContent = 'Delete saved plan'; const m = $('#v10SaveMsg'); m.className = 'v10-msg bad'; m.textContent = 'Delete aagala. Net check panni thirumba try pannunga.'; }
+    });
+    return;
+  }
+  const pre = v10Ph(v10Get(V10K.paidPhone)) || v10Ph(state.phone);
+  card.innerHTML = `<h3 id="v10SaveT">Save my plan</h3>
+    <p>Phone maathinaalum, browser close aanaalum, unga number + 4-digit PIN vechu indha plan-a thirumba eduthukkalaam.</p>
+    <div class="v10-row">
+      <div class="field"><label for="v10SPhone">Phone you paid from</label><div class="inp"><span>+91</span><input id="v10SPhone" inputmode="numeric" maxlength="10" autocomplete="tel-national" value="${v10Esc(pre)}" placeholder="98765 43210"></div></div>
+      <div class="field"><label for="v10SPin">Set a 4-digit PIN</label><div class="inp"><input id="v10SPin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••"></div></div>
+    </div>
+    <label class="v10-check"><input type="checkbox" id="v10SAgree"><span>My income, habit and loan numbers-a Mentell-oda Google Sheet-la save pannunga, restore panna mattum. Eppo venumnaalum delete pannalaam.</span></label>
+    <button type="button" class="btn sm" id="v10SBtn">Save my plan</button>
+    <p class="v10-msg" id="v10SaveMsg" role="alert"></p>`;
+  ['v10SPhone','v10SPin'].forEach((id,i)=>$('#'+id).addEventListener('input', ev=>{ ev.target.value = ev.target.value.replace(/\D/g,'').slice(0, i ? 4 : 10); }));
+  $('#v10SBtn').addEventListener('click', async ev=>{
+    const b = ev.currentTarget, m = $('#v10SaveMsg');
+    const p = v10Ph($('#v10SPhone').value), pin = $('#v10SPin').value;
+    m.className = 'v10-msg bad';
+    if (!v10Ok(p)) return m.textContent = 'Pay panna 10-digit number podunga.';
+    if (!/^\d{4}$/.test(pin)) return m.textContent = '4-digit PIN set pannunga.';
+    if (!$('#v10SAgree').checked) return m.textContent = 'Save panna, mela irukka box-a tick pannunga.';
+    b.disabled = true; b.textContent = 'Saving…'; m.className = 'v10-msg'; m.textContent = '';
+    const r = await v10Api('save_plan', {phone:p, pin, consent:true, leadId:LEAD_ID, data:v10PlanData()});
+    b.disabled = false; b.textContent = 'Save my plan';
+    if (r.ok && r.token){
+      v10Set(V10K.token, r.token); v10Set(V10K.planPhone, p); v10Set(V10K.paidPhone, p); v10Set(V10K.snap, v10Snapshot());
+      track('plan_saved'); v10SaveCard(); v10Toast('Plan saved ✓ Unga number + PIN vechu eppo venumnaalum restore pannalaam.');
+      return;
+    }
+    m.className = 'v10-msg bad';
+    m.textContent = r.error==='not_paid' ? 'Indha number-la ₹99 payment illa. Razorpay-la kudutha number podunga.'
+      : r.error==='pin' ? 'Indha number-ku munnaadiye plan save aagirukku. Andha PIN podunga.'
+      : r.error==='busy' ? 'Romba tries. 1 mani neram kazhichu try pannunga.'
+      : 'Save aagala. Net check panni thirumba try pannunga.';
+  });
+}
+/* keep a saved plan up to date (only after the user saved it) */
+let v10Syncing = false;
+setInterval(async ()=>{
+  if (!PAYCHK_URL || v10Syncing || !rmPaid) return;
+  const token = v10Get(V10K.token), pp = v10Get(V10K.planPhone);
+  if (!token || !pp) return;
+  const snap = v10Snapshot();
+  if (snap === v10Get(V10K.snap)) return;
+  v10Syncing = true;
+  const r = await v10Api('save_plan', {phone:pp, token, consent:true, leadId:LEAD_ID, data:v10PlanData()});
+  v10Syncing = false;
+  if (r.ok) v10Set(V10K.snap, snap);
+  else if (r.error==='pin' || r.error==='not_paid'){ v10Del(V10K.token); v10Del(V10K.snap); v10SaveCard(); }
+}, 8000);
+
+/* =================== boot =================== */
+function v10Boot(){
+  try{
+    if (V10.app){
+      let seen = false; try{ seen = sessionStorage.getItem('mentell_v10_seen')==='1'; sessionStorage.setItem('mentell_v10_seen','1'); }catch(e){}
+      if (!seen) track('inapp_detected', {app:V10.app, platform: V10.android ? 'android' : V10.ios ? 'ios' : 'other'});
+      v10Strip();
+    }
+    let handoff = false; try{ handoff = sessionStorage.getItem('mentell_handoff')==='1'; sessionStorage.removeItem('mentell_handoff'); }catch(e){}
+    if (handoff){
+      track('handoff_arrived', {target: location.hash.replace('#','') || 'top'});
+      if (!state.revealed && state.income>0 && LEAKS.some(L=>state.leaks[L.id].on) && (gateOk() || state.phone)){ cxAnalyzed = true; reveal(); } // already saw the analysis in the other browser
+      const t = location.hash && document.getElementById(location.hash.slice(1));
+      if (t) setTimeout(()=>t.scrollIntoView({block:'start'}), 120);
+      v10Toast(state.income>0 ? 'Welcome ✓ Unga numbers ready. Inga pay pannunga, plan eppavum safe.' : 'Welcome ✓ Inga continue pannunga, plan eppavum safe.', 6000);
+    }
+    if (!PAYCHK_URL){ document.querySelectorAll('.v10-faq-restore').forEach(x=>x.hidden = true); return; }
+    if (!rmPaid){
+      const note = document.querySelector('.cx-hero-note');
+      if (note && !$('#v10HeroRestore')) note.insertAdjacentHTML('afterend', '<p class="v10-restore-hero" id="v10HeroRestore">Already bought the ₹99 plan? <button type="button" class="v10-textlink" data-v10-restore="hero">Restore it</button></p>');
+      const an = $('#cxPlanAnchor');
+      if (an && !$('#v10PlanRestore')) an.insertAdjacentHTML('afterend', '<p class="v10-note" id="v10PlanRestore" style="text-align:center">Already paid? <button type="button" class="v10-textlink" data-v10-restore="plan">Restore my plan</button></p>');
+    }
+    v10SaveCard();
+    if (rmVerify) v10VerifyReturn();
+  }catch(e){ try{ console.error('[v10]', e); }catch(_){} }
+}
+/* =================== /[v10] =================== */
+
+function cxBoot(){ cxPaidClass(); cxCoachInit(); cxCoachingReturn(); cxPaidClass(); cxRender(); cxPaywall(); cxBarUpdate(); cxV6Boot(); cxSoundUI(); cxTryIntro(); v10Boot(); } // [v10] + v10Boot
 /* ================= /[v4] CONVERSION LAYER ================= */
 
 /* ---------- init ---------- */
