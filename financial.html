@@ -887,6 +887,57 @@
   .v11-ig-steps i{font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800}
   .v11-ig-steps .v11-key{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#FDE68A;font-size:22px;font-weight:900}
   .v11-ig-steps .v11-key.c{background:var(--white);border:1.5px solid var(--border);border-radius:12px;width:auto;padding:0 10px;font-size:13px}
+
+  /* ── [v12] REAL PDF + after-payment screen ── */
+  .v12-doc{position:fixed;left:-12000px;top:0;width:794px;background:#fff;color:#1A1330;font-family:'Inter',system-ui,sans-serif;padding:40px 44px;box-sizing:border-box;line-height:1.45}
+  .v12-doc *{animation:none!important;transition:none!important}
+  .v12-doc .cx-reveal{opacity:1!important;transform:none!important}
+  .v12-doc > *{margin:0 0 18px}
+  .v12-hd{display:flex;align-items:center;gap:12px;border-bottom:3px solid #7C3AED;padding-bottom:14px}
+  .v12-hd img{width:40px;height:40px;border-radius:11px}
+  .v12-hd b{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block}
+  .v12-hd small{font-size:12.5px;color:#635F78}
+  .v12-hd .v12-r{margin-left:auto;text-align:right;font-size:12.5px;color:#635F78}
+  .v12-h2{font-size:18px;font-weight:800;margin:0 0 8px;color:#1A1330}
+  .v12-kp{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .v12-kp div{border:1.5px solid #E4DCF5;border-radius:14px;padding:12px}
+  .v12-kp small{display:block;font-size:11.5px;color:#635F78;font-weight:600}
+  .v12-kp b{display:block;font-size:20px;font-weight:800;margin-top:2px}
+  .v12-kp .hl{background:#F1ECFB;border-color:#C4B5FD}.v12-kp .hl b{color:#6D28D9}
+  .v12-kp .gr{background:#ECFDF3;border-color:#A7E3C0}.v12-kp .gr b{color:#15803D}
+  .v12-t{width:100%;border-collapse:collapse;font-size:13.5px}
+  .v12-t th{background:#F1ECFB;text-align:left;padding:8px 10px;font-size:12px;color:#4B4563}
+  .v12-t td{border-bottom:1px solid #EEE9F8;padding:8px 10px;vertical-align:top}
+  .v12-t td.g{color:#15803D;font-weight:800;white-space:nowrap}
+  .v12-t td.r{color:#B91C1C;font-weight:700;white-space:nowrap}
+  .v12-t tfoot td{font-weight:800;background:#FBFAFE}
+  .v12-note{font-size:13px;color:#4B4563}
+  .v12-steps{margin:0;padding-left:20px;font-size:13.5px;display:grid;gap:6px}
+  .v12-ft{border-top:1px solid #E4DCF5;padding-top:12px;font-size:11px;color:#635F78}
+  .v12-loans .card{box-shadow:none;border:1.5px solid #E4DCF5;margin-top:10px}
+  .v12-loans .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  /* sheet */
+  .v12-sheet h3{font-size:22px;margin:2px 0 6px}
+  .v12-ok{display:inline-flex;align-items:center;gap:8px;background:#DCFCE7;color:#14532D;font-weight:800;font-size:14px;border-radius:99px;padding:6px 12px;margin-bottom:8px}
+  .v12-step{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin:6px 0 2px}
+  .v12-big{width:100%;min-height:60px;font-size:18px;justify-content:center;display:flex;align-items:center;gap:10px;border-radius:16px}
+  .v12-big svg{width:24px;height:24px;flex:none}
+  .v12-arrow{display:block;margin:2px auto 6px;width:30px;height:30px;color:var(--blue);animation:v11bob 1.2s ease-in-out infinite}
+  .v12-sheet .v12-alt{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .v12-sheet .btn.ghost{width:100%;justify-content:center}
+  .v12-sheet p.v12-s{font-size:13px;color:var(--muted);margin:8px 0 0;text-align:center}
+  .v12-next{display:grid;gap:8px;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+  .v12-next a{display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;font-weight:700;color:var(--text);background:var(--white)}
+  .v12-next a small{display:block;font-weight:500;color:var(--muted);font-size:12.5px}
+  .v12-next a.pri{border-color:var(--blue);background:var(--navy-2)}
+  .v12-imgs{display:grid;gap:10px;max-height:52vh;overflow:auto;border:1px solid var(--border);border-radius:12px;padding:8px;background:#F5F3FB}
+  .v12-imgs img{width:100%;height:auto;display:block;border-radius:6px;box-shadow:var(--shadow-sm)}
+  .v12-busy{display:flex;align-items:center;gap:10px;justify-content:center;font-weight:700;margin:10px 0}
+  .v12-busy i{width:22px;height:22px;border-radius:50%;border:3px solid var(--blue-light);border-top-color:var(--blue);animation:v10spin 1s linear infinite}
+  .v12-sheet .btn{display:flex;align-items:center;justify-content:center;gap:8px}
+  .v12-sheet .btn svg{width:22px;height:22px;flex:none}
+  .v12-pill{display:inline-flex;align-items:center;gap:6px}
+  .v12-pill svg{width:18px;height:18px}
   /* tighter spacing on phones */
   @media(max-width:640px){
     #results{padding-top:16px}
@@ -1120,8 +1171,8 @@
 
     <div class="v11-pdf cx-paid-only" id="v11Pdf">
       <span class="v11-pdf-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></span>
-      <div><b>Unga plan-a PDF-a save pannunga</b><small>Tap → print screen varum → <b style="display:inline;font-size:inherit">"Save as PDF"</b> select → Download. Phone "Downloads"-la irukkum.</small></div>
-      <button type="button" class="btn sm" id="v11PdfBtn">Download PDF</button>
+      <div><b>Unga plan-a PDF-a save pannunga</b><small>Oru tap. Phone "Downloads"-la save aagum, WhatsApp-la-um anuppalaam.</small></div>
+      <button type="button" class="btn sm" id="v11PdfBtn" data-v12-pdf="callout">Download PDF</button>
     </div>
     <div class="kpis">
       <div class="kpi"><small>Monthly income</small><b id="kIncome">₹0</b><span id="kIncomeSub"></span></div>
@@ -1421,7 +1472,7 @@
   <div class="cx-bar-form" id="cxBarFormWrap" hidden><span class="cx-meter"><b id="cxBarLeak">0</b><small id="cxBarLeakLbl">leaks found</small></span><button type="button" class="btn" id="cxBarGo" data-cx-cta="bar_report">See report →</button></div>
   <div class="cx-actbar-2" id="cxBarDash" hidden>
     <a class="btn sm cx-unpaid-only" href="#cxPlan" data-cx-cta="bar_plan">Unlock my full plan · ₹99</a>
-    <a class="btn sm cx-paid-only" href="#roadmap" data-cx-cta="bar_loan">Close loan at ₹99</a>
+    <a class="btn sm cx-paid-only v12-pill" href="#" data-v12-pdf="bar" data-cx-cta="bar_pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>My plan PDF</a>
     <a class="btn ghost sm cx-paid-only" href="#coaching" data-cx-cta="bar_coaching">1:1 coaching</a>
   </div>
 </div>
@@ -3028,8 +3079,8 @@ function v10HandoffUrl(target){
     const l = JSON.parse(localStorage.getItem(STORE_KEY)||'null'); if (l){ delete l.name; delete l.phone; }
     const n = JSON.parse(localStorage.getItem(LOAN_KEY)||'null');
     let a = false; try{ a = sessionStorage.getItem('mentell_analyzed')==='1'; }catch(e){}
-    if (l || n){
-      const p = btoa(unescape(encodeURIComponent(JSON.stringify({v:1, l, n, id:LEAD_ID, g:(gateOk() || !!state.phone), a}))))
+    if (l || n || rmPaid){
+      const p = btoa(unescape(encodeURIComponent(JSON.stringify({v:1, l, n, id:LEAD_ID, g:(gateOk() || !!state.phone), a, p:!!rmPaid}))))
         .replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
       if (p.length < 15000) u.searchParams.set('mh', p);
     }
@@ -3141,6 +3192,7 @@ function v10TrustUnlock(){
 }
 function v10Unlocked(r, phone, how){
   v10Set(PAID_KEY, '1');
+  try{ sessionStorage.setItem('mentell_pdf_pending','1'); }catch(e){} // [v12] PDF screen after reload
   if (phone){ v10Set(V10K.paidPhone, phone); if (!state.phone){ state.phone = '91'+phone; persist(); } }
   try{ sessionStorage.setItem(GATE_KEY, '1'); }catch(e){}
   if (how==='return'){
@@ -3505,8 +3557,6 @@ function mwBoot(){
       const u = e.target.closest('[data-mw-use]'); if (u) return mwOttSet(+u.dataset.mwUse, 'use', u.getAttribute('aria-pressed') === 'true' ? '2–4 times/mo' : 'Not used');
     });
     $('#editBtn').addEventListener('click', ()=>{ mwGo(3); });   // runs after the original "Edit answers" handler
-    const pdf = $('#v11PdfBtn');
-    if (pdf) pdf.addEventListener('click', ()=>{ track('plan_print', {type:'full'}); document.body.classList.add('v11-print'); window.print(); });
     window.addEventListener('afterprint', ()=>document.body.classList.remove('v11-print'));
 
     mw.hidden = false;
@@ -3521,12 +3571,264 @@ function mwBoot(){
 }
 /* =================== /[v11] =================== */
 
+/* =====================================================================
+   [v12] REAL PDF DOWNLOAD + AFTER-PAYMENT SCREEN
+   Why: the old "Download PDF" called window.print(). Inside Instagram / Facebook
+   browsers print does nothing, and on phones "print → Save as PDF" confuses people.
+   Now: a real .pdf file is built on the phone (jsPDF + html2canvas, loaded only when
+   tapped, from cdnjs) and downloaded. In Instagram: one tap to Chrome (paid status +
+   numbers travel along) or see the plan as pictures. Right after paying, a screen asks
+   for the PDF first, then offers the loan roadmap and ₹4,999 coaching.
+   GA4: pdf_sheet_view {state, inapp}, pdf_download_click {location, inapp},
+        pdf_generated {result, pages}, pdf_downloaded {method}, plan_print {type:'pdf'}.
+   No amounts or personal data in any event.
+   ===================================================================== */
+const V12_LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+                  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'];
+const V12_ICON_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>';
+const V12_ICON_WA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>';
+let v12Lib = null, v12Last = null, v12Busy = false;
+function v12Load(){
+  if (window.jspdf && window.html2canvas) return Promise.resolve();
+  if (v12Lib) return v12Lib;
+  v12Lib = Promise.all(V12_LIBS.map(src=>new Promise((ok, bad)=>{
+    const s = document.createElement('script'); s.src = src; s.async = true; s.crossOrigin = 'anonymous';
+    const t = setTimeout(()=>bad(new Error('timeout')), 25000);
+    s.onload = ()=>{ clearTimeout(t); ok(); }; s.onerror = ()=>{ clearTimeout(t); bad(new Error('load')); };
+    document.head.appendChild(s);
+  }))).catch(e=>{ v12Lib = null; throw e; });
+  return v12Lib;
+}
+const v12HaveNumbers = () => state.income > 0 && LEAKS.some(L=>state.leaks[L.id].on);
+const v12First = () => String(state.name || '').trim().split(/\s+/)[0] || '';
+function v12FileName(){ const n = v12First().replace(/[^A-Za-z0-9]/g, ''); return 'Mentell-Money-Plan' + (n ? '-' + n : '') + '.pdf'; }
+
+/* the document: built from the same state + functions the page already uses */
+function v12Doc(){
+  const {spend, save} = totals(), I = state.income || 0, R = state.rate || 12;
+  const on = LEAKS.filter(L=>state.leaks[L.id].on);
+  const d = new Date(), date = d.toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+  const rows = on.map(L=>{
+    const v = state.leaks[L.id].v, c = cutOf(L), sp = L.spend(v), sv = L.cut.save(v, c);
+    return `<tr><td><b>${esc(L.title)}</b></td><td class="r">${inr(sp)}</td><td>${esc(L.cut.now(v, c))}</td><td class="g">${inr(sv)}</td></tr>`;
+  }).join('');
+  const t10 = I * 0.1;
+  const blocks = [
+    `<div class="v12-hd"><img src="apple-touch-icon.png" alt="" width="40" height="40"><div><b>Mentell Money Plan</b><small>${v12First() ? esc(v12First()) + '-oda personal plan' : 'Your personal plan'}</small></div><div class="v12-r">${esc(date)}<br>mentell.co.in</div></div>`,
+    `<div><h2 class="v12-h2">Unga summary</h2><div class="v12-kp">
+      <div><small>Monthly income</small><b>${inr(I)}</b></div>
+      <div><small>Habit spend / month</small><b>${inr(spend)}</b><small>${I ? Math.round(spend / I * 100) : 0}% of income</small></div>
+      <div class="hl"><small>You can free up / month</small><b>${inr(save)}</b><small>${inr(save * 12)} a year</small></div>
+      <div class="gr"><small>Invested 10 yrs @ ${R}%</small><b>${compact(fv(save, R, 120))}</b><small>vs ${compact(save * 120)} kept aside</small></div></div></div>`,
+    `<div><h2 class="v12-h2">Unga cut plan: habit by habit</h2>
+      <table class="v12-t"><thead><tr><th>Habit</th><th>Cost now / month</th><th>Your small change</th><th>You save / month</th></tr></thead>
+      <tbody>${rows}</tbody><tfoot><tr><td>Total</td><td class="r">${inr(spend)}</td><td></td><td class="g">${inr(save)}</td></tr></tfoot></table>
+      <p class="v12-note" style="margin-top:8px">Small change-a start pannunga. Oru maasam stick aana apram next change.</p></div>`,
+    `<div><h2 class="v12-h2">Salary vandha udane: 70–30 rule</h2>
+      <table class="v12-t"><tbody>
+        <tr><td><b>70% · Live on this</b></td><td>${inr(I * 0.7)}</td><td>Rent, food, EMI, bills</td></tr>
+        <tr><td><b>10% · Charity</b></td><td>${inr(t10)}</td><td>Temple / mosque / church, NGO, help someone</td></tr>
+        <tr><td><b>10% · Active capital</b></td><td>${inr(t10)}</td><td>Courses, skills, tools: raise next year's income</td></tr>
+        <tr><td><b>10% · Passive capital</b></td><td>${inr(t10)}</td><td>SIP, FD, gold: money that grows by itself</td></tr>
+      </tbody></table></div>`
+  ];
+  const loans = (rmPaid && typeof validLoans === 'function' && validLoans().length && rmResEl && !rmResEl.hidden && rmResEl.innerHTML.trim()) ? rmResEl : null;
+  return {blocks, loans};
+}
+function v12Build(){
+  const old = $('#v12Doc'); if (old) old.remove();
+  const box = document.createElement('div'); box.id = 'v12Doc'; box.className = 'v12-doc'; box.setAttribute('aria-hidden', 'true');
+  const {blocks, loans} = v12Doc();
+  box.innerHTML = blocks.join('');
+  if (loans){
+    const h = document.createElement('div'); h.innerHTML = '<h2 class="v12-h2">Unga loan roadmap</h2>'; box.appendChild(h);
+    const c = loans.cloneNode(true);
+    c.querySelectorAll('button, input, select, .rm-ctrl, .cta-row, .rm-track, script').forEach(x=>x.remove());
+    c.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+    Array.from(c.children).forEach(ch=>{ const w = document.createElement('div'); w.className = 'v12-loans'; w.appendChild(ch); box.appendChild(w); });
+  }
+  const tail = document.createElement('div');
+  tail.innerHTML = `<h2 class="v12-h2">Next 7 days</h2><ol class="v12-steps">
+      <li>Indha PDF-a phone-la save pannunga. Daily oru dhadava paarunga.</li>
+      <li>Mela irukka <b>small change</b>-a indha vaaram start pannunga.</li>
+      <li>Salary vandha udane 30%-a thani account-ku maathunga.</li>
+      <li>Loan irundha: free aana panatha loan-ku podunga ("reduce tenure" kelunga).</li>
+      <li>Help venumna Noor-ku WhatsApp: +91 ${esc(String(WA_NUMBER).replace(/^91/, ''))}</li></ol>`;
+  box.appendChild(tail);
+  const ft = document.createElement('p'); ft.className = 'v12-ft';
+  ft.textContent = 'Estimates for habit and money planning only, based on the numbers you entered. Not financial or investment advice. Check prepayment terms with your bank. © Mentell · mentell.co.in';
+  box.appendChild(ft);
+  document.body.appendChild(box);
+  return box;
+}
+/* keep a block from being cut across two pages */
+function v12Paginate(box, pageH){
+  const kids = Array.from(box.children);
+  kids.forEach(k=>{
+    const y = k.offsetTop, h = k.offsetHeight;
+    if (h >= pageH - 120) return;
+    const end = (Math.floor(y / pageH) + 1) * pageH;
+    if (y + h > end - 40){ const push = end + 40 - y; k.style.marginTop = (parseFloat(getComputedStyle(k).marginTop) || 0) + push + 'px'; }
+  });
+}
+async function v12Make(){
+  await v12Load();
+  const box = v12Build();
+  try{ if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, v10Sleep(1500)]); }catch(e){}
+  await Promise.all(Array.from(box.querySelectorAll('img')).map(i=>i.complete ? 0 : new Promise(r=>{ i.onload = i.onerror = r; })));
+  const W = 794, pageH = Math.round(W * 841.89 / 595.28);
+  v12Paginate(box, pageH);
+  const scale = Math.min(2, window.devicePixelRatio || 2);
+  const canvas = await window.html2canvas(box, {scale, backgroundColor:'#ffffff', useCORS:true, logging:false, windowWidth:W});
+  box.remove();
+  const sliceH = Math.round(pageH * scale), pages = [];
+  for (let y = 0; y < canvas.height; y += sliceH){
+    const c = document.createElement('canvas'); c.width = canvas.width; c.height = sliceH;
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+    g.drawImage(canvas, 0, y, canvas.width, Math.min(sliceH, canvas.height - y), 0, 0, canvas.width, Math.min(sliceH, canvas.height - y));
+    pages.push(c.toDataURL('image/jpeg', 0.9));
+  }
+  const pdf = new window.jspdf.jsPDF({unit:'pt', format:'a4', compress:true});
+  pages.forEach((src, i)=>{ if (i) pdf.addPage(); pdf.addImage(src, 'JPEG', 0, 0, 595.28, 841.89); });
+  pdf.setProperties({title:'Mentell Money Plan', creator:'mentell.co.in'});
+  v12Last = {pdf, pages, blob: pdf.output('blob'), name: v12FileName()};
+  track('pdf_generated', {result:'ok', pages: pages.length});
+  return v12Last;
+}
+
+/* ---------- the sheet (reuses the v10 modal) ---------- */
+function v12NextHTML(){
+  return `<div class="v12-next"><span class="v12-step">Next</span>
+    <a href="#roadmap" class="pri" data-v12-close data-cx-cta="pdf_next_roadmap"><span>Unga loans-a seekiram close pannunga<small>Debt-free date + month-by-month plan</small></span><b aria-hidden="true">↓</b></a>
+    <a href="#coaching" data-v12-close data-cx-cta="pdf_next_coaching"><span>Noor kooda 1:1 · ${CX_DAYS} days<small>Plan-a execute panna personal help · ${inr(CX_PRICE)}</small></span><b aria-hidden="true">↓</b></a></div>`;
+}
+function v12Sheet(mode, where){
+  const paid = rmPaid;
+  const inapp = !!V10.app;
+  const head = `<div class="v11-brand"><img src="favicon.svg" alt="" width="26" height="26">mentell</div>` +
+    (where === 'paid' ? `<span class="v12-ok">✓ ₹99 payment success</span>` : '');
+  let body = '';
+  if (mode === 'start'){
+    body = `<h3>Unga plan ready panna 3 quick steps</h3><p>Indha browser-la unga numbers illa. 2 nimisham fill pannunga, mudinjadhum PDF ready.</p>
+      <button type="button" class="btn v12-big" data-v12-start>Start pannalaam →</button>`;
+  } else if (mode === 'inapp'){
+    const browser = V10.ios ? 'Safari' : 'Chrome';
+    body = `<p class="v12-step">Step 1 · PDF save</p><h3>${v10Esc(V10.app)} browser-la PDF save aagadhu</h3>
+      <p>${browser}-la open pannunga: unga plan + payment apdiye varum, anga oru tap-la PDF download.</p>
+      <div class="v11-ig-steps" aria-hidden="true"><div><i>1</i><span class="v11-key">${V10.ios ? '⋯' : '⋮'}</span>Mela right-la tap</div><div><i>2</i><span class="v11-key c">${V10.ios ? 'Open in external browser' : 'Open in Chrome'}</span>Idha tap</div></div>
+      ${V10.android ? `<button type="button" class="btn v12-big" data-v10-open="pdf" data-v10-target="pdf">${V12_ICON_DL}${browser}-la open panni PDF edunga</button>` : v10IosHtml('pdf')}
+      <div class="v12-alt"><button type="button" class="btn ghost" data-v12-images>Illa, inga-ve plan-a picture-a paakkanum</button></div>`;
+  } else if (mode === 'ask'){
+    body = `<p class="v12-step">Step 1 · Unga plan PDF</p><h3>Mudhalla unga plan-a save pannunga</h3>
+      <p>Oru tap. Phone-la save aagum, eppo venumnaalum paakkalaam, WhatsApp-la-um anuppalaam.</p>
+      <span class="v12-arrow" aria-hidden="true">${V12_ICON_DL}</span>
+      <button type="button" class="btn v12-big" data-v12-go>${V12_ICON_DL}Download my plan PDF</button>
+      <p class="v12-s">File name: ${esc(v12FileName())}</p>`;
+  } else if (mode === 'busy'){
+    body = `<h3>Unga PDF ready aagudhu…</h3><div class="v12-busy"><i></i>5–10 seconds</div>`;
+  } else if (mode === 'done'){
+    const share = v12Last && navigator.canShare && (()=>{ try{ return navigator.canShare({files:[new File([v12Last.blob], v12Last.name, {type:'application/pdf'})]}); }catch(e){ return false; } })();
+    body = `<span class="v12-ok">✓ PDF download aagiduchu</span><h3>Phone "Downloads" folder-la irukkum</h3>
+      <p>Notification-la tap pannunga or Files app → Downloads → <b>${esc(v12Last ? v12Last.name : v12FileName())}</b>.</p>
+      <div class="v12-alt">
+        ${share ? `<button type="button" class="btn v12-big" data-v12-share>${V12_ICON_WA}WhatsApp-la save / share</button>` : ''}
+        <button type="button" class="btn ghost" data-v12-go>Download aagala? Thirumba try</button>
+        <button type="button" class="btn ghost" data-v12-images>Picture-a paakkanum</button>
+      </div>${paid ? v12NextHTML() : ''}`;
+  } else if (mode === 'images'){
+    body = `<h3>Unga plan</h3><p><b>Long-press</b> panni "Save image" or <b>screenshot</b> edunga. Proper PDF-ku ${V10.app ? (V10.ios ? 'Safari' : 'Chrome') + '-la open pannunga' : 'mela Download try pannunga'}.</p>
+      <div class="v12-imgs">${(v12Last ? v12Last.pages : []).map((s,i)=>`<img src="${s}" alt="Mentell money plan page ${i+1}">`).join('')}</div>
+      ${V10.app && V10.android ? `<div class="v12-alt"><button type="button" class="btn" data-v10-open="pdf_images" data-v10-target="pdf">${V12_ICON_DL}Chrome-la open panni PDF edunga</button></div>` : ''}
+      ${paid ? v12NextHTML() : ''}`;
+  } else if (mode === 'error'){
+    body = `<h3>PDF ready aagala</h3><p>Net slow-a irukkalaam. Thirumba try pannunga. Varalaina WhatsApp pannunga, Noor PDF anuppuvaar.</p>
+      <div class="v12-alt"><button type="button" class="btn v12-big" data-v12-go>Thirumba try</button>
+      <a class="btn ghost" href="${waLink('Hi Noor, I paid ₹99 but could not download my plan PDF')}" target="_blank" rel="noopener" data-cx-wa="pdf_error">WhatsApp Noor</a></div>`;
+  }
+  v10Modal(`${v10X}<div class="v12-sheet">${head}${body}</div>`);
+  track('pdf_sheet_view', {state: mode, inapp: inapp ? 1 : 0});
+}
+async function v12Go(where){
+  if (v12Busy) return;
+  if (!v12HaveNumbers()) return v12Sheet('start', where);
+  if (V10.app && where !== 'images') return v12Sheet('inapp', where);
+  v12Busy = true; v12Sheet('busy', where);
+  try{
+    const r = await v12Make();
+    if (V10.app){ v12Sheet('images', where); track('pdf_downloaded', {method:'image'}); }
+    else {
+      try{ r.pdf.save(r.name); }catch(e){}
+      track('pdf_downloaded', {method:'file'}); track('plan_print', {type:'pdf'});
+      try{ sessionStorage.removeItem('mentell_pdf_pending'); }catch(e){}
+      v12Sheet('done', where);
+    }
+  }catch(e){
+    track('pdf_generated', {result:'error'});
+    v12Sheet('error', where);
+    try{ console.error('[v12]', e); }catch(_){}
+  }finally{ v12Busy = false; }
+}
+document.addEventListener('click', async e=>{
+  const t = e.target.closest && e.target.closest('[data-v12-pdf],[data-v12-go],[data-v12-images],[data-v12-share],[data-v12-start],[data-v12-close],#rmPrint');
+  if (!t) return;
+  if (t.matches('[data-v12-pdf], #rmPrint')){            // every "Download PDF" button on the page
+    e.preventDefault(); e.stopImmediatePropagation();
+    const where = t.id === 'rmPrint' ? 'roadmap' : t.getAttribute('data-v12-pdf');
+    track('pdf_download_click', {location: where, inapp: V10.app ? 1 : 0});
+    return v12Sheet(!v12HaveNumbers() ? 'start' : V10.app ? 'inapp' : 'ask', where);
+  }
+  if (t.matches('[data-v12-go]')){ track('pdf_download_click', {location:'sheet', inapp: V10.app ? 1 : 0}); return v12Go('sheet'); }
+  if (t.matches('[data-v12-images]')){
+    if (!v12HaveNumbers()) return v12Sheet('start');
+    if (v12Last) return v12Sheet('images');
+    v12Busy = true; v12Sheet('busy');
+    try{ await v12Make(); v12Sheet('images'); track('pdf_downloaded', {method:'image'}); }
+    catch(err){ track('pdf_generated', {result:'error'}); v12Sheet('error'); }
+    finally{ v12Busy = false; }
+    return;
+  }
+  if (t.matches('[data-v12-share]') && v12Last){
+    try{ await navigator.share({files:[new File([v12Last.blob], v12Last.name, {type:'application/pdf'})], title:'Mentell Money Plan'}); track('pdf_downloaded', {method:'share'}); }catch(err){}
+    return;
+  }
+  if (t.matches('[data-v12-start]')){
+    try{ sessionStorage.setItem('mentell_pdf_pending', '1'); }catch(err){}
+    v10Close();
+    if ($('#results').classList.contains('show')) $('#editBtn').click(); else if (typeof mwGo === 'function') mwGo(1);
+    return;
+  }
+  if (t.matches('[data-v12-close]')) v10Close();
+}, true);
+
+function v12Pending(){ try{ return sessionStorage.getItem('mentell_pdf_pending') === '1'; }catch(e){ return false; } }
+function v12Boot(){
+  try{
+    const justPaid = rmReturn && !rmVerify;
+    const viaHandoff = location.hash === '#pdf' && rmPaid;
+    if (justPaid || viaHandoff){ try{ sessionStorage.setItem('mentell_pdf_pending', '1'); }catch(e){} }
+    if (rmPaid && v12Pending()){
+      if (viaHandoff){ try{ history.replaceState(null, '', location.pathname + location.search + '#roadmap'); }catch(e){} }
+      setTimeout(()=>{
+        if (!v12HaveNumbers()) return v12Sheet('start', justPaid ? 'paid' : 'return');
+        v12Sheet(V10.app ? 'inapp' : 'ask', justPaid ? 'paid' : 'return');
+      }, 350);
+    }
+    // a buyer who had to fill the steps first: ask for the PDF as soon as the report opens
+    new MutationObserver(()=>{
+      if ($('#results').classList.contains('show') && rmPaid && v12Pending() && !($('#v10Modal') && $('#v10Modal').classList.contains('open')))
+        setTimeout(()=>v12Sheet(V10.app ? 'inapp' : 'ask', 'return'), 400);
+    }).observe($('#results'), {attributes:true, attributeFilter:['class']});
+  }catch(e){ try{ console.error('[v12]', e); }catch(_){} }
+}
+/* =================== /[v12] =================== */
+
 /* ---------- init ---------- */
 $('#heroFifty').textContent = compact(fv(50*DM,12,120));
 renderSplit(); renderLeaks();
 roadmapBoot(); // [Roadmap 2A hook]
 cxBoot(); // [v4] conversion layer
 mwBoot(); // [v11] step-by-step layout
+v12Boot(); // [v12] real PDF + after-payment screen
 })();
 </script>
 </body>

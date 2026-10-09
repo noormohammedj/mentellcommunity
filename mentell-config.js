@@ -126,7 +126,9 @@ window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
   /* 8. "Open in Chrome" hand-off (financial.html). The Instagram browser sends the
      visitor's calculator answers in ?mh=…; we save them here and remove ?mh from the
      address bar BEFORE the GA tag reads the URL, so the numbers never reach GA.
-     Name, phone, paid status and saved-plan keys are never carried or accepted. */
+     Name, phone and saved-plan keys are never carried or accepted. [v12] The ₹99 "paid"
+     flag is carried (same trust level as ?paid=1) so a buyer who moves to Chrome keeps
+     the plan and can download the PDF; it never fires a second purchase event. */
   (function handoff() {
     var raw = qp('mh');
     if (!raw) return;
@@ -137,6 +139,7 @@ window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
         if (d && typeof d === 'object') {
           if (d.l && typeof d.l === 'object' && d.l.leaks) { delete d.l.name; delete d.l.phone; lsSet('mentell_leak_v2', JSON.stringify(d.l)); }
           if (d.n && typeof d.n === 'object' && Array.isArray(d.n.loans)) lsSet('mentell_loans_v1', JSON.stringify(d.n));
+          if (d.p === true) lsSet('mentell_roadmap_paid', '1'); // [v12]
           if (typeof d.id === 'string' && /^L[a-z0-9]{6,20}$/.test(d.id) && !lsGet('mentell_lead_id')) lsSet('mentell_lead_id', d.id);
           try {
             if (d.g === true) sessionStorage.setItem('mentell_gate_ok', '1');
