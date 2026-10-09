@@ -3580,25 +3580,28 @@ function mwBoot(){
    numbers travel along) or see the plan as pictures. Right after paying, a screen asks
    for the PDF first, then offers the loan roadmap and ₹4,999 coaching.
    GA4: pdf_sheet_view {state, inapp}, pdf_download_click {location, inapp},
-        pdf_generated {result, pages}, pdf_downloaded {method}, plan_print {type:'pdf'}.
+        pdf_generated {result: ok|ok_simple|error, pages}, pdf_downloaded {method: file|share|open|image},
+        plan_print {type:'pdf'}. [v12.1] iPhone hang fixed; 15 s limit, then a plain backup layout.
    No amounts or personal data in any event.
    ===================================================================== */
 const V12_LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
                   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'];
 const V12_ICON_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>';
 const V12_ICON_WA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>';
-let v12Lib = null, v12Last = null, v12Busy = false;
-function v12Load(){
-  if (window.jspdf && window.html2canvas) return Promise.resolve();
-  if (v12Lib) return v12Lib;
-  v12Lib = Promise.all(V12_LIBS.map(src=>new Promise((ok, bad)=>{
+let v12Last = null, v12Busy = false;
+const v12Libs = {};
+const V12_IOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function v12Script(src, ms){
+  if (v12Libs[src]) return v12Libs[src];
+  v12Libs[src] = new Promise((ok, bad)=>{
     const s = document.createElement('script'); s.src = src; s.async = true; s.crossOrigin = 'anonymous';
-    const t = setTimeout(()=>bad(new Error('timeout')), 25000);
+    const t = setTimeout(()=>bad(new Error('timeout')), ms || 20000);
     s.onload = ()=>{ clearTimeout(t); ok(); }; s.onerror = ()=>{ clearTimeout(t); bad(new Error('load')); };
     document.head.appendChild(s);
-  }))).catch(e=>{ v12Lib = null; throw e; });
-  return v12Lib;
+  }).catch(e=>{ delete v12Libs[src]; throw e; });
+  return v12Libs[src];
 }
+const v12Within = (p, ms) => Promise.race([p, new Promise((_, bad)=>setTimeout(()=>bad(new Error('timeout')), ms))]);
 const v12HaveNumbers = () => state.income > 0 && LEAKS.some(L=>state.leaks[L.id].on);
 const v12First = () => String(state.name || '').trim().split(/\s+/)[0] || '';
 function v12FileName(){ const n = v12First().replace(/[^A-Za-z0-9]/g, ''); return 'Mentell-Money-Plan' + (n ? '-' + n : '') + '.pdf'; }
@@ -3671,30 +3674,127 @@ function v12Paginate(box, pageH){
     if (y + h > end - 40){ const push = end + 40 - y; k.style.marginTop = (parseFloat(getComputedStyle(k).marginTop) || 0) + push + 'px'; }
   });
 }
-async function v12Make(){
-  await v12Load();
+/* Way 1: the designed layout (html2canvas). Only the PDF box is copied: html2canvas otherwise
+   copies the WHOLE page and waits for every lazy picture / web font in it, which never
+   finish on iPhone Safari (the 9 Oct "keeps spinning" bug). */
+async function v12Shots(){
+  if (!window.html2canvas) await v12Script(V12_LIBS[0], 15000);
   const box = v12Build();
-  try{ if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, v10Sleep(1500)]); }catch(e){}
-  await Promise.all(Array.from(box.querySelectorAll('img')).map(i=>i.complete ? 0 : new Promise(r=>{ i.onload = i.onerror = r; })));
-  const W = 794, pageH = Math.round(W * 841.89 / 595.28);
-  v12Paginate(box, pageH);
-  const scale = Math.min(2, window.devicePixelRatio || 2);
-  const canvas = await window.html2canvas(box, {scale, backgroundColor:'#ffffff', useCORS:true, logging:false, windowWidth:W});
-  box.remove();
-  const sliceH = Math.round(pageH * scale), pages = [];
-  for (let y = 0; y < canvas.height; y += sliceH){
-    const c = document.createElement('canvas'); c.width = canvas.width; c.height = sliceH;
-    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
-    g.drawImage(canvas, 0, y, canvas.width, Math.min(sliceH, canvas.height - y), 0, 0, canvas.width, Math.min(sliceH, canvas.height - y));
-    pages.push(c.toDataURL('image/jpeg', 0.9));
+  try{
+    await Promise.all(Array.from(box.querySelectorAll('img')).map(i=>i.complete ? 0 : v12Within(new Promise(r=>{ i.onload = i.onerror = r; }), 3000).catch(()=>0)));
+    const W = 794, pageH = Math.round(W * 841.89 / 595.28);
+    v12Paginate(box, pageH);
+    let scale = Math.min(2, window.devicePixelRatio || 2);
+    while (scale > 1 && W * scale * box.scrollHeight * scale > 15e6) scale -= 0.25;   // iPhone canvas size limit
+    const keep = el => el === box || box.contains(el) || el.contains(box) || (el.closest && el.closest('head'));
+    const canvas = await window.html2canvas(box, {scale, backgroundColor:'#ffffff', useCORS:false, logging:false, windowWidth:W,
+      imageTimeout:3000, ignoreElements: el => !keep(el) || (el.tagName === 'LINK' && /fonts\.googleapis/.test(el.href || ''))});
+    const sliceH = Math.round(pageH * scale), pages = [];
+    for (let y = 0; y < canvas.height; y += sliceH){
+      const c = document.createElement('canvas'); c.width = canvas.width; c.height = sliceH;
+      const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+      const h = Math.min(sliceH, canvas.height - y);
+      g.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
+      pages.push(c.toDataURL('image/jpeg', 0.88));
+    }
+    return pages;
+  }finally{
+    box.remove();
+    document.querySelectorAll('iframe.html2canvas-container').forEach(f=>f.remove());
   }
+}
+/* Way 2 (backup, no extra library): draw the plan straight onto canvas pages. */
+function v12Simple(){
+  const W = 1240, H = 1754, M = 84, FONT = '-apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif';
+  const pages = []; let c, g, y;
+  const page = ()=>{ c = document.createElement('canvas'); c.width = W; c.height = H; g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); y = M; pages.push(c); };
+  const need = h => { if (y + h > H - M) page(); };
+  const wrap = (s, size, weight, maxW)=>{ g.font = `${weight} ${size}px ${FONT}`; const out = []; let line = '';
+    String(s).split(/\s+/).forEach(w=>{ const tr = line ? line + ' ' + w : w; if (g.measureText(tr).width > maxW && line){ out.push(line); line = w; } else line = tr; }); if (line) out.push(line); return out; };
+  const text = (s, o)=>{ o = Object.assign({size:26, weight:400, color:'#1A1330', x:M, w:W - 2*M, gap:8}, o||{});
+    const ls = wrap(s, o.size, o.weight, o.w); need(ls.length * o.size * 1.4);
+    g.font = `${o.weight} ${o.size}px ${FONT}`; g.fillStyle = o.color; ls.forEach(l=>{ g.fillText(l, o.x, y + o.size); y += o.size * 1.4; }); y += o.gap; };
+  const h2 = s => { need(90); y += 18; text(s, {size:34, weight:800, gap:12}); };
+  const table = (head, rows, widths, colors)=>{
+    const xs = widths.reduce((a, w, i)=>{ a.push(i ? a[i-1] + widths[i-1] : M); return a; }, []);
+    const draw = (cells, bold, bg)=>{
+      const lines = cells.map((s, i)=>wrap(s, 24, bold ? 700 : 400, widths[i] - 20));
+      const rh = Math.max(...lines.map(l=>l.length)) * 33 + 22; need(rh);
+      if (bg){ g.fillStyle = bg; g.fillRect(M, y, W - 2*M, rh); }
+      lines.forEach((ls, i)=>{ g.font = `${bold || i === 0 ? 700 : 400} 24px ${FONT}`; g.fillStyle = (colors && colors[i]) || '#1A1330';
+        ls.forEach((l, k)=>g.fillText(l, xs[i] + 10, y + 34 + k * 33)); });
+      y += rh; g.fillStyle = '#EEE9F8'; g.fillRect(M, y - 2, W - 2*M, 2);
+    };
+    if (head) draw(head, true, '#F1ECFB'); rows.forEach(r=>draw(r.cells, r.bold, r.bg)); y += 16;
+  };
+  page();
+  // header
+  g.fillStyle = '#7C3AED'; g.beginPath(); if (g.roundRect) g.roundRect(M, y, 64, 64, 16); else g.rect(M, y, 64, 64); g.fill();
+  g.fillStyle = '#fff'; g.font = `800 40px ${FONT}`; g.fillText('m', M + 17, y + 46);
+  g.fillStyle = '#1A1330'; g.font = `800 38px ${FONT}`; g.fillText('Mentell Money Plan', M + 84, y + 34);
+  g.fillStyle = '#635F78'; g.font = `400 22px ${FONT}`; g.fillText(v12First() ? v12First() + '-oda personal plan' : 'Your personal plan', M + 84, y + 64);
+  const date = new Date().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+  g.textAlign = 'right'; g.fillText(date + ' · mentell.co.in', W - M, y + 34); g.textAlign = 'left';
+  y += 84; g.fillStyle = '#7C3AED'; g.fillRect(M, y, W - 2*M, 5); y += 30;
+  const {spend, save} = totals(), I = state.income || 0, R = state.rate || 12;
+  h2('Unga summary');
+  table(null, [
+    {cells:['Monthly income', inr(I)]},
+    {cells:['Habit spend / month', inr(spend) + ' (' + (I ? Math.round(spend / I * 100) : 0) + '% of income)']},
+    {cells:['You can free up / month', inr(save) + ' · ' + inr(save * 12) + ' a year'], bold:true, bg:'#F1ECFB'},
+    {cells:['Invested 10 yrs @ ' + R + '%', compact(fv(save, R, 120)) + ' (vs ' + compact(save * 120) + ' kept aside)'], bold:true, bg:'#ECFDF3'}
+  ], [480, W - 2*M - 480]);
+  h2('Unga cut plan: habit by habit');
+  const on = LEAKS.filter(L=>state.leaks[L.id].on);
+  table(['Habit', 'Cost now / month', 'Your small change', 'You save / month'],
+    on.map(L=>{ const v = state.leaks[L.id].v, cc = cutOf(L); return {cells:[L.title, inr(L.spend(v)), L.cut.now(v, cc), inr(L.cut.save(v, cc))]}; })
+      .concat([{cells:['Total', inr(spend), '', inr(save)], bold:true, bg:'#FBFAFE'}]),
+    [300, 250, 280, W - 2*M - 830], [null, '#B91C1C', null, '#15803D']);
+  h2('Salary vandha udane: 70–30 rule');
+  table(null, [
+    {cells:['70% · Live on this', inr(I * 0.7), 'Rent, food, EMI, bills']},
+    {cells:['10% · Charity', inr(I * 0.1), 'Temple / mosque / church, NGO']},
+    {cells:['10% · Active capital', inr(I * 0.1), 'Courses, skills, tools']},
+    {cells:['10% · Passive capital', inr(I * 0.1), 'SIP, FD, gold']}
+  ], [330, 220, W - 2*M - 550]);
+  if (rmPaid && typeof validLoans === 'function' && validLoans().length && rmResEl && !rmResEl.hidden){
+    h2('Unga loan roadmap');
+    const hl = rmResEl.querySelector('.rm-headline'); if (hl) text(hl.textContent.replace(/\s+/g, ' ').trim(), {size:26, weight:600});
+    const k = Array.from(rmResEl.querySelectorAll('.kpis .kpi')).map(x=>({cells:[(x.querySelector('small')||{}).textContent || '', ((x.querySelector('b')||{}).textContent || '') + ' ' + ((x.querySelector('span')||{}).textContent || '')]}));
+    if (k.length) table(null, k, [420, W - 2*M - 420]);
+    const st = Array.from(rmResEl.querySelectorAll('.rm-steps li')).map(li=>li.textContent.replace(/\s+/g, ' ').trim());
+    if (st.length){ text('Month-by-month plan', {size:26, weight:800}); st.forEach((s, i)=>text((i + 1) + '. ' + s, {size:24, gap:4})); }
+    const ck = Array.from(rmResEl.querySelectorAll('.rm-check li')).map(li=>li.textContent.replace(/\s+/g, ' ').trim());
+    if (ck.length){ y += 10; text('Bank-la prepay panna checklist', {size:26, weight:800}); ck.forEach(s=>text('• ' + s, {size:22, gap:4})); }
+  }
+  h2('Next 7 days');
+  ['Indha PDF-a phone-la save pannunga. Daily oru dhadava paarunga.', 'Mela irukka small change-a indha vaaram start pannunga.',
+   'Salary vandha udane 30%-a thani account-ku maathunga.', 'Loan irundha: free aana panatha loan-ku podunga ("reduce tenure" kelunga).',
+   'Help venumna Noor-ku WhatsApp: +91 ' + String(WA_NUMBER).replace(/^91/, '')].forEach((s, i)=>text((i + 1) + '. ' + s, {size:24, gap:4}));
+  y += 20; text('Estimates for habit and money planning only, based on the numbers you entered. Not financial or investment advice. Check prepayment terms with your bank. © Mentell · mentell.co.in', {size:18, color:'#635F78'});
+  return pages.map(cv=>cv.toDataURL('image/jpeg', 0.88));
+}
+async function v12Make(){
+  if (!(window.jspdf && window.jspdf.jsPDF)) await v12Script(V12_LIBS[1], 20000);
+  let pages, how = 'designed';
+  try{ pages = await v12Within(v12Shots(), 15000); }
+  catch(e){ how = 'simple'; pages = v12Simple(); document.querySelectorAll('iframe.html2canvas-container, #v12Doc').forEach(f=>f.remove()); }
   const pdf = new window.jspdf.jsPDF({unit:'pt', format:'a4', compress:true});
   pages.forEach((src, i)=>{ if (i) pdf.addPage(); pdf.addImage(src, 'JPEG', 0, 0, 595.28, 841.89); });
   pdf.setProperties({title:'Mentell Money Plan', creator:'mentell.co.in'});
   v12Last = {pdf, pages, blob: pdf.output('blob'), name: v12FileName()};
-  track('pdf_generated', {result:'ok', pages: pages.length});
+  track('pdf_generated', {result: how === 'designed' ? 'ok' : 'ok_simple', pages: pages.length});
   return v12Last;
 }
+/* hand the file over: iPhone → share sheet (Save to Files / WhatsApp) or open the PDF;
+   Android / desktop → normal download */
+function v12CanShare(){ try{ return !!(v12Last && navigator.canShare && navigator.canShare({files:[new File([v12Last.blob], v12Last.name, {type:'application/pdf'})]})); }catch(e){ return false; } }
+async function v12Share(){
+  try{ await navigator.share({files:[new File([v12Last.blob], v12Last.name, {type:'application/pdf'})], title:'Mentell Money Plan'}); track('pdf_downloaded', {method:'share'}); return true; }
+  catch(e){ return !!(e && e.name === 'AbortError'); }   // user closed the share sheet: don't force-open
+}
+function v12Open(){ try{ const u = URL.createObjectURL(v12Last.blob); const w = window.open(u, '_blank'); if (!w) location.href = u; track('pdf_downloaded', {method:'open'}); }catch(e){} }
+function v12Save(){ try{ v12Last.pdf.save(v12Last.name); track('pdf_downloaded', {method:'file'}); }catch(e){ v12Open(); } }
 
 /* ---------- the sheet (reuses the v10 modal) ---------- */
 function v12NextHTML(){
@@ -3725,14 +3825,25 @@ function v12Sheet(mode, where){
       <button type="button" class="btn v12-big" data-v12-go>${V12_ICON_DL}Download my plan PDF</button>
       <p class="v12-s">File name: ${esc(v12FileName())}</p>`;
   } else if (mode === 'busy'){
-    body = `<h3>Unga PDF ready aagudhu…</h3><div class="v12-busy"><i></i>5–10 seconds</div>`;
+    body = `<h3>Unga PDF ready aagudhu…</h3><div class="v12-busy"><i></i><span id="v12BusyT">10–20 seconds</span></div>`;
+  } else if (mode === 'ready'){   // iPhone: saving must happen on a tap
+    const share = v12CanShare();
+    body = `<span class="v12-ok">✓ Unga PDF ready</span><h3>Ippo save pannunga</h3>
+      <p>${share ? '<b>Save PDF</b> tap → <b>"Save to Files"</b> or WhatsApp select pannunga.' : '<b>Open PDF</b> tap → mela <b>Share ⬆</b> → <b>"Save to Files"</b>.'}</p>
+      <span class="v12-arrow" aria-hidden="true">${V12_ICON_DL}</span>
+      <div class="v12-alt">
+        ${share ? `<button type="button" class="btn v12-big" data-v12-share>${V12_ICON_DL}Save PDF</button>` : ''}
+        <button type="button" class="btn ${share ? 'ghost' : 'v12-big'}" data-v12-open>${share ? '' : V12_ICON_DL}Open PDF</button>
+        <button type="button" class="btn ghost" data-v12-images>Picture-a paakkanum</button>
+      </div>${paid ? v12NextHTML() : ''}`;
   } else if (mode === 'done'){
-    const share = v12Last && navigator.canShare && (()=>{ try{ return navigator.canShare({files:[new File([v12Last.blob], v12Last.name, {type:'application/pdf'})]}); }catch(e){ return false; } })();
+    const share = v12CanShare();
     body = `<span class="v12-ok">✓ PDF download aagiduchu</span><h3>Phone "Downloads" folder-la irukkum</h3>
       <p>Notification-la tap pannunga or Files app → Downloads → <b>${esc(v12Last ? v12Last.name : v12FileName())}</b>.</p>
       <div class="v12-alt">
         ${share ? `<button type="button" class="btn v12-big" data-v12-share>${V12_ICON_WA}WhatsApp-la save / share</button>` : ''}
-        <button type="button" class="btn ghost" data-v12-go>Download aagala? Thirumba try</button>
+        <button type="button" class="btn ghost" data-v12-save>Download aagala? Inga tap pannunga</button>
+        <button type="button" class="btn ghost" data-v12-open>PDF-a open pannu</button>
         <button type="button" class="btn ghost" data-v12-images>Picture-a paakkanum</button>
       </div>${paid ? v12NextHTML() : ''}`;
   } else if (mode === 'images'){
@@ -3753,23 +3864,26 @@ async function v12Go(where){
   if (!v12HaveNumbers()) return v12Sheet('start', where);
   if (V10.app && where !== 'images') return v12Sheet('inapp', where);
   v12Busy = true; v12Sheet('busy', where);
+  const slow = setTimeout(()=>{ const s = $('#v12BusyT'); if (s) s.textContent = 'Konjam neram aagudhu, wait pannunga…'; }, 9000);
   try{
-    const r = await v12Make();
+    await v12Make();
+    clearTimeout(slow);
     if (V10.app){ v12Sheet('images', where); track('pdf_downloaded', {method:'image'}); }
     else {
-      try{ r.pdf.save(r.name); }catch(e){}
-      track('pdf_downloaded', {method:'file'}); track('plan_print', {type:'pdf'});
+      track('plan_print', {type:'pdf'});
       try{ sessionStorage.removeItem('mentell_pdf_pending'); }catch(e){}
-      v12Sheet('done', where);
+      if (V12_IOS) v12Sheet('ready', where);
+      else { v12Save(); v12Sheet('done', where); }
     }
   }catch(e){
+    clearTimeout(slow);
     track('pdf_generated', {result:'error'});
     v12Sheet('error', where);
     try{ console.error('[v12]', e); }catch(_){}
   }finally{ v12Busy = false; }
 }
 document.addEventListener('click', async e=>{
-  const t = e.target.closest && e.target.closest('[data-v12-pdf],[data-v12-go],[data-v12-images],[data-v12-share],[data-v12-start],[data-v12-close],#rmPrint');
+  const t = e.target.closest && e.target.closest('[data-v12-pdf],[data-v12-go],[data-v12-images],[data-v12-share],[data-v12-save],[data-v12-open],[data-v12-start],[data-v12-close],#rmPrint');
   if (!t) return;
   if (t.matches('[data-v12-pdf], #rmPrint')){            // every "Download PDF" button on the page
     e.preventDefault(); e.stopImmediatePropagation();
@@ -3787,10 +3901,9 @@ document.addEventListener('click', async e=>{
     finally{ v12Busy = false; }
     return;
   }
-  if (t.matches('[data-v12-share]') && v12Last){
-    try{ await navigator.share({files:[new File([v12Last.blob], v12Last.name, {type:'application/pdf'})], title:'Mentell Money Plan'}); track('pdf_downloaded', {method:'share'}); }catch(err){}
-    return;
-  }
+  if (t.matches('[data-v12-share]') && v12Last){ if (!(await v12Share())) v12Open(); return; }
+  if (t.matches('[data-v12-save]') && v12Last) return v12Save();
+  if (t.matches('[data-v12-open]') && v12Last) return v12Open();
   if (t.matches('[data-v12-start]')){
     try{ sessionStorage.setItem('mentell_pdf_pending', '1'); }catch(err){}
     v10Close();
