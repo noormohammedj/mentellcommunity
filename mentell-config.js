@@ -61,6 +61,10 @@ window.MENTELL_CONFIG = {
      The Apps Script already emails you on every lead; see handover. */
   notifyWebhook: '',
  
+  /* Daily money tracker on financial.html: the /exec URL of the SEPARATE 'Mentell Tracker'
+     Apps Script (see TRACKER-SETUP.md). '' = tracker off (page ends at the PDF, as before). */
+  trackerUrl: 'https://script.google.com/macros/s/AKfycbxBkR7NMBt4G0qjoq5Ycn5BUdVSmpJYQvJbKDry1fHsuy6MdKgdQCC-_7dN18PMMMXG/exec',
+
   /* GA4 ID (the tag in each page's <head> uses this same ID) */
   analyticsMeasurementId: 'G-CYPL2VHDKP',
 
