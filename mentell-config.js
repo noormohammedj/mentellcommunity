@@ -140,6 +140,7 @@ window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
           if (d.l && typeof d.l === 'object' && d.l.leaks) { delete d.l.name; delete d.l.phone; lsSet('mentell_leak_v2', JSON.stringify(d.l)); }
           if (d.n && typeof d.n === 'object' && Array.isArray(d.n.loans)) lsSet('mentell_loans_v1', JSON.stringify(d.n));
           if (d.p === true) lsSet('mentell_roadmap_paid', '1'); // [v12]
+          if (d.m && typeof d.m === 'object' && d.m.v === 15) { delete d.m.name; delete d.m.phone; lsSet('mentell_money_v15', JSON.stringify(d.m)); } // [v15] new money-plan answers
           if (typeof d.id === 'string' && /^L[a-z0-9]{6,20}$/.test(d.id) && !lsGet('mentell_lead_id')) lsSet('mentell_lead_id', d.id);
           try {
             if (d.g === true) sessionStorage.setItem('mentell_gate_ok', '1');
