@@ -8,6 +8,18 @@ window.MENTELL_CONFIG = {
   /* Google Sheet lead logging: your Apps Script Web App URL (ends in /exec).
      New Sheet 'Mentell Leads' (owner noormohammed.j@gmail.com), set up 5 Oct 2026. */
   googleSheetWebhook: 'https://script.google.com/macros/s/AKfycbwejRkoIlj-fz2wxOke2rz2Hydr62ZZPhj-msQAWpRmxPqPQSjofa_iaAW79ezHn6H62g/exec',
+
+  /* [v16] Mentell database (Supabase, Mumbai). Both values are public by design: the
+     publishable key only does what the database's access rules allow (log a lead, check an
+     order). The secret key and Razorpay secrets live only in Supabase, never here. */
+  supabaseUrl: 'https://hghrmxpvmfxviwnmnskm.supabase.co',
+  supabasePublishableKey: 'sb_publishable_eeEM_dV1x6TRXvkefUxdJQ_lxzBZ__x',
+  /* Leads go to the database AND the Sheet while we compare (v16 launch + 2 weeks).
+     Set to false to stop sending to the Sheet; the database keeps getting every lead. */
+  sheetLeads: true,
+  /* ₹99 plan on financial.html: paid through Razorpay Checkout (create-order / verify-payment
+     Edge Functions). false = no paywall, the whole plan stays free as in v15. */
+  paywall: true,
  
   /* Razorpay Payment Links (public links, not keys) */
   loanPlanPaymentLink: 'https://rzp.io/rzp/xAvsKApO',      // ₹99 Loan Closing Roadmap. Redirect: https://mentell.co.in/financial.html?paid=1#roadmap
@@ -81,6 +93,55 @@ window.MENTELL_CONFIG = {
 /* Backward compatibility: older code on physical/mental reads these globals. */
 window.MENTELL_LEADS_URL = window.MENTELL_CONFIG.googleSheetWebhook;
 window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
+
+/* [v16] Leads → Mentell database. Every page sends its lead rows with fetch() to the Sheet URL
+   above; this copies each row to the database (public.log_lead) as well, so no page needed
+   changing. With sheetLeads: false the Sheet copy is skipped. A failed copy never blocks a page. */
+(function () {
+  'use strict';
+  var C = window.MENTELL_CONFIG || {};
+  var SHEET = C.googleSheetWebhook, SB = C.supabaseUrl, KEY = C.supabasePublishableKey;
+  if (!window.fetch || !SHEET || !SB || !KEY) return;
+  var send = window.fetch.bind(window);
+
+  function payload(d) {
+    var p = {}, utm = {}, k;
+    for (k in d) {
+      if (!Object.prototype.hasOwnProperty.call(d, k) || d[k] === '' || d[k] === null || d[k] === undefined) continue;
+      if (/^utm_(source|medium|campaign|term|content)$/.test(k)) utm[k] = String(d[k]).slice(0, 60);
+      else p[k] = d[k];
+    }
+    if ('paid' in p) {               // pages send 1/0, true/false or 'yes'/'no'
+      var v = String(p.paid).toLowerCase();
+      if (/^(1|true|yes)$/.test(v)) p.paid = true; else if (/^(0|false|no)$/.test(v)) p.paid = false; else delete p.paid;
+    }
+    if (Object.keys(utm).length) p.utm = utm;
+    var s = JSON.stringify(p);
+    if (s.length > 7000) {           // the database takes up to ~8 KB: drop the biggest fields first
+      Object.keys(p).sort(function (a, b) { return JSON.stringify(p[b]).length - JSON.stringify(p[a]).length; })
+        .forEach(function (key) { if (JSON.stringify(p).length > 7000 && !/^(event|source|leadId|name|phone|number|page)$/.test(key)) delete p[key]; });
+    }
+    return p;
+  }
+
+  window.fetch = function (input, init) {
+    var url = typeof input === 'string' ? input : (input && input.url) || '';
+    if (url === SHEET && init && typeof init.body === 'string' && String(init.method || 'GET').toUpperCase() === 'POST') {
+      try {
+        var d = JSON.parse(init.body);
+        if (d && typeof d === 'object') {
+          send(SB + '/rest/v1/rpc/log_lead', {
+            method: 'POST', keepalive: true,
+            headers: { 'Content-Type': 'application/json', apikey: KEY },
+            body: JSON.stringify({ payload: payload(d) })
+          }).catch(function () {});
+        }
+      } catch (e) { /* not JSON: leave it to the Sheet */ }
+      if (C.sheetLeads === false) return Promise.resolve(new Response(null, { status: 204 }));
+    }
+    return send(input, init);
+  };
+})();
 
 /* =====================================================================
    Mentell analytics layer (v1, 8 Oct 2026). Runs on every page that loads
