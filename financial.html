@@ -247,34 +247,6 @@ footer a{color:var(--muted)}
 @media (min-width:700px){ main{padding-top:40px} .tiles{grid-template-columns:repeat(3,1fr)} }
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} .breath::before{transform:scale(.75)} }
 @media print{ .bar,.top,.inapp{display:none} }
-/* [v16] ₹99 paywall */
-[data-s="paywall"] [hidden]{display:none!important}
-.pw-eyebrow{letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
-.pw-dates{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);margin:18px 0 6px}
-.pw-dates>div{padding:14px}
-.pw-dates>div+div{border-left:2px solid var(--ink);background:var(--ink);color:var(--paper)}
-.pw-dates small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.75;font-weight:700}
-.pw-dates .d{font-size:26px;font-weight:800;font-stretch:70%;margin-top:6px;font-variant-numeric:tabular-nums}
-.pw-dates .sub{font-size:13px;margin-top:4px;opacity:.8}
-.pw-blur{filter:blur(9px);user-select:none;transition:filter .6s ease}
-.pw-open .pw-blur{filter:none}
-.pw-price{display:flex;align-items:baseline;gap:10px;margin-top:20px}
-.pw-price .now{font-size:44px;font-weight:900;font-stretch:68%;font-variant-numeric:tabular-nums}
-.pw-price s{color:var(--muted);font-size:20px}
-.pw-price .per{color:var(--muted);font-size:15px}
-.pw-offer{display:inline-block;background:var(--save);color:#fff;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;margin-top:8px}
-.pw-in{display:block;width:100%;font:inherit;font-size:17px;padding:12px;border:1.5px solid var(--ink);margin-top:8px;background:var(--paper);color:var(--ink)}
-#pwPay,#pwGo{width:100%;margin-top:16px}
-.pw-trust{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:13px;margin-top:4px}
-.pw-done{border:2px solid var(--save);padding:16px;margin-top:18px}
-.pw-done b{color:var(--save);font-size:22px}
-.pw-list{list-style:none;padding:0;margin:24px 0 0;border-top:1px solid var(--line)}
-.pw-list li{padding:12px 0 12px 22px;border-bottom:1px solid var(--line);position:relative}
-.pw-list li::before{content:'';position:absolute;left:0;top:19px;width:10px;height:10px;background:var(--ink)}
-.pw-list b{display:block}.pw-list span{color:var(--muted);font-size:14px}
-.pw-spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pwr .8s linear infinite;vertical-align:-2px}
-@keyframes pwr{to{transform:rotate(1turn)}}
-@media (prefers-reduced-motion:reduce){.pw-spin{animation:none}.pw-blur{transition:none}}
 </style>
 </head>
 <body>
@@ -353,43 +325,6 @@ footer a{color:var(--muted)}
   <div class="big" id="standBig">₹0</div>
   <div class="rows" id="standRows"></div>
   <p class="verdict" id="standVerdict"></p>
-</section>
-
-<!-- 7b ₹99 paywall [v16] -->
-<section class="scr" data-s="paywall" aria-labelledby="hPay">
-  <p class="small pw-eyebrow" id="pwEyebrow">Unga kadan mudiyura date</p>
-  <h2 id="hPay">Ippo irukura maari pona, kadan mudiya romba naal aagum.</h2>
-  <div class="pw-dates" id="pwDates">
-    <div><small>Ippo irukura maari</small><div class="d" id="pwNow"></div><div class="sub" id="pwNowSub"></div></div>
-    <div><small>Mentell plan-oda</small><div class="d pw-blur" id="pwPlan" aria-label="Hidden until you unlock"></div><div class="sub"><span class="pw-blur" id="pwSooner"></span></div></div>
-  </div>
-  <div id="pwReady">
-    <div class="pw-price"><span class="now" id="pwPrice">₹99</span><s id="pwWas" hidden>₹99</s><span class="per" id="pwPer">/ 30 naal</span></div>
-    <span class="pw-offer" id="pwOffer" hidden>Launch offer · 50% off</span>
-    <div id="pwWho" hidden>
-      <p class="small">Payment receipt-ku unga WhatsApp number:</p>
-      <input class="pw-in" id="pwName" autocomplete="name" placeholder="Unga peyar" maxlength="40">
-      <input class="pw-in" id="pwPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
-    </div>
-    <button type="button" class="btn" id="pwPay">₹99 pay panni plan paarunga</button>
-    <p class="err" id="pwErr"></p>
-    <div class="pw-trust"><span>UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
-  </div>
-  <div id="pwChecking" hidden>
-    <div class="callout"><b>Payment check panrom…</b><br>UPI app-la pay pannirundhaa, inga wait pannunga. Indha page-a close pannaadheenga.</div>
-    <p class="small"><span class="pw-spin"></span> Checking</p>
-  </div>
-  <div id="pwPaid" hidden>
-    <div class="pw-done"><b>Unlocked ✓</b><p id="pwUntil">Unga plan ready.</p></div>
-    <button type="button" class="btn" id="pwGo">Plan paarunga →</button>
-  </div>
-  <ul class="pw-list" aria-label="What ₹99 opens">
-    <li><b>Edha cut pannanum, evlo</b><span>Unga habits-la irundhu exact maasa saving</span></li>
-    <li><b>Loan jars: edha first close pannanum</b><span>High interest first. Oru loan mudinja adhoda EMI adutha jar-ku</span></li>
-    <li><b>Exact debt-free date + interest saved</b><span>Bonus / hike-la extra EMI potta evlo seekiram</span></li>
-    <li><b>Daily tracker, 30 naal</b><span>"I saved" log pannunga, streak, date nagarradhu paarunga</span></li>
-    <li><b>Full plan PDF</b><span>Veetla ellarum paakkura maari</span></li>
-  </ul>
 </section>
 
 <!-- 8 calm -->
@@ -743,25 +678,11 @@ const HB = Object.fromEntries(HABITS.map(h=>[h.id,h]));
 const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry at night'],['Calmer mind','You know what to do each month: less panic, more control'],['Peace at home','Fewer money arguments when everyone sees the same plan']];
 
 /* ================= state ================= */
-// v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
-// sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
-function fresh(){ return {v:15, sv:16, loans:[], noLoan:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null}; }
-// [v16] ₹99 paywall after 'stand'; the YouTube gate is gone (payment replaces it)
-const SCREENS = ['welcome','loans','salary','snap_emi','lead_form','expenses','stand','paywall','calm','habits','habit_amounts','cut_choice','dashboard','extra_emi','body_mind','join','tracker','pdf'];
-// [v16] progress saved by v15 points at v15 screen numbers: move it to the same screen by name
-const SCREENS_V15 = ['welcome','loans','salary','snap_emi','lead_form','expenses','stand','calm','habits','habit_amounts','cut_choice','yt_gate','dashboard','extra_emi','body_mind','join','tracker','pdf'];
-function loadState(raw){
-  const s = Object.assign(fresh(), raw);
-  if (raw.sv !== 16){
-    const name = SCREENS_V15[raw.at] === 'yt_gate' ? 'dashboard' : SCREENS_V15[raw.at];
-    s.at = Math.max(0, SCREENS.indexOf(name)); s.sv = 16;
-  }
-  return s;
-}
+function fresh(){ return {v:15, loans:[], noLoan:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false}; }
 let S = fresh();
 try{
   const raw = JSON.parse(localStorage.getItem(KEY)||'null');
-  if (raw && raw.v===15) S = loadState(raw);
+  if (raw && raw.v===15) S = Object.assign(fresh(), raw);
 }catch(e){}
 let LEAD = {name:'', phone:''};
 try{ LEAD = Object.assign(LEAD, JSON.parse(localStorage.getItem(LEAD_KEY)||'{}')); }catch(e){}
@@ -774,7 +695,7 @@ function leadDone(){ let g=false; try{ g = sessionStorage.getItem(GATE_KEY)==='1
 function uid(){ return 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 let LEAD_ID = '';
 try{ LEAD_ID = localStorage.getItem('mentell_lead_id') || ''; if (!LEAD_ID){ LEAD_ID = uid(); localStorage.setItem('mentell_lead_id', LEAD_ID); } }catch(e){ LEAD_ID = uid(); }
-function track(name, params){ try{ if (typeof window.gtag==='function') window.gtag('event', name, Object.assign({page:'financial', flow:'v16'}, params||{})); }catch(e){} }
+function track(name, params){ try{ if (typeof window.gtag==='function') window.gtag('event', name, Object.assign({page:'financial', flow:'v15'}, params||{})); }catch(e){} }
 function utm(){ const o={}; try{ const q=new URLSearchParams(location.search); ['utm_source','utm_medium','utm_campaign'].forEach(k=>{ const v=q.get(k)||sessionStorage.getItem('mm_'+k); if(v){ o[k]=v.slice(0,60); try{ sessionStorage.setItem('mm_'+k,o[k]); }catch(e){} } }); }catch(e){} return o; }
 const UTM = utm();
 const DEVICE = /iPhone|iPad/i.test(navigator.userAgent) ? 'ios' : /Android/i.test(navigator.userAgent) ? 'android' : 'desktop';
@@ -879,12 +800,13 @@ function strip(show){
 }
 
 /* ================= screens ================= */
+const SCREENS = ['welcome','loans','salary','snap_emi','lead_form','expenses','stand','calm','habits','habit_amounts','cut_choice','yt_gate','dashboard','extra_emi','body_mind','join','tracker','pdf'];
 let cur = -1;
 const seen = {};
 const NEXT_LABEL = {welcome:'Start', snap_emi:'Next', lead_form:'Continue', calm:'Sari, kaattunga', cut_choice:'Show my savings', yt_gate:'Show my plan', dashboard:'See my debt-free date', extra_emi:'Next', body_mind:'Get my PDF', join:'Create my tracker', tracker:'My plan PDF', pdf:''};
 function skip(name){
   if (name==='lead_form' && leadDone()) return true;
-  if (name==='paywall' && unlocked()) return true;
+  if (name==='yt_gate' && S.yt) return true;
   if (name==='habit_amounts' && !habitsOn().length) return true;
   if (name==='cut_choice' && !habitsOn().length) return true;
   if (name==='join' && (!TRACKER_URL || hasSession())) return true;
@@ -896,10 +818,6 @@ function go(i, opts){
   i = Math.max(0, Math.min(SCREENS.length-1, i));
   const dir = i >= cur ? 1 : -1;
   while (skip(SCREENS[i]) && i>0 && i<SCREENS.length-1) i += dir;
-  // [v16] the plan after 'stand' is paid: without access, everything past the paywall leads back to it
-  // (tracker members logging in on a new phone still reach their login and tracker)
-  const PW = SCREENS.indexOf('paywall');
-  if (i > PW && !unlocked() && !(SCREENS[i]==='join' && joinMode==='login') && !(SCREENS[i]==='tracker' && hasSession())){ i = PW; if (opts.fromPop) opts = {replace:true}; }
   const name = SCREENS[i];
   $$('.scr').forEach(s=>s.classList.remove('on'));
   const scr = document.querySelector(`.scr[data-s="${name}"]`);
@@ -912,7 +830,7 @@ function go(i, opts){
   strip(i>=3 && !['calm','pdf','join','tracker'].includes(name));
   if (name==='body_mind') NEXT_LABEL.body_mind = TRACKER_URL ? (hasSession() ? 'Open my tracker' : 'Track daily, get 50% off') : 'Get my PDF';
   $('#back').style.display = (i===0 || name==='tracker') ? 'none' : '';
-  const nx = $('#next'); nx.style.display = (name==='pdf' || name==='paywall') ? 'none' : ''; nx.textContent = NEXT_LABEL[name] || 'Next';
+  const nx = $('#next'); nx.style.display = name==='pdf' ? 'none' : ''; nx.textContent = NEXT_LABEL[name] || 'Next';
   window.scrollTo(0,0);
   enter(scr);
   if (!opts.fromPop){ try{ history[opts.replace?'replaceState':'pushState']({s:i}, '', '#'+name); }catch(e){} }
@@ -1021,7 +939,7 @@ function submitLead(){
   try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); sessionStorage.setItem(GATE_KEY,'1'); }catch(e){}
   sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), loansCount:validLoans().length,
     item:`Money plan lead: ${validLoans().length} loan(s), EMI ${Math.round(totEMI()/Math.max(S.salary,1)*100)}% of salary`});
-  track('generate_lead', {method:'money_plan_v16', currency:'INR', value:0});
+  track('generate_lead', {method:'money_plan_v15', currency:'INR', value:0});
   return true;
 }
 
@@ -1049,155 +967,6 @@ function renderStand(){
   $('#calmLast').textContent = st==='short' ? 'Short-a irundhaalum vazhi irukku. Adutha 2 nimisham-la kaatrom.' : 'Vazhi irukku. Adutha 2 nimisham-la kaatrom.';
   track('stand_state', {state:st, has_loans:validLoans().length>0});
 }
-
-/* ---------- 7b ₹99 paywall [v16] ----------
-   Paid through Razorpay Checkout. The server (Supabase Edge Functions) makes the order, checks the
-   payment and grants 30 days; this page only remembers the order id (S.paid, also carried by the
-   Instagram hand-off) and re-checks it with the server on every visit. Tracker members on this
-   phone (hasSession) are let through, as before v16. */
-const PAYWALL = CFG.paywall !== false && /^https:\/\//.test(String(CFG.supabaseUrl||'')) && !!CFG.supabasePublishableKey;
-const SB_URL = String(CFG.supabaseUrl||''), SB_KEY = String(CFG.supabasePublishableKey||'');
-const PAY_MOCK = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('paymock') || '';   // test mode, never on the live site
-function paidOk(){ const p = S.paid; return !!(p && p.o && (p.f || (p.u && Date.parse(p.u) > Date.now()))); }
-function unlocked(){ let member = false; try{ member = hasSession(); }catch(e){} return !PAYWALL || paidOk() || member; }
-const rupees = paise => '₹' + (paise/100).toLocaleString('en-IN', {minimumFractionDigits: paise % 100 ? 2 : 0, maximumFractionDigits: 2});
-let PAY = null;   // the order being paid
-
-function renderPaywall(){
-  const p = plans();
-  if (p){
-    const sooner = Math.max(0, p.now.months - p.yearly.months);
-    $('#hPay').textContent = 'Ippo irukura maari pona, kadan mudiya romba naal aagum.';
-    $('#pwNow').textContent = dateIn(p.now.months, p.now.capped);
-    $('#pwNowSub').textContent = 'Interest ' + inr(p.now.totalInterest);
-    $('#pwPlan').textContent = dateIn(p.yearly.months, p.yearly.capped);
-    $('#pwSooner').textContent = sooner >= 12 ? `${Math.floor(sooner/12)} varusham ${sooner%12} maasam seekiram` : sooner > 0 ? `${sooner} maasam seekiram` : 'Seekiram mudikka vazhi';
-  } else {
-    $('#pwEyebrow').textContent = 'Unga saving plan';
-    $('#hPay').textContent = 'Maasa maasam evlo save panna mudiyum nu exact-a kaatrom.';
-    const l = leftover();
-    $('#pwNow').textContent = (l < 0 ? '− ' : '') + inr(Math.abs(l));
-    $('#pwNowSub').textContent = l < 0 ? 'Short, ovvoru maasamum' : 'Ippo maasa kadaisi-la';
-    $('#pwPlan').textContent = 'Exact amount';          // no made-up number: the real one comes from their habits, next screens
-    $('#pwSooner').textContent = 'Adutha screens-la';
-  }
-  $('#pwWho').hidden = !!(LEAD.phone && LEAD.name);
-  if (LEAD.name) $('#pwName').value = LEAD.name;
-  showPay(paidOk() ? 'paid' : 'ready');
-}
-function showPay(state){
-  $('#pwReady').hidden = state !== 'ready'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid';
-  document.querySelector('[data-s="paywall"]').classList.toggle('pw-open', state === 'paid');
-  if (state === 'paid'){
-    const u = S.paid && S.paid.u ? new Date(S.paid.u).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) : '';
-    $('#pwUntil').textContent = S.paid && S.paid.f ? 'Unga plan ready.' : `Unga plan ready. Tracker ${u} varaikkum.`;
-  }
-}
-function setPrice(o){
-  $('#pwPrice').textContent = rupees(o.amount);
-  $('#pwWas').hidden = $('#pwOffer').hidden = !o.offer_percent;
-  $('#pwPer').textContent = o.period_days ? `/ ${o.period_days} naal` : 'one time';
-  $('#pwPay').textContent = `${rupees(o.amount)} pay panni plan paarunga`;
-}
-async function payApi(fn, body){
-  if (PAY_MOCK) return payMock(fn);
-  const r = await fetch(`${SB_URL}/functions/v1/${fn}`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
-  const j = await r.json().catch(()=>({}));
-  if (!r.ok) throw new Error(j.error || 'http_'+r.status);
-  return j;
-}
-async function payMock(fn){   // ?paymock=paid|upi|dismiss|fail on localhost only
-  await new Promise(r=>setTimeout(r, 400));
-  if (fn==='create-order') return {order_id:'00000000-0000-4000-8000-00000000000'+(Date.now()%10), razorpay_order_id:'order_MOCK', key_id:'rzp_test_mock', amount:9900, currency:'INR', description:'Mentell Money Plan', period_days:30, offer_percent:null};
-  const ok = PAY_MOCK==='paid' || (PAY_MOCK==='upi' && Date.now() - (PAY.t||0) > 4000);
-  return ok ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status: PAY_MOCK==='fail' ? 'failed' : 'created'};
-}
-function loadCheckout(){
-  return new Promise((res, rej)=>{
-    if (window.Razorpay) return res();
-    const s = document.createElement('script'); s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    s.onload = res; s.onerror = ()=>rej(new Error('checkout_load')); document.head.appendChild(s);
-  });
-}
-function openCheckout(o){
-  return new Promise(resolve=>{
-    if (PAY_MOCK){ PAY.t = Date.now(); setTimeout(()=>resolve(PAY_MOCK==='paid' ? {ok:true, r:{razorpay_payment_id:'pay_MOCK', razorpay_order_id:o.razorpay_order_id, razorpay_signature:'x'}} : PAY_MOCK==='fail' ? {failed:true} : {dismissed:true}), 700); return; }
-    const rzp = new Razorpay({
-      key:o.key_id, order_id:o.razorpay_order_id, amount:o.amount, currency:o.currency, name:'Mentell', description:o.description,
-      prefill:{name:LEAD.name, contact:'+'+LEAD.phone}, notes:{mentell_order:o.order_id}, theme:{color:'#000000'},
-      image:'https://mentell.co.in/apple-touch-icon.png',   // Mentell's logo on the sheet (the Razorpay account's own logo is thedayzero's)
-      handler:r=>resolve({ok:true, r}), modal:{ondismiss:()=>resolve({dismissed:true}), confirm_close:true}
-    });
-    rzp.on('payment.failed', ()=>resolve({failed:true}));
-    rzp.open();
-  });
-}
-function markPaid(st){
-  S.paid = {o:PAY.order_id, u:st.access_until||null, f:!!st.forever}; save();
-  showPay('paid');
-  track('purchase', {currency:'INR', value:PAY.amount/100, transaction_id:PAY.order_id, items:[{item_id:'money_plan_99', item_name:'Mentell Money Plan', price:PAY.amount/100, quantity:1}]});
-  sendRow({event:'paid', name:LEAD.name, phone:LEAD.phone, paid:1, item:`₹${PAY.amount/100} money plan paid (order ${PAY.order_id})`});
-}
-async function pay(){
-  const err = $('#pwErr'); err.textContent = '';
-  if (!LEAD.phone || !LEAD.name){                     // came without the lead form (e.g. hand-off): ask here
-    const name = $('#pwName').value.trim().replace(/\s+/g,' ');
-    let ph = $('#pwPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
-    if (name.length < 2){ err.textContent = 'Unga peyar podunga.'; return; }
-    if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit WhatsApp number podunga.'; return; }
-    LEAD = {name, phone:'91'+ph};
-    try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){}
-    sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, item:'Lead from the ₹99 paywall'});
-  }
-  const btn = $('#pwPay'); btn.disabled = true; btn.textContent = 'Opening…';
-  track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}]});
-  try{
-    if (!PAY_MOCK) await loadCheckout();
-    PAY = await payApi('create-order', {phone:LEAD.phone, name:LEAD.name});
-    setPrice(PAY);
-    const res = await openCheckout(PAY);
-    if (res.failed){ track('payment_failed'); err.textContent = 'Payment aagala. Panam cut aagirundhaa 5–7 naalla thirumbi varum. Thirumba try pannunga.'; return; }
-    showPay('checking');
-    if (res.ok){
-      const st = await payApi('verify-payment', Object.assign({order_id:PAY.order_id}, res.r));
-      if (st.status==='paid') return markPaid(st);
-    }
-    await pollPaid();
-  }catch(e){
-    showPay('ready');
-    err.textContent = e.message==='too_many_orders' ? 'Konjam neram kazhichu try pannunga.' : e.message==='bad_phone' ? 'WhatsApp number sariyaa illa.' : 'Network problem. Thirumba try pannunga.';
-    track('payment_error', {error:String(e.message||'').slice(0,40)});
-  }finally{
-    btn.disabled = false; setPrice(PAY || {amount:9900, period_days:30});
-  }
-}
-// The page lost the Checkout callback (UPI app switch, closed sheet): ask the server, which asks Razorpay, every 3 s for 2 minutes.
-async function pollPaid(){
-  const end = Date.now() + 120000;
-  while (Date.now() < end){
-    await new Promise(r=>setTimeout(r, 3000));
-    try{
-      const st = await payApi('verify-payment', {order_id:PAY.order_id, razorpay_order_id:PAY.razorpay_order_id});
-      if (st.status==='paid') return markPaid(st);
-      if (st.status==='failed') break;
-    }catch(e){}
-  }
-  showPay('ready');
-  $('#pwErr').textContent = 'Payment confirm aagala. Panam cut aagirundhaa, 10 nimisham-la plan open aagum (page-a refresh pannunga), illa 5–7 naalla thirumbi varum.';
-}
-// On every visit: is the saved order still paid? (expiry, refund)
-async function recheckPaid(){
-  if (!PAYWALL || PAY_MOCK || !S.paid || !S.paid.o) return;
-  try{
-    const r = await fetch(`${SB_URL}/rest/v1/rpc/order_status`, {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify({p_order:S.paid.o})});
-    if (!r.ok) return;
-    const st = await r.json();
-    if (!st || st.status !== 'paid'){ if (st && st.status) { S.paid = null; save(); } return; }
-    S.paid.u = st.access_until || null; S.paid.f = !!st.forever; save();
-  }catch(e){}
-}
-$('#pwPay').addEventListener('click', pay);
-$('#pwGo').addEventListener('click', ()=>{ track('paywall_continue'); go(cur+1); });
 
 /* ---------- 9 habits ---------- */
 function renderHabits(){
@@ -1524,7 +1293,7 @@ $('#iosCopy').addEventListener('click', async ()=>{
   try{
     if (sessionStorage.getItem('mentell_handoff')==='1' && !sessionStorage.getItem('mm_handoff_seen')){
       sessionStorage.setItem('mm_handoff_seen','1');
-      const raw = JSON.parse(localStorage.getItem(KEY)||'null'); if (raw && raw.v===15) S = loadState(raw);
+      const raw = JSON.parse(localStorage.getItem(KEY)||'null'); if (raw && raw.v===15) S = Object.assign(fresh(), raw);
       track('handoff_arrived');
     }
   }catch(e){}
@@ -1601,7 +1370,6 @@ const JOIN_ERR = {phone:'10-digit WhatsApp number podunga.', password:'Password 
   wrong:'Password thappu.', bad_code:'Recovery code thappu.', reset:'Password reset aagirukku. "Create account" tap panni pudhu password podunga.', busy:'Server busy. 1 nimisham kazhichu try pannunga.',
   server:'Server-la problem. Konjam neram kazhichu try pannunga.', net:'Internet illa pola. Check panni thirumba try pannunga.'};
 async function submitJoin(){
-  if (joinMode==='signup' && !unlocked()){ track('trk_signup_blocked'); go(SCREENS.indexOf('paywall')); return; }   // [v16] new tracker accounts come with the ₹99 plan
   const btn = $('#next'); if (btn.dataset.busy) return;
   let ph = $('#jPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
   const pw = $('#jPass').value, name = $('#jName').value.trim();
@@ -1810,7 +1578,7 @@ async function refreshMe(){
 function syncPlan(){ if (TRACKER_URL && hasSession()) api({action:'sync', phone:TRK.phone, token:TRK.token, plan:planSnapshot()}).catch(()=>{}); }
 
 /* ================= navigation ================= */
-const RENDER = {loans:renderLoans, salary:renderSalary, snap_emi:renderSnap, lead_form:renderLead, expenses:renderExpenses, stand:renderStand, paywall:renderPaywall,
+const RENDER = {loans:renderLoans, salary:renderSalary, snap_emi:renderSnap, lead_form:renderLead, expenses:renderExpenses, stand:renderStand,
   habits:renderHabits, habit_amounts:renderAmounts, cut_choice:renderCut, yt_gate:renderYt, dashboard:()=>{ renderDash(); sendPlan(); syncPlan(); },
   extra_emi:renderExtra, body_mind:renderBody, join:renderJoin, tracker:()=>{ renderTracker(); refreshMe(); }, pdf:renderPdf};
 
@@ -1830,7 +1598,7 @@ $('#next').addEventListener('click', ()=>{
   go(cur+1);
 });
 $('#back').addEventListener('click', ()=>{ track('mm_back', {from:SCREENS[cur], method:'button'}); history.length>1 && history.state ? history.back() : go(cur-1, {replace:true}); });
-$('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; const yt = S.yt, paid = S.paid; S = fresh(); S.yt = yt; S.paid = paid; save(); track('mm_restart'); go(0, {replace:true}); $('#resume').hidden = true; $('#next').textContent = 'Start'; });
+$('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; const yt = S.yt; S = fresh(); S.yt = yt; save(); track('mm_restart'); go(0, {replace:true}); $('#resume').hidden = true; $('#next').textContent = 'Start'; });
 
 /* boot */
 (function boot(){
@@ -1839,7 +1607,6 @@ $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; c
   const canResume = S.at > 0;
   if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
   if (TRACKER_URL) $('#loginLink').hidden = false;
-  recheckPaid();   // [v16] refund / expiry since the last visit
   go(0, {replace:true});
   // Tracker members open straight on their tracker
   if (TRACKER_URL && hasSession() && (ti<0 || target==='tracker')){ go(SCREENS.indexOf('tracker'), {replace:true}); flush(); return; }
