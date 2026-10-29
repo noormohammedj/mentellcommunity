@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Loan-la irundhu veliya vara plan | Mentell Money</title>
-<meta name="description" content="Free, 3 minutes. Loans, EMI, salary, family expenses: see where you stand, pick what to cut, and get your debt-free date. Tanglish. Download as PDF."/>
+<title>EMI pressure-la irundhu veliya vara plan | Mentell Money</title>
+<meta name="description" content="Free, 3 minutes. EMI, salary, family expenses: see where you stand, pick what to cut, and get your EMI-free date. Tanglish. Download as PDF."/>
 <meta name="theme-color" content="#ffffff"/>
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
@@ -12,12 +12,12 @@
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Mentell"/>
 <meta property="og:locale" content="en_IN"/>
-<meta property="og:title" content="Loan-la irundhu eppo veliya varuveenga? Free plan, 3 minutes"/>
-<meta property="og:description" content="EMI, salary, expenses, habits. See where you stand and your debt-free date."/>
+<meta property="og:title" content="EMI-la irundhu eppo veliya varuveenga? Free plan, 3 minutes"/>
+<meta property="og:description" content="EMI, salary, expenses, habits. See where you stand and your EMI-free date."/>
 <meta property="og:url" content="https://mentell.co.in/financial.html"/>
 <meta property="og:image" content="https://mentell.co.in/og-financial.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mentell Money: loan exit plan","url":"https://mentell.co.in/financial.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","inLanguage":["en-IN","ta"],"description":"Free loan exit planner for salaried families in Tamil Nadu: EMI vs salary, family expenses, habit cuts, debt-free date, PDF report.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Mentell","url":"https://mentell.co.in/","logo":"https://mentell.co.in/apple-touch-icon.png"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mentell Money: EMI-free plan","url":"https://mentell.co.in/financial.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","inLanguage":["en-IN","ta"],"description":"Free money planner for salaried families in Tamil Nadu: EMI vs salary, family expenses, habit cuts, EMI-free date, PDF report.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Mentell","url":"https://mentell.co.in/","logo":"https://mentell.co.in/apple-touch-icon.png"}}</script>
 <!-- config BEFORE the GA tag: it strips hand-off data from the URL before GA reads it -->
 <script src="mentell-config.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
@@ -266,22 +266,22 @@ footer a{color:var(--muted)}
 
 <!-- 1 welcome -->
 <section class="scr" data-s="welcome" aria-labelledby="hWelcome">
-  <h1 id="hWelcome" data-anim>Loan pressure&#8209;a?</h1>
-  <p class="lede" data-anim>3 nimisham. Unga full picture, unga debt-free date. <b>Free.</b></p>
-  <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: neenga enga irukkeenga</li><li>Edhai cut panna, evlo save aagum</li><li>Unga debt-free date + PDF plan</li></ol>
+  <h1 id="hWelcome" data-anim>EMI pressure&#8209;a?</h1>
+  <p class="lede" data-anim>3 nimisham. Unga full picture, unga EMI-free date. <b>Free.</b></p>
+  <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: neenga enga irukkeenga</li><li>Edhai cut panna, evlo save aagum</li><li>Unga EMI-free date + PDF plan</li></ol>
   <div id="resume" hidden class="callout" data-anim><b>Neenga paadhi-la vittu ponga.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
   <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Login</button>
   <p class="small" data-anim>Your numbers stay on this phone. Name, WhatsApp and your savings total come to Mentell so Noor can help.</p>
 </section>
 
-<!-- 2 loans -->
-<section class="scr" data-s="loans" aria-labelledby="hLoans">
-  <h2 id="hLoans">Enna loan irukku?</h2>
-  <p class="lede">Ellame add pannunga. Credit card, gold loan, app loan kooda.</p>
-  <div id="loanList"></div>
-  <div class="tiles" id="loanTypes"></div>
-  <p class="err" id="loanErr"></p>
-  <button type="button" class="link" id="noLoan">Enakku loan illa</button>
+<!-- 2 EMIs -->
+<section class="scr" data-s="emis" aria-labelledby="hEmis">
+  <h2 id="hEmis">Enna EMI kattureenga?</h2>
+  <p class="lede">Ellame add pannunga. Credit card, gold, app EMI kooda.</p>
+  <div id="emiList"></div>
+  <div class="tiles" id="emiTypes"></div>
+  <p class="err" id="emiErr"></p>
+  <button type="button" class="link" id="noEmi">Enakku EMI illa</button>
 </section>
 
 <!-- 3 salary -->
@@ -366,7 +366,7 @@ footer a{color:var(--muted)}
   <h2 id="hYt">Unga plan ready</h2>
   <p class="lede">Idhu full free. Help aagudhuna, ore oru thanks: engaloda YouTube channel subscribe pannunga.</p>
   <div class="yt-box">
-    <p>Loan, EMI, saving pathi Tamil-la simple videos. Adhu dhaan engala free tools panna vaikkudhu.</p>
+    <p>EMI, selavu, saving pathi Tamil-la simple videos. Adhu dhaan engala free tools panna vaikkudhu.</p>
     <a class="btn yt" id="ytBtn" href="https://www.youtube.com/@Noormohammed.j?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
     <p class="done-tick" id="ytDone">Thanks! Ippo "Show my plan" tap pannunga.</p>
   </div>
@@ -408,7 +408,7 @@ footer a{color:var(--muted)}
     <div class="big save">50% off</div>
     <p>Oru maasathula <b>₹2,000</b> save panni inga log pannunga. Mentell app launch aagumbodhu unga subscription <b>paadhi vilai</b>. Adhu neenga save pannura real panam.</p>
   </div>
-  <p class="lede" style="margin-bottom:6px">Every day save / spend log pannunga. Fire on aagum, loan seekiram mudiyum.</p>
+  <p class="lede" style="margin-bottom:6px">Every day save / spend log pannunga. Fire on aagum, EMI seekiram mudiyum.</p>
   <div class="fld" id="jNameF"><label for="jName">Peyar</label><input class="txt" id="jName" autocomplete="name" maxlength="40"></div>
   <div class="fld"><label for="jPhone">WhatsApp number (login)</label><input class="txt" id="jPhone" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="10 digits"></div>
   <div class="fld" id="jCodeF" hidden><label for="jCode">Recovery code (signup-la kaattuna 6 digits)</label><input class="txt" id="jCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div>
@@ -504,11 +504,11 @@ footer a{color:var(--muted)}
 </div>
 
 <script>
-/* Mentell Money v15 — loan-first flow (19 Oct 2026)
-   Loans → salary → EMI snapshot → lead → expenses → where you stand → calm →
+/* Mentell Money v15 — EMI-first flow (19 Oct 2026; wording v15.3, 29 Oct 2026)
+   EMIs → salary → EMI snapshot → lead → expenses → where you stand → calm →
    habits → amounts → cut choice → YouTube → savings dashboard → extra EMI →
    body & mind → PDF.
-   All maths runs on the phone. Loan engine = the tested MLR.simulate from the
+   All maths runs on the phone. Payoff engine = the tested MLR.simulate from the
    previous financial.html, copied unchanged; simulateY adds the yearly extra EMI. */
 (function(){
 'use strict';
@@ -540,13 +540,13 @@ const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','
 function dateIn(m, capped){ if (capped) return '40+ years'; const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+m); return MON[d.getMonth()]+' '+d.getFullYear(); }
 function monthsLabel(m){ const y=Math.floor(m/12), r=m%12; return (y? y+(y===1?' year':' years'):'') + (y&&r?' ':'') + (r||!y? r+(r===1?' month':' months'):''); }
 
-/* ================= loan engine ================= */
+/* ================= payoff engine ================= */
 // Copied unchanged from financial.html (v3–v14, 22/22 maths checks).
 var MLR = (function () {
   var MAX_MONTHS = 600;
   function num(v) { var n = typeof v === 'number' ? v : parseFloat(String(v == null ? '' : v).replace(/[^0-9.\-]/g, '')); return isFinite(n) ? n : NaN; }
-  function simulate(loans, extra, order) {
-    var st = loans.map(function (l) { return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true }; });
+  function simulate(emis, extra, order) {
+    var st = emis.map(function (l) { return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true }; });
     var freed = 0, m = 0, left = st.length;
     while (left > 0 && m < MAX_MONTHS) {
       m++;
@@ -571,22 +571,22 @@ var MLR = (function () {
     var totalInterest = 0, maxM = 0, capped = left > 0;
     st.forEach(function (s) { totalInterest += s.interest; if (s.month > maxM) maxM = s.month; });
     return { months: capped ? MAX_MONTHS : maxM, capped: capped, totalInterest: Math.round(totalInterest),
-      perLoan: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; }) };
+      perEmi: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; }) };
   }
-  function strategyOrder(loans, kind) {
-    var idx = loans.map(function (_, i) { return i; });
+  function strategyOrder(emis, kind) {
+    var idx = emis.map(function (_, i) { return i; });
     idx.sort(function (a, b) {
-      var A = loans[a], B = loans[b];
+      var A = emis[a], B = emis[b];
       if (kind === 'avalanche') return (num(B.rate) - num(A.rate)) || (num(A.balance) - num(B.balance));
       return (num(A.balance) - num(B.balance)) || (num(B.rate) - num(A.rate));
     });
     return idx;
   }
-  // [v15] Same as simulate, plus: every 12th month each open loan gets one extra EMI
+  // [v15] Same as simulate, plus: every 12th month each open EMI gets one extra EMI
   // (part-prepayment, tenure reduced, EMI unchanged). yearly=false gives simulate() exactly.
-  function simulateY(loans, extra, order, yearly) {
-    if (!yearly) return simulate(loans, extra, order);
-    var st = loans.map(function (l) { return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true }; });
+  function simulateY(emis, extra, order, yearly) {
+    if (!yearly) return simulate(emis, extra, order);
+    var st = emis.map(function (l) { return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true }; });
     var freed = 0, m = 0, left = st.length;
     while (left > 0 && m < MAX_MONTHS) {
       m++;
@@ -619,25 +619,25 @@ var MLR = (function () {
     var totalInterest = 0, maxM = 0, capped = left > 0;
     st.forEach(function (s) { totalInterest += s.interest; if (s.month > maxM) maxM = s.month; });
     return { months: capped ? MAX_MONTHS : maxM, capped: capped, totalInterest: Math.round(totalInterest),
-      perLoan: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; }) };
+      perEmi: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; }) };
   }
   return { simulate: simulate, simulateY: simulateY, strategyOrder: strategyOrder, num: num, MAX_MONTHS: MAX_MONTHS };
 })();
 window.MentellMoneyEngine = MLR; // for tests
 
 /* ================= definitions ================= */
-const LOAN_TYPES = [
-  {id:'home',     n:'Home loan',        rate:8.5, bal:2500000, emi:22000},
-  {id:'personal', n:'Personal loan',    rate:14,  bal:300000,  emi:8000},
-  {id:'vehicle',  n:'Bike / car loan',  rate:10,  bal:400000,  emi:9000},
+const EMI_TYPES = [
+  {id:'home',     n:'Home / house EMI',        rate:8.5, bal:2500000, emi:22000},
+  {id:'personal', n:'Personal EMI',    rate:14,  bal:300000,  emi:8000},
+  {id:'vehicle',  n:'Bike / car EMI',  rate:10,  bal:400000,  emi:9000},
   {id:'credit',   n:'Credit card',      rate:42,  bal:60000,   emi:4000, emiLabel:'Monthly payment'},
-  {id:'gold',     n:'Gold loan',        rate:9.5, bal:100000,  emi:5000},
-  {id:'education',n:'Education loan',   rate:10,  bal:500000,  emi:7000},
-  {id:'app',      n:'Loan app',         rate:30,  bal:30000,   emi:4000},
-  {id:'business', n:'Business loan',    rate:16,  bal:500000,  emi:12000},
+  {id:'gold',     n:'Gold EMI',        rate:9.5, bal:100000,  emi:5000},
+  {id:'education',n:'Education EMI',   rate:10,  bal:500000,  emi:7000},
+  {id:'app',      n:'Mobile app EMI',         rate:30,  bal:30000,   emi:4000},
+  {id:'business', n:'Business EMI',    rate:16,  bal:500000,  emi:12000},
   {id:'other',    n:'Other / friends',  rate:12,  bal:50000,   emi:3000}
 ];
-const LT = Object.fromEntries(LOAN_TYPES.map(t=>[t.id,t]));
+const LT = Object.fromEntries(EMI_TYPES.map(t=>[t.id,t]));
 
 const EXPENSES = [
   {id:'rent',   n:'Rent',                 max:60000, def:9000},
@@ -678,11 +678,24 @@ const HB = Object.fromEntries(HABITS.map(h=>[h.id,h]));
 const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry at night'],['Calmer mind','You know what to do each month: less panic, more control'],['Peace at home','Fewer money arguments when everyone sees the same plan']];
 
 /* ================= state ================= */
-function fresh(){ return {v:15, loans:[], noLoan:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false}; }
+function fresh(){ return {v:15, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false}; }
+// [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
+// "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
+const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
+function migrate(raw){
+  if (!raw || typeof raw!=='object') return raw;
+  for (const k of Object.keys(raw)){
+    if (KNOWN.has(k)) continue;
+    const v = raw[k];
+    if (Array.isArray(v) && v.every(x=>x && typeof x==='object' && 'balance' in x && 'emi' in x)){ if (!(raw.emis||[]).length) raw.emis = v; delete raw[k]; }
+    else if (/^no[A-Z]/.test(k) && typeof v==='boolean'){ if (v && !(raw.emis||[]).length) raw.noEmi = true; delete raw[k]; }
+  }
+  return raw;
+}
 let S = fresh();
 try{
   const raw = JSON.parse(localStorage.getItem(KEY)||'null');
-  if (raw && raw.v===15) S = Object.assign(fresh(), raw);
+  if (raw && raw.v===15) S = Object.assign(fresh(), migrate(raw));
 }catch(e){}
 let LEAD = {name:'', phone:''};
 try{ LEAD = Object.assign(LEAD, JSON.parse(localStorage.getItem(LEAD_KEY)||'{}')); }catch(e){}
@@ -709,8 +722,8 @@ function sendRow(data){
 function band(n, cuts){ for (const c of cuts){ if (n < c[0]) return c[1]; } return cuts[cuts.length-1][1]; }
 
 /* ================= numbers ================= */
-const validLoans = () => S.loans.filter(l => l.balance>0 && l.emi>0);
-const totEMI = () => validLoans().reduce((a,l)=>a+l.emi,0);
+const validEmis = () => S.emis.filter(l => l.balance>0 && l.emi>0);
+const totEMI = () => validEmis().reduce((a,l)=>a+l.emi,0);
 const totExp = () => EXPENSES.reduce((a,e)=>a+(+S.exp[e.id]||0),0);
 const leftover = () => S.salary - totEMI() - totExp();
 function habitSpend(id){ const h=HB[id], v=S.habits[id]; if (!v||!v.on) return 0; return h.other ? (+v.b||0) : (+v.a||0)*(+v.b||0)*h.f; }
@@ -722,19 +735,19 @@ const monthlySave = () => Math.round(habitsOn().reduce((a,h)=>a+cutSave(h.id),0)
 function standState(){ const l = leftover(); if (l < 0) return 'short'; if (l < S.salary*0.1) return 'tight'; return 'ok'; }
 function emiStuck(l){ return l.emi <= l.balance * l.rate / 1200; }
 
-// What goes to loans every month: cuts minus the monthly shortfall (if any)
-function loanExtra(){ const gap = Math.max(0, -leftover()); return Math.max(0, monthlySave() - gap); }
+// What goes to the EMIs every month: cuts minus the monthly shortfall (if any)
+function emiExtra(){ const gap = Math.max(0, -leftover()); return Math.max(0, monthlySave() - gap); }
 
 function plans(){
-  const loans = validLoans().filter(l=>!emiStuck(l));
-  if (!loans.length) return null;
-  const order = MLR.strategyOrder(loans, 'avalanche');
-  const x = loanExtra();
-  const now = MLR.simulate(loans, 0, []);
-  const cuts = MLR.simulate(loans, x, order);
-  const yearly = MLR.simulateY(loans, 0, order, true);
-  const both = MLR.simulateY(loans, x, order, true);
-  return {loans, order, x, now, cuts, yearly, both};
+  const emis = validEmis().filter(l=>!emiStuck(l));
+  if (!emis.length) return null;
+  const order = MLR.strategyOrder(emis, 'avalanche');
+  const x = emiExtra();
+  const now = MLR.simulate(emis, 0, []);
+  const cuts = MLR.simulate(emis, x, order);
+  const yearly = MLR.simulateY(emis, 0, order, true);
+  const both = MLR.simulateY(emis, x, order, true);
+  return {emis, order, x, now, cuts, yearly, both};
 }
 
 /* ================= motion helpers ================= */
@@ -800,10 +813,10 @@ function strip(show){
 }
 
 /* ================= screens ================= */
-const SCREENS = ['welcome','loans','salary','snap_emi','lead_form','expenses','stand','calm','habits','habit_amounts','cut_choice','yt_gate','dashboard','extra_emi','body_mind','join','tracker','pdf'];
+const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','calm','habits','habit_amounts','cut_choice','yt_gate','dashboard','extra_emi','body_mind','join','tracker','pdf'];
 let cur = -1;
 const seen = {};
-const NEXT_LABEL = {welcome:'Start', snap_emi:'Next', lead_form:'Continue', calm:'Sari, kaattunga', cut_choice:'Show my savings', yt_gate:'Show my plan', dashboard:'See my debt-free date', extra_emi:'Next', body_mind:'Get my PDF', join:'Create my tracker', tracker:'My plan PDF', pdf:''};
+const NEXT_LABEL = {welcome:'Start', snap_emi:'Next', lead_form:'Continue', calm:'Sari, kaattunga', cut_choice:'Show my savings', yt_gate:'Show my plan', dashboard:'See my EMI-free date', extra_emi:'Next', body_mind:'Get my PDF', join:'Create my tracker', tracker:'My plan PDF', pdf:''};
 function skip(name){
   if (name==='lead_form' && leadDone()) return true;
   if (name==='yt_gate' && S.yt) return true;
@@ -848,19 +861,19 @@ window.addEventListener('popstate', e=>{
 function updateNext(){
   const name = SCREENS[cur], nx = $('#next');
   let ok = true;
-  if (name==='loans') ok = S.noLoan || (validLoans().length>0);
+  if (name==='emis') ok = S.noEmi || (validEmis().length>0);
   if (name==='salary') ok = S.salary >= 1000;
   if (name==='habits') ok = habitsOn().length>0 || S.noHabit;
   nx.disabled = !ok;
 }
 
-/* ---------- 2 loans ---------- */
-function renderLoans(){
-  $('#loanTypes').innerHTML = LOAN_TYPES.map(t=>`<button type="button" class="tile" data-lt="${t.id}" aria-pressed="false"><b>${esc(t.n)}</b><small>+ Add</small></button>`).join('');
-  drawLoanCards();
+/* ---------- 2 emis ---------- */
+function renderEmis(){
+  $('#emiTypes').innerHTML = EMI_TYPES.map(t=>`<button type="button" class="tile" data-lt="${t.id}" aria-pressed="false"><b>${esc(t.n)}</b><small>+ Add</small></button>`).join('');
+  drawEmiCards();
 }
-function drawLoanCards(){
-  $('#loanList').innerHTML = S.loans.map((l,i)=>{
+function drawEmiCards(){
+  $('#emiList').innerHTML = S.emis.map((l,i)=>{
     const t = LT[l.type]||LT.other;
     const stuck = l.balance>0 && l.emi>0 && emiStuck(l);
     return `<div class="card" data-li="${i}">
@@ -868,34 +881,34 @@ function drawLoanCards(){
       ${sliderHTML('bal'+i, 'Innum kattanum (balance)', l.balance, {pre:'₹', min:5000, max:20000000, log:true, step:1000})}
       ${sliderHTML('emi'+i, t.emiLabel||'EMI every month', l.emi, {pre:'₹', min:500, max:300000, log:true, step:100})}
       ${sliderHTML('rate'+i, 'Interest a year (theriyalana appadiye vidunga)', l.rate, {suf:'%', min:0, max:48, step:.5, pct:true})}
-      <p class="err" data-stuck="${i}">${stuck?'Indha EMI interest-a mattum dhaan kattudhu. Loan kuraiyadhu. Noor kitta pesunga.':''}</p>
+      <p class="err" data-stuck="${i}">${stuck?'Indha EMI interest-a mattum dhaan kattudhu. Balance kuraiyadhu. Noor kitta pesunga.':''}</p>
     </div>`;
   }).join('');
-  bindSliders($('#loanList'), (key, v)=>{
+  bindSliders($('#emiList'), (key, v)=>{
     const i = +key.replace(/\D/g,''), f = key.replace(/\d/g,'');
-    const l = S.loans[i]; if (!l) return;
+    const l = S.emis[i]; if (!l) return;
     if (f==='bal') l.balance = v; else if (f==='emi') l.emi = v; else if (f==='rate') l.rate = Math.min(48, v);
     const st = document.querySelector(`[data-stuck="${i}"]`);
-    if (st) st.textContent = (l.balance>0 && l.emi>0 && emiStuck(l)) ? 'Indha EMI interest-a mattum dhaan kattudhu. Loan kuraiyadhu. Noor kitta pesunga.' : '';
+    if (st) st.textContent = (l.balance>0 && l.emi>0 && emiStuck(l)) ? 'Indha EMI interest-a mattum dhaan kattudhu. Balance kuraiyadhu. Noor kitta pesunga.' : '';
     save(); updateNext();
   });
-  const has = S.loans.length>0;
-  $('#noLoan').style.display = has ? 'none' : '';
+  const has = S.emis.length>0;
+  $('#noEmi').style.display = has ? 'none' : '';
 }
 document.addEventListener('click', e=>{
   const t = e.target.closest('[data-lt]');
   if (t){
     const d = LT[t.dataset.lt];
-    if (S.loans.length >= 8){ $('#loanErr').textContent = '8 loans max.'; return; }
-    S.loans.push({type:d.id, balance:d.bal, emi:d.emi, rate:d.rate}); S.noLoan = false;
-    save(); drawLoanCards(); updateNext(); track('loan_added', {loan_type:d.id, loans_count:S.loans.length});
-    const last = $('#loanList').lastElementChild; if (last){ pop(last); last.scrollIntoView({behavior:reduced?'auto':'smooth', block:'center'}); }
+    if (S.emis.length >= 8){ $('#emiErr').textContent = '8 EMIs max.'; return; }
+    S.emis.push({type:d.id, balance:d.bal, emi:d.emi, rate:d.rate}); S.noEmi = false;
+    save(); drawEmiCards(); updateNext(); track('emi_added', {emi_type:d.id, emis_count:S.emis.length});
+    const last = $('#emiList').lastElementChild; if (last){ pop(last); last.scrollIntoView({behavior:reduced?'auto':'smooth', block:'center'}); }
     return;
   }
   const r = e.target.closest('[data-rm]');
-  if (r){ S.loans.splice(+r.dataset.rm,1); save(); drawLoanCards(); updateNext(); track('loan_removed'); }
+  if (r){ S.emis.splice(+r.dataset.rm,1); save(); drawEmiCards(); updateNext(); track('emi_removed'); }
 });
-$('#noLoan').addEventListener('click', ()=>{ S.noLoan = true; S.loans = []; save(); track('loan_skip'); go(cur+1); });
+$('#noEmi').addEventListener('click', ()=>{ S.noEmi = true; S.emis = []; save(); track('emi_skip'); go(cur+1); });
 
 /* ---------- 3 salary ---------- */
 function renderSalary(){
@@ -917,7 +930,7 @@ function renderSnap(){
   const el = $('#emiPct'); el.dataset.v = 0; el.classList.toggle('out', pct>=40);
   countTo(el, pct, v=>Math.round(v)+'%');
   $('#emiRows').innerHTML = `<div class="row"><span>Salary</span><b>${inr(sal)}</b></div>
-    <div class="row"><span>EMI (${validLoans().length} loan${validLoans().length===1?'':'s'})</span><b>− ${inr(emi)}</b></div>
+    <div class="row"><span>EMI (${validEmis().length})</span><b>− ${inr(emi)}</b></div>
     <div class="row total"><span>Kaila irukkuradhu</span><b>${inr(sal-emi)}</b></div>`;
   $('#emiVerdict').textContent = !emi ? 'EMI illa. Super. Ippo selavu-va paappom.' :
     pct>=50 ? 'Salary-la paadhikku mela EMI-ku pogudhu. Adhaan pressure. Seri pannalaam.' :
@@ -937,8 +950,8 @@ function submitLead(){
   $('#leadErr').textContent = '';
   LEAD = {name, phone:'91'+ph};
   try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); sessionStorage.setItem(GATE_KEY,'1'); }catch(e){}
-  sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), loansCount:validLoans().length,
-    item:`Money plan lead: ${validLoans().length} loan(s), EMI ${Math.round(totEMI()/Math.max(S.salary,1)*100)}% of salary`});
+  sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), emisCount:validEmis().length,
+    item:`Money plan lead: ${validEmis().length} EMI(s), EMI ${Math.round(totEMI()/Math.max(S.salary,1)*100)}% of salary`});
   track('generate_lead', {method:'money_plan_v15', currency:'INR', value:0});
   return true;
 }
@@ -962,10 +975,10 @@ function renderStand(){
     <div class="row"><span>EMI</span><b>− ${inr(totEMI())}</b></div>
     <div class="row"><span>House expenses</span><b>− ${inr(totExp())}</b></div>
     <div class="row total"><span>${l<0?'Short':'Left'}</span><b>${l<0?'− ':''}${inr(Math.abs(l))}</b></div>`;
-  $('#standVerdict').textContent = st==='short' ? 'Ovvoru maasamum kadan vaangi dhaan odudhu. Idhu dhaan stress-ku kaaranam. Adutha step-la vazhi irukku.' :
-    st==='tight' ? 'Maasa kadaisi-la tight-a irukkum. Konjam room create pannalaam.' : 'Room irukku. Adha correct-a use panna loan seekiram mudiyum.';
+  $('#standVerdict').textContent = st==='short' ? 'Ovvoru maasamum panam pathaama dhaan odudhu. Idhu dhaan stress-ku kaaranam. Adutha step-la vazhi irukku.' :
+    st==='tight' ? 'Maasa kadaisi-la tight-a irukkum. Konjam room create pannalaam.' : 'Room irukku. Adha correct-a use panna EMI seekiram mudiyum.';
   $('#calmLast').textContent = st==='short' ? 'Short-a irundhaalum vazhi irukku. Adutha 2 nimisham-la kaatrom.' : 'Vazhi irukku. Adutha 2 nimisham-la kaatrom.';
-  track('stand_state', {state:st, has_loans:validLoans().length>0});
+  track('stand_state', {state:st, has_emis:validEmis().length>0});
 }
 
 /* ---------- 9 habits ---------- */
@@ -1037,7 +1050,7 @@ $('#ytBtn').addEventListener('click', ()=>{
 
 /* ---------- 13 dashboard ---------- */
 let period = 'm';
-function x0(m,gap){ const x=Math.max(m-gap,0); return x ? `appo unga ${inr(x)}/month cuts loan-a kuraikka arambikkum.` : 'unga cuts adhukku help pannum.'; }
+function x0(m,gap){ const x=Math.max(m-gap,0); return x ? `appo unga ${inr(x)}/month cuts EMI balance-a kuraikka arambikkum.` : 'unga cuts adhukku help pannum.'; }
 function renderDash(){
   const m = monthlySave(), gap = Math.max(0,-leftover()), p = plans();
   const val = period==='w' ? m*12/52 : period==='y' ? m*12 : m;
@@ -1046,30 +1059,30 @@ function renderDash(){
   let g = '';
   if (gap > 0){
     g = m >= gap
-      ? `<div class="callout"><b>First, short-a irukkura ${inr(gap)} close aagum.</b> Meedhi ${inr(m-gap)} loan-ku pogum.</div>`
+      ? `<div class="callout"><b>First, short-a irukkura ${inr(gap)} close aagum.</b> Meedhi ${inr(m-gap)} EMI balance-ku pogum.</div>`
       : `<div class="callout"><b>Cuts ${inr(m)}, short ${inr(gap)}.</b> Innum ${inr(gap-m)} venum. Idhuku bank kitta tenure, illa income idea venum. Noor kitta pesunga, free.</div>`;
   }
   $('#dashGap').innerHTML = g;
-  if (!p && validLoans().length){
-    $('#dashJars').innerHTML = `<div class="callout"><b>Unga EMI interest-a mattum dhaan cover pannudhu.</b> Loan kuraiyave kuraiyadhu. Bank kitta EMI/tenure maatha pesanum. Idhu Noor kitta free-a pesunga, ${x0(m,gap)}</div>`;
+  if (!p && validEmis().length){
+    $('#dashJars').innerHTML = `<div class="callout"><b>Unga EMI interest-a mattum dhaan cover pannudhu.</b> Balance kuraiyave kuraiyadhu. Bank kitta EMI/tenure maatha pesanum. Idhu Noor kitta free-a pesunga, ${x0(m,gap)}</div>`;
     return;
   }
   if (!p){
     const ef = Math.max(1, totExp()+totEMI())*6, x = Math.max(m-gap,0);
-    $('#dashJars').innerHTML = `<div class="callout"><b>Loan illa? Emergency fund jar.</b><br>6 maasa selavu = ${inr(ef)}. ${x?`${inr(x)}/month potta <b>${Math.ceil(ef/x)} maasathula</b> ready.`:'Cuts choose pannunga, appo kaattrom.'}</div>`;
+    $('#dashJars').innerHTML = `<div class="callout"><b>EMI illa? Emergency fund jar.</b><br>6 maasa selavu = ${inr(ef)}. ${x?`${inr(x)}/month potta <b>${Math.ceil(ef/x)} maasathula</b> ready.`:'Cuts choose pannunga, appo kaattrom.'}</div>`;
     return;
   }
   const extra = p.x;
   const jars = p.order.map((idx,k)=>{
-    const l = p.loans[idx], t = LT[l.type]||LT.other, cl = p.cuts.perLoan[idx].months, orig = p.now.perLoan[idx].months;
+    const l = p.emis[idx], t = LT[l.type]||LT.other, cl = p.cuts.perEmi[idx].months, orig = p.now.perEmi[idx].months;
     return `<div class="jar"><div class="jar-glass"><div class="jar-fill" data-fill="${k===0 && extra>0 ? 70 : 12}"></div><span class="jar-n">${k+1}</span></div>
       <b>${esc(t.n)}</b><small>${l.rate}% · closes ${cl?dateIn(cl):'—'}${orig&&cl&&orig>cl?`<br>${orig-cl} mo sooner`:''}</small></div>`;
   }).join('');
-  const first = LT[p.loans[p.order[0]].type]||LT.other;
-  $('#dashJars').innerHTML = `<h3 style="font-size:20px;font-weight:700;margin-top:22px">Loan jar</h3>
+  const first = LT[p.emis[p.order[0]].type]||LT.other;
+  $('#dashJars').innerHTML = `<h3 style="font-size:20px;font-weight:700;margin-top:22px">EMI jar</h3>
     <div class="jars">${jars}</div>
-    ${extra>0 ? `<div class="callout"><b>Every month ${inr(extra)} → Jar 1, ${esc(first.n)}.</b> Adhukku dhaan interest adhigam (${p.loans[p.order[0]].rate}%). Adhu close aana, adhoda EMI-um sendhu Jar 2-ku.</div>
-      <div class="rows"><div class="row"><span>Debt-free now</span><b>${dateIn(p.now.months,p.now.capped)}</b></div><div class="row total"><span>With your cuts</span><b>${dateIn(p.cuts.months,p.cuts.capped)}</b></div></div>`
+    ${extra>0 ? `<div class="callout"><b>Every month ${inr(extra)} → Jar 1, ${esc(first.n)}.</b> Adhukku dhaan interest adhigam (${p.emis[p.order[0]].rate}%). Adhu close aana, adhoda EMI-um sendhu Jar 2-ku.</div>
+      <div class="rows"><div class="row"><span>EMI-free now</span><b>${dateIn(p.now.months,p.now.capped)}</b></div><div class="row total"><span>With your cuts</span><b>${dateIn(p.cuts.months,p.cuts.capped)}</b></div></div>`
       : `<div class="callout">Cuts choose panna, jar fill aagum. Back pottu "Half" or "Stop" select pannunga.</div>`}`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>$$('.jar-fill').forEach(f=>f.style.height = f.dataset.fill+'%')));
 }
@@ -1085,28 +1098,28 @@ function sendPlan(){
   const cutList = habitsOn().filter(h=>(S.cuts[h.id]||'half')!=='keep').map(h=>(h.other&&S.otherName?S.otherName:h.n)+':'+(S.cuts[h.id]||'half')).join(', ');
   sendRow({event:'plan_complete', name:LEAD.name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), monthlyExpenses:totExp(),
     leftover:leftover(), stand:standState(), monthlySaving:m, weeklySaving:Math.round(m*12/52), yearlySaving:m*12,
-    loansCount:validLoans().length, habitsCut:cutList, monthsSooner:sooner, interestSaved:saved,
-    debtFreeNow:p?dateIn(p.now.months,p.now.capped):'', debtFreePlan:p?dateIn(p.both.months,p.both.capped):'', youtube:S.yt?'tapped':'',
-    item:`Saves ${inr(m)}/mo by cutting ${cutList||'nothing'} | ${standState()==='short'?'SHORT '+inr(-leftover())+'/mo':'left '+inr(leftover())+'/mo'}${p?` | debt-free ${monthsLabel(sooner)} sooner, interest saved ${compact(saved)}`:''}`});
-  track('plan_complete', {stand:standState(), has_loans:!!p, saving_band:band(m,[[1,'0'],[2000,'<2k'],[5000,'2-5k'],[10000,'5-10k'],[1e12,'10k+']]), sooner_band: band(sooner,[[1,'0'],[12,'<1y'],[36,'1-3y'],[1e9,'3y+']])});
+    emisCount:validEmis().length, habitsCut:cutList, monthsSooner:sooner, interestSaved:saved,
+    emiFreeNow:p?dateIn(p.now.months,p.now.capped):'', emiFreePlan:p?dateIn(p.both.months,p.both.capped):'', youtube:S.yt?'tapped':'',
+    item:`Saves ${inr(m)}/mo by cutting ${cutList||'nothing'} | ${standState()==='short'?'SHORT '+inr(-leftover())+'/mo':'left '+inr(leftover())+'/mo'}${p?` | EMI-free ${monthsLabel(sooner)} sooner, interest saved ${compact(saved)}`:''}`});
+  track('plan_complete', {stand:standState(), has_emis:!!p, saving_band:band(m,[[1,'0'],[2000,'<2k'],[5000,'2-5k'],[10000,'5-10k'],[1e12,'10k+']]), sooner_band: band(sooner,[[1,'0'],[12,'<1y'],[36,'1-3y'],[1e9,'3y+']])});
   S.planSent = true; save();
 }
 
 /* ---------- 14 extra EMI ---------- */
 function renderExtra(){
   const p = plans();
-  if (!p && validLoans().length){
+  if (!p && validEmis().length){
     $('#xLede').textContent = 'Unga EMI interest-ku mattum dhaan podhum. Mudhalla adha sari pannanum.';
     $('#paths').innerHTML = ''; $('#xSteps').innerHTML = `<li>Bank-la outstanding statement vaangunga.</li><li>EMI koottalaama, illa restructure-a nu kelunga.</li><li>Unga cuts ${inr(monthlySave())}/month idhukku use pannunga.</li><li>Noor kitta WhatsApp pannunga, free.</li>`;
     return;
   }
   if (!p){
-    $('#xLede').textContent = 'Ungalukku loan illa. Indha saving-a emergency fund-ku podunga, apram SIP.';
-    $('#paths').innerHTML = ''; $('#xSteps').innerHTML = `<li>Separate account-la ${inr(monthlySave())} every month auto-transfer set pannunga.</li><li>6 maasa selavu ready aana apram, adhe amount SIP.</li><li>Pudhu loan edukkuradhukku munnaadi Noor kitta oru vaarthai.</li>`;
+    $('#xLede').textContent = 'Ungalukku EMI illa. Indha saving-a emergency fund-ku podunga, apram SIP.';
+    $('#paths').innerHTML = ''; $('#xSteps').innerHTML = `<li>Separate account-la ${inr(monthlySave())} every month auto-transfer set pannunga.</li><li>6 maasa selavu ready aana apram, adhe amount SIP.</li><li>Pudhusa edhuvum EMI-la vaangradhukku munnaadi Noor kitta oru vaarthai.</li>`;
     return;
   }
-  const yearEMI = p.loans.reduce((a,l)=>a+l.emi,0);
-  $('#xLede').innerHTML = `12 EMI-ku badhila 13. Oru vaati, varushathukku ${inr(yearEMI)}. Unga cuts already loan-ku pogudhu, so idhu <b>bonus, hike, Diwali money</b>-la irundhu.`;
+  const yearEMI = p.emis.reduce((a,l)=>a+l.emi,0);
+  $('#xLede').innerHTML = `12 EMI-ku badhila 13. Oru vaati, varushathukku ${inr(yearEMI)}. Unga cuts already EMI balance-ku pogudhu, so idhu <b>bonus, hike, Diwali money</b>-la irundhu.`;
   const rows = [['Ippo irukkura maadhiri', p.now], ['Cuts mattum', p.cuts], ['Year-ku 1 extra EMI mattum', p.yearly], ['Cuts + bonus-la 1 extra EMI', p.both]];
   const max = p.now.months || 1;
   $('#paths').innerHTML = rows.map((r,i)=>{
@@ -1119,7 +1132,7 @@ function renderExtra(){
   $('#xSteps').innerHTML = `<li>Bonus, increment arrears, Diwali money vandha ${inr(yearEMI)} thani-ya vaiyunga.</li>
     <li>Bonus illaya? Every month ${inr(Math.ceil(yearEMI/12/100)*100)} RD podunga.</li>
     <li>Bank-la sollunga: <b>"part-prepayment, reduce tenure, EMI same"</b>. Receipt vaangunga.</li>
-    <li>Floating-rate loan-na usually charge illa. Bank kitta confirm pannunga.</li>`;
+    <li>Floating rate-na usually prepay charge illa. Bank kitta confirm pannunga.</li>`;
   track('extra_emi_view', {sooner_band: band(p.now.months-p.both.months,[[1,'0'],[12,'<1y'],[36,'1-3y'],[1e9,'3y+']])});
 }
 
@@ -1137,7 +1150,7 @@ function waText(){
   const p = plans(), m = monthlySave();
   return `Hi Noor, naan ${LEAD.name||''}. Mentell money plan pannen.\n`+
     `Salary ${inr(S.salary)}, EMI ${inr(totEMI())}, ${standState()==='short'?'short '+inr(-leftover()):'left '+inr(leftover())} a month.\n`+
-    `Cuts-la ${inr(m)}/month save panna mudiyum.`+(p?`\nDebt-free: ${dateIn(p.now.months,p.now.capped)} → ${dateIn(p.both.months,p.both.capped)}.`:'')+`\nHelp venum.`;
+    `Cuts-la ${inr(m)}/month save panna mudiyum.`+(p?`\nEMI-free: ${dateIn(p.now.months,p.now.capped)} → ${dateIn(p.both.months,p.both.capped)}.`:'')+`\nHelp venum.`;
 }
 function renderPdf(){
   $('#waNoor').href = 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(waText());
@@ -1168,19 +1181,19 @@ function buildPdf(){
   function para(t){ d.setFont('helvetica','normal'); d.setFontSize(11); const lines = d.splitTextToSize(t, R-L); need(lines.length*15+4); d.text(lines, L, y); y += lines.length*15+4; }
   head();
   d.setFont('helvetica','bold'); d.setFontSize(26);
-  const headline = p ? 'Debt-free by '+dateIn(p.both.months,p.both.capped) : 'Save '+rs(m)+' every month';
+  const headline = p ? 'EMI-free by '+dateIn(p.both.months,p.both.capped) : 'Save '+rs(m)+' every month';
   d.text(headline, L, y); y += 22;
   d.setFont('helvetica','normal'); d.setFontSize(12);
   if (p && p.now.months>p.both.months) { d.text('Instead of '+dateIn(p.now.months,p.now.capped)+'. That is '+monthsLabel(p.now.months-p.both.months)+' sooner.', L, y); y += 30; } else y += 12;
 
   h2('Where you stand every month');
-  row('Take-home salary', rs(S.salary)); row('EMI ('+validLoans().length+' loans)', '- '+rs(totEMI()));
+  row('Take-home salary', rs(S.salary)); row('EMI ('+validEmis().length+')', '- '+rs(totEMI()));
   EXPENSES.filter(e=>+S.exp[e.id]>0).forEach(e=>row('   '+e.n, '- '+rs(S.exp[e.id])));
   row(leftover()<0?'Short every month':'Left every month', (leftover()<0?'- ':'')+rs(Math.abs(leftover())), true); y += 8;
 
-  if (validLoans().length){
-    h2('Your loans');
-    validLoans().forEach(l=>row((LT[l.type]||LT.other).n+'  ('+l.rate+'%)', 'Balance '+rs(l.balance)+'  |  EMI '+rs(l.emi)));
+  if (validEmis().length){
+    h2('Your EMIs');
+    validEmis().forEach(l=>row((LT[l.type]||LT.other).n+'  ('+l.rate+'%)', 'Balance '+rs(l.balance)+'  |  EMI '+rs(l.emi)));
     y += 8;
   }
   if (habitsOn().length){
@@ -1189,14 +1202,14 @@ function buildPdf(){
     row('You save', rs(m)+'/month  |  '+rs(m*12/52)+'/week  |  '+rs(m*12)+'/year', true); y += 8;
   }
   if (p){
-    h2('Your loan plan');
-    para('Every month put '+rs(p.x)+' on the loan with the highest interest first. When it closes, add its EMI to the next one.');
-    p.order.forEach((idx,k)=>row('Jar '+(k+1)+': '+(LT[p.loans[idx].type]||LT.other).n+' ('+p.loans[idx].rate+'%)', 'closes '+(p.both.perLoan[idx].months?dateIn(p.both.perLoan[idx].months):'-')));
+    h2('Your EMI plan');
+    para('Every month put '+rs(p.x)+' on the EMI with the highest interest first. When it closes, add that EMI amount to the next one.');
+    p.order.forEach((idx,k)=>row('Jar '+(k+1)+': '+(LT[p.emis[idx].type]||LT.other).n+' ('+p.emis[idx].rate+'%)', 'closes '+(p.both.perEmi[idx].months?dateIn(p.both.perEmi[idx].months):'-')));
     y += 6;
     [['As it is now',p.now],['Cuts only',p.cuts],['1 extra EMI a year only',p.yearly],['Cuts + 1 extra EMI a year (from bonus)',p.both]].forEach((r,i)=>
       row(r[0], dateIn(r[1].months,r[1].capped)+'  |  interest '+rs(r[1].totalInterest), i===3));
     y += 6;
-    para('One extra EMI a year ('+rs(totEMI())+'): take it from bonus, hike arrears or festival money. No bonus? Put '+rs(Math.ceil(totEMI()/12/100)*100)+' a month in an RD. Once a year, tell your bank: "part-prepayment, reduce tenure, keep EMI same". Get a receipt. Floating-rate loans usually have no prepayment charge; confirm with your bank.');
+    para('One extra EMI a year ('+rs(totEMI())+'): take it from bonus, hike arrears or festival money. No bonus? Put '+rs(Math.ceil(totEMI()/12/100)*100)+' a month in an RD. Once a year, tell your bank: "part-prepayment, reduce tenure, keep EMI same". Get a receipt. Floating-rate EMIs usually have no prepayment charge; confirm with your bank.');
   } else if (m>0) {
     h2('Your savings plan');
     para('Auto-transfer '+rs(Math.max(m-Math.max(0,-leftover()),0))+' every month to a separate account. Build 6 months of expenses ('+rs((totExp()+totEMI())*6)+') as an emergency fund first.');
@@ -1293,7 +1306,7 @@ $('#iosCopy').addEventListener('click', async ()=>{
   try{
     if (sessionStorage.getItem('mentell_handoff')==='1' && !sessionStorage.getItem('mm_handoff_seen')){
       sessionStorage.setItem('mm_handoff_seen','1');
-      const raw = JSON.parse(localStorage.getItem(KEY)||'null'); if (raw && raw.v===15) S = Object.assign(fresh(), raw);
+      const raw = JSON.parse(localStorage.getItem(KEY)||'null'); if (raw && raw.v===15) S = Object.assign(fresh(), migrate(raw));
       track('handoff_arrived');
     }
   }catch(e){}
@@ -1326,7 +1339,7 @@ async function api(body){
 function planSnapshot(){
   const p = plans();
   return Object.assign(JSON.parse(JSON.stringify(S)), {summary:{salary:S.salary, emi:totEMI(), expenses:totExp(), stand:standState(), saving:monthlySave(),
-    debtFreePlan: p ? dateIn(p.both.months,p.both.capped) : ''}});
+    emiFreePlan: p ? dateIn(p.both.months,p.both.capped) : ''}});
 }
 function applyServer(r){
   if (!r || !r.ok) return;
@@ -1336,7 +1349,7 @@ function applyServer(r){
         qualified:r.qualified, qualifiedMonth:r.qualifiedMonth, launchDone:r.launchDone,
         logs: logs.concat(pending.filter(p=>!logs.some(l=>l.id===p.id)))};
   // New phone: bring back the plan they made before
-  if (r.plan && r.plan.v===15 && !S.salary){ S = Object.assign(fresh(), r.plan); delete S.summary; S.at = SCREENS.indexOf('body_mind'); S.planSent = true; save(); }
+  if (r.plan && r.plan.v===15 && !S.salary){ S = Object.assign(fresh(), migrate(r.plan)); delete S.summary; S.at = SCREENS.indexOf('body_mind'); S.planSent = true; save(); }
   trkSaveLocal();
 }
 
@@ -1427,7 +1440,7 @@ function monthSaved(){ const m = istDay(0).slice(0,7); return myLogs().filter(l=
 function nudge(justSaved){
   const h = new Date(Date.now()+5.5*3600e3).getUTCHours(), name = (TD&&TD.name)||LEAD.name||'', st = localStreak(), today = sumDay(istDay(0),'save');
   const left = Math.max(0, SAVE_TARGET - monthSaved());
-  if (justSaved) return [`Semma ${name}! ${inr(justSaved)} unga pocket-la. Fire on.`, `${st} naal fire. Idhe maadhiri dhaan loan kuraiyum.`, left ? `Innum ${inr(left)} save panna 50% off unlocked.` : '50% off unlocked. Fire-a anaiya vidaadheenga.'][Math.floor(Math.random()*3)];
+  if (justSaved) return [`Semma ${name}! ${inr(justSaved)} unga pocket-la. Fire on.`, `${st} naal fire. Idhe maadhiri dhaan EMI balance kuraiyum.`, left ? `Innum ${inr(left)} save panna 50% off unlocked.` : '50% off unlocked. Fire-a anaiya vidaadheenga.'][Math.floor(Math.random()*3)];
   if (TD && TD.qualified && today) return 'Inniku-um fire on. 50% off already unga kaila.';
   if (today) return h<17 ? `Inniku ${inr(today)} save aachu. Evening-um oru chance irukku.` : `Inniku ${inr(today)} save. Naalaikku kaalai paappom.`;
   if (h < 12) return `Kaalai vanakkam ${name}. Inniku oru chinna save podhum, fire on aagum.`;
@@ -1578,7 +1591,7 @@ async function refreshMe(){
 function syncPlan(){ if (TRACKER_URL && hasSession()) api({action:'sync', phone:TRK.phone, token:TRK.token, plan:planSnapshot()}).catch(()=>{}); }
 
 /* ================= navigation ================= */
-const RENDER = {loans:renderLoans, salary:renderSalary, snap_emi:renderSnap, lead_form:renderLead, expenses:renderExpenses, stand:renderStand,
+const RENDER = {emis:renderEmis, salary:renderSalary, snap_emi:renderSnap, lead_form:renderLead, expenses:renderExpenses, stand:renderStand,
   habits:renderHabits, habit_amounts:renderAmounts, cut_choice:renderCut, yt_gate:renderYt, dashboard:()=>{ renderDash(); sendPlan(); syncPlan(); },
   extra_emi:renderExtra, body_mind:renderBody, join:renderJoin, tracker:()=>{ renderTracker(); refreshMe(); }, pdf:renderPdf};
 
@@ -1586,7 +1599,7 @@ $('#next').addEventListener('click', ()=>{
   const name = SCREENS[cur];
   if ($('#next').disabled) return;
   if (name==='welcome'){ track('calc_start'); }
-  if (name==='loans' && !S.noLoan && !validLoans().length){ $('#loanErr').textContent = 'Oru loan add pannunga, illa "Enakku loan illa" tap pannunga.'; return; }
+  if (name==='emis' && !S.noEmi && !validEmis().length){ $('#emiErr').textContent = 'Oru EMI add pannunga, illa "Enakku EMI illa" tap pannunga.'; return; }
   if (name==='lead_form' && !submitLead()) return;
   if (name==='join'){ submitJoin(); return; }
   if (name==='tracker'){ go(SCREENS.indexOf('pdf')); return; }
