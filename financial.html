@@ -264,7 +264,7 @@ footer a{color:var(--muted)}
 .pw-price .per{color:var(--muted);font-size:15px}
 .pw-offer{display:inline-block;background:var(--save);color:#fff;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;margin-top:8px}
 .pw-in{display:block;width:100%;font:inherit;font-size:17px;padding:12px;border:1.5px solid var(--ink);margin-top:8px;background:var(--paper);color:var(--ink)}
-#pwPay,#pwGo{width:100%;margin-top:16px}
+#pwPay,#pwGo,#pwReopen{width:100%;margin-top:16px}
 .pw-trust{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:13px;margin-top:4px}
 .pw-done{border:2px solid var(--save);padding:16px;margin-top:18px}
 .pw-done b{color:var(--save);font-size:22px}
@@ -378,6 +378,13 @@ footer a{color:var(--muted)}
   <div id="pwChecking" hidden>
     <div class="callout"><b>Payment check panrom…</b><br>UPI app-la pay pannirundhaa, inga wait pannunga. Indha page-a close pannaadheenga.</div>
     <p class="small"><span class="pw-spin"></span> Checking</p>
+  </div>
+  <div id="pwPage" hidden>
+    <div class="callout"><b>Mentell payment page-la ₹99 pay pannunga.</b><br>Pay panna apram indha page-ku thirumba vaanga. Plan thaanaa open aagum.</div>
+    <p class="small"><span class="pw-spin"></span> Payment-kaaga wait panrom…</p>
+    <button type="button" class="btn ghost" id="pwReopen">Payment page-a thirumba open pannunga</button>
+    <button type="button" class="link" id="pwRecheck">Pay pannitten, check pannunga</button>
+    <p class="small" id="pwPageHelp"></p>
   </div>
   <div id="pwPaid" hidden>
     <div class="pw-done"><b>Unlocked ✓</b><p id="pwUntil">Unga plan ready.</p></div>
@@ -747,7 +754,7 @@ const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry a
 const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','paywall','calm','habits','habit_amounts','cut_choice','dashboard','extra_emi','body_mind','join','tracker','pdf'];
 // v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
 // sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
-function fresh(){ return {v:15, sv:16, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null}; }
+function fresh(){ return {v:15, sv:16, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null}; }
 // [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
 // "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
 const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
@@ -1096,10 +1103,10 @@ function renderPaywall(){
   }
   $('#pwWho').hidden = !!(LEAD.phone && LEAD.name);
   if (LEAD.name) $('#pwName').value = LEAD.name;
-  showPay(paidOk() ? 'paid' : 'ready');
+  if (!resumePagePay()) showPay(paidOk() ? 'paid' : 'ready');
 }
 function showPay(state){
-  $('#pwReady').hidden = state !== 'ready'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid';
+  $('#pwReady').hidden = state !== 'ready'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid'; $('#pwPage').hidden = state !== 'page';
   document.querySelector('[data-s="paywall"]').classList.toggle('pw-open', state === 'paid');
   if (state === 'paid'){
     const u = S.paid && S.paid.u ? new Date(S.paid.u).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) : '';
@@ -1146,7 +1153,7 @@ function openCheckout(o){
   });
 }
 function markPaid(st){
-  S.paid = {o:PAY.order_id, u:st.access_until||null, f:!!st.forever}; save();
+  S.paid = {o:PAY.order_id, u:st.access_until||null, f:!!st.forever}; S.pendingPay = null; save();
   showPay('paid');
   track('purchase', {currency:'INR', value:PAY.amount/100, transaction_id:PAY.order_id, items:[{item_id:'money_plan_99', item_name:'Mentell Money Plan', price:PAY.amount/100, quantity:1}]});
   sendRow({event:'paid', name:LEAD.name, phone:LEAD.phone, paid:1, item:`₹${PAY.amount/100} money plan paid (order ${PAY.order_id})`});
@@ -1162,6 +1169,7 @@ async function pay(){
     try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){}
     sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, item:'Lead from the ₹99 paywall'});
   }
+  if (PAGE_URL) return payOnPage();
   const btn = $('#pwPay'); btn.disabled = true; btn.textContent = 'Opening…';
   track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}]});
   try{
@@ -1209,6 +1217,61 @@ async function recheckPaid(){
     S.paid.u = st.access_until || null; S.paid.f = !!st.forever; save();
   }catch(e){}
 }
+/* [v16.2] ₹99 on the Mentell Razorpay Payment Page. The page can't tell us who paid, so: a pending order
+   for their phone first (start_page_order), the page opens with that phone filled in, and the Razorpay
+   webhook matches the payment to the order by phone. This page asks order_status until it says paid. */
+const PAGE_URL = /^https:\/\/pages\.razorpay\.com\//.test(String(CFG.paymentPageUrl||'')) ? String(CFG.paymentPageUrl) : '';
+async function rpcAnon(fn, args){
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify(args)});
+  const j = await r.json().catch(()=>null);
+  if (!r.ok) throw new Error((j && j.message) || 'http_'+r.status);
+  return j;
+}
+function pageUrl(){ return PAGE_URL + (PAGE_URL.includes('?') ? '&' : '?') + 'phone=' + encodeURIComponent(String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '')); }
+async function payOnPage(){
+  const btn = $('#pwPay'), err = $('#pwErr'); btn.disabled = true; btn.textContent = 'Opening…';
+  track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}], method:'payment_page'});
+  try{
+    const o = PAY_MOCK ? {order_id:'00000000-0000-4000-8000-0000000000'+String(Date.now()%90+10), amount_paise:9900, period_days:30}
+                       : await rpcAnon('start_page_order', {p_phone:LEAD.phone, p_name:LEAD.name});
+    PAY = {order_id:o.order_id, amount:o.amount_paise, t:Date.now()};
+    S.pendingPay = {o:o.order_id, a:o.amount_paise, t:PAY.t}; save();
+    if (!PAY_MOCK){
+      const w = window.open(pageUrl(), '_blank');
+      if (!w){ location.href = pageUrl(); return; }      // pop-up blocked: pay in this tab; coming back resumes the check
+    }
+    showPay('page'); pollPage();
+  }catch(e){
+    const m = String(e.message||'');
+    err.textContent = /too_many_orders/.test(m) ? 'Konjam neram kazhichu try pannunga.' : /bad_phone/.test(m) ? 'WhatsApp number sariyaa illa.' : 'Network problem. Thirumba try pannunga.';
+    track('payment_error', {error:m.slice(0,40), method:'payment_page'});
+  }finally{ btn.disabled = false; btn.textContent = '₹99 pay panni plan paarunga'; }
+}
+async function pageStatus(){
+  if (PAY_MOCK) return (Date.now() - PAY.t > 4000 && PAY_MOCK !== 'fail') ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status:'created'};
+  return rpcAnon('order_status', {p_order:PAY.order_id});
+}
+let pagePolling = false;
+// Every 4 s while this tab is open (20 minutes), and straight away when they switch back to it.
+async function pollPage(){
+  if (pagePolling) return; pagePolling = true;
+  const end = Date.now() + 20*60000, help = Date.now() + 3*60000;
+  try{
+    while (Date.now() < end && PAY){
+      try{ const st = await pageStatus(); if (st && st.status === 'paid'){ markPaid(st); return; } }catch(e){}
+      if (Date.now() > help) $('#pwPageHelp').innerHTML = `Pay pannirundhum open aagalaiyaa? Payment screenshot-oda <a href="https://wa.me/${esc(String(CFG.whatsappNumber||'919629843122'))}?text=${encodeURIComponent('Mentell ₹99 paid, plan open aagala. Order: '+PAY.order_id)}" target="_blank" rel="noopener">Noor-ku WhatsApp pannunga</a>.`;
+      await new Promise(r=>{ const t = setTimeout(r, 4000); document.addEventListener('visibilitychange', function v(){ if (!document.hidden){ clearTimeout(t); document.removeEventListener('visibilitychange', v); r(); } }); });
+    }
+  } finally { pagePolling = false; }
+}
+// Came back later (or the Payment Page sent them back): keep checking the order they started today.
+function resumePagePay(){
+  const p = S.pendingPay;
+  if (!PAGE_URL || paidOk() || !p || !p.o || Date.now() - p.t > 864e5) return false;
+  PAY = {order_id:p.o, amount:p.a||9900, t:p.t}; showPay('page'); pollPage(); return true;
+}
+$('#pwReopen').addEventListener('click', ()=>{ track('payment_page_reopen'); window.open(pageUrl(), '_blank') || (location.href = pageUrl()); });
+$('#pwRecheck').addEventListener('click', ()=>{ track('payment_page_recheck'); pagePolling = false; pollPage(); });
 $('#pwPay').addEventListener('click', pay);
 $('#pwGo').addEventListener('click', ()=>{ track('paywall_continue'); go(cur+1); });
 
@@ -1843,7 +1906,7 @@ $('#next').addEventListener('click', ()=>{
   go(cur+1);
 });
 $('#back').addEventListener('click', ()=>{ track('mm_back', {from:SCREENS[cur], method:'button'}); history.length>1 && history.state ? history.back() : go(cur-1, {replace:true}); });
-$('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; const yt = S.yt, paid = S.paid; S = fresh(); S.yt = yt; S.paid = paid; save(); track('mm_restart'); go(0, {replace:true}); $('#resume').hidden = true; $('#next').textContent = 'Start'; });
+$('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; const yt = S.yt, paid = S.paid, pend = S.pendingPay; S = fresh(); S.yt = yt; S.paid = paid; S.pendingPay = pend; save(); track('mm_restart'); go(0, {replace:true}); $('#resume').hidden = true; $('#next').textContent = 'Start'; });
 
 /* boot */
 (function boot(){
@@ -1854,6 +1917,8 @@ $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; c
   if (TRACKER_URL) $('#loginLink').hidden = false;
   recheckPaid();   // [v16] refund / expiry since the last visit
   go(0, {replace:true});
+  // [v16.2] back from the Payment Page: straight to the paywall, which keeps checking that order
+  if (PAGE_URL && S.pendingPay && !paidOk() && Date.now() - S.pendingPay.t < 864e5 && !hasSession()){ go(SCREENS.indexOf('paywall'), {replace:true}); return; }
   // Tracker members open straight on their tracker
   if (TRACKER_URL && hasSession() && (ti<0 || target==='tracker')){ go(SCREENS.indexOf('tracker'), {replace:true}); flush(); return; }
   if (canResume){

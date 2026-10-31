@@ -20,9 +20,13 @@ window.MENTELL_CONFIG = {
   /* ₹99 plan on financial.html: paid through Razorpay Checkout (create-order / verify-payment
      Edge Functions). false = no paywall, the whole plan stays free as in v15. */
   paywall: true,
+  /* [v16.2] Where the ₹99 is paid: the Mentell Razorpay Payment Page (full pages.razorpay.com address,
+     so the phone can be pre-filled; the short link is rzp.io/rzp/bLStKNl3). The page's payment is matched
+     to the buyer by phone through the Razorpay webhook. '' = pay inside the page with Razorpay Checkout. */
+  paymentPageUrl: 'https://pages.razorpay.com/pl_Tuags50lJ7O4hm/view',
  
   /* Razorpay Payment Links (public links, not keys) */
-  loanPlanPaymentLink: 'https://rzp.io/rzp/Zgf1Ajux',      // ₹99 Mentell plan (Payment Link, "Closing loan", 31 Oct 2026). The paywall itself uses Razorpay Checkout, not this link.
+  loanPlanPaymentLink: 'https://rzp.io/rzp/bLStKNl3',      // ₹99 Mentell plan: Razorpay Payment Page "Close EMI soon with plan" (31 Oct 2026)
   coachingPaymentLink: 'https://rzp.io/rzp/O6mVchGk',      // coaching (quantity page). Redirect: https://mentell.co.in/financial.html?coaching=1#coaching
  
   /* Coaching offer */
