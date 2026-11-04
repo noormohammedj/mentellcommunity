@@ -264,7 +264,9 @@ footer a{color:var(--muted)}
 .pw-price .per{color:var(--muted);font-size:15px}
 .pw-offer{display:inline-block;background:var(--save);color:#fff;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;margin-top:8px}
 .pw-in{display:block;width:100%;font:inherit;font-size:17px;padding:12px;border:1.5px solid var(--ink);margin-top:8px;background:var(--paper);color:var(--ink)}
-#pwPay,#pwGo,#pwReopen{width:100%;margin-top:16px}
+#pwPay,#pwGo,#pwReopen,#rsGo{width:100%;margin-top:16px}
+#pwInapp .btn{width:100%;margin-top:10px}
+#pwHave,#rsLink{margin-top:12px}
 .pw-trust{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:13px;margin-top:4px}
 .pw-done{border:2px solid var(--save);padding:16px;margin-top:18px}
 .pw-done b{color:var(--save);font-size:22px}
@@ -299,6 +301,8 @@ footer a{color:var(--muted)}
   <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: neenga enga irukkeenga</li><li>Edhai cut panna, evlo save aagum</li><li>Unga EMI-free date + PDF plan</li></ol>
   <div id="resume" hidden class="callout" data-anim><b>Neenga paadhi-la vittu ponga.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
   <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Login</button>
+  <div id="rsOk" hidden class="callout"><b>Unlocked ✓</b> <span id="rsOkTxt"></span></div>
+  <button type="button" class="link" id="rsLink" hidden>₹99 already pay panniteengala? Plan open pannunga</button>
   <p class="small" data-anim>Your numbers stay on this phone. Name, WhatsApp and your savings total come to Mentell so Noor can help.</p>
 </section>
 
@@ -374,6 +378,8 @@ footer a{color:var(--muted)}
     <button type="button" class="btn" id="pwPay">₹99 pay panni plan paarunga</button>
     <p class="err" id="pwErr"></p>
     <div class="pw-trust"><span>UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
+    <div id="pwInapp" class="callout" hidden><b>Neenga Instagram browser-la irukeenga.</b> Chrome-la open panni pay pannaa, plan eppovum unga phone-la irukum.<button type="button" class="btn ghost" id="pwInappBtn">Open in Chrome</button></div>
+    <button type="button" class="link" id="pwHave">Already paid? Plan open pannunga</button>
   </div>
   <div id="pwChecking" hidden>
     <div class="callout"><b>Payment check panrom…</b><br>UPI app-la pay pannirundhaa, inga wait pannunga. Indha page-a close pannaadheenga.</div>
@@ -385,6 +391,7 @@ footer a{color:var(--muted)}
     <button type="button" class="btn ghost" id="pwReopen">Payment page-a thirumba open pannunga</button>
     <button type="button" class="link" id="pwRecheck">Pay pannitten, check pannunga</button>
     <p class="small" id="pwPageHelp"></p>
+    <button type="button" class="link" id="pwHave2">Vera browser-la pay panneengala? Number + email-la open pannunga</button>
   </div>
   <div id="pwPaid" hidden>
     <div class="pw-done"><b>Unlocked ✓</b><p id="pwUntil">Unga plan ready.</p></div>
@@ -565,6 +572,17 @@ footer a{color:var(--muted)}
     <div class="t-btns"><button type="button" class="btn ghost" id="recCopy">Copy</button><button type="button" class="btn" id="recOk">Screenshot eduthutten</button></div>
   </div>
 </div>
+<div class="modal" id="rsModal" role="dialog" aria-modal="true" aria-labelledby="rsH">
+  <div class="sheet">
+    <h3 id="rsH">₹99 pay panniteengala? Plan open pannunga</h3>
+    <p class="small">Razorpay page-la potta <b>same WhatsApp number + email</b> podunga (payment receipt email-la irukum). Endha browser-la irundhaalum open aagum.</p>
+    <input class="pw-in" id="rsPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
+    <input class="pw-in" id="rsEmail" type="email" inputmode="email" autocomplete="email" placeholder="Email (Razorpay-la pottadhu)" maxlength="80">
+    <button type="button" class="btn" id="rsGo">Plan open pannunga</button>
+    <p class="err" id="rsErr"></p>
+    <button type="button" class="link" id="rsClose">Close</button>
+  </div>
+</div>
 <div class="modal" id="iosModal" role="dialog" aria-modal="true" aria-labelledby="iosH">
   <div class="sheet">
     <h3 id="iosH">Safari-la open pannunga</h3>
@@ -576,7 +594,7 @@ footer a{color:var(--muted)}
 </div>
 
 <script>
-/* Mentell Money v15 — EMI-first flow (19 Oct 2026; wording v15.3, 29 Oct 2026)
+/* Mentell Money v15 — EMI-first flow (19 Oct 2026; wording v15.3, 29 Oct 2026; ₹99 v16.3, 4 Nov 2026)
    EMIs → salary → EMI snapshot → lead → expenses → where you stand → calm →
    habits → amounts → cut choice → YouTube → savings dashboard → extra EMI →
    body & mind → PDF.
@@ -1103,6 +1121,7 @@ function renderPaywall(){
   }
   $('#pwWho').hidden = !!(LEAD.phone && LEAD.name);
   if (LEAD.name) $('#pwName').value = LEAD.name;
+  $('#pwInapp').hidden = !(PAGE_URL && /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent||''));   // [v16.3]
   if (!resumePagePay()) showPay(paidOk() ? 'paid' : 'ready');
 }
 function showPay(state){
@@ -1255,11 +1274,11 @@ let pagePolling = false;
 // Every 4 s while this tab is open (20 minutes), and straight away when they switch back to it.
 async function pollPage(){
   if (pagePolling) return; pagePolling = true;
-  const end = Date.now() + 20*60000, help = Date.now() + 3*60000;
+  const end = Date.now() + 20*60000;
   try{
     while (Date.now() < end && PAY){
       try{ const st = await pageStatus(); if (st && st.status === 'paid'){ markPaid(st); return; } }catch(e){}
-      if (Date.now() > help) $('#pwPageHelp').innerHTML = `Pay pannirundhum open aagalaiyaa? Payment screenshot-oda <a href="https://wa.me/${esc(String(CFG.whatsappNumber||'919629843122'))}?text=${encodeURIComponent('Mentell ₹99 paid, plan open aagala. Order: '+PAY.order_id)}" target="_blank" rel="noopener">Noor-ku WhatsApp pannunga</a>.`;
+      if (PAY) $('#pwPageHelp').innerHTML = `Pay panni 2 nimisham aagiyum open aagalaiyaa? Payment screenshot-oda ${waHelp(PAY.order_id)}.`;
       await new Promise(r=>{ const t = setTimeout(r, 4000); document.addEventListener('visibilitychange', function v(){ if (!document.hidden){ clearTimeout(t); document.removeEventListener('visibilitychange', v); r(); } }); });
     }
   } finally { pagePolling = false; }
@@ -1272,6 +1291,57 @@ function resumePagePay(){
 }
 $('#pwReopen').addEventListener('click', ()=>{ track('payment_page_reopen'); window.open(pageUrl(), '_blank') || (location.href = pageUrl()); });
 $('#pwRecheck').addEventListener('click', ()=>{ track('payment_page_recheck'); pagePolling = false; pollPage(); });
+/* [v16.3] "Already paid? Open my plan". The site remembers a payment only in the browser it was paid in
+   (Instagram's in-app browser keeps its own), so on any other browser the WhatsApp number + the email
+   typed on the Razorpay page bring the paid order back (restore_access, max 8 tries / phone / hour).
+   From then on it is the same as paying here: order_status re-checks it on every visit. */
+function waHelp(order){
+  return `<a href="https://wa.me/${esc(String(CFG.whatsappNumber||'919629843122'))}?text=${encodeURIComponent('Mentell ₹99 paid, plan open aagala.' + (order ? ' Order: '+order : ''))}" target="_blank" rel="noopener">Noor-ku WhatsApp pannunga</a>`;
+}
+function openRestore(where){
+  track('restore_open', {location:where});
+  $('#rsPhone').value = String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '');
+  $('#rsErr').textContent = ''; $('#rsModal').classList.add('on');
+}
+async function restorePaid(){
+  const err = $('#rsErr'), btn = $('#rsGo'); err.textContent = '';
+  let ph = $('#rsPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+  const em = $('#rsEmail').value.trim();
+  if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit WhatsApp number podunga.'; return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ err.textContent = 'Email sariyaa podunga.'; return; }
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try{
+    const r = PAY_MOCK ? (em.toLowerCase() === 'paid@test.com' ? {found:true, status:'paid', order_id:'00000000-0000-4000-8000-000000000099', access_until:new Date(Date.now()+20*864e5).toISOString()} : {found:false})
+                       : await rpcAnon('restore_access', {p_phone:ph, p_email:em});
+    if (!(r && r.found && r.status === 'paid')){
+      track('restore_access', {ok:false});
+      err.innerHTML = `Indha number + email-oda ₹99 payment kidaikkala. Ippo dhaan pay pannirundhaa 1 nimisham kazhichu thirumba try pannunga. Illana payment screenshot-oda ${waHelp()}.`;
+      return;
+    }
+    S.paid = {o:r.order_id, u:r.access_until||null, f:!!r.forever}; S.pendingPay = null; PAY = null; save();
+    if (!LEAD.phone){ LEAD.phone = '91'+ph; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
+    track('restore_access', {ok:true});
+    $('#rsModal').classList.remove('on');
+    const PW = SCREENS.indexOf('paywall');
+    if (S.at >= PW){ go(PW, {replace:true}); return; }      // their answers are on this phone: the paywall shows Unlocked
+    const u = r.forever ? '' : new Date(r.access_until).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+    $('#rsOkTxt').textContent = (u ? `Unga ₹99 plan ${u} varaikkum. ` : 'Unga ₹99 plan ready. ') + 'Indha browser-la unga numbers illa: Start tap panni podunga (3 nimisham), plan full-a open aagum.';
+    $('#rsOk').hidden = false; $('#rsLink').hidden = true;
+    go(0, {replace:true});
+  }catch(e){
+    const m = String(e.message||'');
+    err.innerHTML = /too_many_tries/.test(m) ? `Romba thadava try panniteenga. 1 mani neram kazhichu try pannunga, illa ${waHelp()}.`
+                  : /bad_phone/.test(m) ? 'WhatsApp number sariyaa illa.' : /bad_email/.test(m) ? 'Email sariyaa podunga.' : 'Network problem. Thirumba try pannunga.';
+    track('restore_error', {error:m.slice(0,40)});
+  }finally{ btn.disabled = false; btn.textContent = 'Plan open pannunga'; }
+}
+$('#pwHave').addEventListener('click', ()=>openRestore('paywall'));
+$('#pwHave2').addEventListener('click', ()=>openRestore('waiting'));
+$('#rsLink').addEventListener('click', ()=>openRestore('welcome'));
+$('#rsGo').addEventListener('click', restorePaid);
+$('#rsEmail').addEventListener('keydown', e=>{ if (e.key==='Enter') restorePaid(); });
+$('#rsClose').addEventListener('click', ()=>$('#rsModal').classList.remove('on'));
+$('#pwInappBtn').addEventListener('click', ()=>openOutside('paywall'));
 $('#pwPay').addEventListener('click', pay);
 $('#pwGo').addEventListener('click', ()=>{ track('paywall_continue'); go(cur+1); });
 
@@ -1915,10 +1985,13 @@ $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; c
   const canResume = S.at > 0;
   if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
   if (TRACKER_URL) $('#loginLink').hidden = false;
+  if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
   recheckPaid();   // [v16] refund / expiry since the last visit
   go(0, {replace:true});
   // [v16.2] back from the Payment Page: straight to the paywall, which keeps checking that order
   if (PAGE_URL && S.pendingPay && !paidOk() && Date.now() - S.pendingPay.t < 864e5 && !hasSession()){ go(SCREENS.indexOf('paywall'), {replace:true}); return; }
+  // [v16.3] the Payment Page sent them back to a browser that didn't start the payment (Instagram → Chrome): ask number + email
+  if (PAGE_URL && target==='paywall' && !paidOk() && !hasSession()) openRestore('return');
   // Tracker members open straight on their tracker
   if (TRACKER_URL && hasSession() && (ti<0 || target==='tracker')){ go(SCREENS.indexOf('tracker'), {replace:true}); flush(); return; }
   if (canResume){
