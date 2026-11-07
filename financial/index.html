@@ -1,0 +1,2193 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#000000">
+<title>EMI pressure-la irundhu veliya vara plan | Mentell Money</title>
+<meta name="description" content="Free, 3 minutes. EMI, salary, family expenses: see where you stand, pick what to cut, and get your EMI-free date. Tanglish. Download as PDF."/>
+<link rel="canonical" href="https://mentell.co.in/financial/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Mentell"/>
+<meta property="og:locale" content="en_IN"/>
+<meta property="og:title" content="EMI-la irundhu eppo veliya varuveenga? Free plan, 3 minutes"/>
+<meta property="og:description" content="EMI, salary, expenses, habits. See where you stand and your EMI-free date."/>
+<meta property="og:url" content="https://mentell.co.in/financial/"/>
+<meta property="og:image" content="https://mentell.co.in/og-financial.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mentell Money: EMI-free plan","url":"https://mentell.co.in/financial/","applicationCategory":"FinanceApplication","operatingSystem":"Any","inLanguage":["en-IN","ta"],"description":"Free money planner for salaried families in Tamil Nadu: EMI vs salary, family expenses, habit cuts, EMI-free date, PDF report.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Mentell","url":"https://mentell.co.in/","logo":"https://mentell.co.in/apple-touch-icon.png"}}</script>
+<!-- config BEFORE the GA tag: it strips hand-off data from the URL before GA reads it -->
+<script src="/mentell-config.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/motion@14.3.0/dist/motion.js"></script>
+<style>
+/* ===== Mentell Money v15 — monochrome system (new site look) =====
+   Only these tokens carry colour. Red = money going out / short. Green = money saved.
+   No other hardcoded colours in this file except the PDF (which can't read CSS). */
+:root{
+  --paper:#ffffff; --ink:#000000; --surface:#f2f2f2; --muted:#6b6b6b; --line:#d9d9d9;
+  --out:#b3261e; --save:#0f6b3e;
+  --pad:20px; --max:560px;
+  --f:'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.45;font-stretch:100%;min-height:100vh;min-height:100dvh;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:var(--paper)}
+.top-row{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--pad) 10px}
+.brand{font-weight:800;font-stretch:125%;letter-spacing:-.02em;font-size:20px;text-decoration:none}
+.count{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog{height:3px;background:var(--surface)}
+.prog i{display:block;height:100%;width:0;background:var(--ink);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+
+/* in-app browser strip */
+.inapp{display:none;background:var(--ink);color:var(--paper);font-size:14px}
+.inapp.on{display:block}
+.inapp-in{max-width:var(--max);margin:0 auto;padding:10px var(--pad);display:flex;gap:12px;align-items:center}
+.inapp-in p{flex:1}
+.inapp-in button{background:var(--paper);color:var(--ink);border:0;padding:8px 12px;font-weight:700;white-space:nowrap;cursor:pointer}
+
+/* money strip: the signature — salary split into EMI / expenses / left, follows the user */
+.strip{max-width:var(--max);margin:0 auto;padding:0 var(--pad) 10px;display:none}
+.strip.on{display:block}
+.strip-bar{display:flex;height:10px;background:var(--surface);overflow:hidden}
+.strip-bar span{display:block;height:100%;transition:flex-basis .6s cubic-bezier(.2,.8,.2,1)}
+.sb-emi{background:var(--ink)}
+.sb-exp{background:var(--muted)}
+.sb-left{background:var(--save)}
+.sb-short{background:var(--out)}
+.strip-k{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums;flex-wrap:wrap}
+.strip-k b{color:var(--ink);font-weight:600}
+.strip-k i{display:inline-block;width:8px;height:8px;margin-right:5px;vertical-align:0}
+
+/* screens */
+main{max-width:var(--max);margin:0 auto;padding:22px var(--pad) 140px}
+.scr{display:none}
+.scr.on{display:block}
+h1,h2{font-weight:800;font-stretch:75%;letter-spacing:-.02em;line-height:.98}
+h1{font-size:clamp(52px,16vw,96px);font-stretch:62%;hyphens:none}
+h2{font-size:clamp(36px,10.5vw,56px);margin-bottom:12px}
+.lede{font-size:18px;color:var(--muted);max-width:34ch;margin-bottom:24px}
+.lede b{color:var(--ink);font-weight:600}
+.big{font-weight:800;font-stretch:62%;font-size:clamp(64px,22vw,124px);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big.out{color:var(--out)} .big.save{color:var(--save)}
+.small{font-size:14px;color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin-top:14px}
+.err{color:var(--out);font-size:14px;margin-top:8px;min-height:1em}
+
+/* bottom action bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--paper);border-top:1px solid var(--line);padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom))}
+.bar-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px}
+.btn{appearance:none;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:700;font-size:17px;padding:16px 18px;cursor:pointer;flex:1;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px}
+.btn.ghost{background:var(--paper);color:var(--ink);flex:0 0 auto}
+.btn.yt{background:var(--out);border-color:var(--out)}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.link{background:none;border:0;text-decoration:underline;cursor:pointer;font-size:15px;padding:10px 0;color:var(--ink)}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{appearance:none;border:1.5px solid var(--line);background:var(--paper);text-align:left;padding:14px 12px;min-height:76px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:6px;transition:background .2s,color .2s,border-color .2s}
+.tile b{font-weight:600;font-size:16px;line-height:1.15}
+.tile small{font-size:13px;color:var(--muted)}
+.tile[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tile[aria-pressed="true"] small{color:var(--line)}
+
+/* cards with sliders */
+.card{border:1.5px solid var(--line);padding:16px;margin-bottom:10px;background:var(--paper)}
+.card-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.card-h b{font-weight:700;font-size:18px}
+.card-h .x{background:none;border:0;font-size:14px;color:var(--muted);text-decoration:underline;cursor:pointer;padding:4px}
+.fld{margin-top:12px}
+.fld-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.fld label{font-size:15px;color:var(--muted)}
+.val{display:flex;align-items:baseline;border-bottom:1.5px solid var(--ink)}
+.val span{font-weight:600;font-size:18px}
+.val input{border:0;outline:0;background:transparent;width:7.5ch;text-align:right;font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;padding:2px 0}
+.val input:focus{background:var(--surface)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;cursor:pointer;margin-top:4px}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--line)}
+input[type=range]::-moz-range-track{height:4px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;background:var(--ink);border:4px solid var(--paper);box-shadow:0 0 0 1.5px var(--ink);margin-top:-12px;border-radius:50%}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;background:var(--ink);border:4px solid var(--paper);box-shadow:0 0 0 1.5px var(--ink);border-radius:50%}
+.sum{display:flex;justify-content:space-between;font-size:15px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.sum b{font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{border:1.5px solid var(--ink);background:var(--paper);padding:8px 14px;font-weight:600;font-size:15px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.txt{width:100%;border:0;border-bottom:1.5px solid var(--ink);font-size:18px;padding:8px 0;outline:0;background:transparent}
+.txt:focus{background:var(--surface)}
+
+/* EMI snapshot + stand rows */
+.rows{margin:18px 0}
+.row{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);font-size:18px}
+.row b{font-weight:700;font-variant-numeric:tabular-nums}
+.row.total{border-bottom:2px solid var(--ink);font-size:20px}
+.verdict{font-size:20px;font-weight:600;margin-top:18px;max-width:30ch}
+
+/* calm */
+.scr.calm.on{display:flex;flex-direction:column;align-items:flex-start}
+.breath{width:150px;height:150px;border-radius:50%;border:2px solid var(--ink);margin:6px 0 26px;display:flex;align-items:center;justify-content:center;position:relative}
+.breath::before{content:"";position:absolute;inset:18px;border-radius:50%;background:var(--ink);transform:scale(.45);animation:breathe 8s ease-in-out infinite}
+.breath span{position:relative;color:var(--paper);font-size:13px;font-weight:600;mix-blend-mode:difference}
+@keyframes breathe{0%,100%{transform:scale(.45)}45%,55%{transform:scale(1)}}
+.calm-lines p{font-size:22px;font-weight:500;line-height:1.3;margin-bottom:14px;max-width:24ch}
+
+/* cut choice */
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ink);margin-top:10px}
+.seg button{border:0;background:var(--paper);padding:12px 4px;font-weight:600;font-size:15px;cursor:pointer;border-right:1.5px solid var(--ink)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cut-save{font-size:14px;color:var(--save);margin-top:8px;font-weight:600;min-height:1.2em}
+.sticky-total{position:sticky;top:76px;z-index:5;background:var(--paper);padding:10px 0 12px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+
+/* dashboard */
+.tabs{display:inline-grid;grid-template-columns:repeat(3,auto);border:1.5px solid var(--ink);margin-bottom:14px}
+.tabs button{border:0;background:var(--paper);padding:9px 16px;font-weight:600;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.jars{display:flex;gap:12px;align-items:flex-end;margin:22px 0 12px;overflow-x:auto;padding-bottom:6px}
+.jar{flex:0 0 96px;text-align:center}
+.jar-glass{height:150px;border:2px solid var(--ink);border-top-width:6px;position:relative;overflow:hidden;background:var(--paper)}
+.jar-fill{position:absolute;left:0;right:0;bottom:0;height:0;background:var(--save);transition:height 1.2s cubic-bezier(.2,.8,.2,1)}
+.jar-n{position:absolute;top:8px;left:0;right:0;font-weight:800;font-size:22px;font-stretch:62%}
+.jar b{display:block;font-size:14px;margin-top:8px;line-height:1.2}
+.jar small{font-size:12px;color:var(--muted)}
+.callout{background:var(--surface);padding:16px;margin:14px 0;font-size:16px}
+.callout b{font-weight:700}
+
+/* paths */
+.paths{margin:16px 0}
+.path{padding:14px 0;border-bottom:1px solid var(--line)}
+.path-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.path-top b{font-size:17px}
+.path-top span{font-weight:700;font-variant-numeric:tabular-nums}
+.path-line{height:8px;background:var(--surface);margin-top:8px;position:relative}
+.path-line i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.path.best .path-line i{background:var(--save)}
+.path .small{margin-top:6px}
+.steps{counter-reset:s;list-style:none;margin:10px 0}
+.steps li{counter-increment:s;padding:10px 0 10px 40px;position:relative;border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:28px;height:28px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+
+/* body & mind */
+.wins{display:grid;gap:8px;margin-top:14px}
+.win{border-left:4px solid var(--save);background:var(--surface);padding:12px 14px}
+.win b{display:block;font-size:17px}
+.win span{font-size:14px;color:var(--muted)}
+
+/* lead + yt */
+.form .fld{margin-top:20px}
+.yt-box{border:2px solid var(--ink);padding:18px;margin:16px 0}
+.yt-box p{margin-bottom:12px}
+.done-tick{display:none;color:var(--save);font-weight:700;margin-top:10px}
+.done-tick.on{display:block}
+
+/* modal (iOS link steps) */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:var(--max);padding:22px var(--pad) calc(22px + env(safe-area-inset-bottom))}
+.sheet h3{font-size:24px;font-weight:800;font-stretch:75%;margin-bottom:10px}
+.sheet ol{margin:10px 0 14px 20px}
+.sheet li{margin-bottom:6px}
+.copyrow{display:flex;gap:8px}
+.copyrow input{flex:1;min-width:0;border:1.5px solid var(--ink);padding:10px;font-size:14px}
+
+
+/* tracker */
+.offer{border:2px solid var(--ink);padding:16px;margin:4px 0 18px}
+.offer .big{font-size:64px}
+.offer p{font-size:16px}
+.pw{display:flex;align-items:flex-end;gap:8px}
+.pw .txt{flex:1}
+.pw button{background:none;border:0;text-decoration:underline;cursor:pointer;padding:8px 0;font-size:15px}
+.t-head{display:flex;align-items:center;gap:14px;margin-bottom:6px;position:relative}
+.t-fire{width:72px;height:72px;color:var(--out);flex:0 0 auto}
+.t-fire svg{width:100%;height:100%}
+.t-fire.off{color:var(--line)}
+.t-head .big{font-size:88px}
+.t-head .plus{position:absolute;left:70px;top:0;font-weight:800;color:var(--save);font-size:22px;pointer-events:none}
+.t-nudge{font-size:19px;font-weight:600;margin:8px 0 16px;max-width:30ch}
+.t-health{border:2px solid var(--save);padding:14px 16px;margin:0 0 18px}
+.t-health>b{display:block;font-size:21px;font-weight:800;font-stretch:75%;color:var(--save)}
+.t-health ul{list-style:none;margin:10px 0 0}
+.t-health li{padding:7px 0 7px 28px;position:relative;border-top:1px solid var(--line, #e5e5e5);font-size:15px}
+.t-health li::before{content:attr(data-i);position:absolute;left:0;top:7px;font-size:16px}
+.t-health .note{margin-top:8px;font-size:12px}
+.qty{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 2px}
+.qty-c{display:flex;align-items:center;gap:14px}
+.qty-c b{font-size:24px;min-width:2ch;text-align:center}
+.qty-c .chip{min-width:44px;font-size:20px}
+.t-well .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line, #e5e5e5);font-size:15px}
+.t-well .row b{color:var(--save);text-align:right}
+.meter{height:12px;background:var(--surface);margin:8px 0 6px}
+.meter i{display:block;height:100%;width:0;background:var(--save);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.t-today{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 10px}
+.t-today div{background:var(--surface);padding:12px}
+.t-today b{display:block;font-size:24px;font-weight:800;font-stretch:75%;font-variant-numeric:tabular-nums}
+.t-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn.green{background:var(--save);border-color:var(--save)}
+.t-entry{border:2px solid var(--ink);padding:16px;margin-top:12px}
+.t-entry h3{font-size:20px;font-weight:800;font-stretch:75%}
+.amt{display:flex;align-items:baseline;border-bottom:2px solid var(--ink);margin:14px 0}
+.amt span{font-size:28px;font-weight:700}
+.amt input{border:0;outline:0;width:100%;font-size:36px;font-weight:800;font-stretch:75%;padding:4px 6px;background:transparent}
+.t-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}
+.day{aspect-ratio:1;max-width:100%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--out)}
+.day svg{width:55%;height:55%}
+.day i{font-style:normal;font-size:11px;color:var(--muted)}
+.day.lit{background:var(--paper);outline:1.5px solid var(--out)}
+.row-r{display:flex;align-items:center;gap:8px;white-space:nowrap}
+#tRecent .row span:first-child{min-width:0}
+.t-save{color:var(--save)}
+.x{background:none;border:0;cursor:pointer;color:var(--muted);font-size:18px;padding:4px 6px;min-width:32px}
+.t-sec{margin-top:26px}
+.t-sec h3{font-size:20px;font-weight:800;font-stretch:75%;margin-bottom:6px}
+footer{max-width:var(--max);margin:0 auto;padding:0 var(--pad) 30px;font-size:13px;color:var(--muted)}
+footer a{color:var(--muted)}
+
+@media (min-width:700px){ main{padding-top:40px} .tiles{grid-template-columns:repeat(3,1fr)} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} .breath::before{transform:scale(.75)} }
+@media print{ .bar,.top,.inapp{display:none} }
+/* [v16] ₹99 paywall */
+[data-s="paywall"] [hidden]{display:none!important}
+.pw-eyebrow{letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.pw-dates{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);margin:18px 0 6px}
+.pw-dates>div{padding:14px}
+.pw-dates>div+div{border-left:2px solid var(--ink);background:var(--ink);color:var(--paper)}
+.pw-dates small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.75;font-weight:700}
+.pw-dates .d{font-size:26px;font-weight:800;font-stretch:70%;margin-top:6px;font-variant-numeric:tabular-nums}
+.pw-dates .sub{font-size:13px;margin-top:4px;opacity:.8}
+.pw-blur{filter:blur(9px);user-select:none;transition:filter .6s ease}
+.pw-open .pw-blur{filter:none}
+.pw-price{display:flex;align-items:baseline;gap:10px;margin-top:20px}
+.pw-price .now{font-size:44px;font-weight:900;font-stretch:68%;font-variant-numeric:tabular-nums}
+.pw-price s{color:var(--muted);font-size:20px}
+.pw-price .per{color:var(--muted);font-size:15px}
+.pw-offer{display:inline-block;background:var(--save);color:#fff;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;margin-top:8px}
+.pw-in{display:block;width:100%;font:inherit;font-size:17px;padding:12px;border:1.5px solid var(--ink);margin-top:8px;background:var(--paper);color:var(--ink)}
+#pwPay,#pwGo,#pwReopen,#rsGo{width:100%;margin-top:16px}
+#pwInapp .btn{width:100%;margin-top:10px}
+#pwHave,#rsLink{margin-top:12px}
+.pw-trust{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:13px;margin-top:4px}
+.pw-done{border:2px solid var(--save);padding:16px;margin-top:18px}
+.pw-done b{color:var(--save);font-size:22px}
+.pw-list{list-style:none;padding:0;margin:24px 0 0;border-top:1px solid var(--line)}
+.pw-list li{padding:12px 0 12px 22px;border-bottom:1px solid var(--line);position:relative}
+.pw-list li::before{content:'';position:absolute;left:0;top:19px;width:10px;height:10px;background:var(--ink)}
+.pw-list b{display:block}.pw-list span{color:var(--muted);font-size:14px}
+.pw-spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pwr .8s linear infinite;vertical-align:-2px}
+@keyframes pwr{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.pw-spin{animation:none}.pw-blur{transition:none}}
+</style>
+</head>
+<body>
+<div class="inapp" id="inapp" role="region" aria-label="Browser warning">
+  <div class="inapp-in"><p><b>Instagram browser-la data save aagadhu.</b> Chrome-la open pannunga.</p><button type="button" id="inappBtn">Open in Chrome</button></div>
+</div>
+<header class="top">
+  <div class="top-row"><a class="brand" href="/" aria-label="Mentell home">mentell</a><span class="count" id="count" aria-live="polite"></span></div>
+  <div class="prog" aria-hidden="true"><i id="prog"></i></div>
+  <div class="strip" id="strip" aria-hidden="true">
+    <div class="strip-bar"><span class="sb-emi" id="sbEmi"></span><span class="sb-exp" id="sbExp"></span><span id="sbLeft" class="sb-left"></span></div>
+    <div class="strip-k" id="stripK"></div>
+  </div>
+</header>
+
+<main id="app">
+
+<!-- 1 welcome -->
+<section class="scr" data-s="welcome" aria-labelledby="hWelcome">
+  <h1 id="hWelcome" data-anim>EMI pressure&#8209;a?</h1>
+  <p class="lede" data-anim>3 nimisham. Unga full picture, unga EMI-free date. <b>Free.</b></p>
+  <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: neenga enga irukkeenga</li><li>Edhai cut panna, evlo save aagum</li><li>Unga EMI-free date + PDF plan</li></ol>
+  <div id="resume" hidden class="callout" data-anim><b>Neenga paadhi-la vittu ponga.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
+  <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Login</button>
+  <div id="rsOk" hidden class="callout"><b>Unlocked ✓</b> <span id="rsOkTxt"></span></div>
+  <button type="button" class="link" id="rsLink" hidden>₹99 already pay panniteengala? Plan open pannunga</button>
+  <p class="small" data-anim>Your numbers stay on this phone. Name, WhatsApp and your savings total come to Mentell so Noor can help.</p>
+</section>
+
+<!-- 2 EMIs -->
+<section class="scr" data-s="emis" aria-labelledby="hEmis">
+  <h2 id="hEmis">Enna EMI kattureenga?</h2>
+  <p class="lede">Ellame add pannunga. Credit card, gold, app EMI kooda.</p>
+  <div id="emiList"></div>
+  <div class="tiles" id="emiTypes"></div>
+  <p class="err" id="emiErr"></p>
+  <button type="button" class="link" id="noEmi">Enakku EMI illa</button>
+</section>
+
+<!-- 3 salary -->
+<section class="scr" data-s="salary" aria-labelledby="hSal">
+  <h2 id="hSal">Maasam kaila evlo varudhu?</h2>
+  <p class="lede">Take-home salary. PF, tax cut aana apram.</p>
+  <div class="card" id="salaryCard"></div>
+  <div class="chips" id="salChips"></div>
+</section>
+
+<!-- 4 snapshot EMI -->
+<section class="scr" data-s="snap_emi" aria-labelledby="hSnap">
+  <h2 id="hSnap">Salary-la EMI evlo?</h2>
+  <div class="big" id="emiPct">0%</div>
+  <div class="rows" id="emiRows"></div>
+  <p class="verdict" id="emiVerdict"></p>
+</section>
+
+<!-- 5 lead -->
+<section class="scr form" data-s="lead_form" aria-labelledby="hLead">
+  <h2 id="hLead">Unga plan yaarukku?</h2>
+  <p class="lede">Unga peyar, WhatsApp. Plan ready aana apram Noor help pannuvaar.</p>
+  <div class="fld"><label for="lName">Peyar</label><input class="txt" id="lName" autocomplete="given-name" maxlength="40"></div>
+  <div class="fld"><label for="lPhone">WhatsApp number</label><input class="txt" id="lPhone" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="10 digits"></div>
+  <p class="err" id="leadErr" role="alert"></p>
+  <p class="note">Spam illa. Ungalukku help panna mattum.</p>
+</section>
+
+<!-- 6 expenses -->
+<section class="scr" data-s="expenses" aria-labelledby="hExp">
+  <h2 id="hExp">Veedu odradhukku evlo?</h2>
+  <p class="lede">Maasam selavu. Tap panni amount podunga. Theriyalana guess pannunga.</p>
+  <div class="sticky-total"><span class="small">Monthly expenses</span><div class="big" style="font-size:56px" id="expTotal">₹0</div></div>
+  <div id="expList"></div>
+</section>
+
+<!-- 7 where you stand -->
+<section class="scr" data-s="stand" aria-labelledby="hStand">
+  <h2 id="hStand">Neenga ippo inga irukkeenga</h2>
+  <p class="small" id="standLabel">Every month, after EMI and expenses</p>
+  <div class="big" id="standBig">₹0</div>
+  <div class="rows" id="standRows"></div>
+  <p class="verdict" id="standVerdict"></p>
+</section>
+
+<!-- 7b ₹99 paywall [v16] -->
+<section class="scr" data-s="paywall" aria-labelledby="hPay">
+  <p class="small pw-eyebrow" id="pwEyebrow">Unga EMI-free date</p>
+  <h2 id="hPay">Ippo irukura maari pona, EMI mudiya romba naal aagum.</h2>
+  <div class="pw-dates" id="pwDates">
+    <div><small>Ippo irukura maari</small><div class="d" id="pwNow"></div><div class="sub" id="pwNowSub"></div></div>
+    <div><small>Mentell plan-oda</small><div class="d pw-blur" id="pwPlan" aria-label="Hidden until you unlock"></div><div class="sub"><span class="pw-blur" id="pwSooner"></span></div></div>
+  </div>
+  <div id="pwReady">
+    <div class="pw-price"><span class="now" id="pwPrice">₹99</span><s id="pwWas" hidden>₹99</s><span class="per" id="pwPer">/ 30 naal</span></div>
+    <span class="pw-offer" id="pwOffer" hidden>Launch offer · 50% off</span>
+    <div id="pwWho" hidden>
+      <p class="small">Payment receipt-ku unga WhatsApp number:</p>
+      <input class="pw-in" id="pwName" autocomplete="name" placeholder="Unga peyar" maxlength="40">
+      <input class="pw-in" id="pwPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
+    </div>
+    <button type="button" class="btn" id="pwPay">₹99 pay panni plan paarunga</button>
+    <p class="err" id="pwErr"></p>
+    <div class="pw-trust"><span>UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
+    <div id="pwInapp" class="callout" hidden><b>Neenga Instagram browser-la irukeenga.</b> Chrome-la open panni pay pannaa, plan eppovum unga phone-la irukum.<button type="button" class="btn ghost" id="pwInappBtn">Open in Chrome</button></div>
+    <button type="button" class="link" id="pwHave">Already paid? Plan open pannunga</button>
+  </div>
+  <div id="pwChecking" hidden>
+    <div class="callout"><b>Payment check panrom…</b><br>UPI app-la pay pannirundhaa, inga wait pannunga. Indha page-a close pannaadheenga.</div>
+    <p class="small"><span class="pw-spin"></span> Checking</p>
+  </div>
+  <div id="pwPage" hidden>
+    <div class="callout"><b>Mentell payment page-la ₹99 pay pannunga.</b><br>Pay panna apram indha page-ku thirumba vaanga. Plan thaanaa open aagum.</div>
+    <p class="small"><span class="pw-spin"></span> Payment-kaaga wait panrom…</p>
+    <button type="button" class="btn ghost" id="pwReopen">Payment page-a thirumba open pannunga</button>
+    <button type="button" class="link" id="pwRecheck">Pay pannitten, check pannunga</button>
+    <p class="small" id="pwPageHelp"></p>
+    <button type="button" class="link" id="pwHave2">Vera browser-la pay panneengala? Number + email-la open pannunga</button>
+  </div>
+  <div id="pwPaid" hidden>
+    <div class="pw-done"><b>Unlocked ✓</b><p id="pwUntil">Unga plan ready.</p></div>
+    <button type="button" class="btn" id="pwGo">Plan paarunga →</button>
+  </div>
+  <ul class="pw-list" aria-label="What ₹99 opens">
+    <li><b>Edha cut pannanum, evlo</b><span>Unga habits-la irundhu exact maasa saving</span></li>
+    <li><b>EMI jars: edha first close pannanum</b><span>High interest first. Oru EMI mudinja adhu adutha jar-ku</span></li>
+    <li><b>Exact EMI-free date + interest saved</b><span>Bonus / hike-la extra EMI potta evlo seekiram</span></li>
+    <li><b>Daily tracker, 30 naal</b><span>"I saved" log pannunga, streak, date nagarradhu paarunga</span></li>
+    <li><b>Full plan PDF</b><span>Veetla ellarum paakkura maari</span></li>
+  </ul>
+</section>
+
+<!-- 8 calm -->
+<section class="scr calm" data-s="calm" aria-labelledby="hCalm">
+  <div class="breath" aria-hidden="true"><span>Moochu</span></div>
+  <h2 id="hCalm" class="sr">Take a breath</h2>
+  <div class="calm-lines">
+    <p data-anim>Panic aaga vendam.</p>
+    <p data-anim>Neenga thaniya illa. Neraya peru idhe idathula irundhu veliya vandhirukaanga.</p>
+    <p data-anim id="calmLast">Vazhi irukku. Adutha 2 nimisham-la kaatrom.</p>
+  </div>
+</section>
+
+<!-- 9 habits -->
+<section class="scr" data-s="habits" aria-labelledby="hHab">
+  <h2 id="hHab">Idhula edhu ungalukku?</h2>
+  <p class="lede">Judge panna maatom. Honest-a tap pannunga.</p>
+  <div class="tiles" id="habitTiles"></div>
+  <p class="err" id="habErr"></p>
+</section>
+
+<!-- 10 habit amounts -->
+<section class="scr" data-s="habit_amounts" aria-labelledby="hAmt">
+  <h2 id="hAmt">Evlo aagudhu?</h2>
+  <div class="sticky-total"><span class="small">Habits, every month</span><div class="big out" style="font-size:56px" id="habTotal">₹0</div></div>
+  <div id="habList"></div>
+</section>
+
+<!-- 11 cut choice -->
+<section class="scr" data-s="cut_choice" aria-labelledby="hCut">
+  <h2 id="hCut">Edhai cut pannuveenga?</h2>
+  <p class="lede">Neenga dhaan decide pannanum. Paadhi cut kooda periya vishayam.</p>
+  <div class="sticky-total"><span class="small">You save every month</span><div class="big save" style="font-size:56px" id="cutTotal">₹0</div></div>
+  <div id="cutList"></div>
+</section>
+
+<!-- 12 youtube -->
+<section class="scr" data-s="yt_gate" aria-labelledby="hYt">
+  <h2 id="hYt">Unga plan ready</h2>
+  <p class="lede">Idhu full free. Help aagudhuna, ore oru thanks: engaloda YouTube channel subscribe pannunga.</p>
+  <div class="yt-box">
+    <p>EMI, selavu, saving pathi Tamil-la simple videos. Adhu dhaan engala free tools panna vaikkudhu.</p>
+    <a class="btn yt" id="ytBtn" href="https://www.youtube.com/@Noormohammed.j?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
+    <p class="done-tick" id="ytDone">Thanks! Ippo "Show my plan" tap pannunga.</p>
+  </div>
+  <p class="err" id="ytErr" role="alert"></p>
+</section>
+
+<!-- 13 dashboard -->
+<section class="scr" data-s="dashboard" aria-labelledby="hDash">
+  <h2 id="hDash">Neenga save panna poradhu</h2>
+  <div class="tabs" role="group" aria-label="Period" id="dashTabs">
+    <button type="button" data-p="w" aria-pressed="false">Weekly</button><button type="button" data-p="m" aria-pressed="true">Monthly</button><button type="button" data-p="y" aria-pressed="false">Yearly</button>
+  </div>
+  <div class="big save" id="dashBig">₹0</div>
+  <div id="dashGap"></div>
+  <div id="dashJars"></div>
+</section>
+
+<!-- 14 extra EMI -->
+<section class="scr" data-s="extra_emi" aria-labelledby="hX">
+  <h2 id="hX">Varushathukku oru extra EMI</h2>
+  <p class="lede" id="xLede"></p>
+  <div class="paths" id="paths"></div>
+  <h3 class="small" style="margin-top:18px;color:var(--ink);font-weight:700;font-size:17px">Eppadi pannradhu</h3>
+  <ol class="steps" id="xSteps"></ol>
+</section>
+
+<!-- 15 body + mind -->
+<section class="scr" data-s="body_mind" aria-labelledby="hBody">
+  <h2 id="hBody">Panam mattum illa</h2>
+  <p class="lede">Neenga cut panra ovvoru habit-um udambukkum manasukkum nalladhu. Daily tracker-la log pannumbodhu, ovvoru thadavaiyum enna improve aachu nu kaattuvom.</p>
+  <div class="wins" id="wins"></div>
+  <p class="note">General health information, not medical advice.</p>
+</section>
+
+<!-- 16 join: tracker account -->
+<section class="scr form" data-s="join" aria-labelledby="jTitle">
+  <h2 id="jTitle">Daily-a track pannunga</h2>
+  <div class="offer" id="jOffer">
+    <div class="big save">50% off</div>
+    <p>Oru maasathula <b>₹2,000</b> save panni inga log pannunga. Mentell app launch aagumbodhu unga subscription <b>paadhi vilai</b>. Adhu neenga save pannura real panam.</p>
+  </div>
+  <p class="lede" style="margin-bottom:6px">Every day save / spend log pannunga. Fire on aagum, EMI seekiram mudiyum.</p>
+  <div class="fld" id="jNameF"><label for="jName">Peyar</label><input class="txt" id="jName" autocomplete="name" maxlength="40"></div>
+  <div class="fld"><label for="jPhone">WhatsApp number (login)</label><input class="txt" id="jPhone" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="10 digits"></div>
+  <div class="fld" id="jCodeF" hidden><label for="jCode">Recovery code (signup-la kaattuna 6 digits)</label><input class="txt" id="jCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div>
+  <div class="fld"><label for="jPass" id="jPassL">Password (6+ letters/numbers)</label><div class="pw"><input class="txt" id="jPass" type="password" autocomplete="new-password" maxlength="64"><button type="button" id="jShow">Show</button></div></div>
+  <p class="err" id="joinErr" role="alert"></p>
+  <p class="note" id="jNote">Unga password engalukku theriyaadhu. Account create aanadhum oru 6-digit recovery code tharuvom, adha screenshot pannunga.</p>
+  <button type="button" class="link" id="jForgot" hidden>Password marandhutteengala?</button><br>
+  <button type="button" class="link" id="jSwitch">Already account irukka? Login</button><br>
+  <button type="button" class="link" id="jLater">Ippo venaam, PDF mattum podhum</button>
+</section>
+
+<!-- 17 tracker home -->
+<section class="scr" data-s="tracker" aria-labelledby="tTitle">
+  <h2 id="tTitle" class="sr">My money tracker</h2>
+  <p class="small">Vanakkam <span id="tName"></span></p>
+  <div class="t-head"><span class="t-fire" id="tFire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5 4.5 5.6 4.5 10.2A4.5 4.5 0 0 1 12 17a4.5 4.5 0 0 1-4.5-4.6c0-2 .9-3.4 2-4.5.2 1.6 1 2.6 2.1 3.1C11.2 8.5 11 5.3 12 2z" fill="currentColor"/><path d="M12 22c4 0 7-2.9 7-7 0-2.5-1.1-4.6-2.6-6.2.1 3.6-2 6.2-4.4 6.2-1.5 0-2.6-.8-3.1-2.2C7.6 14 7 15.2 7 16.5 7 19.6 9.2 22 12 22z" fill="currentColor" opacity=".55"/></svg></span>
+    <div><div class="big" id="tStreak">0</div><span class="small" id="tStreakL">days on fire</span></div></div>
+  <p class="t-nudge" id="tNudge" aria-live="polite"></p>
+  <div class="t-health" id="tHealth" hidden aria-live="polite"></div>
+  <div class="t-btns"><button type="button" class="btn green" data-tkind="save">I saved</button><button type="button" class="btn" data-tkind="spend">I spent</button></div>
+  <div class="t-entry" id="tEntry" hidden>
+    <h3 id="tEntryH">Edhai save panneenga?</h3>
+    <div class="chips" id="tCats"></div>
+    <div class="qty" id="tQtyRow" hidden><span id="tQtyL">Ethana?</span><div class="qty-c"><button type="button" class="chip" id="tQm" aria-label="One less">−</button><b id="tQty">1</b><button type="button" class="chip" id="tQp" aria-label="One more">+</button></div></div>
+    <div class="amt"><span>₹</span><input id="tAmt" inputmode="numeric" aria-label="Amount" placeholder="0"></div>
+    <div class="chips" role="group" aria-label="Day"><button type="button" class="chip" data-tday="0" aria-pressed="true">Today</button><button type="button" class="chip" data-tday="-1" aria-pressed="false">Yesterday</button></div>
+    <input class="txt" id="tNote" maxlength="80" placeholder="Note (optional)" aria-label="Note">
+    <p class="err" id="tEntryErr"></p>
+    <div class="t-btns"><button type="button" class="btn ghost" id="tCancel">Cancel</button><button type="button" class="btn green" id="tSaveBtn">Save + fire</button></div>
+  </div>
+  <div class="t-today"><div><span class="small">Saved today</span><b class="t-save" id="tSaved">₹0</b></div><div><span class="small">Spent today</span><b id="tSpent">₹0</b></div></div>
+  <div class="t-sec"><h3>Indha maasam</h3><div class="meter"><i id="tMeter"></i></div><p class="small"><b id="tMonth">₹0 / ₹2,000</b></p><p class="note" id="tOffer"></p></div>
+  <div class="t-sec t-well" id="tWell" hidden><h3>Udambu · Manasu · Panam</h3><p class="small">Indha maasam neenga log pannadhu, unga life-la enna maathuchu:</p><div id="tWellList"></div><p class="note">Estimates from public health research (WHO, UCL). General information, not medical advice.</p></div>
+  <div class="t-sec"><h3>Last 14 days</h3><div class="t-days" id="tDays"></div></div>
+  <div class="t-sec"><h3>Today &amp; yesterday</h3><div id="tRecent"></div><p class="small" id="tSync"></p></div>
+  <div class="t-sec card" id="tLaunch">
+    <h3>App launch date theriyanuma?</h3>
+    <p class="small">3 kelvi. WhatsApp-la mudhalla ungalukku solluvom.</p>
+    <div class="fld"><label for="tCity">Unga ooru</label><input class="txt" id="tCity" maxlength="40" placeholder="eg. Coimbatore"></div>
+    <p class="small" style="margin-top:14px">Velai</p>
+    <div class="chips"><button type="button" class="chip" data-tjob="private">Private / IT job</button><button type="button" class="chip" data-tjob="govt">Govt job</button><button type="button" class="chip" data-tjob="business">Own business</button><button type="button" class="chip" data-tjob="daily">Driver / daily wage</button><button type="button" class="chip" data-tjob="home">Homemaker</button><button type="button" class="chip" data-tjob="other">Other</button></div>
+    <p class="small" style="margin-top:10px">App-ku ₹99/month pay pannuveengala?</p>
+    <div class="chips"><button type="button" class="chip" data-tpay="yes">Yes</button><button type="button" class="chip" data-tpay="maybe">Maybe</button><button type="button" class="chip" data-tpay="no">No</button></div>
+    <p class="err" id="tLaunchErr"></p>
+    <button type="button" class="btn" id="tLaunchBtn" style="width:100%">Tell me the launch date</button>
+  </div>
+  <p class="callout" id="tLaunchDone" hidden><b>Done!</b> App launch date WhatsApp-la solluvom.</p>
+  <div class="t-sec">
+    <button type="button" class="link" id="tInstall">Phone home screen-la add pannunga (app maadhiri)</button>
+    <div id="tInstallSteps" class="callout" hidden>Chrome: mela ⋮ tap → <b>Add to Home screen</b>. iPhone Safari: Share button → <b>Add to Home Screen</b>. Daily oru tap-la open aagum.</div>
+    <button type="button" class="link" id="tPlan">My money plan</button><br>
+    <button type="button" class="link" id="tPdf">Download plan PDF</button><br>
+    <button type="button" class="link" id="tLogout">Logout</button>
+  </div>
+</section>
+
+<!-- 16 pdf -->
+<section class="scr" data-s="pdf" aria-labelledby="hPdf">
+  <h2 id="hPdf">Unga plan, unga kaila</h2>
+  <p class="lede">PDF download pannunga. Fridge-la ottunga, wife/husband kitta kaattunga.</p>
+  <div id="pdfInapp" class="callout" hidden><b>Instagram browser-la PDF save aagadhu.</b> Mela "Open in Chrome" tap pannunga, unga numbers kooda varum.</div>
+  <button type="button" class="btn" id="pdfBtn" style="width:100%">Download my plan (PDF)</button>
+  <div id="pdfAfter" hidden style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"></div>
+  <p class="err" id="pdfErr" role="alert"></p>
+  <div class="callout" style="margin-top:22px"><b>Stuck aana, Noor kitta pesunga.</b><br>Unga numbers-oda message ready-a irukku.<br><a class="btn" id="waNoor" style="margin-top:12px;width:100%" target="_blank" rel="noopener" href="#">WhatsApp Noor</a></div>
+  <button type="button" class="link" id="editAll">Numbers maathanum? Start again with my answers</button>
+</section>
+
+</main>
+
+<footer><p>Estimates only, not financial advice. Prepay pannumpodhu unga bank terms check pannunga. <a href="/about/">About Mentell</a> · <a href="https://wa.me/919629843122" target="_blank" rel="noopener" data-wa="footer">Help on WhatsApp</a></p></footer>
+
+<nav class="bar" aria-label="Steps">
+  <div class="bar-in">
+    <button type="button" class="btn ghost" id="back" aria-label="Back">Back</button>
+    <button type="button" class="btn" id="next">Start</button>
+  </div>
+</nav>
+
+<div class="modal" id="recModal" role="dialog" aria-modal="true" aria-labelledby="recH">
+  <div class="sheet">
+    <h3 id="recH">Unga recovery code</h3>
+    <div class="big" id="recCode" style="letter-spacing:.08em">000000</div>
+    <p style="margin:10px 0 14px"><b>Ippove screenshot pannunga.</b> Password marandhaa, indha code vechu neengale pudhu password podalaam. Indha code thirumba kaatta maatom.</p>
+    <div class="t-btns"><button type="button" class="btn ghost" id="recCopy">Copy</button><button type="button" class="btn" id="recOk">Screenshot eduthutten</button></div>
+  </div>
+</div>
+<div class="modal" id="rsModal" role="dialog" aria-modal="true" aria-labelledby="rsH">
+  <div class="sheet">
+    <h3 id="rsH">₹99 pay panniteengala? Plan open pannunga</h3>
+    <p class="small">Razorpay page-la potta <b>same WhatsApp number + email</b> podunga (payment receipt email-la irukum). Endha browser-la irundhaalum open aagum.</p>
+    <input class="pw-in" id="rsPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
+    <input class="pw-in" id="rsEmail" type="email" inputmode="email" autocomplete="email" placeholder="Email (Razorpay-la pottadhu)" maxlength="80">
+    <button type="button" class="btn" id="rsGo">Plan open pannunga</button>
+    <p class="err" id="rsErr"></p>
+    <button type="button" class="link" id="rsClose">Close</button>
+  </div>
+</div>
+<div class="modal" id="iosModal" role="dialog" aria-modal="true" aria-labelledby="iosH">
+  <div class="sheet">
+    <h3 id="iosH">Safari-la open pannunga</h3>
+    <ol><li>Link copy pannunga (unga numbers kooda varum)</li><li>Safari open pannunga</li><li>Address bar-la paste panni open pannunga</li></ol>
+    <div class="copyrow"><input readonly id="iosUrl" aria-label="Your link"><button type="button" class="btn" id="iosCopy" style="flex:0 0 auto">Copy</button></div>
+    <p class="small" style="margin-top:10px">Illana: mela ⋯ tap panni "Open in external browser".</p>
+    <button type="button" class="link" id="iosClose">Close</button>
+  </div>
+</div>
+
+<script>
+/* Mentell Money v15 — EMI-first flow (19 Oct 2026; wording v15.3, 29 Oct 2026; ₹99 v16.3, 4 Nov 2026; health feedback v16.4, 5 Nov 2026; tracker on Supabase v19, 7 Nov 2026)
+   EMIs → salary → EMI snapshot → lead → expenses → where you stand → calm →
+   habits → amounts → cut choice → YouTube → savings dashboard → extra EMI →
+   body & mind → PDF.
+   All maths runs on the phone. Payoff engine = the tested MLR.simulate from the
+   previous financial.html, copied unchanged; simulateY adds the yearly extra EMI. */
+(function(){
+'use strict';
+
+/* ================= config ================= */
+const CFG = window.MENTELL_CONFIG || {};
+const SHEET_URL = String(CFG.googleSheetWebhook || window.MENTELL_LEADS_URL || '');
+const WA_NUMBER = String(CFG.whatsappNumber || '919629843122');
+const YT_BASE = /^https:\/\//.test(String(CFG.youtubeLink||'')) ? String(CFG.youtubeLink) : 'https://www.youtube.com/@Noormohammed.j';
+const SOURCE = 'financial-money-plan';
+const KEY = 'mentell_money_v15';        // answers (no name/phone)
+const LEAD_KEY = 'mentell_money_lead';  // name + phone, this browser only, never in hand-off links
+const GATE_KEY = 'mentell_gate_ok';     // shared with other pages (sessionStorage)
+const WK = 52/12, DM = 30.4;            // same constants as the old calculator
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const inr = n => '₹' + Math.round(n||0).toLocaleString('en-IN');
+const rs = n => 'Rs ' + Math.round(n||0).toLocaleString('en-IN'); // PDF fonts have no ₹ glyph
+function compact(n, cur){
+  cur = cur || '₹'; n = Math.round(n||0); const a = Math.abs(n), s = n<0?'-':'';
+  if (a >= 1e7) return s+cur + (a/1e7).toFixed(2).replace(/\.?0+$/,'') + ' Cr';
+  if (a >= 1e5) return s+cur + (a/1e5).toFixed(2).replace(/\.?0+$/,'') + ' L';
+  return s+cur + a.toLocaleString('en-IN');
+}
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function dateIn(m, capped){ if (capped) return '40+ years'; const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+m); return MON[d.getMonth()]+' '+d.getFullYear(); }
+function monthsLabel(m){ const y=Math.floor(m/12), r=m%12; return (y? y+(y===1?' year':' years'):'') + (y&&r?' ':'') + (r||!y? r+(r===1?' month':' months'):''); }
+
+/* ================= payoff engine ================= */
+// Copied unchanged from financial.html (v3–v14, 22/22 maths checks).
+var MLR = (function () {
+  var MAX_MONTHS = 600;
+  function num(v) { var n = typeof v === 'number' ? v : parseFloat(String(v == null ? '' : v).replace(/[^0-9.\-]/g, '')); return isFinite(n) ? n : NaN; }
+  function simulate(emis, extra, order) {
+    var st = emis.map(function (l) { return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true }; });
+    var freed = 0, m = 0, left = st.length;
+    while (left > 0 && m < MAX_MONTHS) {
+      m++;
+      var pool = extra > 0 ? extra + freed : 0;
+      var freedThisMonth = 0;
+      for (var i = 0; i < st.length; i++) {
+        var s = st[i]; if (!s.open) continue;
+        var int = Math.round(s.B * s.r * 100) / 100;
+        s.interest += int;
+        var pay = Math.min(s.E, s.B + int);
+        s.B = s.B + int - pay;
+        if (s.B <= 0.005) { s.B = 0; s.open = false; s.month = m; left--; freedThisMonth += s.E; if (extra > 0) pool += s.E - pay; }
+      }
+      for (var k = 0; k < order.length && pool > 0.005; k++) {
+        var t = st[order[k]]; if (!t.open) continue;
+        var p = Math.min(pool, t.B);
+        t.B -= p; pool -= p;
+        if (t.B <= 0.005) { t.B = 0; t.open = false; t.month = m; left--; freedThisMonth += t.E; }
+      }
+      freed += freedThisMonth;
+    }
+    var totalInterest = 0, maxM = 0, capped = left > 0;
+    st.forEach(function (s) { totalInterest += s.interest; if (s.month > maxM) maxM = s.month; });
+    return { months: capped ? MAX_MONTHS : maxM, capped: capped, totalInterest: Math.round(totalInterest),
+      perEmi: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; }) };
+  }
+  function strategyOrder(emis, kind) {
+    var idx = emis.map(function (_, i) { return i; });
+    idx.sort(function (a, b) {
+      var A = emis[a], B = emis[b];
+      if (kind === 'avalanche') return (num(B.rate) - num(A.rate)) || (num(A.balance) - num(B.balance));
+      return (num(A.balance) - num(B.balance)) || (num(B.rate) - num(A.rate));
+    });
+    return idx;
+  }
+  // [v15] Same as simulate, plus: every 12th month each open EMI gets one extra EMI
+  // (part-prepayment, tenure reduced, EMI unchanged). yearly=false gives simulate() exactly.
+  function simulateY(emis, extra, order, yearly) {
+    if (!yearly) return simulate(emis, extra, order);
+    var st = emis.map(function (l) { return { B: num(l.balance), r: num(l.rate) / 1200, E: num(l.emi), interest: 0, month: 0, open: true }; });
+    var freed = 0, m = 0, left = st.length;
+    while (left > 0 && m < MAX_MONTHS) {
+      m++;
+      var pool = extra > 0 ? extra + freed : 0;
+      var freedThisMonth = 0;
+      for (var i = 0; i < st.length; i++) {
+        var s = st[i]; if (!s.open) continue;
+        var int = Math.round(s.B * s.r * 100) / 100;
+        s.interest += int;
+        var pay = Math.min(s.E, s.B + int);
+        s.B = s.B + int - pay;
+        if (s.B <= 0.005) { s.B = 0; s.open = false; s.month = m; left--; freedThisMonth += s.E; if (extra > 0) pool += s.E - pay; }
+      }
+      for (var k = 0; k < order.length && pool > 0.005; k++) {
+        var t = st[order[k]]; if (!t.open) continue;
+        var p = Math.min(pool, t.B);
+        t.B -= p; pool -= p;
+        if (t.B <= 0.005) { t.B = 0; t.open = false; t.month = m; left--; freedThisMonth += t.E; }
+      }
+      if (m % 12 === 0) {
+        for (var j = 0; j < st.length; j++) {
+          var y = st[j]; if (!y.open) continue;
+          var q = Math.min(y.E, y.B);
+          y.B -= q;
+          if (y.B <= 0.005) { y.B = 0; y.open = false; y.month = m; left--; freedThisMonth += y.E; }
+        }
+      }
+      freed += freedThisMonth;
+    }
+    var totalInterest = 0, maxM = 0, capped = left > 0;
+    st.forEach(function (s) { totalInterest += s.interest; if (s.month > maxM) maxM = s.month; });
+    return { months: capped ? MAX_MONTHS : maxM, capped: capped, totalInterest: Math.round(totalInterest),
+      perEmi: st.map(function (s) { return { months: s.open ? null : s.month, interest: Math.round(s.interest) }; }) };
+  }
+  return { simulate: simulate, simulateY: simulateY, strategyOrder: strategyOrder, num: num, MAX_MONTHS: MAX_MONTHS };
+})();
+window.MentellMoneyEngine = MLR; // for tests
+
+/* ================= definitions ================= */
+const EMI_TYPES = [
+  {id:'home',     n:'Home / house EMI',        rate:8.5, bal:2500000, emi:22000},
+  {id:'personal', n:'Personal EMI',    rate:14,  bal:300000,  emi:8000},
+  {id:'vehicle',  n:'Bike / car EMI',  rate:10,  bal:400000,  emi:9000},
+  {id:'credit',   n:'Credit card',      rate:42,  bal:60000,   emi:4000, emiLabel:'Monthly payment'},
+  {id:'gold',     n:'Gold EMI',        rate:9.5, bal:100000,  emi:5000},
+  {id:'education',n:'Education EMI',   rate:10,  bal:500000,  emi:7000},
+  {id:'app',      n:'Mobile app EMI',         rate:30,  bal:30000,   emi:4000},
+  {id:'business', n:'Business EMI',    rate:16,  bal:500000,  emi:12000},
+  {id:'other',    n:'Other / friends',  rate:12,  bal:50000,   emi:3000}
+];
+const LT = Object.fromEntries(EMI_TYPES.map(t=>[t.id,t]));
+
+const EXPENSES = [
+  {id:'rent',   n:'Rent',                 max:60000, def:9000},
+  {id:'grocery',n:'Groceries & milk',     max:40000, def:8000},
+  {id:'travel', n:'Petrol / bus / auto',  max:20000, def:3000},
+  {id:'power',  n:'Electricity, gas, water', max:10000, def:2000},
+  {id:'phone',  n:'Mobile, internet, DTH',max:5000,  def:800},
+  {id:'school', n:'School / college fees',max:50000, def:0, hint:'Year fees ÷ 12'},
+  {id:'medical',n:'Medicines & insurance',max:20000, def:0, hint:'Insurance year premium ÷ 12'},
+  {id:'family', n:'Parents / family support', max:50000, def:0},
+  {id:'help',   n:'Maid / cook / milkman',max:15000, def:0},
+  {id:'chit',   n:'Chit, LIC, RD',        max:50000, def:0},
+  {id:'other',  n:'Other must-pay',       max:30000, def:0}
+];
+
+// a = count, b = price. spend() → ₹/month. wins = what improves when cut.
+const HABITS = [
+  {id:'smoke', n:'Smoking', a:{l:'Cigarettes a day',min:1,max:40,step:1,def:6}, b:{l:'Price each',min:5,max:50,step:1,def:20}, f:DM,
+   wins:[['Easier breathing','Lungs start recovering within weeks of stopping'],['Better stamina','Stairs, kids, long work days'],['Smoke-free home','Family breathes cleaner air']]},
+  {id:'drink', n:'Drinks', a:{l:'Times a week',min:1,max:7,step:1,def:2}, b:{l:'Spend each time',min:100,max:5000,step:50,def:800}, f:WK,
+   wins:[['Deeper sleep','Wake up actually rested'],['Liver gets rest days','More recovery every week'],['Calmer home','Fewer late-night fights']]},
+  {id:'tea', n:'Tea / coffee outside', a:{l:'Cups a day',min:1,max:10,step:1,def:3}, b:{l:'Price a cup',min:10,max:400,step:5,def:20}, f:DM,
+   wins:[['Less sugar every day','Fewer afternoon crashes']]},
+  {id:'food', n:'Swiggy / Zomato', a:{l:'Orders a week',min:1,max:21,step:1,def:3}, b:{l:'Average bill',min:100,max:2000,step:10,def:350}, f:WK,
+   wins:[['Veetu saapadu','Less oil, salt and sugar'],['Easier weight control','Home food is lighter']]},
+  {id:'quick', n:'Zepto / Blinkit', a:{l:'Unplanned orders a week',min:1,max:14,step:1,def:2}, b:{l:'Average order',min:50,max:2000,step:10,def:300}, f:WK,
+   wins:[['Fewer impulse snacks','Less junk at home']]},
+  {id:'ott', n:'OTT subscriptions', a:{l:'Apps you pay for',min:1,max:8,step:1,def:3}, b:{l:'Average price a month',min:49,max:700,step:1,def:199}, f:1,
+   wins:[['Earlier sleep','Fewer late-night binges'],['Sharper mornings','Less screen at night']]},
+  {id:'movie', n:'Movies', a:{l:'Times a month',min:1,max:12,step:1,def:2}, b:{l:'Tickets + snacks',min:100,max:3000,step:50,def:800}, f:1,
+   wins:[['Family time at home','Cheaper weekend plans together']]},
+  {id:'shop', n:'Emotional shopping', a:{l:'Unplanned buys a month',min:1,max:20,step:1,def:4}, b:{l:'Average cost',min:100,max:10000,step:50,def:700}, f:1,
+   wins:[['Less clutter','A calmer home'],['No buyer\'s regret','Money goes where you planned']]},
+  {id:'other', n:'One more thing', other:true, b:{l:'₹ a month',min:100,max:20000,step:100,def:1000}, f:1,
+   wins:[['One less worry','Money you can finally account for']]}
+];
+const HB = Object.fromEntries(HABITS.map(h=>[h.id,h]));
+const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry at night'],['Calmer mind','You know what to do each month: less panic, more control'],['Peace at home','Fewer money arguments when everyone sees the same plan']];
+
+/* ================= state ================= */
+// [v16] ₹99 paywall after 'stand'; the YouTube gate is gone (payment replaces it)
+const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','paywall','calm','habits','habit_amounts','cut_choice','dashboard','extra_emi','body_mind','join','tracker','pdf'];
+// v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
+// sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
+function fresh(){ return {v:15, sv:16, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null}; }
+// [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
+// "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
+const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
+function migrate(raw){
+  if (!raw || typeof raw!=='object') return raw;
+  for (const k of Object.keys(raw)){
+    if (KNOWN.has(k)) continue;
+    const v = raw[k];
+    if (Array.isArray(v) && v.every(x=>x && typeof x==='object' && 'balance' in x && 'emi' in x)){ if (!(raw.emis||[]).length) raw.emis = v; delete raw[k]; }
+    else if (/^no[A-Z]/.test(k) && typeof v==='boolean'){ if (v && !(raw.emis||[]).length) raw.noEmi = true; delete raw[k]; }
+  }
+  return raw;
+}
+// [v16] progress saved before v16 points at old screen numbers: move it to the same screen by name
+const SCREENS_V15 = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','calm','habits','habit_amounts','cut_choice','yt_gate','dashboard','extra_emi','body_mind','join','tracker','pdf'];
+function loadState(raw){
+  const s = Object.assign(fresh(), migrate(raw));
+  if (raw.sv !== 16){
+    const name = SCREENS_V15[raw.at] === 'yt_gate' ? 'dashboard' : SCREENS_V15[raw.at];
+    s.at = Math.max(0, SCREENS.indexOf(name)); s.sv = 16;
+  }
+  return s;
+}
+let S = fresh();
+try{
+  const raw = JSON.parse(localStorage.getItem(KEY)||'null');
+  if (raw && raw.v===15) S = loadState(raw);
+}catch(e){}
+let LEAD = {name:'', phone:''};
+try{ LEAD = Object.assign(LEAD, JSON.parse(localStorage.getItem(LEAD_KEY)||'{}')); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+// Lead form counts as done when this browser has the name + number, or when the visitor
+// arrived from the Instagram hand-off after already giving them there.
+function leadDone(){ let g=false; try{ g = sessionStorage.getItem(GATE_KEY)==='1' && sessionStorage.getItem('mentell_handoff')==='1'; }catch(e){} return !!(LEAD.phone && LEAD.name) || g; }
+
+/* ================= analytics + sheet ================= */
+function uid(){ return 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+let LEAD_ID = '';
+try{ LEAD_ID = localStorage.getItem('mentell_lead_id') || ''; if (!LEAD_ID){ LEAD_ID = uid(); localStorage.setItem('mentell_lead_id', LEAD_ID); } }catch(e){ LEAD_ID = uid(); }
+function track(name, params){ try{ if (typeof window.gtag==='function') window.gtag('event', name, Object.assign({page:'financial', flow:'v16'}, params||{})); }catch(e){} }
+function utm(){ const o={}; try{ const q=new URLSearchParams(location.search); ['utm_source','utm_medium','utm_campaign'].forEach(k=>{ const v=q.get(k)||sessionStorage.getItem('mm_'+k); if(v){ o[k]=v.slice(0,60); try{ sessionStorage.setItem('mm_'+k,o[k]); }catch(e){} } }); }catch(e){} return o; }
+const UTM = utm();
+const DEVICE = /iPhone|iPad/i.test(navigator.userAgent) ? 'ios' : /Android/i.test(navigator.userAgent) ? 'android' : 'desktop';
+function sendRow(data){
+  try{
+    if (!/^https:\/\//.test(SHEET_URL) || SHEET_URL.indexOf('PASTE')>=0) return;
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(Object.assign({leadId:LEAD_ID, source:SOURCE, page:'financial', device:DEVICE, referrer:(document.referrer||'').slice(0,100), timestamp:new Date().toISOString()}, UTM, data))});
+  }catch(e){}
+}
+function band(n, cuts){ for (const c of cuts){ if (n < c[0]) return c[1]; } return cuts[cuts.length-1][1]; }
+
+/* ================= numbers ================= */
+const validEmis = () => S.emis.filter(l => l.balance>0 && l.emi>0);
+const totEMI = () => validEmis().reduce((a,l)=>a+l.emi,0);
+const totExp = () => EXPENSES.reduce((a,e)=>a+(+S.exp[e.id]||0),0);
+const leftover = () => S.salary - totEMI() - totExp();
+function habitSpend(id){ const h=HB[id], v=S.habits[id]; if (!v||!v.on) return 0; return h.other ? (+v.b||0) : (+v.a||0)*(+v.b||0)*h.f; }
+const habitsOn = () => HABITS.filter(h=>S.habits[h.id] && S.habits[h.id].on);
+const habitTotal = () => habitsOn().reduce((a,h)=>a+habitSpend(h.id),0);
+const CUTF = {stop:1, half:.5, keep:0};
+function cutSave(id){ return habitSpend(id) * (CUTF[S.cuts[id]||'half']||0); }
+const monthlySave = () => Math.round(habitsOn().reduce((a,h)=>a+cutSave(h.id),0));
+function standState(){ const l = leftover(); if (l < 0) return 'short'; if (l < S.salary*0.1) return 'tight'; return 'ok'; }
+function emiStuck(l){ return l.emi <= l.balance * l.rate / 1200; }
+
+// What goes to the EMIs every month: cuts minus the monthly shortfall (if any)
+function emiExtra(){ const gap = Math.max(0, -leftover()); return Math.max(0, monthlySave() - gap); }
+
+function plans(){
+  const emis = validEmis().filter(l=>!emiStuck(l));
+  if (!emis.length) return null;
+  const order = MLR.strategyOrder(emis, 'avalanche');
+  const x = emiExtra();
+  const now = MLR.simulate(emis, 0, []);
+  const cuts = MLR.simulate(emis, x, order);
+  const yearly = MLR.simulateY(emis, 0, order, true);
+  const both = MLR.simulateY(emis, x, order, true);
+  return {emis, order, x, now, cuts, yearly, both};
+}
+
+/* ================= motion helpers ================= */
+function M(){ return window.Motion && window.Motion.animate ? window.Motion : null; }
+function countTo(el, to, fmt){
+  fmt = fmt || inr;
+  const from = +el.dataset.v || 0; el.dataset.v = to;
+  const mo = M();
+  if (!mo || reduced || from===to){ el.textContent = fmt(to); return; }
+  mo.animate(from, to, {duration:.8, ease:[.2,.8,.2,1], onUpdate:v=>{ el.textContent = fmt(v); }});
+}
+function enter(scr){
+  const mo = M(); if (!mo || reduced) return;
+  const items = scr.querySelectorAll('h1,h2,.lede,[data-anim],.big,.tiles .tile,.card,.row,.path,.win,.jar,.yt-box,.verdict');
+  mo.animate(items, {opacity:[0,1], transform:['translateY(14px)','translateY(0)']}, {duration:.45, delay:mo.stagger(.04), ease:[.2,.8,.2,1]});
+}
+function pop(el){ const mo=M(); if (mo && !reduced) mo.animate(el, {transform:['scale(.96)','scale(1)']}, {duration:.25}); }
+
+/* ================= sliders ================= */
+// Log scale for big money ranges so ₹10k and ₹50L are both easy to set with a thumb.
+function sliderHTML(key, label, val, o){
+  const t = o.log ? Math.round(1000*Math.log(Math.max(val,o.min)/o.min)/Math.log(o.max/o.min)) : val;
+  return `<div class="fld"><div class="fld-top"><label for="n-${key}">${esc(label)}</label>
+    <div class="val">${o.pre?`<span>${o.pre}</span>`:''}<input id="n-${key}" data-key="${key}" inputmode="decimal" value="${o.pct? val : Math.round(val).toLocaleString('en-IN')}" aria-label="${esc(label)}">${o.suf?`<span>${o.suf}</span>`:''}</div></div>
+    <input type="range" data-key="${key}" min="${o.log?0:o.min}" max="${o.log?1000:o.max}" step="${o.log?1:(o.step||1)}" value="${t}" aria-label="${esc(label)} slider" data-log="${o.log?1:0}"${o.pct?' data-pct="1"':''} data-min="${o.min}" data-max="${o.max}" data-step="${o.step||1}"></div>`;
+}
+function niceRound(v, step){ step = step||1; if (v>=1e6) step=Math.max(step,10000); else if (v>=1e5) step=Math.max(step,1000); else if (v>=1e4) step=Math.max(step,500); else if (v>=1000) step=Math.max(step,100); return Math.round(v/step)*step; }
+function bindSliders(root, onChange){
+  root.querySelectorAll('input[type=range]').forEach(r=>{
+    r.addEventListener('input', ()=>{
+      const min=+r.dataset.min, max=+r.dataset.max;
+      let v = r.dataset.log==='1' ? niceRound(min*Math.pow(max/min, +r.value/1000), +r.dataset.step) : +r.value;
+      const box = root.querySelector(`input[id="n-${r.dataset.key}"]`);
+      if (box) box.value = (r.dataset.pct ? v : Math.round(v).toLocaleString('en-IN'));
+      onChange(r.dataset.key, v);
+    });
+  });
+  root.querySelectorAll('.val input').forEach(b=>{
+    b.addEventListener('focus', ()=>{ b.value = String(b.value).replace(/[^\d.]/g,''); b.select && b.select(); });
+    b.addEventListener('input', ()=>{
+      const v = parseFloat(String(b.value).replace(/[^\d.]/g,'')) || 0;
+      const r = root.querySelector(`input[type=range][data-key="${b.dataset.key}"]`);
+      if (r){ const min=+r.dataset.min, max=+r.dataset.max; r.value = r.dataset.log==='1' ? Math.round(1000*Math.log(Math.min(Math.max(v,min),max)/min)/Math.log(max/min)) : Math.min(Math.max(v,min),max); }
+      onChange(b.dataset.key, v);
+    });
+    b.addEventListener('blur', ()=>{ const v=parseFloat(String(b.value).replace(/[^\d.]/g,''))||0; b.value = /rate/.test(b.dataset.key) ? v : Math.round(v).toLocaleString('en-IN'); });
+  });
+}
+
+/* ================= money strip (header) ================= */
+function strip(show){
+  const el = $('#strip'); el.classList.toggle('on', !!show && S.salary>0);
+  if (!show || !S.salary) return;
+  const sal=S.salary, emi=totEMI(), ex=totExp(), l=sal-emi-ex;
+  const base = Math.max(sal, emi+ex);
+  $('#sbEmi').style.flexBasis = (emi/base*100)+'%';
+  $('#sbExp').style.flexBasis = (ex/base*100)+'%';
+  const lf = $('#sbLeft'); lf.className = l<0 ? 'sb-short' : 'sb-left';
+  lf.style.flexBasis = (Math.abs(l)/base*100)+'%';
+  $('#stripK').innerHTML = `<span><i style="background:var(--ink)"></i>EMI <b>${inr(emi)}</b></span>`+
+    (ex? `<span><i style="background:var(--muted)"></i>Expenses <b>${inr(ex)}</b></span>` : '')+
+    `<span><i style="background:var(--${l<0?'out':'save'})"></i>${l<0?'Short':'Left'} <b>${inr(Math.abs(l))}</b></span>`;
+}
+
+/* ================= screens ================= */
+let cur = -1;
+const seen = {};
+const NEXT_LABEL = {welcome:'Start', snap_emi:'Next', lead_form:'Continue', calm:'Sari, kaattunga', cut_choice:'Show my savings', yt_gate:'Show my plan', dashboard:'See my EMI-free date', extra_emi:'Next', body_mind:'Get my PDF', join:'Create my tracker', tracker:'My plan PDF', pdf:''};
+function skip(name){
+  if (name==='lead_form' && leadDone()) return true;
+  if (name==='paywall' && unlocked()) return true;
+  if (name==='habit_amounts' && !habitsOn().length) return true;
+  if (name==='cut_choice' && !habitsOn().length) return true;
+  if (name==='join' && (!TRACKER_URL || hasSession())) return true;
+  if (name==='tracker' && (!TRACKER_URL || !hasSession())) return true;
+  return false;
+}
+function go(i, opts){
+  opts = opts||{};
+  i = Math.max(0, Math.min(SCREENS.length-1, i));
+  const dir = i >= cur ? 1 : -1, from = cur;
+  while (skip(SCREENS[i]) && i>0 && i<SCREENS.length-1) i += dir;
+  // [v16] the plan after 'stand' is paid: without access, everything past the paywall leads back to it
+  // (tracker members logging in on a new phone still reach their login and tracker)
+  const PW = SCREENS.indexOf('paywall');
+  if (i > PW && !unlocked() && !(SCREENS[i]==='join' && joinMode==='login') && !(SCREENS[i]==='tracker' && hasSession())){ i = PW; if (opts.fromPop) opts = {replace:true}; }
+  const name = SCREENS[i];
+  $$('.scr').forEach(s=>s.classList.remove('on'));
+  const scr = document.querySelector(`.scr[data-s="${name}"]`);
+  RENDER[name] && RENDER[name]();
+  scr.classList.add('on');
+  cur = i; if (i > S.at) S.at = i; save();
+  const real = SCREENS.filter(n=>n!=='welcome').length;
+  $('#count').textContent = i===0 ? '' : `${i} / ${real}`;
+  $('#prog').style.width = (i/(SCREENS.length-1)*100)+'%';
+  strip(i>=3 && !['calm','pdf','join','tracker'].includes(name));
+  if (name==='body_mind') NEXT_LABEL.body_mind = TRACKER_URL ? (hasSession() ? 'Open my tracker' : 'Track daily, get 50% off') : 'Get my PDF';
+  $('#back').style.display = (i===0 || name==='tracker') ? 'none' : '';
+  const nx = $('#next'); nx.style.display = (name==='pdf' || name==='paywall') ? 'none' : ''; nx.textContent = NEXT_LABEL[name] || 'Next';
+  window.scrollTo(0,0);
+  enter(scr);
+  if (!opts.fromPop){ try{ history[opts.replace?'replaceState':'pushState']({s:i, p:opts.replace ? (history.state && history.state.p) : from}, '', '#'+name); }catch(e){} }
+  track('mm_screen', {screen_name:name, step:i});
+  if (!seen[name]){ seen[name]=1; track('mm_'+name+'_view'); }
+  if (name==='lead_form') track('gate_open');
+  updateNext();
+}
+window.addEventListener('popstate', e=>{
+  const i = e.state && typeof e.state.s==='number' ? e.state.s : 0;
+  if (i < cur) track('mm_back', {from:SCREENS[cur], method:'system'});
+  go(i, {fromPop:true});
+});
+
+function updateNext(){
+  const name = SCREENS[cur], nx = $('#next');
+  let ok = true;
+  if (name==='emis') ok = S.noEmi || (validEmis().length>0);
+  if (name==='salary') ok = S.salary >= 1000;
+  if (name==='habits') ok = habitsOn().length>0 || S.noHabit;
+  nx.disabled = !ok;
+}
+
+/* ---------- 2 emis ---------- */
+function renderEmis(){
+  $('#emiTypes').innerHTML = EMI_TYPES.map(t=>`<button type="button" class="tile" data-lt="${t.id}" aria-pressed="false"><b>${esc(t.n)}</b><small>+ Add</small></button>`).join('');
+  drawEmiCards();
+}
+function drawEmiCards(){
+  $('#emiList').innerHTML = S.emis.map((l,i)=>{
+    const t = LT[l.type]||LT.other;
+    const stuck = l.balance>0 && l.emi>0 && emiStuck(l);
+    return `<div class="card" data-li="${i}">
+      <div class="card-h"><b>${esc(t.n)}</b><button type="button" class="x" data-rm="${i}">Remove</button></div>
+      ${sliderHTML('bal'+i, 'Innum kattanum (balance)', l.balance, {pre:'₹', min:5000, max:20000000, log:true, step:1000})}
+      ${sliderHTML('emi'+i, t.emiLabel||'EMI every month', l.emi, {pre:'₹', min:500, max:300000, log:true, step:100})}
+      ${sliderHTML('rate'+i, 'Interest a year (theriyalana appadiye vidunga)', l.rate, {suf:'%', min:0, max:48, step:.5, pct:true})}
+      <p class="err" data-stuck="${i}">${stuck?'Indha EMI interest-a mattum dhaan kattudhu. Balance kuraiyadhu. Noor kitta pesunga.':''}</p>
+    </div>`;
+  }).join('');
+  bindSliders($('#emiList'), (key, v)=>{
+    const i = +key.replace(/\D/g,''), f = key.replace(/\d/g,'');
+    const l = S.emis[i]; if (!l) return;
+    if (f==='bal') l.balance = v; else if (f==='emi') l.emi = v; else if (f==='rate') l.rate = Math.min(48, v);
+    const st = document.querySelector(`[data-stuck="${i}"]`);
+    if (st) st.textContent = (l.balance>0 && l.emi>0 && emiStuck(l)) ? 'Indha EMI interest-a mattum dhaan kattudhu. Balance kuraiyadhu. Noor kitta pesunga.' : '';
+    save(); updateNext();
+  });
+  const has = S.emis.length>0;
+  $('#noEmi').style.display = has ? 'none' : '';
+}
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-lt]');
+  if (t){
+    const d = LT[t.dataset.lt];
+    if (S.emis.length >= 8){ $('#emiErr').textContent = '8 EMIs max.'; return; }
+    S.emis.push({type:d.id, balance:d.bal, emi:d.emi, rate:d.rate}); S.noEmi = false;
+    save(); drawEmiCards(); updateNext(); track('emi_added', {emi_type:d.id, emis_count:S.emis.length});
+    const last = $('#emiList').lastElementChild; if (last){ pop(last); last.scrollIntoView({behavior:reduced?'auto':'smooth', block:'center'}); }
+    return;
+  }
+  const r = e.target.closest('[data-rm]');
+  if (r){ S.emis.splice(+r.dataset.rm,1); save(); drawEmiCards(); updateNext(); track('emi_removed'); }
+});
+$('#noEmi').addEventListener('click', ()=>{ S.noEmi = true; S.emis = []; save(); track('emi_skip'); go(cur+1); });
+
+/* ---------- 3 salary ---------- */
+function renderSalary(){
+  if (!S.salary) S.salary = 30000;
+  $('#salaryCard').innerHTML = sliderHTML('sal', 'Take-home a month', S.salary, {pre:'₹', min:5000, max:500000, log:true, step:500});
+  bindSliders($('#salaryCard'), (k,v)=>{ S.salary = v; save(); updateNext(); setChips(); });
+  $('#salChips').innerHTML = [15000,25000,40000,60000,100000].map(v=>`<button type="button" class="chip" data-sal="${v}" aria-pressed="false">${compact(v)}</button>`).join('');
+  setChips();
+}
+function setChips(){ $$('[data-sal]').forEach(c=>c.setAttribute('aria-pressed', String(+c.dataset.sal===S.salary))); }
+document.addEventListener('click', e=>{
+  const c = e.target.closest('[data-sal]'); if (!c) return;
+  S.salary = +c.dataset.sal; save(); renderSalary(); updateNext(); track('cta_click', {location:'salary_chip'});
+});
+
+/* ---------- 4 EMI snapshot ---------- */
+function renderSnap(){
+  const emi = totEMI(), sal = S.salary, pct = sal ? Math.round(emi/sal*100) : 0;
+  const el = $('#emiPct'); el.dataset.v = 0; el.classList.toggle('out', pct>=40);
+  countTo(el, pct, v=>Math.round(v)+'%');
+  $('#emiRows').innerHTML = `<div class="row"><span>Salary</span><b>${inr(sal)}</b></div>
+    <div class="row"><span>EMI (${validEmis().length})</span><b>− ${inr(emi)}</b></div>
+    <div class="row total"><span>Kaila irukkuradhu</span><b>${inr(sal-emi)}</b></div>`;
+  $('#emiVerdict').textContent = !emi ? 'EMI illa. Super. Ippo selavu-va paappom.' :
+    pct>=50 ? 'Salary-la paadhikku mela EMI-ku pogudhu. Adhaan pressure. Seri pannalaam.' :
+    pct>=30 ? 'EMI konjam heavy. Vazhi irukku, paappom.' : 'EMI control-la irukku. Ippo selavu-va paappom.';
+  track('emi_ratio', {band: band(pct, [[20,'<20'],[30,'20-29'],[40,'30-39'],[50,'40-49'],[70,'50-69'],[999,'70+']])});
+}
+
+/* ---------- 5 lead ---------- */
+function renderLead(){ $('#lName').value = LEAD.name||''; $('#lPhone').value = LEAD.phone||''; }
+function submitLead(){
+  const name = $('#lName').value.trim().replace(/\s+/g,' ');
+  let ph = $('#lPhone').value.replace(/\D/g,'');
+  if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+  if (ph.length===11 && ph.startsWith('0')) ph = ph.slice(1);
+  if (name.length < 2){ $('#leadErr').textContent = 'Unga peyar podunga.'; $('#lName').focus(); return false; }
+  if (!/^[6-9]\d{9}$/.test(ph)){ $('#leadErr').textContent = '10-digit WhatsApp number podunga (6, 7, 8 or 9-la start aagum).'; $('#lPhone').focus(); return false; }
+  $('#leadErr').textContent = '';
+  LEAD = {name, phone:'91'+ph};
+  try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); sessionStorage.setItem(GATE_KEY,'1'); }catch(e){}
+  sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), emisCount:validEmis().length,
+    item:`Money plan lead: ${validEmis().length} EMI(s), EMI ${Math.round(totEMI()/Math.max(S.salary,1)*100)}% of salary`});
+  track('generate_lead', {method:'money_plan_v16', currency:'INR', value:0});
+  return true;
+}
+
+/* ---------- 6 expenses ---------- */
+function renderExpenses(){
+  EXPENSES.forEach(e=>{ if (S.exp[e.id]==null) S.exp[e.id] = e.def; });
+  $('#expList').innerHTML = EXPENSES.map(e=>`<div class="card">${sliderHTML('x_'+e.id, e.n + (e.hint?` (${e.hint})`:''), S.exp[e.id]||0, {pre:'₹', min:0, max:e.max, step:100})}</div>`).join('');
+  bindSliders($('#expList'), (k,v)=>{ S.exp[k.slice(2)] = v; save(); updExp(); });
+  updExp(true);
+}
+function updExp(first){ const el=$('#expTotal'); if (first) el.dataset.v=0; countTo(el, totExp()); strip(true); }
+
+/* ---------- 7 stand ---------- */
+function renderStand(){
+  const l = leftover(), st = standState(), el = $('#standBig');
+  el.dataset.v = 0; el.className = 'big ' + (st==='short'?'out':st==='ok'?'save':'');
+  countTo(el, Math.abs(l));
+  $('#standLabel').textContent = st==='short' ? 'Every month, you are short by' : 'Every month, after EMI and expenses, left';
+  $('#standRows').innerHTML = `<div class="row"><span>Salary</span><b>${inr(S.salary)}</b></div>
+    <div class="row"><span>EMI</span><b>− ${inr(totEMI())}</b></div>
+    <div class="row"><span>House expenses</span><b>− ${inr(totExp())}</b></div>
+    <div class="row total"><span>${l<0?'Short':'Left'}</span><b>${l<0?'− ':''}${inr(Math.abs(l))}</b></div>`;
+  $('#standVerdict').textContent = st==='short' ? 'Ovvoru maasamum panam pathaama dhaan odudhu. Idhu dhaan stress-ku kaaranam. Adutha step-la vazhi irukku.' :
+    st==='tight' ? 'Maasa kadaisi-la tight-a irukkum. Konjam room create pannalaam.' : 'Room irukku. Adha correct-a use panna EMI seekiram mudiyum.';
+  $('#calmLast').textContent = st==='short' ? 'Short-a irundhaalum vazhi irukku. Adutha 2 nimisham-la kaatrom.' : 'Vazhi irukku. Adutha 2 nimisham-la kaatrom.';
+  track('stand_state', {state:st, has_emis:validEmis().length>0});
+}
+
+/* ---------- 7b ₹99 paywall [v16] ----------
+   Paid through Razorpay Checkout. The server (Supabase Edge Functions) makes the order, checks the
+   payment and grants 30 days; this page only remembers the order id (S.paid, also carried by the
+   Instagram hand-off) and re-checks it with the server on every visit. Tracker members on this
+   phone (hasSession) are let through, as before v16. */
+const PAYWALL = CFG.paywall !== false && /^https:\/\//.test(String(CFG.supabaseUrl||'')) && !!CFG.supabasePublishableKey;
+const SB_URL = String(CFG.supabaseUrl||''), SB_KEY = String(CFG.supabasePublishableKey||'');
+const PAY_MOCK = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('paymock') || '';   // test mode, never on the live site
+function paidOk(){ const p = S.paid; return !!(p && p.o && (p.f || (p.u && Date.parse(p.u) > Date.now()))); }
+function unlocked(){ let member = false; try{ member = hasSession(); }catch(e){} return !PAYWALL || paidOk() || member; }
+const rupees = paise => '₹' + (paise/100).toLocaleString('en-IN', {minimumFractionDigits: paise % 100 ? 2 : 0, maximumFractionDigits: 2});
+let PAY = null;   // the order being paid
+
+function renderPaywall(){
+  const p = plans();
+  if (p){
+    const sooner = Math.max(0, p.now.months - p.yearly.months);
+    $('#hPay').textContent = 'Ippo irukura maari pona, EMI mudiya romba naal aagum.';
+    $('#pwNow').textContent = dateIn(p.now.months, p.now.capped);
+    $('#pwNowSub').textContent = 'Interest ' + inr(p.now.totalInterest);
+    $('#pwPlan').textContent = dateIn(p.yearly.months, p.yearly.capped);
+    $('#pwSooner').textContent = sooner >= 12 ? `${Math.floor(sooner/12)} varusham ${sooner%12} maasam seekiram` : sooner > 0 ? `${sooner} maasam seekiram` : 'Seekiram mudikka vazhi';
+  } else {
+    $('#pwEyebrow').textContent = 'Unga saving plan';
+    $('#hPay').textContent = 'Maasa maasam evlo save panna mudiyum nu exact-a kaatrom.';
+    const l = leftover();
+    $('#pwNow').textContent = (l < 0 ? '− ' : '') + inr(Math.abs(l));
+    $('#pwNowSub').textContent = l < 0 ? 'Short, ovvoru maasamum' : 'Ippo maasa kadaisi-la';
+    $('#pwPlan').textContent = 'Exact amount';          // no made-up number: the real one comes from their habits, next screens
+    $('#pwSooner').textContent = 'Adutha screens-la';
+  }
+  $('#pwWho').hidden = !!(LEAD.phone && LEAD.name);
+  if (LEAD.name) $('#pwName').value = LEAD.name;
+  $('#pwInapp').hidden = !(PAGE_URL && /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent||''));   // [v16.3]
+  if (!resumePagePay()) showPay(paidOk() ? 'paid' : 'ready');
+}
+function showPay(state){
+  $('#pwReady').hidden = state !== 'ready'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid'; $('#pwPage').hidden = state !== 'page';
+  document.querySelector('[data-s="paywall"]').classList.toggle('pw-open', state === 'paid');
+  if (state === 'paid'){
+    const u = S.paid && S.paid.u ? new Date(S.paid.u).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) : '';
+    $('#pwUntil').textContent = S.paid && S.paid.f ? 'Unga plan ready.' : `Unga plan ready. Tracker ${u} varaikkum.`;
+  }
+}
+function setPrice(o){
+  $('#pwPrice').textContent = rupees(o.amount);
+  $('#pwWas').hidden = $('#pwOffer').hidden = !o.offer_percent;
+  $('#pwPer').textContent = o.period_days ? `/ ${o.period_days} naal` : 'one time';
+  $('#pwPay').textContent = `${rupees(o.amount)} pay panni plan paarunga`;
+}
+async function payApi(fn, body){
+  if (PAY_MOCK) return payMock(fn);
+  const r = await fetch(`${SB_URL}/functions/v1/${fn}`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  const j = await r.json().catch(()=>({}));
+  if (!r.ok) throw new Error(j.error || 'http_'+r.status);
+  return j;
+}
+async function payMock(fn){   // ?paymock=paid|upi|dismiss|fail on localhost only
+  await new Promise(r=>setTimeout(r, 400));
+  if (fn==='create-order') return {order_id:'00000000-0000-4000-8000-00000000000'+(Date.now()%10), razorpay_order_id:'order_MOCK', key_id:'rzp_test_mock', amount:9900, currency:'INR', description:'Mentell Money Plan', period_days:30, offer_percent:null};
+  const ok = PAY_MOCK==='paid' || (PAY_MOCK==='upi' && Date.now() - (PAY.t||0) > 4000);
+  return ok ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status: PAY_MOCK==='fail' ? 'failed' : 'created'};
+}
+function loadCheckout(){
+  return new Promise((res, rej)=>{
+    if (window.Razorpay) return res();
+    const s = document.createElement('script'); s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    s.onload = res; s.onerror = ()=>rej(new Error('checkout_load')); document.head.appendChild(s);
+  });
+}
+function openCheckout(o){
+  return new Promise(resolve=>{
+    if (PAY_MOCK){ PAY.t = Date.now(); setTimeout(()=>resolve(PAY_MOCK==='paid' ? {ok:true, r:{razorpay_payment_id:'pay_MOCK', razorpay_order_id:o.razorpay_order_id, razorpay_signature:'x'}} : PAY_MOCK==='fail' ? {failed:true} : {dismissed:true}), 700); return; }
+    const rzp = new Razorpay({
+      key:o.key_id, order_id:o.razorpay_order_id, amount:o.amount, currency:o.currency, name:'Mentell', description:o.description,
+      prefill:{name:LEAD.name, contact:'+'+LEAD.phone}, notes:{mentell_order:o.order_id}, theme:{color:'#000000'},
+      image:'https://mentell.co.in/apple-touch-icon.png',   // Mentell's logo on the sheet (the Razorpay account's own logo is thedayzero's)
+      handler:r=>resolve({ok:true, r}), modal:{ondismiss:()=>resolve({dismissed:true}), confirm_close:true}
+    });
+    rzp.on('payment.failed', ()=>resolve({failed:true}));
+    rzp.open();
+  });
+}
+function markPaid(st){
+  S.paid = {o:PAY.order_id, u:st.access_until||null, f:!!st.forever}; S.pendingPay = null; save();
+  showPay('paid');
+  track('purchase', {currency:'INR', value:PAY.amount/100, transaction_id:PAY.order_id, items:[{item_id:'money_plan_99', item_name:'Mentell Money Plan', price:PAY.amount/100, quantity:1}]});
+  sendRow({event:'paid', name:LEAD.name, phone:LEAD.phone, paid:1, item:`₹${PAY.amount/100} money plan paid (order ${PAY.order_id})`});
+}
+async function pay(){
+  const err = $('#pwErr'); err.textContent = '';
+  if (!LEAD.phone || !LEAD.name){                     // came without the lead form (e.g. hand-off): ask here
+    const name = $('#pwName').value.trim().replace(/\s+/g,' ');
+    let ph = $('#pwPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+    if (name.length < 2){ err.textContent = 'Unga peyar podunga.'; return; }
+    if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit WhatsApp number podunga.'; return; }
+    LEAD = {name, phone:'91'+ph};
+    try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){}
+    sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, item:'Lead from the ₹99 paywall'});
+  }
+  if (PAGE_URL) return payOnPage();
+  const btn = $('#pwPay'); btn.disabled = true; btn.textContent = 'Opening…';
+  track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}]});
+  try{
+    if (!PAY_MOCK) await loadCheckout();
+    PAY = await payApi('create-order', {phone:LEAD.phone, name:LEAD.name});
+    setPrice(PAY);
+    const res = await openCheckout(PAY);
+    if (res.failed){ track('payment_failed'); err.textContent = 'Payment aagala. Panam cut aagirundhaa 5–7 naalla thirumbi varum. Thirumba try pannunga.'; return; }
+    showPay('checking');
+    if (res.ok){
+      const st = await payApi('verify-payment', Object.assign({order_id:PAY.order_id}, res.r));
+      if (st.status==='paid') return markPaid(st);
+    }
+    await pollPaid();
+  }catch(e){
+    showPay('ready');
+    err.textContent = e.message==='too_many_orders' ? 'Konjam neram kazhichu try pannunga.' : e.message==='bad_phone' ? 'WhatsApp number sariyaa illa.' : 'Network problem. Thirumba try pannunga.';
+    track('payment_error', {error:String(e.message||'').slice(0,40)});
+  }finally{
+    btn.disabled = false; setPrice(PAY || {amount:9900, period_days:30});
+  }
+}
+// The page lost the Checkout callback (UPI app switch, closed sheet): ask the server, which asks Razorpay, every 3 s for 2 minutes.
+async function pollPaid(){
+  const end = Date.now() + 120000;
+  while (Date.now() < end){
+    await new Promise(r=>setTimeout(r, 3000));
+    try{
+      const st = await payApi('verify-payment', {order_id:PAY.order_id, razorpay_order_id:PAY.razorpay_order_id});
+      if (st.status==='paid') return markPaid(st);
+      if (st.status==='failed') break;
+    }catch(e){}
+  }
+  showPay('ready');
+  $('#pwErr').textContent = 'Payment confirm aagala. Panam cut aagirundhaa, 10 nimisham-la plan open aagum (page-a refresh pannunga), illa 5–7 naalla thirumbi varum.';
+}
+// On every visit: is the saved order still paid? (expiry, refund)
+async function recheckPaid(){
+  if (!PAYWALL || PAY_MOCK || !S.paid || !S.paid.o) return;
+  try{
+    const r = await fetch(`${SB_URL}/rest/v1/rpc/order_status`, {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify({p_order:S.paid.o})});
+    if (!r.ok) return;
+    const st = await r.json();
+    if (!st || st.status !== 'paid'){ if (st && st.status) { S.paid = null; save(); } return; }
+    S.paid.u = st.access_until || null; S.paid.f = !!st.forever; save();
+  }catch(e){}
+}
+/* [v16.2] ₹99 on the Mentell Razorpay Payment Page. The page can't tell us who paid, so: a pending order
+   for their phone first (start_page_order), the page opens with that phone filled in, and the Razorpay
+   webhook matches the payment to the order by phone. This page asks order_status until it says paid. */
+const PAGE_URL = /^https:\/\/pages\.razorpay\.com\//.test(String(CFG.paymentPageUrl||'')) ? String(CFG.paymentPageUrl) : '';
+async function rpcAnon(fn, args){
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify(args)});
+  const j = await r.json().catch(()=>null);
+  if (!r.ok) throw new Error((j && j.message) || 'http_'+r.status);
+  return j;
+}
+function pageUrl(){ return PAGE_URL + (PAGE_URL.includes('?') ? '&' : '?') + 'phone=' + encodeURIComponent(String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '')); }
+async function payOnPage(){
+  const btn = $('#pwPay'), err = $('#pwErr'); btn.disabled = true; btn.textContent = 'Opening…';
+  track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}], method:'payment_page'});
+  try{
+    const o = PAY_MOCK ? {order_id:'00000000-0000-4000-8000-0000000000'+String(Date.now()%90+10), amount_paise:9900, period_days:30}
+                       : await rpcAnon('start_page_order', {p_phone:LEAD.phone, p_name:LEAD.name});
+    PAY = {order_id:o.order_id, amount:o.amount_paise, t:Date.now()};
+    S.pendingPay = {o:o.order_id, a:o.amount_paise, t:PAY.t}; save();
+    if (!PAY_MOCK){
+      const w = window.open(pageUrl(), '_blank');
+      if (!w){ location.href = pageUrl(); return; }      // pop-up blocked: pay in this tab; coming back resumes the check
+    }
+    showPay('page'); pollPage();
+  }catch(e){
+    const m = String(e.message||'');
+    err.textContent = /too_many_orders/.test(m) ? 'Konjam neram kazhichu try pannunga.' : /bad_phone/.test(m) ? 'WhatsApp number sariyaa illa.' : 'Network problem. Thirumba try pannunga.';
+    track('payment_error', {error:m.slice(0,40), method:'payment_page'});
+  }finally{ btn.disabled = false; btn.textContent = '₹99 pay panni plan paarunga'; }
+}
+async function pageStatus(){
+  if (PAY_MOCK) return (Date.now() - PAY.t > 4000 && PAY_MOCK !== 'fail') ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status:'created'};
+  return rpcAnon('order_status', {p_order:PAY.order_id});
+}
+let pagePolling = false;
+// Every 4 s while this tab is open (20 minutes), and straight away when they switch back to it.
+async function pollPage(){
+  if (pagePolling) return; pagePolling = true;
+  const end = Date.now() + 20*60000;
+  try{
+    while (Date.now() < end && PAY){
+      try{ const st = await pageStatus(); if (st && st.status === 'paid'){ markPaid(st); return; } }catch(e){}
+      if (PAY) $('#pwPageHelp').innerHTML = `Pay panni 2 nimisham aagiyum open aagalaiyaa? Payment screenshot-oda ${waHelp(PAY.order_id)}.`;
+      await new Promise(r=>{ const t = setTimeout(r, 4000); document.addEventListener('visibilitychange', function v(){ if (!document.hidden){ clearTimeout(t); document.removeEventListener('visibilitychange', v); r(); } }); });
+    }
+  } finally { pagePolling = false; }
+}
+// Came back later (or the Payment Page sent them back): keep checking the order they started today.
+function resumePagePay(){
+  const p = S.pendingPay;
+  if (!PAGE_URL || paidOk() || !p || !p.o || Date.now() - p.t > 864e5) return false;
+  PAY = {order_id:p.o, amount:p.a||9900, t:p.t}; showPay('page'); pollPage(); return true;
+}
+$('#pwReopen').addEventListener('click', ()=>{ track('payment_page_reopen'); window.open(pageUrl(), '_blank') || (location.href = pageUrl()); });
+$('#pwRecheck').addEventListener('click', ()=>{ track('payment_page_recheck'); pagePolling = false; pollPage(); });
+/* [v16.3] "Already paid? Open my plan". The site remembers a payment only in the browser it was paid in
+   (Instagram's in-app browser keeps its own), so on any other browser the WhatsApp number + the email
+   typed on the Razorpay page bring the paid order back (restore_access, max 8 tries / phone / hour).
+   From then on it is the same as paying here: order_status re-checks it on every visit. */
+function waHelp(order){
+  return `<a href="https://wa.me/${esc(String(CFG.whatsappNumber||'919629843122'))}?text=${encodeURIComponent('Mentell ₹99 paid, plan open aagala.' + (order ? ' Order: '+order : ''))}" target="_blank" rel="noopener">Noor-ku WhatsApp pannunga</a>`;
+}
+function openRestore(where){
+  track('restore_open', {location:where});
+  $('#rsPhone').value = String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '');
+  $('#rsErr').textContent = ''; $('#rsModal').classList.add('on');
+}
+async function restorePaid(){
+  const err = $('#rsErr'), btn = $('#rsGo'); err.textContent = '';
+  let ph = $('#rsPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+  const em = $('#rsEmail').value.trim();
+  if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit WhatsApp number podunga.'; return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ err.textContent = 'Email sariyaa podunga.'; return; }
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try{
+    const r = PAY_MOCK ? (em.toLowerCase() === 'paid@test.com' ? {found:true, status:'paid', order_id:'00000000-0000-4000-8000-000000000099', access_until:new Date(Date.now()+20*864e5).toISOString()} : {found:false})
+                       : await rpcAnon('restore_access', {p_phone:ph, p_email:em});
+    if (!(r && r.found && r.status === 'paid')){
+      track('restore_access', {ok:false});
+      err.innerHTML = `Indha number + email-oda ₹99 payment kidaikkala. Ippo dhaan pay pannirundhaa 1 nimisham kazhichu thirumba try pannunga. Illana payment screenshot-oda ${waHelp()}.`;
+      return;
+    }
+    S.paid = {o:r.order_id, u:r.access_until||null, f:!!r.forever}; S.pendingPay = null; PAY = null; save();
+    if (!LEAD.phone){ LEAD.phone = '91'+ph; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
+    track('restore_access', {ok:true});
+    $('#rsModal').classList.remove('on');
+    const PW = SCREENS.indexOf('paywall');
+    if (S.at >= PW){ go(PW, {replace:true}); return; }      // their answers are on this phone: the paywall shows Unlocked
+    const u = r.forever ? '' : new Date(r.access_until).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+    $('#rsOkTxt').textContent = (u ? `Unga ₹99 plan ${u} varaikkum. ` : 'Unga ₹99 plan ready. ') + 'Indha browser-la unga numbers illa: Start tap panni podunga (3 nimisham), plan full-a open aagum.';
+    $('#rsOk').hidden = false; $('#rsLink').hidden = true;
+    go(0, {replace:true});
+  }catch(e){
+    const m = String(e.message||'');
+    err.innerHTML = /too_many_tries/.test(m) ? `Romba thadava try panniteenga. 1 mani neram kazhichu try pannunga, illa ${waHelp()}.`
+                  : /bad_phone/.test(m) ? 'WhatsApp number sariyaa illa.' : /bad_email/.test(m) ? 'Email sariyaa podunga.' : 'Network problem. Thirumba try pannunga.';
+    track('restore_error', {error:m.slice(0,40)});
+  }finally{ btn.disabled = false; btn.textContent = 'Plan open pannunga'; }
+}
+$('#pwHave').addEventListener('click', ()=>openRestore('paywall'));
+$('#pwHave2').addEventListener('click', ()=>openRestore('waiting'));
+$('#rsLink').addEventListener('click', ()=>openRestore('welcome'));
+$('#rsGo').addEventListener('click', restorePaid);
+$('#rsEmail').addEventListener('keydown', e=>{ if (e.key==='Enter') restorePaid(); });
+$('#rsClose').addEventListener('click', ()=>$('#rsModal').classList.remove('on'));
+$('#pwInappBtn').addEventListener('click', ()=>openOutside('paywall'));
+$('#pwPay').addEventListener('click', pay);
+$('#pwGo').addEventListener('click', ()=>{ track('paywall_continue'); go(cur+1); });
+
+/* ---------- 9 habits ---------- */
+function renderHabits(){
+  $('#habitTiles').innerHTML = HABITS.map(h=>`<button type="button" class="tile" data-hb="${h.id}" aria-pressed="${!!(S.habits[h.id]&&S.habits[h.id].on)}"><b>${esc(h.n)}</b><small>${h.other?'Neenga type pannunga':'Tap'}</small></button>`).join('') +
+    `<button type="button" class="tile" data-hb="none" aria-pressed="${!!S.noHabit}"><b>Edhuvum illa</b><small>Skip</small></button>`;
+}
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-hb]'); if (!t) return;
+  const id = t.dataset.hb;
+  if (id==='none'){ S.noHabit = !S.noHabit; if (S.noHabit) Object.values(S.habits).forEach(v=>v.on=false); }
+  else {
+    const h = HB[id], v = S.habits[id] || (S.habits[id] = {on:false, a:h.a?h.a.def:1, b:h.b.def});
+    v.on = !v.on; S.noHabit = false;
+    if (v.on) track('habit_selected', {habit:id});
+  }
+  save(); renderHabits(); pop(document.querySelector(`[data-hb="${id}"]`)); updateNext();
+});
+
+/* ---------- 10 amounts ---------- */
+function renderAmounts(){
+  $('#habList').innerHTML = habitsOn().map(h=>{
+    const v = S.habits[h.id];
+    return `<div class="card"><div class="card-h"><b>${esc(h.other && S.otherName ? S.otherName : h.n)}</b></div>
+      ${h.other ? `<div class="fld"><label for="oName">Adhu enna?</label><input class="txt" id="oName" maxlength="40" placeholder="eg. lottery, gaming, betting app" value="${esc(S.otherName)}"></div>` :
+        sliderHTML('ha_'+h.id, h.a.l, v.a, {min:h.a.min, max:h.a.max, step:h.a.step})}
+      ${sliderHTML('hb_'+h.id, h.b.l, v.b, {pre:'₹', min:h.b.min, max:h.b.max, step:h.b.step})}
+      <div class="sum"><span>Every month</span><b id="hs_${h.id}">${inr(habitSpend(h.id))}</b></div></div>`;
+  }).join('');
+  bindSliders($('#habList'), (k,v)=>{
+    const id = k.slice(3), f = k[1];
+    S.habits[id][f] = v; save();
+    $('#hs_'+id).textContent = inr(habitSpend(id)); countTo($('#habTotal'), habitTotal());
+  });
+  const o = $('#oName'); if (o) o.addEventListener('input', ()=>{ S.otherName = o.value.replace(/[<>]/g,'').slice(0,40); save(); });
+  const el = $('#habTotal'); el.dataset.v = 0; countTo(el, habitTotal());
+}
+
+/* ---------- 11 cut ---------- */
+function renderCut(){
+  $('#cutList').innerHTML = habitsOn().map(h=>{
+    const c = S.cuts[h.id] || (S.cuts[h.id]='half');
+    return `<div class="card"><div class="card-h"><b>${esc(h.other && S.otherName ? S.otherName : h.n)}</b><span class="small">${inr(habitSpend(h.id))}/mo</span></div>
+      <div class="seg" role="group" aria-label="${esc(h.n)}">
+        ${['stop','half','keep'].map(k=>`<button type="button" data-cut="${h.id}" data-k="${k}" aria-pressed="${c===k}">${k==='stop'?'Stop':k==='half'?'Half':'Keep'}</button>`).join('')}
+      </div><p class="cut-save" id="cs_${h.id}">${cutSave(h.id)?'Save '+inr(cutSave(h.id))+' a month':''}</p></div>`;
+  }).join('');
+  const el = $('#cutTotal'); el.dataset.v = 0; countTo(el, monthlySave());
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-cut]'); if (!b) return;
+  const id = b.dataset.cut; S.cuts[id] = b.dataset.k; save();
+  b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+  $('#cs_'+id).textContent = cutSave(id) ? 'Save '+inr(cutSave(id))+' a month' : '';
+  countTo($('#cutTotal'), monthlySave()); pop(b);
+  track('cut_chosen', {habit:id, choice:b.dataset.k});
+});
+
+/* ---------- 12 YouTube ---------- */
+function renderYt(){
+  const a = $('#ytBtn'); a.href = YT_BASE + (YT_BASE.indexOf('?')<0?'?':'&') + 'sub_confirmation=1';
+  $('#ytDone').classList.toggle('on', !!S.yt);
+}
+$('#ytBtn').addEventListener('click', ()=>{
+  S.yt = true; save(); $('#ytDone').classList.add('on'); $('#ytErr').textContent = '';
+  track('social_click', {platform:'youtube', location:'yt_gate'});
+  sendRow({event:'social_tap', platform:'youtube', location:'yt_gate', youtube:'tapped'});
+});
+
+/* ---------- 13 dashboard ---------- */
+let period = 'm';
+function x0(m,gap){ const x=Math.max(m-gap,0); return x ? `appo unga ${inr(x)}/month cuts EMI balance-a kuraikka arambikkum.` : 'unga cuts adhukku help pannum.'; }
+function renderDash(){
+  const m = monthlySave(), gap = Math.max(0,-leftover()), p = plans();
+  const val = period==='w' ? m*12/52 : period==='y' ? m*12 : m;
+  const el = $('#dashBig'); el.dataset.v = 0; countTo(el, val);
+  $$('#dashTabs button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.p===period)));
+  let g = '';
+  if (gap > 0){
+    g = m >= gap
+      ? `<div class="callout"><b>First, short-a irukkura ${inr(gap)} close aagum.</b> Meedhi ${inr(m-gap)} EMI balance-ku pogum.</div>`
+      : `<div class="callout"><b>Cuts ${inr(m)}, short ${inr(gap)}.</b> Innum ${inr(gap-m)} venum. Idhuku bank kitta tenure, illa income idea venum. Noor kitta pesunga, free.</div>`;
+  }
+  $('#dashGap').innerHTML = g;
+  if (!p && validEmis().length){
+    $('#dashJars').innerHTML = `<div class="callout"><b>Unga EMI interest-a mattum dhaan cover pannudhu.</b> Balance kuraiyave kuraiyadhu. Bank kitta EMI/tenure maatha pesanum. Idhu Noor kitta free-a pesunga, ${x0(m,gap)}</div>`;
+    return;
+  }
+  if (!p){
+    const ef = Math.max(1, totExp()+totEMI())*6, x = Math.max(m-gap,0);
+    $('#dashJars').innerHTML = `<div class="callout"><b>EMI illa? Emergency fund jar.</b><br>6 maasa selavu = ${inr(ef)}. ${x?`${inr(x)}/month potta <b>${Math.ceil(ef/x)} maasathula</b> ready.`:'Cuts choose pannunga, appo kaattrom.'}</div>`;
+    return;
+  }
+  const extra = p.x;
+  const jars = p.order.map((idx,k)=>{
+    const l = p.emis[idx], t = LT[l.type]||LT.other, cl = p.cuts.perEmi[idx].months, orig = p.now.perEmi[idx].months;
+    return `<div class="jar"><div class="jar-glass"><div class="jar-fill" data-fill="${k===0 && extra>0 ? 70 : 12}"></div><span class="jar-n">${k+1}</span></div>
+      <b>${esc(t.n)}</b><small>${l.rate}% · closes ${cl?dateIn(cl):'—'}${orig&&cl&&orig>cl?`<br>${orig-cl} mo sooner`:''}</small></div>`;
+  }).join('');
+  const first = LT[p.emis[p.order[0]].type]||LT.other;
+  $('#dashJars').innerHTML = `<h3 style="font-size:20px;font-weight:700;margin-top:22px">EMI jar</h3>
+    <div class="jars">${jars}</div>
+    ${extra>0 ? `<div class="callout"><b>Every month ${inr(extra)} → Jar 1, ${esc(first.n)}.</b> Adhukku dhaan interest adhigam (${p.emis[p.order[0]].rate}%). Adhu close aana, adhoda EMI-um sendhu Jar 2-ku.</div>
+      <div class="rows"><div class="row"><span>EMI-free now</span><b>${dateIn(p.now.months,p.now.capped)}</b></div><div class="row total"><span>With your cuts</span><b>${dateIn(p.cuts.months,p.cuts.capped)}</b></div></div>`
+      : `<div class="callout">Cuts choose panna, jar fill aagum. Back pottu "Half" or "Stop" select pannunga.</div>`}`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$$('.jar-fill').forEach(f=>f.style.height = f.dataset.fill+'%')));
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('#dashTabs button'); if (!b) return;
+  period = b.dataset.p; renderDash(); track('dash_period', {period});
+});
+function sendPlan(){
+  if (S.planSent) return;
+  const p = plans(), m = monthlySave();
+  const sooner = p ? Math.max(0, p.now.months - p.both.months) : 0;
+  const saved = p ? Math.max(0, p.now.totalInterest - p.both.totalInterest) : 0;
+  const cutList = habitsOn().filter(h=>(S.cuts[h.id]||'half')!=='keep').map(h=>(h.other&&S.otherName?S.otherName:h.n)+':'+(S.cuts[h.id]||'half')).join(', ');
+  sendRow({event:'plan_complete', name:LEAD.name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), monthlyExpenses:totExp(),
+    leftover:leftover(), stand:standState(), monthlySaving:m, weeklySaving:Math.round(m*12/52), yearlySaving:m*12,
+    emisCount:validEmis().length, habitsCut:cutList, monthsSooner:sooner, interestSaved:saved,
+    emiFreeNow:p?dateIn(p.now.months,p.now.capped):'', emiFreePlan:p?dateIn(p.both.months,p.both.capped):'', youtube:S.yt?'tapped':'',
+    item:`Saves ${inr(m)}/mo by cutting ${cutList||'nothing'} | ${standState()==='short'?'SHORT '+inr(-leftover())+'/mo':'left '+inr(leftover())+'/mo'}${p?` | EMI-free ${monthsLabel(sooner)} sooner, interest saved ${compact(saved)}`:''}`});
+  track('plan_complete', {stand:standState(), has_emis:!!p, saving_band:band(m,[[1,'0'],[2000,'<2k'],[5000,'2-5k'],[10000,'5-10k'],[1e12,'10k+']]), sooner_band: band(sooner,[[1,'0'],[12,'<1y'],[36,'1-3y'],[1e9,'3y+']])});
+  S.planSent = true; save();
+}
+
+/* ---------- 14 extra EMI ---------- */
+function renderExtra(){
+  const p = plans();
+  if (!p && validEmis().length){
+    $('#xLede').textContent = 'Unga EMI interest-ku mattum dhaan podhum. Mudhalla adha sari pannanum.';
+    $('#paths').innerHTML = ''; $('#xSteps').innerHTML = `<li>Bank-la outstanding statement vaangunga.</li><li>EMI koottalaama, illa restructure-a nu kelunga.</li><li>Unga cuts ${inr(monthlySave())}/month idhukku use pannunga.</li><li>Noor kitta WhatsApp pannunga, free.</li>`;
+    return;
+  }
+  if (!p){
+    $('#xLede').textContent = 'Ungalukku EMI illa. Indha saving-a emergency fund-ku podunga, apram SIP.';
+    $('#paths').innerHTML = ''; $('#xSteps').innerHTML = `<li>Separate account-la ${inr(monthlySave())} every month auto-transfer set pannunga.</li><li>6 maasa selavu ready aana apram, adhe amount SIP.</li><li>Pudhusa edhuvum EMI-la vaangradhukku munnaadi Noor kitta oru vaarthai.</li>`;
+    return;
+  }
+  const yearEMI = p.emis.reduce((a,l)=>a+l.emi,0);
+  $('#xLede').innerHTML = `12 EMI-ku badhila 13. Oru vaati, varushathukku ${inr(yearEMI)}. Unga cuts already EMI balance-ku pogudhu, so idhu <b>bonus, hike, Diwali money</b>-la irundhu.`;
+  const rows = [['Ippo irukkura maadhiri', p.now], ['Cuts mattum', p.cuts], ['Year-ku 1 extra EMI mattum', p.yearly], ['Cuts + bonus-la 1 extra EMI', p.both]];
+  const max = p.now.months || 1;
+  $('#paths').innerHTML = rows.map((r,i)=>{
+    const s = r[1], sooner = p.now.months - s.months, isave = p.now.totalInterest - s.totalInterest;
+    return `<div class="path ${i===3?'best':''}"><div class="path-top"><b>${r[0]}</b><span>${dateIn(s.months,s.capped)}</span></div>
+      <div class="path-line"><i data-w="${Math.min(100, s.months/max*100)}"></i></div>
+      <p class="small">${i===0 ? `Interest total ${compact(s.totalInterest)}` : sooner>0 ? `${monthsLabel(sooner)} seekiram · interest ${compact(isave)} kammi` : 'No change. Cuts choose pannunga.'}</p></div>`;
+  }).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$$('.path-line i').forEach(i=>i.style.width = i.dataset.w+'%')));
+  $('#xSteps').innerHTML = `<li>Bonus, increment arrears, Diwali money vandha ${inr(yearEMI)} thani-ya vaiyunga.</li>
+    <li>Bonus illaya? Every month ${inr(Math.ceil(yearEMI/12/100)*100)} RD podunga.</li>
+    <li>Bank-la sollunga: <b>"part-prepayment, reduce tenure, EMI same"</b>. Receipt vaangunga.</li>
+    <li>Floating rate-na usually prepay charge illa. Bank kitta confirm pannunga.</li>`;
+  track('extra_emi_view', {sooner_band: band(p.now.months-p.both.months,[[1,'0'],[12,'<1y'],[36,'1-3y'],[1e9,'3y+']])});
+}
+
+/* ---------- 15 body & mind ---------- */
+function renderBody(){
+  const cut = habitsOn().filter(h=>(S.cuts[h.id]||'half')!=='keep');
+  const w = [];
+  cut.forEach(h=>h.wins.forEach(x=>w.push(x)));
+  MIND_WINS.forEach(x=>w.push(x));
+  $('#wins').innerHTML = w.slice(0,8).map(x=>`<div class="win"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('');
+}
+
+/* ---------- 16 PDF ---------- */
+function waText(){
+  const p = plans(), m = monthlySave();
+  return `Hi Noor, naan ${LEAD.name||''}. Mentell money plan pannen.\n`+
+    `Salary ${inr(S.salary)}, EMI ${inr(totEMI())}, ${standState()==='short'?'short '+inr(-leftover()):'left '+inr(leftover())} a month.\n`+
+    `Cuts-la ${inr(m)}/month save panna mudiyum.`+(p?`\nEMI-free: ${dateIn(p.now.months,p.now.capped)} → ${dateIn(p.both.months,p.both.capped)}.`:'')+`\nHelp venum.`;
+}
+function renderPdf(){
+  $('#waNoor').href = 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(waText());
+  $('#pdfInapp').hidden = !INAPP;
+  $('#pdfAfter').hidden = true; $('#pdfErr').textContent = '';
+}
+$('#waNoor').addEventListener('click', ()=>{ track('whatsapp_click', {location:'pdf_screen'}); sendRow({event:'coaching_inquiry', name:LEAD.name, phone:LEAD.phone, location:'pdf_screen'}); });
+document.addEventListener('click', e=>{ if (e.target.closest('[data-wa="footer"]')) track('whatsapp_click', {location:'footer'}); });
+
+function loadScript(src, ms){
+  return new Promise((res, rej)=>{
+    const s = document.createElement('script'); s.src = src; s.async = true;
+    const t = setTimeout(()=>rej(new Error('timeout')), ms||15000);
+    s.onload = ()=>{ clearTimeout(t); res(); }; s.onerror = ()=>{ clearTimeout(t); rej(new Error('load')); };
+    document.head.appendChild(s);
+  });
+}
+function buildPdf(){
+  const J = window.jspdf.jsPDF, d = new J({unit:'pt', format:'a4', compress:true});
+  const W = 595, H = 842, L = 44, R = W-44; let y = 0;
+  const p = plans(), m = monthlySave();
+  function head(){ d.setFillColor(0,0,0); d.rect(0,0,W,56,'F'); d.setTextColor(255,255,255); d.setFont('helvetica','bold'); d.setFontSize(20); d.text('mentell', L, 36);
+    d.setFont('helvetica','normal'); d.setFontSize(10); d.text('Money plan for '+(LEAD.name||'you')+'  |  '+new Date().toLocaleDateString('en-IN'), R, 35, {align:'right'}); d.setTextColor(0,0,0); y = 92; }
+  function need(h){ if (y+h > H-50){ foot(); d.addPage(); head(); } }
+  function foot(){ d.setFontSize(8); d.setTextColor(110,110,110); d.text('Estimates only, not financial advice. Check prepayment terms with your bank. mentell.co.in', L, H-26); d.setTextColor(0,0,0); }
+  function h2(t){ need(40); d.setFont('helvetica','bold'); d.setFontSize(15); d.text(t, L, y); y += 8; d.setLineWidth(1.2); d.line(L, y, R, y); y += 18; }
+  function row(a, b, bold){ need(20); d.setFont('helvetica', bold?'bold':'normal'); d.setFontSize(11); d.text(String(a), L, y); d.text(String(b), R, y, {align:'right'}); y += 18; }
+  function para(t){ d.setFont('helvetica','normal'); d.setFontSize(11); const lines = d.splitTextToSize(t, R-L); need(lines.length*15+4); d.text(lines, L, y); y += lines.length*15+4; }
+  head();
+  d.setFont('helvetica','bold'); d.setFontSize(26);
+  const headline = p ? 'EMI-free by '+dateIn(p.both.months,p.both.capped) : 'Save '+rs(m)+' every month';
+  d.text(headline, L, y); y += 22;
+  d.setFont('helvetica','normal'); d.setFontSize(12);
+  if (p && p.now.months>p.both.months) { d.text('Instead of '+dateIn(p.now.months,p.now.capped)+'. That is '+monthsLabel(p.now.months-p.both.months)+' sooner.', L, y); y += 30; } else y += 12;
+
+  h2('Where you stand every month');
+  row('Take-home salary', rs(S.salary)); row('EMI ('+validEmis().length+')', '- '+rs(totEMI()));
+  EXPENSES.filter(e=>+S.exp[e.id]>0).forEach(e=>row('   '+e.n, '- '+rs(S.exp[e.id])));
+  row(leftover()<0?'Short every month':'Left every month', (leftover()<0?'- ':'')+rs(Math.abs(leftover())), true); y += 8;
+
+  if (validEmis().length){
+    h2('Your EMIs');
+    validEmis().forEach(l=>row((LT[l.type]||LT.other).n+'  ('+l.rate+'%)', 'Balance '+rs(l.balance)+'  |  EMI '+rs(l.emi)));
+    y += 8;
+  }
+  if (habitsOn().length){
+    h2('What you will cut');
+    habitsOn().forEach(h=>{ const c=S.cuts[h.id]||'half'; row((h.other&&S.otherName?S.otherName:h.n)+'  -  '+(c==='stop'?'Stop':c==='half'?'Half':'Keep'), 'now '+rs(habitSpend(h.id))+'/mo  |  save '+rs(cutSave(h.id))+'/mo'); });
+    row('You save', rs(m)+'/month  |  '+rs(m*12/52)+'/week  |  '+rs(m*12)+'/year', true); y += 8;
+  }
+  if (p){
+    h2('Your EMI plan');
+    para('Every month put '+rs(p.x)+' on the EMI with the highest interest first. When it closes, add that EMI amount to the next one.');
+    p.order.forEach((idx,k)=>row('Jar '+(k+1)+': '+(LT[p.emis[idx].type]||LT.other).n+' ('+p.emis[idx].rate+'%)', 'closes '+(p.both.perEmi[idx].months?dateIn(p.both.perEmi[idx].months):'-')));
+    y += 6;
+    [['As it is now',p.now],['Cuts only',p.cuts],['1 extra EMI a year only',p.yearly],['Cuts + 1 extra EMI a year (from bonus)',p.both]].forEach((r,i)=>
+      row(r[0], dateIn(r[1].months,r[1].capped)+'  |  interest '+rs(r[1].totalInterest), i===3));
+    y += 6;
+    para('One extra EMI a year ('+rs(totEMI())+'): take it from bonus, hike arrears or festival money. No bonus? Put '+rs(Math.ceil(totEMI()/12/100)*100)+' a month in an RD. Once a year, tell your bank: "part-prepayment, reduce tenure, keep EMI same". Get a receipt. Floating-rate EMIs usually have no prepayment charge; confirm with your bank.');
+  } else if (m>0) {
+    h2('Your savings plan');
+    para('Auto-transfer '+rs(Math.max(m-Math.max(0,-leftover()),0))+' every month to a separate account. Build 6 months of expenses ('+rs((totExp()+totEMI())*6)+') as an emergency fund first.');
+  }
+  h2('Next 7 days');
+  ['Write this plan on paper and stick it where you see it daily.','Tell your family the one habit you are cutting first.','Set up the monthly transfer on salary day.','WhatsApp Noor on +'+WA_NUMBER+' if you get stuck.'].forEach(t=>para('[  ]  '+t));
+  y += 4;
+  h2('Body and mind');
+  const cut = habitsOn().filter(h=>(S.cuts[h.id]||'half')!=='keep'), ws=[];
+  cut.forEach(h=>h.wins.forEach(x=>ws.push(x))); MIND_WINS.forEach(x=>ws.push(x));
+  ws.slice(0,8).forEach(x=>para('- '+x[0]+': '+x[1]));
+  foot();
+  return d;
+}
+let lastPdf = null;
+async function makePdf(){
+  const btn = $('#pdfBtn'); btn.disabled = true; btn.textContent = 'Making your PDF…'; $('#pdfErr').textContent = '';
+  track('pdf_download_click', {inapp:INAPP});
+  try{
+    if (!(window.jspdf && window.jspdf.jsPDF)) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', 20000);
+    const d = buildPdf(), name = 'Mentell-Money-Plan' + ((LEAD.name||'').replace(/[^A-Za-z0-9]/g,'') ? '-'+LEAD.name.replace(/[^A-Za-z0-9]/g,'') : '') + '.pdf';
+    lastPdf = {d, name, blob: d.output('blob')};
+    track('pdf_generated', {result:'ok'});
+    const after = $('#pdfAfter'); after.hidden = false;
+    if (DEVICE==='ios'){
+      after.innerHTML = `<button type="button" class="btn" id="pdfShare">Save PDF</button><button type="button" class="btn ghost" id="pdfOpen">Open PDF</button>`;
+    } else {
+      try{ d.save(name); track('pdf_downloaded', {method:'file'}); }catch(e){}
+      after.innerHTML = `<p class="small" style="width:100%">Download aagala? <button type="button" class="link" id="pdfOpen">Open PDF</button></p>`;
+    }
+    btn.textContent = 'Download again';
+  }catch(e){
+    track('pdf_generated', {result:'error'});
+    $('#pdfErr').textContent = 'PDF ready aagala (internet slow?). Thirumba try pannunga, illa Chrome-la open pannunga.';
+    btn.textContent = 'Try again';
+  }
+  btn.disabled = false;
+}
+$('#pdfBtn').addEventListener('click', ()=>{ if (lastPdf && DEVICE!=='ios'){ try{ lastPdf.d.save(lastPdf.name); track('pdf_downloaded',{method:'file_again'}); }catch(e){} return; } makePdf(); });
+document.addEventListener('click', async e=>{
+  if (e.target.closest('#pdfOpen') && lastPdf){
+    try{ const u = URL.createObjectURL(lastPdf.blob); const w = window.open(u,'_blank'); if (!w) location.href = u; track('pdf_downloaded',{method:'open'}); }catch(err){}
+  }
+  if (e.target.closest('#pdfShare') && lastPdf){
+    const f = new File([lastPdf.blob], lastPdf.name, {type:'application/pdf'});
+    try{
+      if (navigator.canShare && navigator.canShare({files:[f]})){ await navigator.share({files:[f], title:'Mentell money plan'}); track('pdf_downloaded',{method:'share'}); }
+      else { const u = URL.createObjectURL(lastPdf.blob); window.open(u,'_blank') || (location.href=u); track('pdf_downloaded',{method:'open'}); }
+    }catch(err){}
+  }
+});
+$('#editAll').addEventListener('click', ()=>{ track('mm_edit'); S.planSent = false; save(); go(1); });
+
+/* ================= in-app browser (Instagram etc.) ================= */
+const UA = navigator.userAgent || '';
+const INAPP_APP = /Instagram/i.test(UA) ? 'instagram' : /FBAN|FBAV|FB_IAB/i.test(UA) ? 'facebook' : /LinkedInApp/i.test(UA) ? 'linkedin' : /Snapchat/i.test(UA) ? 'snapchat' : /\bLine\//i.test(UA) ? 'line' : '';
+const INAPP = !!INAPP_APP;
+function handoffUrl(){
+  const u = new URL(location.origin + location.pathname);
+  u.searchParams.set('utm_source', INAPP_APP||'inapp'); u.searchParams.set('utm_medium','social'); u.searchParams.set('utm_campaign','open_in_browser');
+  try{
+    const m = JSON.parse(JSON.stringify(S)); // no name/phone in S by design
+    const p = btoa(unescape(encodeURIComponent(JSON.stringify({v:1, m, id:LEAD_ID, g:leadDone()})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+    if (p.length < 15000) u.searchParams.set('mh', p);
+  }catch(e){}
+  if (SCREENS[cur] && cur>0) u.searchParams.set('mt', SCREENS[cur]);
+  return u.toString();
+}
+function openOutside(where){
+  track('inapp_open_browser', {app:INAPP_APP, location:where, platform:DEVICE});
+  const url = handoffUrl();
+  if (DEVICE==='android'){
+    const u = new URL(url);
+    location.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+  } else {
+    $('#iosUrl').value = url; $('#iosModal').classList.add('on'); $('#iosH').textContent = DEVICE==='ios' ? 'Safari-la open pannunga' : 'Browser-la open pannunga';
+  }
+}
+if (INAPP){
+  $('#inapp').classList.add('on');
+  if (DEVICE!=='android') $('#inappBtn').textContent = DEVICE==='ios' ? 'Open in Safari' : 'Open in browser';
+  track('inapp_detected', {app:INAPP_APP, platform:DEVICE});
+}
+$('#inappBtn').addEventListener('click', ()=>openOutside('strip'));
+$('#iosClose').addEventListener('click', ()=>$('#iosModal').classList.remove('on'));
+$('#iosCopy').addEventListener('click', async ()=>{
+  const i = $('#iosUrl'); let ok=false;
+  try{ await navigator.clipboard.writeText(i.value); ok=true; }catch(e){ try{ i.select(); ok = document.execCommand('copy'); }catch(e2){} }
+  $('#iosCopy').textContent = ok ? 'Copied' : 'Copy manually'; track('inapp_copy_link', {ok});
+});
+
+/* hand-off arrival: mentell-config.js saved the answers and removed ?mh before GA */
+(function arrival(){
+  try{
+    if (sessionStorage.getItem('mentell_handoff')==='1' && !sessionStorage.getItem('mm_handoff_seen')){
+      sessionStorage.setItem('mm_handoff_seen','1');
+      const raw = JSON.parse(localStorage.getItem(KEY)||'null'); if (raw && raw.v===15) S = loadState(raw);
+      track('handoff_arrived');
+    }
+  }catch(e){}
+})();
+
+/* ================= daily tracker (v15.1) =================
+   Account = WhatsApp number + password, on Supabase since v19 (Edge Function "account",
+   tracker_* database functions). Off when CFG.tracker is false.
+   Entries are saved on the phone first, then sent; if the network fails they wait
+   in a queue and go next time. The server decides streak, month total and 50% off. */
+const TRK_KEY = 'mentell_trk', TRK_DATA = 'mentell_trk_data', TRK_Q = 'mentell_trk_queue';
+const SAVE_TARGET = 2000, MIN_FIRE = 20;
+let TRK = null, TD = null, joinMode = 'signup', entryKind = 'save';
+try{ TRK = JSON.parse(localStorage.getItem(TRK_KEY)||'null'); TD = JSON.parse(localStorage.getItem(TRK_DATA)||'null'); }catch(e){}
+const hasSession = () => !!(TRK && TRK.token && TRK.phone);
+function trkSaveLocal(){ try{ localStorage.setItem(TRK_KEY, JSON.stringify(TRK)); localStorage.setItem(TRK_DATA, JSON.stringify(TD)); }catch(e){} }
+function queue(){ try{ return JSON.parse(localStorage.getItem(TRK_Q)||'[]'); }catch(e){ return []; } }
+function setQueue(q){ try{ localStorage.setItem(TRK_Q, JSON.stringify(q.slice(-200))); }catch(e){} }
+function istDay(off){ const d = new Date(Date.now() + 5.5*3600e3 + (off||0)*864e5); return d.toISOString().slice(0,10); }
+
+// [v19] The daily tracker on Supabase (7 Nov 2026). Same actions and answers as the old Apps Script, so the
+// rest of the page is unchanged: signup / login / recover go to the Edge Function "account" (WhatsApp number +
+// password, no SMS), everything else goes to the database with the person's own session (tracker_* functions).
+// A session = Supabase Auth tokens; the short one is renewed with the long one before it runs out.
+// Old Apps Script logins on this phone have no long token: they are asked to log in once (same password).
+const TRACKER_URL = (CFG.tracker !== false && SB_URL && SB_KEY) ? SB_URL : '';
+async function sbFetch(path, init, ms){
+  const ctl = ('AbortController' in window) ? new AbortController() : null;
+  const t = setTimeout(()=>ctl && ctl.abort(), ms || 20000);
+  try{
+    const r = await fetch(SB_URL + path, Object.assign({}, init, {signal: ctl ? ctl.signal : undefined}));
+    const j = r.status === 204 ? null : await r.json().catch(()=>null);
+    return {status: r.status, json: j};
+  } finally { clearTimeout(t); }
+}
+function keepSession(s){
+  if (!s || !s.access_token) return;
+  TRK = Object.assign(TRK || {}, {token: s.access_token, refresh: s.refresh_token, exp: Date.now() + ((+s.expires_in || 3600) - 60) * 1000});
+  trkSaveLocal();
+}
+async function freshToken(force){
+  if (!TRK || !TRK.refresh) return null;                              // an old Apps Script login
+  if (!force && TRK.exp && Date.now() < TRK.exp) return TRK.token;
+  const r = await sbFetch('/auth/v1/token?grant_type=refresh_token', {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify({refresh_token:TRK.refresh})});
+  if (r.status === 200 && r.json && r.json.access_token){ keepSession(r.json); return TRK.token; }
+  if (r.status >= 400 && r.status < 500) return null;                  // signed out elsewhere / password changed
+  throw new Error('net');
+}
+async function dbCall(fn, args){
+  for (let tryNo = 0; tryNo < 2; tryNo++){
+    const tok = await freshToken(tryNo > 0);
+    if (!tok) return {ok:false, err:'auth'};
+    const r = await sbFetch('/rest/v1/rpc/' + fn, {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY, Authorization:'Bearer ' + tok}, body:JSON.stringify(args)});
+    if (r.status === 401) continue;                                     // token just ran out: renew once
+    if (r.status >= 200 && r.status < 300) return r.json;
+    const m = String((r.json && (r.json.message || r.json.hint)) || '');
+    if (/log_day/.test(m)) return {ok:false, err:'date'};
+    if (/violates|invalid input|check constraint/i.test(m)) return {ok:false, err:'bad'};
+    return {ok:false, err:'server'};
+  }
+  return {ok:false, err:'auth'};
+}
+function planSummary(p){ return p && p.summary ? p.summary : null; }
+async function api(body){
+  const a = body.action;
+  if (a === 'signup' || a === 'login' || a === 'recover'){
+    const r = await sbFetch('/functions/v1/account', {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify(body)});
+    if (!r.json) return {ok:false, err: r.status >= 500 ? 'server' : 'net'};
+    if (!r.json.ok) return r.json;
+    TRK = {phone: String(body.phone||'').replace(/\D/g,'').replace(/^(?=[6-9]\d{9}$)/, '91')};
+    keepSession(r.json.session);
+    let st = (a === 'signup' && body.plan) ? await dbCall('tracker_save_plan', {p_inputs: body.plan, p_summary: planSummary(body.plan), p_flow: 15})
+                                           : await dbCall('tracker_state', {});
+    if (!st || !st.ok) st = {ok:true, name: body.name || '', logs: []};
+    return Object.assign({}, st, {ok:true, token: TRK.token, refresh: TRK.refresh, exp: TRK.exp, recoveryCode: r.json.recoveryCode, name: st.name || body.name || ''});
+  }
+  if (a === 'me') return dbCall('tracker_state', {});
+  if (a === 'log'){ const e = body.entry || {}; return dbCall('tracker_log', {p_id:e.id, p_day:e.date, p_kind:e.kind, p_cat:e.cat || null, p_amount:Math.round(+e.amount||0), p_note:e.note || null}); }
+  if (a === 'del') return dbCall('tracker_delete', {p_id: body.id});
+  if (a === 'sync') return dbCall('tracker_save_plan', {p_inputs: body.plan, p_summary: planSummary(body.plan), p_flow: 15});
+  if (a === 'launch') return dbCall('tracker_launch', {p_city: body.city, p_job: body.job, p_pay: body.pay});
+  if (a === 'logout'){
+    const tok = TRK && TRK.refresh ? TRK.token : null;
+    if (tok) await sbFetch('/auth/v1/logout', {method:'POST', headers:{apikey:SB_KEY, Authorization:'Bearer ' + tok}}).catch(()=>{});
+    return {ok:true};
+  }
+  return {ok:false, err:'unknown_action'};
+}
+function planSnapshot(){
+  const p = plans();
+  return Object.assign(JSON.parse(JSON.stringify(S)), {summary:{salary:S.salary, emi:totEMI(), expenses:totExp(), stand:standState(), saving:monthlySave(),
+    emiFreePlan: p ? dateIn(p.both.months,p.both.capped) : ''}});
+}
+function applyServer(r){
+  if (!r || !r.ok) return;
+  const pending = queue().map(q=>q.entry);
+  const logs = r.logs || [];
+  TD = {name:r.name, today:r.today, streak:r.streak, savedMonth:r.savedMonth, savedTotal:r.savedTotal, daysLogged:r.daysLogged,
+        qualified:r.qualified, qualifiedMonth:r.qualifiedMonth, launchDone:r.launchDone,
+        logs: logs.concat(pending.filter(p=>!logs.some(l=>l.id===p.id)))};
+  // New phone: bring back the plan they made before
+  if (r.plan && r.plan.v===15 && !S.salary){ S = Object.assign(fresh(), migrate(r.plan)); delete S.summary; S.at = SCREENS.indexOf('body_mind'); S.planSent = true; save(); }
+  trkSaveLocal();
+}
+
+/* ---------- join (create account / login) ---------- */
+function renderJoin(){
+  if (!$('#jName').value) $('#jName').value = LEAD.name || '';
+  if (!$('#jPhone').value) $('#jPhone').value = (LEAD.phone||'').replace(/^91/,'');
+  setJoinMode(joinMode);
+}
+function setJoinMode(m){
+  joinMode = m;
+  $('#jNameF').hidden = m!=='signup';
+  $('#jOffer').hidden = m!=='signup';
+  $('#jCodeF').hidden = m!=='recover';
+  $('#jForgot').hidden = m!=='login';
+  $('#jNote').hidden = m!=='signup';
+  $('#jTitle').textContent = m==='login' ? 'Welcome back' : m==='recover' ? 'Pudhu password' : 'Daily-a track pannunga';
+  $('#jPassL').textContent = m==='recover' ? 'New password (6+ letters/numbers)' : 'Password (6+ letters/numbers)';
+  $('#jSwitch').textContent = m==='signup' ? 'Already account irukka? Login' : 'Pudhusa? Account create pannunga';
+  $('#jPass').setAttribute('autocomplete', m==='login' ? 'current-password' : 'new-password');
+  $('#joinErr').textContent = '';
+  NEXT_LABEL.join = m==='login' ? 'Login' : m==='recover' ? 'Set new password' : 'Create my tracker';
+  if (SCREENS[cur]==='join') $('#next').textContent = NEXT_LABEL.join;
+}
+$('#jSwitch').addEventListener('click', ()=>setJoinMode(joinMode==='signup'?'login':'signup'));
+$('#jForgot').addEventListener('click', ()=>{ setJoinMode('recover'); track('trk_forgot_open'); });
+$('#jShow').addEventListener('click', ()=>{ const p=$('#jPass'); const s = p.type==='password'; p.type = s?'text':'password'; $('#jShow').textContent = s?'Hide':'Show'; });
+$('#jLater').addEventListener('click', ()=>{ track('trk_later'); go(SCREENS.indexOf('pdf')); });
+const JOIN_ERR = {phone:'10-digit WhatsApp number podunga.', password:'Password kuraindhadhu 6 letters/numbers venum.', name:'Unga peyar podunga.',
+  exists:'Indha number-ku already account irukku. "Login" tap pannunga.', no_account:'Indha number-ku account illa. "Create account" tap pannunga.',
+  wrong:'Password thappu.', bad_code:'Recovery code thappu.', reset:'Password reset aagirukku. "Create account" tap panni pudhu password podunga.', busy:'Server busy. 1 nimisham kazhichu try pannunga.',
+  server:'Server-la problem. Konjam neram kazhichu try pannunga.', net:'Internet illa pola. Check panni thirumba try pannunga.'};
+async function submitJoin(){
+  if (joinMode==='signup' && !unlocked()){ track('trk_signup_blocked'); go(SCREENS.indexOf('paywall')); return; }   // [v16] new tracker accounts come with the ₹99 plan
+  const btn = $('#next'); if (btn.dataset.busy) return;
+  let ph = $('#jPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+  const pw = $('#jPass').value, name = $('#jName').value.trim();
+  if (!/^[6-9]\d{9}$/.test(ph)){ $('#joinErr').textContent = JOIN_ERR.phone; return; }
+  if (joinMode==='signup' && name.length<2){ $('#joinErr').textContent = JOIN_ERR.name; return; }
+  const code = $('#jCode').value.replace(/\D/g,'');
+  if (joinMode==='recover' && code.length!==6){ $('#joinErr').textContent = '6-digit recovery code podunga. Code illana Noor-ku WhatsApp pannunga.'; return; }
+  if (pw.length<6){ $('#joinErr').textContent = JOIN_ERR.password; return; }
+  btn.dataset.busy = '1'; btn.disabled = true; btn.textContent = joinMode==='login' ? 'Logging in…' : 'Creating…'; $('#joinErr').textContent = '';
+  let r;
+  try{
+    r = await api(joinMode==='login' ? {action:'login', phone:ph, password:pw}
+                : joinMode==='recover' ? {action:'recover', phone:ph, code, password:pw}
+                                      : {action:'signup', phone:ph, name, password:pw, leadId:LEAD_ID, plan: S.salary ? planSnapshot() : null});
+  }catch(e){ r = {ok:false, err:'net'}; }
+  delete btn.dataset.busy; btn.disabled = false; btn.textContent = NEXT_LABEL.join;
+  if (!r || !r.ok){
+    let msg = JOIN_ERR[r && r.err] || JOIN_ERR.server;
+    if (r && (r.err==='wrong' || r.err==='bad_code') && r.left) msg += ` Innum ${r.left} try.`;
+    if (r && r.err==='bad_code') msg += ' Code-um illana Noor-ku WhatsApp pannunga.';
+    if (r && r.err==='locked') msg = `Romba wrong tries. ${r.mins||30} nimisham kazhichu try pannunga. Password marandhaa Noor-ku WhatsApp pannunga.`;
+    $('#joinErr').textContent = msg;
+    track(joinMode==='login'?'trk_login':joinMode==='recover'?'trk_recover':'trk_signup', {result:(r&&r.err)||'error'});
+    return;
+  }
+  $('#jPass').value = ''; $('#jCode').value = '';
+  TRK = {phone:'91'+ph, token:r.token, refresh:r.refresh, exp:r.exp, name:r.name}; trkSaveLocal();
+  if (!LEAD.phone){ LEAD = {name:r.name, phone:'91'+ph}; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
+  applyServer(r);
+  track(joinMode==='login'?'trk_login':joinMode==='recover'?'trk_recover':'trk_signup', {result:'ok'});
+  if (joinMode==='signup') sendRow({event:'tracker_signup', name:r.name, phone:'91'+ph, item:'Created daily tracker account'});
+  joinMode = 'signup';
+  go(SCREENS.indexOf('tracker'));
+  if (r.recoveryCode) showCode(r.recoveryCode);
+}
+
+function showCode(c){
+  $('#recCode').textContent = c; $('#recModal').classList.add('on'); $('#recOk').focus();
+  track('trk_code_shown');
+}
+$('#recOk').addEventListener('click', ()=>{ $('#recModal').classList.remove('on'); $('#recCode').textContent = ''; track('trk_code_ack'); });
+$('#recCopy').addEventListener('click', async ()=>{ let ok=false; try{ await navigator.clipboard.writeText($('#recCode').textContent); ok=true; }catch(e){} $('#recCopy').textContent = ok ? 'Copied' : 'Note it down'; });
+
+/* ---------- [v16.4] health feedback ----------
+   After every "I saved", show what that habit did for body, mind and money. Honest counts and public-health
+   facts with their source, never a made-up "% healthier". How many (cigarettes, cups…) is kept inside the
+   category text ("Skipped Smoking ×3") because the tracker server stores only category, amount and note. */
+const HB_UNIT = {smoke:['cigarette','cigarettes'], drink:['night','nights'], tea:['cup','cups'], food:['order','orders'], quick:['order','orders'], ott:['app','apps'], movie:['time','times'], shop:['buy','buys']};
+const HB_ASK = {smoke:'Ethana cigarettes skip panneenga?', drink:'Ethana thadava skip?', tea:'Ethana cups?', food:'Ethana orders?', quick:'Ethana orders?', ott:'Ethana apps cancel?', movie:'Ethana thadava?', shop:'Ethana things vaangala?'};
+const EXTRA_KEY = {'Tea skip':'tea', 'Walked, no auto':'walk', 'Cooked at home':'cook'};
+function catInfo(cat){
+  const m = /^(.*?)(?: ×(\d+))?$/.exec(String(cat||'')), base = m[1], q = Math.max(1, +(m[2]||1));
+  if (EXTRA_KEY[base]) return {key:EXTRA_KEY[base], q, base};
+  const sk = /^Skipped (.+)$/.exec(base);
+  if (sk){ const h = HABITS.find(x=>x.n===sk[1]) || (S.otherName===sk[1] ? HB.other : null); if (h) return {key:h.id, q, base}; }
+  return {key:'', q, base};
+}
+const plural = (q, u) => q + ' ' + (u ? (q===1 ? u[0] : u[1]) : '');
+function hrs(mins){ return mins >= 60 ? (Math.round(mins/6)/10) + ' mani neram' : mins + ' nimisham'; }
+// this month's quantity per key (or this week, for walks)
+function monthQty(key){
+  const m = istDay(0).slice(0,7), wk = istDay(-6);
+  return myLogs().filter(l=>l.kind==='save' && (key==='walk' ? l.date>=wk : String(l.date).slice(0,7)===m))
+    .reduce((a,l)=>{ const c = catInfo(l.cat); return a + (c.key===key ? c.q : 0); }, 0);
+}
+function bodyLines(key, q, Q){
+  switch(key){
+    case 'smoke': return [
+      ['🫁', `Indha maasam ${Q} cigarettes skip. Sumaar ${hrs(Q*20)} life thirumba kedachirukku (oru cigarette ≈ 20 nimisham, UCL research).`],
+      ['🚶', 'Kuraikka kuraikka, sila vaarathula moochu easy aagum, stairs-la kammi moochu vaangum.'],
+      ['❤️', 'Full-a niruthuna: 20 nimisham-la heart rate normal aagum, 12 mani neram-la blood-la carbon monoxide normal, 2–12 vaaram-la lungs better (WHO).']];
+    case 'drink': return [
+      ['😴', 'Inniku thookkam deep-a irukkum. Kaalai fresh-a ezhundhirupeenga.'],
+      ['🫀', `Indha maasam ${plural(Q, HB_UNIT.drink)} without drinks: liver-ku rest days.`],
+      ['🏠', 'Late-night sandai kammi, veetla amaidhi.']];
+    case 'tea': return [
+      ['🥄', `Sumaar ${q*2} spoon sugar kammi (veliya tea / coffee oru cup ≈ 2 spoon, estimate).`],
+      ['⚡', `Indha maasam ${plural(Q, HB_UNIT.tea)}: ${Q*2} spoon sugar kammi. Afternoon tiredness kammi.`]];
+    case 'food': case 'cook': return [
+      ['🍲', 'Veetu saapadu: oil, salt, sugar kammi. Weight control easy.'],
+      ['📉', key==='food' ? `Indha maasam ${plural(Q, HB_UNIT.food)} skip.` : `Indha maasam ${Q} thadava veetla samaichu saapteenga.`]];
+    case 'quick': return [['🍪', 'Impulse snacks kammi, veetla junk kammi.']];
+    case 'ott': return [['🌙', 'Late-night screen kammi. Seekiram thoongi, kaalai sharp-a irupeenga.']];
+    case 'movie': return [['👨‍👩‍👧', 'Veetla family time, kammi selavula.']];
+    case 'shop': return [['🧺', 'Plan panna idathukku dhaan panam pogudhu. Regret illa, clutter illa.']];
+    case 'walk': return [['🚶', `Sumaar 15 nimisham nadai (estimate). WHO solradhu vaaram 150 nimisham. Indha vaaram ≈ ${Math.min(150, Q*15)}/150.`]];
+    default: return [];
+  }
+}
+function moneyLine(monthTotal){
+  const e = totEMI(); if (!(e > 0)) return `Indha maasam ${inr(monthTotal)} save. Adhu unga emergency fund-ku.`;
+  const d = monthTotal / (e/30);
+  return d >= 1 ? `Indha maasam ${inr(monthTotal)} save = unga EMI-la ${Math.floor(d)} naal. EMI balance-ku podunga, EMI-free date munnadi varum.`
+                : `Indha maasam ${inr(monthTotal)} save. Innum ${inr(Math.ceil(e/30 - monthTotal))} save panna, unga EMI-la oru full naal cover aagum.`;
+}
+function mindLine(st){
+  return st >= 2 ? `${st} naal thodarndhu plan-a follow panreenga. Panam unga control-la, worry kammi.` : 'Oru chinna step dhaan, aana panam unga control-ku varudhu. Adhu dhaan manasukku nimmadhi.';
+}
+function showHealth(entry){
+  const box = $('#tHealth'), c = catInfo(entry.cat), Q = c.key ? monthQty(c.key) : 0;
+  const head = c.key && HB_UNIT[c.key] ? `${plural(c.q, HB_UNIT[c.key])} kammi` + (c.key==='smoke' ? ` · ≈ ${hrs(c.q*20)} life thirumba` : '')
+             : c.key==='walk' ? 'Nadandhu poneenga' : c.key==='cook' ? 'Veetla samaichu saapteenga' : `${inr(entry.amount)} save`;
+  const lines = bodyLines(c.key, c.q, Q).concat([['🧠', mindLine(localStreak())], ['₹', moneyLine(monthSaved())]]);
+  box.innerHTML = `<b>${esc(head)}</b><ul>${lines.map(([i,t])=>`<li data-i="${i}">${esc(t)}</li>`).join('')}</ul><p class="note">General health information, not medical advice.</p>`;
+  box.hidden = false; pop(box);
+  track('trk_health_shown', {habit:c.key||'other', qty:c.q});
+}
+function renderWell(){
+  const keys = ['smoke','drink','tea','food','cook','quick','ott','movie','shop','walk'], rows = [];
+  for (const k of keys){
+    const Q = monthQty(k); if (!Q) continue;
+    const txt = k==='smoke' ? [`Cigarettes skip`, `${Q} · ≈ ${hrs(Q*20)} life`] : k==='drink' ? ['Nights without drinks', String(Q)]
+      : k==='tea' ? ['Tea / coffee outside skip', `${Q} cups · ${Q*2} spoon sugar kammi`] : k==='food' ? ['Swiggy / Zomato skip', plural(Q, HB_UNIT.food)]
+      : k==='cook' ? ['Veetla samaichadhu', `${Q} thadava`] : k==='walk' ? ['Nadai (indha vaaram)', `≈ ${Math.min(150,Q*15)} / 150 nimisham`]
+      : [HB[k] ? HB[k].n + ' skip' : k, HB_UNIT[k] ? plural(Q, HB_UNIT[k]) : String(Q)];
+    rows.push(`<div class="row"><span>${esc(txt[0])}</span><b>${esc(txt[1])}</b></div>`);
+  }
+  const ms = monthSaved(), st = localStreak();
+  if (ms > 0) rows.push(`<div class="row"><span>Panam</span><b>${esc(inr(ms))} save</b></div>`);
+  if (st > 0) rows.push(`<div class="row"><span>Manasu</span><b>${st} naal plan follow</b></div>`);
+  $('#tWell').hidden = !rows.length; $('#tWellList').innerHTML = rows.join('');
+}
+let ENTRY_UNIT = 0;
+function setQtyFor(chip){
+  const c = catInfo(chip ? chip.dataset.tcat : ''), row = $('#tQtyRow');
+  ENTRY_UNIT = chip ? +chip.dataset.ta || 0 : 0;
+  const on = entryKind==='save' && !!HB_UNIT[c.key] && ENTRY_UNIT > 0;
+  row.hidden = !on; $('#tQty').textContent = '1';
+  if (on) $('#tQtyL').textContent = HB_ASK[c.key] || 'Ethana?';
+}
+function bumpQty(d){
+  const q = Math.max(1, Math.min(99, (+$('#tQty').textContent||1) + d)); $('#tQty').textContent = String(q);
+  if (ENTRY_UNIT) $('#tAmt').value = ENTRY_UNIT * q;
+}
+$('#tQm').addEventListener('click', ()=>bumpQty(-1));
+$('#tQp').addEventListener('click', ()=>bumpQty(1));
+let CELEB = null;   // the "Semma!" line stays a few seconds, even when the server reply re-draws the tracker
+
+/* ---------- tracker home ---------- */
+const FLAME = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5 4.5 5.6 4.5 10.2A4.5 4.5 0 0 1 12 17a4.5 4.5 0 0 1-4.5-4.6c0-2 .9-3.4 2-4.5.2 1.6 1 2.6 2.1 3.1C11.2 8.5 11 5.3 12 2z" fill="currentColor"/><path d="M12 22c4 0 7-2.9 7-7 0-2.5-1.1-4.6-2.6-6.2.1 3.6-2 6.2-4.4 6.2-1.5 0-2.6-.8-3.1-2.2C7.6 14 7 15.2 7 16.5 7 19.6 9.2 22 12 22z" fill="currentColor" opacity=".55"/></svg>';
+function myLogs(){ return (TD && TD.logs) || []; }
+function sumDay(day, kind){ return myLogs().filter(l=>l.date===day && l.kind===kind).reduce((a,l)=>a+(+l.amount||0),0); }
+function localStreak(){
+  const fire = {}; myLogs().forEach(l=>{ if (l.kind==='save') fire[l.date] = (fire[l.date]||0) + (+l.amount||0); });
+  let n = 0, d = (fire[istDay(0)]>=MIN_FIRE) ? 0 : -1;
+  while (fire[istDay(d)] >= MIN_FIRE){ n++; d--; }
+  return n;
+}
+function monthSaved(){ const m = istDay(0).slice(0,7); return myLogs().filter(l=>l.kind==='save' && String(l.date).slice(0,7)===m).reduce((a,l)=>a+(+l.amount||0),0); }
+function nudge(justSaved){
+  const h = new Date(Date.now()+5.5*3600e3).getUTCHours(), name = (TD&&TD.name)||LEAD.name||'', st = localStreak(), today = sumDay(istDay(0),'save');
+  const left = Math.max(0, SAVE_TARGET - monthSaved());
+  if (justSaved) return [`Semma ${name}! ${inr(justSaved)} unga pocket-la. Fire on.`, `${st} naal fire. Idhe maadhiri dhaan EMI balance kuraiyum.`, left ? `Innum ${inr(left)} save panna 50% off unlocked.` : '50% off unlocked. Fire-a anaiya vidaadheenga.'][Math.floor(Math.random()*3)];
+  if (TD && TD.qualified && today) return 'Inniku-um fire on. 50% off already unga kaila.';
+  if (today) return h<17 ? `Inniku ${inr(today)} save aachu. Evening-um oru chance irukku.` : `Inniku ${inr(today)} save. Naalaikku kaalai paappom.`;
+  if (h < 12) return `Kaalai vanakkam ${name}. Inniku oru chinna save podhum, fire on aagum.`;
+  if (h < 17) return st ? `${st} naal streak. Lunch-la oru Swiggy skip pannuna inga log pannunga.` : 'Lunch-la veliya saapadu skip pannuna, inga log pannunga.';
+  return st ? `Fire anaiya poguthu. ${st} naal streak-a kaapaathunga: oru ₹20 save kooda podhum.` : 'Inniku innum log pannala. Oru tea skip panniyaa? Adhu kooda save dhaan.';
+}
+function renderTracker(){
+  if (!hasSession()){ go(SCREENS.indexOf('join'), {replace:true}); return; }
+  const st = localStreak(), ms = monthSaved(), q = (TD && TD.qualified) || ms >= SAVE_TARGET;
+  $('#tStreak').textContent = st; $('#tFire').classList.toggle('off', !st);
+  $('#tStreakL').textContent = st===1 ? 'day on fire' : 'days on fire';
+  $('#tNudge').textContent = (CELEB && Date.now() < CELEB.until) ? CELEB.text : nudge();
+  renderWell();
+  $('#tMonth').textContent = inr(ms) + ' / ' + inr(SAVE_TARGET);
+  $('#tMeter').style.width = Math.min(100, ms/SAVE_TARGET*100) + '%';
+  $('#tOffer').innerHTML = q ? '<b>50% off unlocked.</b> Mentell app launch-la subscription paadhi vilai. Unga number-la save aagirukku.'
+    : `Indha maasam <b>${inr(SAVE_TARGET)}</b> save panni log pannunga, Mentell app launch-la subscription <b>50% off</b>. Innum ${inr(Math.max(0,SAVE_TARGET-ms))}.`;
+  $('#tSaved').textContent = inr(sumDay(istDay(0),'save')); $('#tSpent').textContent = inr(sumDay(istDay(0),'spend'));
+  let cells = '';
+  for (let d=-13; d<=0; d++){ const day = istDay(d), s = sumDay(day,'save'); cells += `<span class="day ${s>=MIN_FIRE?'lit':''}" title="${day}">${s>=MIN_FIRE?FLAME:''}<i>${+day.slice(8)}</i></span>`; }
+  $('#tDays').innerHTML = cells;
+  const recent = myLogs().slice().filter(l=>l.date>=istDay(-1)).reverse();
+  const pend = new Set(queue().map(x=>x.entry.id));
+  $('#tRecent').innerHTML = recent.length ? recent.map(l=>`<div class="row"><span>${l.kind==='save'?'Saved':'Spent'}: ${esc(l.cat||'Other')}${l.date===istDay(-1)?' <small class="small">(yesterday)</small>':''}${pend.has(l.id)?' <small class="small">(sending)</small>':''}</span><span class="row-r"><b class="${l.kind==='save'?'t-save':''}">${l.kind==='save'?'+':'−'} ${inr(l.amount)}</b><button type="button" class="x" data-tdel="${esc(l.id)}" aria-label="Delete entry">×</button></span></div>`).join('')
+    : '<p class="small">Inniku edhuvum log pannala. Mela tap pannunga.</p>';
+  $('#tLaunch').hidden = !!(TD && TD.launchDone);
+  $('#tSync').textContent = pend.size ? `${pend.size} entr${pend.size===1?'y':'ies'} waiting for internet` : '';
+  $('#tName').textContent = (TD&&TD.name) || TRK.name || '';
+}
+function chipsFor(kind){
+  if (kind==='save'){
+    const c = habitsOn().map(h=>{ const v=S.habits[h.id]; const per = h.other ? (Math.round((+v.b||0)/30/10)*10 || 50) : Math.round(+v.b||0); return ['Skipped ' + (h.other&&S.otherName?S.otherName:h.n), Math.max(per,10)]; });
+    return c.concat([['Tea skip',20],['Walked, no auto',50],['Cooked at home',200],['Other saving',100]]).slice(0,10);
+  }
+  return EXPENSES.slice(0,6).map(e=>[e.n, 0]).concat([['Food outside',0],['Shopping',0],['Other spend',0]]);
+}
+function openEntry(kind){
+  entryKind = kind;
+  $('#tHealth').hidden = true;
+  const box = $('#tEntry'); box.hidden = false; $('#tEntryH').textContent = kind==='save' ? 'Edhai save panneenga?' : 'Edhuku selavu panneenga?';
+  const chips = chipsFor(kind);
+  $('#tCats').innerHTML = chips.map(([n,a],i)=>`<button type="button" class="chip" data-tcat="${esc(n)}" data-ta="${a}" aria-pressed="${i===0}">${esc(n)}</button>`).join('');
+  $('#tAmt').value = chips[0] && chips[0][1] ? chips[0][1] : '';
+  setQtyFor(document.querySelector('[data-tcat]'));
+  $$('[data-tday]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.tday==='0')));
+  $('#tEntryErr').textContent = ''; $('#tNote').value = '';
+  $('#tSaveBtn').textContent = kind==='save' ? 'Save + fire' : 'Add spend';
+  $('#tSaveBtn').classList.toggle('green', kind==='save');
+  pop(box); box.scrollIntoView({behavior:reduced?'auto':'smooth', block:'center'});
+  track('trk_entry_open', {kind});
+}
+let flushing = false;
+async function flush(){
+  if (!TRACKER_URL || !hasSession() || flushing) return;
+  flushing = true;
+  try{
+    for (const item of queue()){
+      let r;
+      try{ r = await api(Object.assign({phone:TRK.phone, token:TRK.token}, item)); }catch(e){ track('trk_sync_fail'); break; }
+      if (r && r.err==='auth'){ flushing = false; logout(true); return; }
+      if (r && (r.err==='busy' || r.err==='server')) break;   // try again later
+      setQueue(queue().filter(x=>x.entry.id!==item.entry.id)); // sent, or refused for good (e.g. date too old)
+      if (r && r.ok) applyServer(r);
+      else if (r && r.err && TD){ TD.logs = TD.logs.filter(l=>l.id!==item.entry.id); trkSaveLocal(); }
+    }
+  } finally { flushing = false; }
+  if (SCREENS[cur]==='tracker') renderTracker();
+}
+async function addEntry(){
+  const amt = Math.round(+String($('#tAmt').value).replace(/[^\d.]/g,'')||0);
+  if (!(amt>0) || amt>100000){ $('#tEntryErr').textContent = '₹1 to ₹1,00,000 podunga.'; return; }
+  const chip = document.querySelector('[data-tcat][aria-pressed="true"]');
+  const dayBtn = document.querySelector('[data-tday][aria-pressed="true"]');
+  const dayOff = dayBtn ? +dayBtn.dataset.tday : 0;
+  const qty = $('#tQtyRow').hidden ? 1 : Math.max(1, +$('#tQty').textContent||1);
+  const entry = {id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), date:istDay(dayOff), kind:entryKind, cat:(chip?chip.dataset.tcat:'Other') + (qty>1 ? ' ×'+qty : ''), amount:amt, note:$('#tNote').value.trim().slice(0,80)};
+  const before = localStreak(), monthBefore = monthSaved();
+  TD = TD || {logs:[]}; TD.logs = (TD.logs||[]).concat([entry]); trkSaveLocal();
+  setQueue(queue().concat([{action:'log', entry}]));
+  $('#tEntry').hidden = true;
+  renderTracker();
+  if (entryKind==='save'){
+    CELEB = {text:nudge(amt), until:Date.now()+8000}; $('#tNudge').textContent = CELEB.text; celebrate(amt, localStreak() > before);
+    showHealth(entry);
+    if (monthSaved() >= SAVE_TARGET && monthBefore < SAVE_TARGET) track('trk_qualified');
+  }
+  track('trk_log', {kind:entryKind, day: dayOff ? 'yesterday' : 'today', streak: localStreak()});
+  flush();
+}
+function celebrate(amt, newDay){
+  const f = $('#tFire'), mo = M();
+  const plus = document.createElement('span'); plus.className = 'plus'; plus.textContent = '+' + inr(amt); f.parentElement.appendChild(plus);
+  if (mo && !reduced){
+    mo.animate(f, {scale:[1, 1.5, 1], rotate:[0,-8,8,0]}, {duration:.7});
+    mo.animate(plus, {y:[0,-60], opacity:[1,0]}, {duration:1.1, ease:'easeOut'}).finished.then(()=>plus.remove()).catch(()=>plus.remove());
+    if (newDay) mo.animate('#tStreak', {scale:[1,1.4,1]}, {duration:.6});
+  } else setTimeout(()=>plus.remove(), 1200);
+}
+document.addEventListener('click', async e=>{
+  const k = e.target.closest('[data-tkind]'); if (k){ openEntry(k.dataset.tkind); return; }
+  const c = e.target.closest('[data-tcat]'); if (c){ $$('[data-tcat]').forEach(x=>x.setAttribute('aria-pressed', String(x===c))); if (+c.dataset.ta) $('#tAmt').value = c.dataset.ta; setQtyFor(c); return; }
+  const d = e.target.closest('[data-tday]'); if (d){ $$('[data-tday]').forEach(x=>x.setAttribute('aria-pressed', String(x===d))); return; }
+  const del = e.target.closest('[data-tdel]');
+  if (del){
+    const id = del.dataset.tdel;
+    if (del.dataset.confirm!=='1'){ del.dataset.confirm='1'; del.textContent='Delete?'; setTimeout(()=>{ if(del.isConnected){ del.dataset.confirm=''; del.textContent='×'; } }, 3000); return; }
+    TD.logs = TD.logs.filter(l=>l.id!==id); trkSaveLocal();
+    const q = queue();
+    if (q.some(x=>x.entry && x.entry.id===id)) setQueue(q.filter(x=>x.entry.id!==id));
+    else { try{ const r = await api({action:'del', phone:TRK.phone, token:TRK.token, id}); if (r && r.ok) applyServer(r); }catch(err){} }
+    renderTracker(); track('trk_delete'); return;
+  }
+  const pay = e.target.closest('[data-tpay]'); if (pay){ $$('[data-tpay]').forEach(x=>x.setAttribute('aria-pressed', String(x===pay))); return; }
+  const job = e.target.closest('[data-tjob]'); if (job){ $$('[data-tjob]').forEach(x=>x.setAttribute('aria-pressed', String(x===job))); return; }
+});
+$('#tSaveBtn').addEventListener('click', addEntry);
+$('#tCancel').addEventListener('click', ()=>{ $('#tEntry').hidden = true; });
+$('#tAmt').addEventListener('keydown', e=>{ if (e.key==='Enter') addEntry(); });
+$('#tLaunchBtn').addEventListener('click', async ()=>{
+  const city = $('#tCity').value.trim(), jobB = document.querySelector('[data-tjob][aria-pressed="true"]'), payB = document.querySelector('[data-tpay][aria-pressed="true"]');
+  if (city.length<2 || !jobB || !payB){ $('#tLaunchErr').textContent = 'Ooru, velai, app-ku pay pannuveengala: moonum select pannunga.'; return; }
+  $('#tLaunchBtn').disabled = true; $('#tLaunchErr').textContent = '';
+  let r; try{ r = await api({action:'launch', phone:TRK.phone, token:TRK.token, city, job:jobB.dataset.tjob, pay:payB.dataset.tpay}); }catch(e){ r = null; }
+  $('#tLaunchBtn').disabled = false;
+  if (!r || !r.ok){ $('#tLaunchErr').textContent = JOIN_ERR.net; return; }
+  applyServer(r); track('trk_launch_submit', {pay:payB.dataset.tpay, job:jobB.dataset.tjob});
+  sendRow({event:'launch_interest', name:TRK.name||LEAD.name, phone:TRK.phone, location:city, item:`App launch: ${jobB.dataset.tjob}, would pay: ${payB.dataset.tpay}`});
+  $('#tLaunchDone').hidden = false; $('#tLaunch').hidden = true;
+});
+function logout(silent){
+  if (!silent && TRK){ api({action:'logout', phone:TRK.phone, token:TRK.token}).catch(()=>{}); }
+  TRK = null; TD = null; try{ localStorage.removeItem(TRK_KEY); localStorage.removeItem(TRK_DATA); if (!silent) localStorage.removeItem(TRK_Q); }catch(e){}
+  track('trk_logout', {silent:!!silent}); joinMode = 'login'; go(SCREENS.indexOf('join'), {replace:true});
+}
+$('#tLogout').addEventListener('click', ()=>{
+  const b = $('#tLogout');
+  if (b.dataset.c!=='1'){ b.dataset.c='1'; b.textContent = queue().length ? 'Some entries not sent yet. Tap again to logout anyway' : 'Tap again to logout'; setTimeout(()=>{ b.dataset.c=''; b.textContent='Logout'; }, 4000); return; }
+  logout(false);
+});
+$('#tPdf').addEventListener('click', ()=>{ track('cta_click', {location:'tracker_pdf'}); go(SCREENS.indexOf('pdf')); });
+$('#tPlan').addEventListener('click', ()=>{ track('cta_click', {location:'tracker_plan'}); go(SCREENS.indexOf('dashboard')); });
+$('#tInstall').addEventListener('click', ()=>{ $('#tInstallSteps').hidden = !$('#tInstallSteps').hidden; track('trk_install_tip', {platform:DEVICE}); });
+$('#loginLink').addEventListener('click', ()=>{ joinMode='login'; track('cta_click', {location:'welcome_login'}); go(SCREENS.indexOf('join')); });
+window.addEventListener('online', flush);
+document.addEventListener('visibilitychange', ()=>{ if (!document.hidden && SCREENS[cur]==='tracker'){ renderTracker(); flush(); } });
+async function refreshMe(){
+  if (!TRACKER_URL || !hasSession()) return;
+  await flush();
+  if (!hasSession()) return;
+  try{ const r = await api({action:'me', phone:TRK.phone, token:TRK.token}); if (r && r.err==='auth') return logout(true); applyServer(r); }catch(e){}
+  if (SCREENS[cur]==='tracker') renderTracker();
+}
+function syncPlan(){ if (TRACKER_URL && hasSession()) api({action:'sync', phone:TRK.phone, token:TRK.token, plan:planSnapshot()}).catch(()=>{}); }
+
+/* ================= navigation ================= */
+const RENDER = {emis:renderEmis, salary:renderSalary, snap_emi:renderSnap, lead_form:renderLead, expenses:renderExpenses, stand:renderStand, paywall:renderPaywall,
+  habits:renderHabits, habit_amounts:renderAmounts, cut_choice:renderCut, yt_gate:renderYt, dashboard:()=>{ renderDash(); sendPlan(); syncPlan(); },
+  extra_emi:renderExtra, body_mind:renderBody, join:renderJoin, tracker:()=>{ renderTracker(); refreshMe(); }, pdf:renderPdf};
+
+$('#next').addEventListener('click', ()=>{
+  const name = SCREENS[cur];
+  if ($('#next').disabled) return;
+  if (name==='welcome'){ track('calc_start'); }
+  if (name==='emis' && !S.noEmi && !validEmis().length){ $('#emiErr').textContent = 'Oru EMI add pannunga, illa "Enakku EMI illa" tap pannunga.'; return; }
+  if (name==='lead_form' && !submitLead()) return;
+  if (name==='join'){ submitJoin(); return; }
+  if (name==='tracker'){ go(SCREENS.indexOf('pdf')); return; }
+  if (name==='yt_gate' && !S.yt){
+    $('#ytErr').textContent = 'Mudhalla YouTube "Subscribe" tap pannunga. Adhu dhaan engaloda ore request.';
+    const b = $('#ytBtn'); const mo = M(); if (mo && !reduced) mo.animate(b, {x:[0,-8,8,-6,6,0]}, {duration:.4});
+    track('yt_gate_block'); return;
+  }
+  go(cur+1);
+});
+function prevStep(){ let i = cur-1; while (i>0 && skip(SCREENS[i])) i--; return Math.max(0, i); }
+$('#back').addEventListener('click', ()=>{
+  track('mm_back', {from:SCREENS[cur], method:'button'});
+  const p = prevStep();
+  if (history.state && history.state.p === p) history.back(); else go(p, {replace:true});   // [v16.4] after "Continue" jumped ahead, Back goes one step, not to the first screen
+});
+$('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; const yt = S.yt, paid = S.paid, pend = S.pendingPay; S = fresh(); S.yt = yt; S.paid = paid; S.pendingPay = pend; save(); track('mm_restart'); go(0, {replace:true}); $('#resume').hidden = true; $('#next').textContent = 'Start'; });
+
+/* boot */
+(function boot(){
+  const target = (location.hash||'').slice(1);
+  const ti = SCREENS.indexOf(target);
+  const canResume = S.at > 0;
+  if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
+  if (TRACKER_URL) $('#loginLink').hidden = false;
+  if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
+  recheckPaid();   // [v16] refund / expiry since the last visit
+  go(0, {replace:true});
+  // [v16.2] back from the Payment Page: straight to the paywall, which keeps checking that order
+  if (PAGE_URL && S.pendingPay && !paidOk() && Date.now() - S.pendingPay.t < 864e5 && !hasSession()){ go(SCREENS.indexOf('paywall'), {replace:true}); return; }
+  // [v16.3] the Payment Page sent them back to a browser that didn't start the payment (Instagram → Chrome): ask number + email
+  if (PAGE_URL && target==='paywall' && !paidOk() && !hasSession()) openRestore('return');
+  // Tracker members open straight on their tracker
+  if (TRACKER_URL && hasSession() && (ti<0 || target==='tracker')){ go(SCREENS.indexOf('tracker'), {replace:true}); flush(); return; }
+  if (canResume){
+    // "Continue" jumps to where they stopped (or the hand-off target)
+    const btn = $('#next');
+    const jump = (ti>0 && ti<=S.at) ? ti : S.at;
+    btn.addEventListener('click', function once(ev){
+      if (SCREENS[cur]!=='welcome' || !S.at) return;
+      ev.stopImmediatePropagation(); track('mm_resume', {to:SCREENS[jump]}); go(jump);
+    }, {capture:true});
+    if (sessionStorage.getItem('mm_handoff_seen')==='1' && ti>0) go(jump);
+  }
+})();
+})();
+
+</script>
+</body>
+</html>

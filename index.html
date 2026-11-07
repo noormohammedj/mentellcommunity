@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- Mentell config + analytics layer: must load before the Google tag -->
-<script src="mentell-config.js"></script>
+<script src="/mentell-config.js"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
 <script>
@@ -13,7 +13,11 @@
 </script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#000000">
 <title>Mentell — Body, Mind &amp; Money. One Place.</title>
 <meta name="description" content="Free wellness tools for Tamil Nadu: BMR + 21-day South Indian diet plan, 2-minute burnout test, and a salary leak calculator. No signup. Then 90-day coaching if you want it."/>
 <link rel="canonical" href="https://mentell.co.in/"/>
@@ -29,8 +33,6 @@
 <meta property="og:image:alt" content="Mentell — Body. Mind. Money. Free tools for Tamil Nadu."/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://mentell.co.in/og-home.png"/>
-<meta name="theme-color" content="#7C3AED"/>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -40,25 +42,25 @@ img{display:block;max-width:100%}
 a{text-decoration:none;color:inherit}
 
 :root{
-  --navy:#FBFAFE;
-  --navy-2:#F1ECFB;
-  --blue:#7C3AED;
-  --blue-dark:#6425C4;
-  --blue-light:rgba(124,58,237,.10);
-  --blue-mid:#8B5CF6;
-  --teal:#4F46E5;
-  --slate:#F5F3FB;
+  --navy:#ffffff;
+  --navy-2:#f2f2f2;
+  --blue:#000000;
+  --blue-dark:#000000;
+  --blue-light:rgba(0,0,0,.10);
+  --blue-mid:#000000;
+  --teal:#000000;
+  --slate:#f2f2f2;
   --white:#FFFFFF;
-  --text:#1A1330;
+  --text:#000000;
   --text-muted:#635F78;
   --text-light:#9793AA;
   --border:rgba(26,19,48,.10);
   --green:#16A34A;
-  --accent-gradient:linear-gradient(90deg,#7C3AED,#4F46E5,#C026D3);
+  --accent-gradient:#000000;
   --radius-sm:8px;
   --radius:14px;
   --radius-lg:20px;
-  --shadow-lg:0 20px 60px rgba(80,40,150,.16);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.16);
 }
 .grad-text{background-image:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
 
@@ -80,8 +82,8 @@ a{text-decoration:none;color:inherit}
 
 /* HERO — the ONLY choice on this page */
 .home-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 5vw 80px;position:relative;overflow:hidden}
-.home-hero::after{content:'';position:absolute;top:-220px;right:-220px;width:700px;height:700px;background:radial-gradient(circle,rgba(124,58,237,.16) 0%,transparent 65%);pointer-events:none}
-.home-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--teal);font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.375rem 1rem;border-radius:100px;margin-bottom:1.75rem;position:relative;z-index:1}
+.home-hero::after{content:'';position:absolute;top:-220px;right:-220px;width:700px;height:700px;background:none;pointer-events:none}
+.home-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.15);border:1px solid rgba(0,0,0,.3);color:var(--teal);font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.375rem 1rem;border-radius:100px;margin-bottom:1.75rem;position:relative;z-index:1}
 .home-eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 2s infinite}
 .home-hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:800;color:var(--text);line-height:1.12;letter-spacing:-.03em;margin-bottom:1rem;max-width:900px;position:relative;z-index:1}
 .home-hero p{font-size:1.05rem;color:var(--text-muted);max-width:520px;font-weight:300;margin-bottom:3rem;position:relative;z-index:1}
@@ -112,7 +114,7 @@ a{text-decoration:none;color:inherit}
 .pillar-for li::before{content:'✓';position:absolute;left:0;top:0;color:var(--blue);font-weight:800}
 .pillar-btn{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:.5rem;background:var(--blue);color:#fff;font-weight:700;font-size:.92rem;padding:.8rem 1rem;border-radius:100px;transition:background .2s ease,box-shadow .2s ease}
 .pillar-btn .arrow{display:inline-block;transition:transform .25s ease}
-.pillar-card:hover .pillar-btn{background:var(--blue-dark);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.pillar-card:hover .pillar-btn{background:var(--blue-dark);box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .pillar-card:hover .pillar-btn .arrow{transform:translateX(4px)}
 .pillar-card:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 /* HOW IT WORKS */
@@ -160,11 +162,15 @@ footer p{font-size:.85rem;color:var(--text-light)}
  {"@type":"WebSite","@id":"https://mentell.co.in/#website","url":"https://mentell.co.in/","name":"Mentell","inLanguage":"en-IN","publisher":{"@id":"https://mentell.co.in/#org"}}
 ]}
 </script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/mentell-mono.css?v=18">
 </head>
 <body>
+<header class="x-top"><div class="x-top-in"><a class="x-brand" href="/">mentell</a><nav aria-label="Mentell"><a href="/financial/">Money</a><a href="/physical/">Body</a><a href="/mental/">Mind</a><a href="/business/">Business</a><a href="/coaching/">Noor kooda</a></nav><a class="x-btn" href="/financial/">Free plan</a></div></header>
+
 <!-- NAV -->
 <nav class="nav">
-  <a href="index.html" class="nav-logo" style="text-decoration:none">
+  <a href="/" class="nav-logo" style="text-decoration:none">
     <div class="nav-logo-badge">m</div>
     mentell<span style="color:var(--blue)">.</span>community
   </a>
@@ -172,10 +178,10 @@ footer p{font-size:.85rem;color:var(--text-light)}
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links" id="navLinks">
-    <li><a href="physical.html">Physical</a></li>
-    <li><a href="mental.html">Mental</a></li>
-    <li><a href="financial.html">Financial</a></li>
-    <li><a href="about.html">About</a></li>
+    <li><a href="/physical/">Physical</a></li>
+    <li><a href="/mental/">Mental</a></li>
+    <li><a href="/financial/">Financial</a></li>
+    <li><a href="/about/">About</a></li>
     <li><a href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" class="nav-cta">Get Started →</a></li>
   </ul>
 </nav>
@@ -187,7 +193,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
   <p>Pick the one problem bothering you most right now. Tap that card, get your free result in 2 minutes.</p>
 
   <div class="pillar-grid">
-    <a href="physical.html" class="pillar-card" data-pillar="physical">
+    <a href="/physical/" class="pillar-card" data-pillar="physical">
       <div class="pillar-top">
         <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M4 9l3-3 3 3-3 3-3-3zm10 10l3-3 3 3-3 3-3-3zM3 17l4 4M17 3l4 4"/></svg></div>
         <span class="pillar-chip">Free · 1 min</span>
@@ -202,7 +208,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
       </ul>
       <div class="pillar-btn">Get my free diet plan <span class="arrow">→</span></div>
     </a>
-    <a href="mental.html" class="pillar-card" data-pillar="mental">
+    <a href="/mental/" class="pillar-card" data-pillar="mental">
       <div class="pillar-top">
         <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V16h8v-1.3A7 7 0 0012 2z"/></svg></div>
         <span class="pillar-chip">Free · 2 min</span>
@@ -217,7 +223,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
       </ul>
       <div class="pillar-btn">Check my burnout score <span class="arrow">→</span></div>
     </a>
-    <a href="financial.html" class="pillar-card" data-pillar="financial">
+    <a href="/financial/" class="pillar-card" data-pillar="financial">
       <div class="pillar-top">
         <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h11l4 4v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M16 12a2 2 0 100 .01"/></svg></div>
         <span class="pillar-chip">Free · 2 min</span>
@@ -244,12 +250,23 @@ footer p{font-size:.85rem;color:var(--text-light)}
 </section>
 
 <!-- FOOTER -->
+<footer class="x-foot"><div class="x-foot-in">
+  <a class="x-brand" href="/">mentell</a>
+  <div class="x-cols">
+    <div><b>Money</b><a href="/financial/">EMI-free plan</a><a href="/class/">Live class</a></div>
+    <div><b>Body · Mind</b><a href="/physical/">21-day diet plan</a><a href="/mental/">Burnout check</a></div>
+    <div><b>Business</b><a href="/business/">Leak report</a><a href="/coaching/">3 months with Noor</a></div>
+    <div><b>Community</b><a href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank" rel="noopener">WhatsApp group</a><a href="https://www.instagram.com/mentell.community/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/@Noormohammed.j" target="_blank" rel="noopener">YouTube</a></div>
+    <div><b>Mentell</b><a href="/about/">About Noor</a><a href="https://wa.me/919629843122" target="_blank" rel="noopener">WhatsApp Noor</a></div>
+  </div>
+  <p class="x-legal">© 2026 Mentell, Tamil Nadu. Estimates only, not financial or medical advice.</p>
+</div></footer>
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">mentell<span>.</span>community</div>
     <p>© 2026 Mentell Community. Reconstruct Body. Rebuild Mind.</p>
     <div class="footer-links">
-      <a href="about.html">About</a>
+      <a href="/about/">About</a>
       <a href="https://www.instagram.com/mentell.community/" target="_blank">Instagram</a>
       <a href="https://chat.whatsapp.com/Jqjs0nPE7RY7Rt5lJ3nIKo" target="_blank">WhatsApp</a>
       <a href="https://www.youtube.com/@Noormohammed.j" target="_blank">YouTube</a>

@@ -14,9 +14,8 @@ window.MENTELL_CONFIG = {
      order). The secret key and Razorpay secrets live only in Supabase, never here. */
   supabaseUrl: 'https://hghrmxpvmfxviwnmnskm.supabase.co',
   supabasePublishableKey: 'sb_publishable_eeEM_dV1x6TRXvkefUxdJQ_lxzBZ__x',
-  /* Leads go to the database AND the Sheet while we compare (v16 launch + 2 weeks).
-     Set to false to stop sending to the Sheet; the database keeps getting every lead. */
-  sheetLeads: true,
+  /* [v19, 7 Nov 2026] Leads go only to the database (Supabase). true = also copy them to the old Sheet. */
+  sheetLeads: false,
   /* ₹99 plan on financial.html: paid through Razorpay Checkout (create-order / verify-payment
      Edge Functions). false = no paywall, the whole plan stays free as in v15. */
   paywall: true,
@@ -27,7 +26,7 @@ window.MENTELL_CONFIG = {
  
   /* Razorpay Payment Links (public links, not keys) */
   loanPlanPaymentLink: 'https://rzp.io/rzp/bLStKNl3',      // ₹99 Mentell plan: Razorpay Payment Page "Close EMI soon with plan" (31 Oct 2026)
-  coachingPaymentLink: 'https://rzp.io/rzp/O6mVchGk',      // coaching (quantity page). Redirect: https://mentell.co.in/financial.html?coaching=1#coaching
+  coachingPaymentLink: 'https://rzp.io/rzp/O6mVchGk',      // coaching (quantity page). Redirect: https://mentell.co.in/financial/?coaching=1#coaching
  
   /* Coaching offer */
   coachingPrice: 4999,              // used only when coachingInstalmentPrice is 0
@@ -68,7 +67,7 @@ window.MENTELL_CONFIG = {
     { name: 'Aarthi, Coimbatore', text: 'eppo paaru tension aavae irukkum, ippo dhan konjam nimadhiya irukku.', saved: '₹2,500/month' }
   ],
  
-  /* ₹99 payment check + "Restore my plan" (financial.html). Paste the /exec URL of the
+  /* ₹99 payment check + "Restore my plan" (/financial/). Paste the /exec URL of the
      SEPARATE 'Mentell Payments Endpoint' script here (see PAYMENTS-SETUP.md).
      '' = off: the page works exactly as before (unlock on ?paid=1, no restore box). */
   paymentCheckUrl: '',
@@ -77,16 +76,16 @@ window.MENTELL_CONFIG = {
      The Apps Script already emails you on every lead; see handover. */
   notifyWebhook: '',
  
-  /* Daily money tracker on financial.html: the /exec URL of the SEPARATE 'Mentell Tracker'
-     Apps Script (see TRACKER-SETUP.md). '' = tracker off (page ends at the PDF, as before). */
-  trackerUrl: 'https://script.google.com/macros/s/AKfycbxBkR7NMBt4G0qjoq5Ycn5BUdVSmpJYQvJbKDry1fHsuy6MdKgdQCC-_7dN18PMMMXG/exec',
+  /* Daily money tracker on financial.html: on Supabase since v19 (WhatsApp number + password).
+     false = tracker off (page ends at the PDF). The old Apps Script tracker is retired. */
+  tracker: true,
 
   /* GA4 ID (the tag in each page's <head> uses this same ID) */
   analyticsMeasurementId: 'G-CYPL2VHDKP',
 
   /* Products sold through Razorpay Payment Links, keyed by the link's last part.
      Used by the analytics layer below to send begin_checkout / purchase with the
-     right ₹ value on pages that don't track payments themselves (physical.html).
+     right ₹ value on pages that don't track payments themselves (/physical/).
      financial.html tracks its own ₹99 / coaching payments, so they are not listed.
      If you change a price on Razorpay, change it here too. */
   analyticsProducts: {
@@ -192,7 +191,7 @@ window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
   var INTERNAL = lsGet('mentell_internal') === '1';
   if (INTERNAL && !DEBUG) window['ga-disable-' + GA_ID] = true;
 
-  /* 8. "Open in Chrome" hand-off (financial.html). The Instagram browser sends the
+  /* 8. "Open in Chrome" hand-off (/financial/). The Instagram browser sends the
      visitor's calculator answers in ?mh=…; we save them here and remove ?mh from the
      address bar BEFORE the GA tag reads the URL, so the numbers never reach GA.
      Name, phone and saved-plan keys are never carried or accepted. [v12] The ₹99 "paid"

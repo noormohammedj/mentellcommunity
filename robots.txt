@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /whatsapp-redirect.html
 
 Sitemap: https://mentell.co.in/sitemap.xml
