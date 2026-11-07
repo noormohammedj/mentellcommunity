@@ -294,6 +294,7 @@ footer a{color:var(--muted)}
 .pw-list.top li{padding:7px 0 7px 22px}.pw-list.top li::before{top:14px}.pw-list.top span{display:none}
 .pw-proof{font-weight:700;margin:12px 0 0}
 .pw-refund{margin:6px 0 0}
+.pw-num{margin:10px 0 0;padding:8px 10px;background:var(--surface)}
 .pw-spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pwr .8s linear infinite;vertical-align:-2px}
 @keyframes pwr{to{transform:rotate(1turn)}}
 @media (prefers-reduced-motion:reduce){.pw-spin{animation:none}.pw-blur{transition:none}}
@@ -406,6 +407,7 @@ footer a{color:var(--muted)}
     <button type="button" class="btn" id="pwPay">₹99 pay panni plan paarunga</button>
     <p class="err" id="pwErr"></p>
     <div class="pw-trust"><span>UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
+    <p class="small pw-num" id="pwNum" hidden></p>
     <p class="pw-proof" id="pwProof" hidden></p>
     <p class="small pw-refund">Pidikkalana 7 naal-kulla WhatsApp pannunga, full ₹99 refund. Kelvi illa.</p>
     <div id="pwInapp" class="callout" hidden><b>Neenga Instagram browser-la irukeenga.</b> Chrome-la open panni pay pannaa, plan eppovum unga phone-la irukum.<button type="button" class="btn ghost" id="pwInappBtn">Open in Chrome</button></div>
@@ -832,7 +834,7 @@ try{ LEAD = Object.assign(LEAD, JSON.parse(localStorage.getItem(LEAD_KEY)||'{}')
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 // Lead form counts as done when this browser has the name + number, or when the visitor
 // arrived from the Instagram hand-off after already giving them there.
-function leadDone(){ let g=false; try{ g = sessionStorage.getItem(GATE_KEY)==='1' && sessionStorage.getItem('mentell_handoff')==='1'; }catch(e){} return !!(LEAD.phone && LEAD.name) || g; }
+function leadDone(){ let g=false; try{ g = sessionStorage.getItem(GATE_KEY)==='1' && sessionStorage.getItem('mentell_handoff')==='1'; }catch(e){} return !!(LEAD.phone && LEAD.name) || g || paidOk(); }   // [v22] paid / gifted: no number needed
 
 /* ================= analytics + sheet ================= */
 function uid(){ return 'L'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
@@ -1215,6 +1217,10 @@ function newToken(){
 function paywallSeen(){
   if (!PAYWALL || paidOk()) return;
   loadProof();
+  // [v21.1] the payment is matched by number: ask them to keep the same one on the Razorpay page
+  const ten = String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '');
+  $('#pwNum').hidden = !ten;
+  if (ten) $('#pwNum').innerHTML = `Payment page-la <b>idhe number</b> podunga: <b>${esc(ten.slice(0,5) + ' ' + ten.slice(5))}</b>. Vera number pottaa plan open aagaadhu.`;
   if (!LEAD.phone) return;
   const d = new Date().toISOString().slice(0,10);
   if (S.rtDay === d) return;
@@ -2213,6 +2219,19 @@ $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; c
   const ti = SCREENS.indexOf(target);
   const canResume = S.at > 0;
   if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
+  // [v22] give-access link (?g=<id>, saved by mentell-config.js): the plan opens on this phone
+  let gift = null; try{ gift = sessionStorage.getItem('mm_gift'); sessionStorage.removeItem('mm_gift'); }catch(e){}
+  if (gift && PAYWALL && !PAY_MOCK) rpcAnon('redeem_gift', {p_id:gift}).then(r=>{
+    if (!r || !r.found) return;
+    track('gift_opened', {status:r.status});
+    if (r.status !== 'paid'){ alert('Indha link-oda time mudinjiduchu. Noor-ku WhatsApp pannunga.'); return; }
+    if (!paidOk() || (S.paid && S.paid.u && r.access_until && Date.parse(r.access_until) > Date.parse(S.paid.u)) || r.forever){
+      S.paid = {o:r.order_id, u:r.access_until||null, f:!!r.forever}; S.pendingPay = null; save();
+    }
+    if (r.name && !LEAD.name){ LEAD = {name:r.name, phone:LEAD.phone||''}; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
+    $('#rsLink').hidden = true;
+    if (SCREENS[cur] === 'paywall') go(cur + 1, {replace:true});
+  }).catch(()=>{});
   // [v21] opened from Noor's WhatsApp follow-up (?r=<token>, saved by mentell-config.js): bring that plan back, on the ₹99 screen
   let rt = null; try{ rt = sessionStorage.getItem('mm_rt'); sessionStorage.removeItem('mm_rt'); }catch(e){}
   if (rt && PAYWALL && !PAY_MOCK) rpcAnon('resume_plan', {p_token:rt}).then(r=>{

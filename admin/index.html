@@ -57,6 +57,25 @@ button:disabled{opacity:.5;cursor:default}
     <div class="tip"><b>How:</b> tap <b>WhatsApp</b> → the message opens ready in WhatsApp → send. The person leaves this list for 3 days (marked "sent"). Send to about 50 new people a day at most, so WhatsApp doesn't flag your number. People who reply "venaam": tap <b>Not interested</b>.</div>
     <div id="list"></div>
     <button class="ghost wide" id="reload">Refresh list</button>
+
+    <h2 id="giftH">Free access link</h2>
+    <p class="muted small">For someone who can't pay here (abroad, no UPI), goodwill, or a creator. The link opens the full money plan on their phone. No Indian number needed. Days count from the first time they open it. (The daily tracker login still needs an Indian number.)</p>
+    <input id="gName" maxlength="60" placeholder="Name">
+    <input id="gContact" maxlength="40" placeholder="WhatsApp number with country code, e.g. +94 76 672 8787">
+    <input id="gEmail" maxlength="120" placeholder="Email (optional)">
+    <select id="gDays" style="width:100%;font:inherit;font-size:18px;padding:14px;border:2px solid var(--ink);margin-top:10px;background:#fff;border-radius:0">
+      <option value="30">30 days (same as ₹99)</option><option value="90">90 days</option><option value="365">1 year</option><option value="">No end</option>
+    </select>
+    <input id="gReason" maxlength="200" placeholder="Why (e.g. Sri Lanka, no UPI)">
+    <button class="wide" id="gMake">Make link</button>
+    <p class="err" id="gErr"></p>
+    <div id="gOut" class="card" hidden>
+      <div class="name" id="gOutName"></div>
+      <div class="msg" id="gMsg"></div>
+      <div class="acts"><a class="btn" id="gWa" target="_blank" rel="noopener">WhatsApp</a><button class="ghost" id="gCopy">Copy message</button></div>
+    </div>
+    <h2>Links made</h2>
+    <div id="gList"><p class="muted small">…</p></div>
   </section>
 </main>
 <script>
@@ -163,12 +182,55 @@ async function load(){
   catch(e){ if (e.message === 'login'){ $('#app').hidden = true; $('#login').hidden = false; } else $('#list').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
   finally{ $('#reload').disabled = false; }
 }
+/* ---- free access links ---- */
+function giftMessage(name, url, days){
+  const n = first(name), hi = n ? `Hi ${n}` : 'Hi';
+  return `${hi}, Noor here from Mentell 🙏\nUnga EMI-free money plan-ku free access link: ${url}\nIdha unga phone-la open pannunga, plan full-a open aagum${days ? ` (first open-la irundhu ${days} naal)` : ''}. Edhavadhu doubt-na inga reply pannunga.`;
+}
+const giftUrl = id => `${SITE}/financial/?g=${id}&utm_source=whatsapp&utm_medium=gift`;
+$('#gMake').addEventListener('click', async ()=>{
+  const err = $('#gErr'); err.textContent = '';
+  const name = $('#gName').value.trim(), contact = $('#gContact').value.trim(), email = $('#gEmail').value.trim();
+  const days = $('#gDays').value ? +$('#gDays').value : null, reason = $('#gReason').value.trim();
+  if (name.length < 2){ err.textContent = 'Peyar podunga.'; return; }
+  if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent = 'Email sariyaa illa.'; return; }
+  $('#gMake').disabled = true;
+  try{
+    const id = await rpc('admin_gift_create', {p_name:name, p_contact:contact||null, p_email:email||null, p_days:days, p_reason:reason||null});
+    const msg = giftMessage(name, giftUrl(id), days), digits = contact.replace(/\D/g,'');
+    $('#gOutName').textContent = 'Link ready for ' + name; $('#gMsg').textContent = msg; $('#gOut').hidden = false;
+    $('#gWa').href = digits.length >= 8 ? `https://wa.me/${digits}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    ['#gName','#gContact','#gEmail','#gReason'].forEach(s => $(s).value = '');
+    loadGifts();
+  }catch(e){ err.textContent = 'Aagala: ' + e.message; }
+  finally{ $('#gMake').disabled = false; }
+});
+$('#gCopy').addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText($('#gMsg').textContent); $('#gCopy').textContent = 'Copied'; }catch(e){ $('#gCopy').textContent = 'Copy manually'; } });
+async function loadGifts(){
+  try{
+    const rows = await rpc('admin_gifts', {}) || [];
+    const box = $('#gList'); box.innerHTML = rows.length ? '' : '<p class="muted small">Innum yaarukkum link kudukkala.</p>';
+    rows.forEach(g => {
+      const ended = g.revoked_at || (g.ends_at && Date.parse(g.ends_at) < Date.now());
+      const state = g.revoked_at ? 'stopped' : ended ? 'ended' : g.opened_at ? 'opened ' + ago(g.opened_at) + (g.ends_at ? ', till ' + new Date(g.ends_at).toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : ', no end') : 'not opened yet';
+      const c = document.createElement('div'); c.className = 'card' + (ended ? ' done' : '');
+      c.innerHTML = `<div class="row"><span class="name">${esc(g.name)}</span><span class="muted small">${esc(g.days ? g.days + ' days' : 'no end')}</span></div>
+        <div class="facts">${esc([state, g.contact, g.email, g.reason].filter(Boolean).join(' · '))}</div>
+        <div class="acts">${ended ? '' : '<button class="ghost" data-a="copy">Copy link</button><button class="ghost" data-a="stop">Stop access</button>'}</div>`;
+      if (!ended){
+        c.querySelector('[data-a="copy"]').addEventListener('click', async e => { try{ await navigator.clipboard.writeText(giftUrl(g.id)); e.currentTarget.textContent = 'Copied'; }catch(x){ prompt('Link:', giftUrl(g.id)); } });
+        c.querySelector('[data-a="stop"]').addEventListener('click', async e => { if (!confirm('Stop ' + g.name + "'s access now?")) return; e.currentTarget.disabled = true; try{ await rpc('admin_gift_revoke', {p_id:g.id}); loadGifts(); }catch(x){ alert(x.message); } });
+      }
+      box.appendChild(c);
+    });
+  }catch(e){ $('#gList').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+}
 async function start(){
   try{
     const ok = await rpc('am_admin', {});
     $('#login').hidden = true; $('#app').hidden = false; $('#out').hidden = false;
     if (!ok){ $('#list').innerHTML = '<p class="tip">Indha login admin illa. Supabase SQL Editor-la indha login number-oda admin line-a run pannunga (UPLOAD-STEPS.md paarunga).</p>'; $('#stats').innerHTML = ''; return; }
-    load();
+    load(); loadGifts();
   }catch(e){ T = null; keep(); $('#login').hidden = false; $('#app').hidden = true; }
 }
 if (T) start();
