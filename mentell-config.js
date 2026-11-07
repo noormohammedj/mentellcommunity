@@ -225,6 +225,12 @@ window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
       history.replaceState(null, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams : '') + (target ? '#' + target : u.hash));
     } catch (e) {}
   })();
+  /* [v21] WhatsApp follow-up link: ?r=<token> is kept for this tab only and removed before GA. */
+  (function followup() {
+    var t = qp('r'); if (!t) return;
+    try { if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(t)) sessionStorage.setItem('mm_rt', t.toLowerCase()); } catch (e) {}
+    try { var u = new URL(location.href); u.searchParams.delete('r'); history.replaceState(null, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams : '') + u.hash); } catch (e) {}
+  })();
   /* Keep only plain numbers / short safe text / booleans, a few levels deep. */
   function clean(v, depth) {
     if (depth > 6) return undefined;

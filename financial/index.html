@@ -288,6 +288,12 @@ footer a{color:var(--muted)}
 .pw-list li{padding:12px 0 12px 22px;border-bottom:1px solid var(--line);position:relative}
 .pw-list li::before{content:'';position:absolute;left:0;top:19px;width:10px;height:10px;background:var(--ink)}
 .pw-list b{display:block}.pw-list span{color:var(--muted);font-size:14px}
+/* [v21] what ₹99 opens comes first; proof + refund under the button */
+.pw-what{font-weight:800;margin:18px 0 0}
+.pw-list.top{margin:6px 0 4px}
+.pw-list.top li{padding:7px 0 7px 22px}.pw-list.top li::before{top:14px}.pw-list.top span{display:none}
+.pw-proof{font-weight:700;margin:12px 0 0}
+.pw-refund{margin:6px 0 0}
 .pw-spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pwr .8s linear infinite;vertical-align:-2px}
 @keyframes pwr{to{transform:rotate(1turn)}}
 @media (prefers-reduced-motion:reduce){.pw-spin{animation:none}.pw-blur{transition:none}}
@@ -381,6 +387,14 @@ footer a{color:var(--muted)}
     <div><small>Ippo irukura maari</small><div class="d" id="pwNow"></div><div class="sub" id="pwNowSub"></div></div>
     <div><small>Mentell plan-oda</small><div class="d pw-blur" id="pwPlan" aria-label="Hidden until you unlock"></div><div class="sub"><span class="pw-blur" id="pwSooner"></span></div></div>
   </div>
+  <p class="pw-what" id="pwWhat">₹99-la enna kidaikkum</p>
+  <ul class="pw-list top" aria-label="What ₹99 opens">
+    <li><b>Edha cut pannanum, evlo</b><span>Unga habits-la irundhu exact maasa saving</span></li>
+    <li><b>EMI jars: edha first close pannanum</b><span>High interest first. Oru EMI mudinja adhu adutha jar-ku</span></li>
+    <li><b>Exact EMI-free date + interest saved</b><span>Bonus / hike-la extra EMI potta evlo seekiram</span></li>
+    <li><b>Daily tracker, 30 naal</b><span>"I saved" log pannunga, streak, date nagarradhu paarunga</span></li>
+    <li><b>Full plan PDF</b><span>Veetla ellarum paakkura maari</span></li>
+  </ul>
   <div id="pwReady">
     <div class="pw-price"><span class="now" id="pwPrice">₹99</span><s id="pwWas" hidden>₹99</s><span class="per" id="pwPer">/ 30 naal</span></div>
     <span class="pw-offer" id="pwOffer" hidden>Launch offer · 50% off</span>
@@ -392,6 +406,8 @@ footer a{color:var(--muted)}
     <button type="button" class="btn" id="pwPay">₹99 pay panni plan paarunga</button>
     <p class="err" id="pwErr"></p>
     <div class="pw-trust"><span>UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
+    <p class="pw-proof" id="pwProof" hidden></p>
+    <p class="small pw-refund">Pidikkalana 7 naal-kulla WhatsApp pannunga, full ₹99 refund. Kelvi illa.</p>
     <div id="pwInapp" class="callout" hidden><b>Neenga Instagram browser-la irukeenga.</b> Chrome-la open panni pay pannaa, plan eppovum unga phone-la irukum.<button type="button" class="btn ghost" id="pwInappBtn">Open in Chrome</button></div>
     <button type="button" class="link" id="pwHave">Already paid? Plan open pannunga</button>
   </div>
@@ -411,13 +427,6 @@ footer a{color:var(--muted)}
     <div class="pw-done"><b>Unlocked ✓</b><p id="pwUntil">Unga plan ready.</p></div>
     <button type="button" class="btn" id="pwGo">Plan paarunga →</button>
   </div>
-  <ul class="pw-list" aria-label="What ₹99 opens">
-    <li><b>Edha cut pannanum, evlo</b><span>Unga habits-la irundhu exact maasa saving</span></li>
-    <li><b>EMI jars: edha first close pannanum</b><span>High interest first. Oru EMI mudinja adhu adutha jar-ku</span></li>
-    <li><b>Exact EMI-free date + interest saved</b><span>Bonus / hike-la extra EMI potta evlo seekiram</span></li>
-    <li><b>Daily tracker, 30 naal</b><span>"I saved" log pannunga, streak, date nagarradhu paarunga</span></li>
-    <li><b>Full plan PDF</b><span>Veetla ellarum paakkura maari</span></li>
-  </ul>
 </section>
 
 <!-- 8 calm -->
@@ -789,7 +798,7 @@ const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry a
 const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','paywall','calm','habits','habit_amounts','cut_choice','dashboard','extra_emi','body_mind','join','tracker','pdf'];
 // v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
 // sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
-function fresh(){ return {v:15, sv:16, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null}; }
+function fresh(){ return {v:15, sv:16, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:''}; }
 // [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
 // "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
 const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
@@ -974,6 +983,7 @@ function go(i, opts){
   track('mm_screen', {screen_name:name, step:i});
   if (!seen[name]){ seen[name]=1; track('mm_'+name+'_view'); }
   if (name==='lead_form') track('gate_open');
+  if (name==='paywall') paywallSeen();
   updateNext();
 }
 window.addEventListener('popstate', e=>{
@@ -1138,12 +1148,13 @@ function renderPaywall(){
   }
   $('#pwWho').hidden = !!(LEAD.phone && LEAD.name);
   if (LEAD.name) $('#pwName').value = LEAD.name;
-  $('#pwInapp').hidden = !(PAGE_URL && /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent||''));   // [v16.3]
+  $('#pwInapp').hidden = !(PAGE_URL && /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent||'')) || DEVICE==='android';   // [v16.3] [v21] Android pays in Chrome
   if (!resumePagePay()) showPay(paidOk() ? 'paid' : 'ready');
 }
 function showPay(state){
   $('#pwReady').hidden = state !== 'ready'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid'; $('#pwPage').hidden = state !== 'page';
   document.querySelector('[data-s="paywall"]').classList.toggle('pw-open', state === 'paid');
+  $('#pwWhat').hidden = $('.pw-list.top').hidden = state === 'paid';
   if (state === 'paid'){
     const u = S.paid && S.paid.u ? new Date(S.paid.u).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) : '';
     $('#pwUntil').textContent = S.paid && S.paid.f ? 'Unga plan ready.' : `Unga plan ready. Tracker ${u} varaikkum.`;
@@ -1187,6 +1198,44 @@ function openCheckout(o){
     rzp.on('payment.failed', ()=>resolve({failed:true}));
     rzp.open();
   });
+}
+/* [v21] ₹99 screen seen: show how many joined this week, and save a resume token with the answers so
+   Noor's WhatsApp follow-up link (mentell.co.in/financial/?r=<token>) reopens this plan here. */
+let proofDone = false;
+function loadProof(){
+  if (proofDone || PAY_MOCK || !PAYWALL) return; proofDone = true;
+  rpcAnon('recent_buyers', {}).then(n=>{ n = +n||0; if (n >= 10){ $('#pwProof').textContent = `Indha vaaram ${n} peru plan eduthaanga.`; $('#pwProof').hidden = false; } }).catch(()=>{});
+}
+function newToken(){
+  try{ if (crypto.randomUUID) return crypto.randomUUID(); }catch(e){}
+  const b = new Uint8Array(16); crypto.getRandomValues(b); b[6] = (b[6]&15)|64; b[8] = (b[8]&63)|128;
+  const h = [...b].map(x=>x.toString(16).padStart(2,'0')).join('');
+  return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+}
+function paywallSeen(){
+  if (!PAYWALL || paidOk()) return;
+  loadProof();
+  if (!LEAD.phone) return;
+  const d = new Date().toISOString().slice(0,10);
+  if (S.rtDay === d) return;
+  if (!S.rt) S.rt = newToken();
+  S.rtDay = d; save();
+  const m = JSON.parse(JSON.stringify(S)); m.at = SCREENS.indexOf('paywall'); m.paid = null; m.pendingPay = null;
+  sendRow({event:'paywall_view', name:LEAD.name, phone:LEAD.phone, rt:S.rt, m, emiFreeNow:($('#pwNow').textContent||'').trim().slice(0,30),
+    totalEmi:totEMI(), emisCount:validEmis().length, item:'Saw the ₹99 screen'});
+}
+/* [v21] Instagram/Facebook browser on Android: open the Razorpay page in Chrome, where UPI apps open reliably.
+   This tab keeps checking the order and unlocks when they come back. */
+function openPayPage(){
+  const url = pageUrl();
+  if (INAPP && DEVICE==='android'){
+    const u = new URL(url); track('pay_in_chrome', {app:INAPP_APP});
+    location.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+    return true;
+  }
+  const w = window.open(url, '_blank');
+  if (!w){ location.href = url; return false; }
+  return true;
 }
 function markPaid(st){
   S.paid = {o:PAY.order_id, u:st.access_until||null, f:!!st.forever}; S.pendingPay = null; save();
@@ -1273,8 +1322,7 @@ async function payOnPage(){
     PAY = {order_id:o.order_id, amount:o.amount_paise, t:Date.now()};
     S.pendingPay = {o:o.order_id, a:o.amount_paise, t:PAY.t}; save();
     if (!PAY_MOCK){
-      const w = window.open(pageUrl(), '_blank');
-      if (!w){ location.href = pageUrl(); return; }      // pop-up blocked: pay in this tab; coming back resumes the check
+      if (!openPayPage()) return;      // pop-up blocked: pay in this tab; coming back resumes the check
     }
     showPay('page'); pollPage();
   }catch(e){
@@ -1306,7 +1354,7 @@ function resumePagePay(){
   if (!PAGE_URL || paidOk() || !p || !p.o || Date.now() - p.t > 864e5) return false;
   PAY = {order_id:p.o, amount:p.a||9900, t:p.t}; showPay('page'); pollPage(); return true;
 }
-$('#pwReopen').addEventListener('click', ()=>{ track('payment_page_reopen'); window.open(pageUrl(), '_blank') || (location.href = pageUrl()); });
+$('#pwReopen').addEventListener('click', ()=>{ track('payment_page_reopen'); openPayPage(); });
 $('#pwRecheck').addEventListener('click', ()=>{ track('payment_page_recheck'); pagePolling = false; pollPage(); });
 /* [v16.3] "Already paid? Open my plan". The site remembers a payment only in the browser it was paid in
    (Instagram's in-app browser keeps its own), so on any other browser the WhatsApp number + the email
@@ -2165,6 +2213,15 @@ $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; c
   const ti = SCREENS.indexOf(target);
   const canResume = S.at > 0;
   if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
+  // [v21] opened from Noor's WhatsApp follow-up (?r=<token>, saved by mentell-config.js): bring that plan back, on the ₹99 screen
+  let rt = null; try{ rt = sessionStorage.getItem('mm_rt'); sessionStorage.removeItem('mm_rt'); }catch(e){}
+  if (rt && PAYWALL && !PAY_MOCK) rpcAnon('resume_plan', {p_token:rt}).then(r=>{
+    if (!r || !r.m || r.m.v !== 15) return;
+    if (!paidOk()){ const keep = {paid:S.paid, pendingPay:S.pendingPay}; S = Object.assign(loadState(r.m), keep); S.rt = rt; save(); }
+    if (r.name && r.phone && !LEAD.phone){ LEAD = {name:r.name, phone:r.phone}; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); sessionStorage.setItem(GATE_KEY,'1'); }catch(e){} }
+    track('followup_arrived'); $('#resume').hidden = true;
+    go(SCREENS.indexOf(paidOk() ? 'dashboard' : 'paywall'), {replace:true});
+  }).catch(()=>{});
   if (TRACKER_URL) $('#loginLink').hidden = false;
   if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
   recheckPaid();   // [v16] refund / expiry since the last visit

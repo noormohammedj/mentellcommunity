@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Follow-ups | Mentell</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fff;--ink:#000;--surface:#f2f2f2;--muted:#6b6b6b;--line:#d9d9d9;--save:#0f6b3e;--out:#b42318}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:16px;line-height:1.45}
+.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:12px 16px}
+.brand{font-weight:800;font-stretch:125%;font-size:20px;color:var(--ink);text-decoration:none}
+main{max-width:760px;margin:0 auto;padding:20px 16px 80px}
+h1{font-weight:800;font-stretch:62%;font-size:clamp(40px,11vw,60px);line-height:.98;letter-spacing:-.02em;margin-bottom:8px}
+h2{font-weight:800;font-stretch:75%;font-size:26px;line-height:1.05;margin:30px 0 4px}
+.muted{color:var(--muted)} .small{font-size:14px}
+input{width:100%;font:inherit;font-size:18px;padding:14px;border:2px solid var(--ink);margin-top:10px;border-radius:0}
+button,.btn{font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--ink);background:var(--ink);color:#fff;padding:12px 16px;border-radius:0;text-decoration:none;display:inline-block;text-align:center}
+button.ghost,.btn.ghost{background:#fff;color:var(--ink)}
+button.link{background:none;border:none;color:var(--muted);padding:8px 0;font-weight:600;text-decoration:underline}
+button:disabled{opacity:.5;cursor:default}
+.wide{width:100%;margin-top:14px}
+.err{color:var(--out);margin-top:10px;min-height:1em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 4px}
+.stats div{background:var(--surface);padding:10px}.stats b{display:block;font-size:26px;font-weight:800}.stats span{font-size:12px;color:var(--muted)}
+.card{border:1.5px solid var(--line);padding:14px;margin-top:10px}
+.card.done{opacity:.45}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.name{font-weight:800;font-size:18px}
+.facts{color:var(--muted);font-size:14px;margin-top:2px}
+.msg{background:var(--surface);font-size:14px;padding:10px;margin-top:10px;white-space:pre-wrap}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.acts>*{flex:1 1 auto}
+.tip{background:var(--surface);padding:12px;font-size:14px;margin-top:14px}
+@media (max-width:420px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="/">mentell</a><button class="link" id="out" hidden>Logout</button></header>
+<main>
+  <section id="login">
+    <h1>Follow-ups</h1>
+    <p class="muted">Admin only. Unga Mentell login (WhatsApp number + password).</p>
+    <input id="ph" inputmode="numeric" autocomplete="tel" placeholder="WhatsApp number" maxlength="14">
+    <input id="pw" type="password" autocomplete="current-password" placeholder="Password">
+    <button class="wide" id="go">Login</button>
+    <p class="err" id="lerr"></p>
+  </section>
+  <section id="app" hidden>
+    <h1>Inniku yaarukku message?</h1>
+    <p class="muted small" id="when"></p>
+    <div class="stats" id="stats"></div>
+    <div class="tip"><b>How:</b> tap <b>WhatsApp</b> → the message opens ready in WhatsApp → send. The person leaves this list for 3 days (marked "sent"). Send to about 50 new people a day at most, so WhatsApp doesn't flag your number. People who reply "venaam": tap <b>Not interested</b>.</div>
+    <div id="list"></div>
+    <button class="ghost wide" id="reload">Refresh list</button>
+  </section>
+</main>
+<script>
+(function(){
+'use strict';
+const SB = 'https://hghrmxpvmfxviwnmnskm.supabase.co';
+const KEY = 'sb_publishable_eeEM_dV1x6TRXvkefUxdJQ_lxzBZ__x';
+const SITE = 'https://mentell.co.in';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let T = null; try{ T = JSON.parse(localStorage.getItem('mentell_admin') || 'null'); }catch(e){}
+const keep = () => { try{ T ? localStorage.setItem('mentell_admin', JSON.stringify(T)) : localStorage.removeItem('mentell_admin'); }catch(e){} };
+
+async function freshToken(){
+  if (!T) throw new Error('login');
+  if (Date.now() < T.exp - 60000) return T.access;
+  const r = await fetch(`${SB}/auth/v1/token?grant_type=refresh_token`, {method:'POST', headers:{'Content-Type':'application/json', apikey:KEY}, body:JSON.stringify({refresh_token:T.refresh})});
+  const j = await r.json().catch(()=>({}));
+  if (!r.ok || !j.access_token){ T = null; keep(); throw new Error('login'); }
+  T = {access:j.access_token, refresh:j.refresh_token, exp:Date.now() + (j.expires_in||3600)*1000}; keep(); return T.access;
+}
+async function rpc(fn, args){
+  const tok = await freshToken();
+  const r = await fetch(`${SB}/rest/v1/rpc/${fn}`, {method:'POST', headers:{'Content-Type':'application/json', apikey:KEY, Authorization:'Bearer '+tok}, body:JSON.stringify(args||{})});
+  const j = await r.json().catch(()=>null);
+  if (!r.ok) throw new Error((j && j.message) || 'http_'+r.status);
+  return j;
+}
+
+$('#go').addEventListener('click', async ()=>{
+  const err = $('#lerr'); err.textContent = '';
+  let ph = $('#ph').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2); if (ph.length===11 && ph.startsWith('0')) ph = ph.slice(1);
+  if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit number podunga.'; return; }
+  $('#go').disabled = true;
+  try{
+    const r = await fetch(`${SB}/functions/v1/account`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action:'login', phone:ph, password:$('#pw').value})});
+    const j = await r.json().catch(()=>({}));
+    if (!j.ok){ err.textContent = j.err==='wrong' ? 'Password thappu.' : j.err==='no_account' ? 'Indha number-ku account illa. Website tracker-la (Money page) account create pannunga.' : j.err==='locked' ? 'Romba wrong tries. 30 nimisham kazhichu.' : 'Login aagala.'; return; }
+    T = {access:j.session.access_token, refresh:j.session.refresh_token, exp:Date.now() + (j.session.expires_in||3600)*1000}; keep();
+    start();
+  }catch(e){ err.textContent = 'Internet problem.'; }
+  finally{ $('#go').disabled = false; }
+});
+$('#out').addEventListener('click', ()=>{ T = null; keep(); location.reload(); });
+$('#reload').addEventListener('click', load);
+
+const STAGE = {
+  tapped_pay: ['Pay panna start panninaanga', 'Started paying, didn’t finish (last 3 days). Message first.'],
+  saw_offer: ['₹99 offer paarthaanga', 'Saw the ₹99 screen, didn’t buy (last 3 days).'],
+  renew: ['Renewal', 'Plan ends within 5 days, or ended in the last week.'],
+  older: ['Older leads', 'Did the money plan 4–60 days ago, never bought, never messaged. 50 a day.']
+};
+function link(r){
+  const u = new URL(SITE + '/financial/');
+  if (r.rt) u.searchParams.set('r', r.rt);
+  u.searchParams.set('utm_source', 'whatsapp'); u.searchParams.set('utm_medium', 'followup'); u.searchParams.set('utm_campaign', r.stage);
+  return u.toString();
+}
+function first(n){ const f = String(n||'').trim().split(/\s+/)[0]; return f ? f.charAt(0).toUpperCase() + f.slice(1) : ''; }
+function message(r){
+  const n = first(r.name), hi = n ? `Hi ${n}` : 'Hi', l = link(r);
+  if (r.stage === 'tapped_pay') return `${hi}, Noor here from Mentell 🙏\nNeenga ₹99 plan pay panna start panneenga, aana complete aagala pola. Edhavadhu problem-aa?\nIndha link-la unga plan apdiye irukku, 1 nimisham-la mudikkalaam: ${l}\nUPI work aagalana reply pannunga, naan help panren.`;
+  if (r.stage === 'saw_offer') return `${hi}, Noor here from Mentell 🙏\nNeenga potta EMI details vechu unga plan ready${r.emi_free_now ? `. Ippo irukura maari pona, EMI mudiya ${r.emi_free_now} aagum` : ''}.\nEdha first close pannanum, maasam evlo save pannalaam, unga EMI-free date: ellam ₹99-la: ${l}\nDoubt irundha inga reply pannunga.`;
+  if (r.stage === 'renew') return `${hi}, Noor here from Mentell 🙏\nUnga ₹99 plan ${r.plan_ends && Date.parse(r.plan_ends) < Date.now() ? 'mudinjiduchu' : 'innum konja naal-la mudiyudhu'}. Plan-um tracker-um continue panna: ${l}\nIndha maasam evlo save panneenga? Reply pannunga!`;
+  return `${hi}, Noor here from Mentell 🙏\nKonja naal munnadi Mentell-la unga EMI check panneenga. Unga EMI-free plan ippo ₹99-la ready: ${l}\nEdhavadhu doubt-na reply pannunga.`;
+}
+function ago(t){
+  const m = Math.round((Date.now() - Date.parse(t)) / 60000);
+  if (m < 0) return 'in ' + Math.round(-m/1440) + ' days';
+  return m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m/60) + ' h ago' : Math.round(m/1440) + ' days ago';
+}
+async function mark(btn, card, r, status){
+  btn.disabled = true;
+  try{ await rpc('admin_mark', {p_profile:r.profile_id, p_status:status, p_note:(status==='follow_up' ? 'whatsapp: ' : '') + r.stage}); card.classList.add('done'); card.querySelectorAll('button').forEach(b=>b.disabled = true); }
+  catch(e){ btn.disabled = false; alert('Save aagala: ' + e.message); }
+}
+let ROWS = [];
+function render(){
+  const by = {}; ROWS.forEach(r => (by[r.stage] = by[r.stage] || []).push(r));
+  $('#stats').innerHTML = Object.keys(STAGE).map(k => `<div><b>${(by[k]||[]).length}</b><span>${esc(STAGE[k][0])}</span></div>`).join('');
+  const list = $('#list'); list.innerHTML = '';
+  if (!ROWS.length){ list.innerHTML = '<p class="tip">Inniku yaarum illa. Nalla vishayam!</p>'; return; }
+  Object.keys(STAGE).forEach(k => {
+    const rows = by[k]; if (!rows) return;
+    const h = document.createElement('div'); h.innerHTML = `<h2>${esc(STAGE[k][0])} · ${rows.length}</h2><p class="muted small">${esc(STAGE[k][1])}</p>`; list.appendChild(h);
+    rows.forEach(r => {
+      const c = document.createElement('div'); c.className = 'card';
+      const facts = [k === 'renew' && r.plan_ends ? 'plan ends ' + new Date(r.plan_ends).toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : ago(r.at),
+                     r.total_emi ? 'EMI ₹' + Number(r.total_emi).toLocaleString('en-IN') + '/mo' : '', r.emi_free_now ? 'EMI-free ' + r.emi_free_now : '',
+                     r.last_note ? 'last: ' + r.last_note : ''].filter(Boolean).join(' · ');
+      const msg = message(r);
+      c.innerHTML = `<div class="row"><span class="name">${esc(r.name || 'No name')}</span><span class="muted small">••••••••${esc(String(r.phone).slice(-2))}</span></div>
+        <div class="facts">${esc(facts)}</div><div class="msg">${esc(msg)}</div>
+        <div class="acts"><a class="btn" target="_blank" rel="noopener" href="https://wa.me/${esc(r.phone)}?text=${encodeURIComponent(msg)}">WhatsApp</a><button class="ghost" data-a="no">Not interested</button></div>`;
+      c.querySelector('a.btn').addEventListener('click', e => { const b = e.currentTarget; setTimeout(() => mark(b, c, r, 'follow_up'), 300); });
+      c.querySelector('[data-a="no"]').addEventListener('click', e => mark(e.currentTarget, c, r, 'not_interested'));
+      list.appendChild(c);
+    });
+  });
+}
+async function load(){
+  $('#reload').disabled = true;
+  try{ ROWS = await rpc('admin_followups', {}) || []; $('#when').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'}); render(); }
+  catch(e){ if (e.message === 'login'){ $('#app').hidden = true; $('#login').hidden = false; } else $('#list').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+  finally{ $('#reload').disabled = false; }
+}
+async function start(){
+  try{
+    const ok = await rpc('am_admin', {});
+    $('#login').hidden = true; $('#app').hidden = false; $('#out').hidden = false;
+    if (!ok){ $('#list').innerHTML = '<p class="tip">Indha login admin illa. Supabase SQL Editor-la indha login number-oda admin line-a run pannunga (UPLOAD-STEPS.md paarunga).</p>'; $('#stats').innerHTML = ''; return; }
+    load();
+  }catch(e){ T = null; keep(); $('#login').hidden = false; $('#app').hidden = true; }
+}
+if (T) start();
+})();
+</script>
+</body>
+</html>
