@@ -295,10 +295,18 @@ footer a{color:var(--muted)}
 .pw-proof{font-weight:700;margin:12px 0 0}
 .pw-refund{margin:6px 0 0}
 .pw-num{margin:10px 0 0;padding:8px 10px;background:var(--surface)}
+/* [v23] country code + switches */
+.ccwrap{display:flex;gap:6px;align-items:stretch}.ccwrap select.cc{flex:0 0 auto;max-width:42%;font:inherit;font-size:15px;border:2px solid var(--ink);background:#fff;border-radius:0;padding:0 6px}.ccwrap input{flex:1 1 auto;min-width:0}
+.langs{display:flex;gap:10px;font-size:13px;font-weight:700}.langs a{color:var(--muted);text-decoration:none}.langs a[aria-current]{color:var(--ink);text-decoration:underline}
+.rgline{margin-top:14px}.rgline select{font:inherit;font-size:14px;border:1.5px solid var(--line);background:#fff;padding:4px 6px;margin-left:4px}
 .pw-spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pwr .8s linear infinite;vertical-align:-2px}
 @keyframes pwr{to{transform:rotate(1turn)}}
 @media (prefers-reduced-motion:reduce){.pw-spin{animation:none}.pw-blur{transition:none}}
 </style>
+<link rel="alternate" hreflang="ta" href="https://mentell.co.in/financial/">
+<link rel="alternate" hreflang="en" href="https://mentell.co.in/en/">
+<link rel="alternate" hreflang="hi" href="https://mentell.co.in/hi/">
+<link rel="alternate" hreflang="x-default" href="https://mentell.co.in/en/">
 </head>
 <body>
 <div class="inapp" id="inapp" role="region" aria-label="Browser warning">
@@ -311,7 +319,7 @@ footer a{color:var(--muted)}
     <div class="strip-bar"><span class="sb-emi" id="sbEmi"></span><span class="sb-exp" id="sbExp"></span><span id="sbLeft" class="sb-left"></span></div>
     <div class="strip-k" id="stripK"></div>
   </div>
-</header>
+<nav class="langs" aria-label="Language"><a href="/financial/" hreflang="ta" aria-current="page" data-lang="ta">Tamil</a><a href="/en/" hreflang="en" data-lang="en">English</a><a href="/hi/" hreflang="hi" data-lang="hi">हिन्दी</a></nav></header>
 
 <main id="app">
 
@@ -323,7 +331,7 @@ footer a{color:var(--muted)}
   <div id="resume" hidden class="callout" data-anim><b>Neenga paadhi-la vittu ponga.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
   <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Login</button>
   <div id="rsOk" hidden class="callout"><b>Unlocked ✓</b> <span id="rsOkTxt"></span></div>
-  <button type="button" class="link" id="rsLink" hidden>₹99 already pay panniteengala? Plan open pannunga</button>
+  <button type="button" class="link" id="rsLink" hidden><span class="p99">₹99</span> already pay panniteengala? Plan open pannunga</button>
   <p class="small" data-anim>Your numbers stay on this phone. Name, WhatsApp and your savings total come to Mentell so Noor can help.</p>
 </section>
 
@@ -388,7 +396,7 @@ footer a{color:var(--muted)}
     <div><small>Ippo irukura maari</small><div class="d" id="pwNow"></div><div class="sub" id="pwNowSub"></div></div>
     <div><small>Mentell plan-oda</small><div class="d pw-blur" id="pwPlan" aria-label="Hidden until you unlock"></div><div class="sub"><span class="pw-blur" id="pwSooner"></span></div></div>
   </div>
-  <p class="pw-what" id="pwWhat">₹99-la enna kidaikkum</p>
+  <p class="pw-what" id="pwWhat"><span class="p99">₹99</span>-la enna kidaikkum</p>
   <ul class="pw-list top" aria-label="What ₹99 opens">
     <li><b>Edha cut pannanum, evlo</b><span>Unga habits-la irundhu exact maasa saving</span></li>
     <li><b>EMI jars: edha first close pannanum</b><span>High interest first. Oru EMI mudinja adhu adutha jar-ku</span></li>
@@ -397,19 +405,19 @@ footer a{color:var(--muted)}
     <li><b>Full plan PDF</b><span>Veetla ellarum paakkura maari</span></li>
   </ul>
   <div id="pwReady">
-    <div class="pw-price"><span class="now" id="pwPrice">₹99</span><s id="pwWas" hidden>₹99</s><span class="per" id="pwPer">/ 30 naal</span></div>
+    <div class="pw-price"><span class="now" id="pwPrice"><span class="p99">₹99</span></span><s id="pwWas" hidden><span class="p99">₹99</span></s><span class="per" id="pwPer">/ 30 naal</span></div>
     <span class="pw-offer" id="pwOffer" hidden>Launch offer · 50% off</span>
     <div id="pwWho" hidden>
       <p class="small">Payment receipt-ku unga WhatsApp number:</p>
       <input class="pw-in" id="pwName" autocomplete="name" placeholder="Unga peyar" maxlength="40">
       <input class="pw-in" id="pwPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
     </div>
-    <button type="button" class="btn" id="pwPay">₹99 pay panni plan paarunga</button>
+    <button type="button" class="btn" id="pwPay"><span class="p99">₹99</span> pay panni plan paarunga</button>
     <p class="err" id="pwErr"></p>
-    <div class="pw-trust"><span>UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
+    <div class="pw-trust"><span id="pwMethods">UPI · Card · Net banking</span><span>Razorpay secure</span><span>Auto-debit illa</span></div>
     <p class="small pw-num" id="pwNum" hidden></p>
     <p class="pw-proof" id="pwProof" hidden></p>
-    <p class="small pw-refund">Pidikkalana 7 naal-kulla WhatsApp pannunga, full ₹99 refund. Kelvi illa.</p>
+    <p class="small pw-refund">Pidikkalana 7 naal-kulla WhatsApp pannunga, full <span class="p99">₹99</span> refund. Kelvi illa.</p>
     <div id="pwInapp" class="callout" hidden><b>Neenga Instagram browser-la irukeenga.</b> Chrome-la open panni pay pannaa, plan eppovum unga phone-la irukum.<button type="button" class="btn ghost" id="pwInappBtn">Open in Chrome</button></div>
     <button type="button" class="link" id="pwHave">Already paid? Plan open pannunga</button>
   </div>
@@ -418,7 +426,7 @@ footer a{color:var(--muted)}
     <p class="small"><span class="pw-spin"></span> Checking</p>
   </div>
   <div id="pwPage" hidden>
-    <div class="callout"><b>Mentell payment page-la ₹99 pay pannunga.</b><br>Pay panna apram indha page-ku thirumba vaanga. Plan thaanaa open aagum.</div>
+    <div class="callout"><b>Mentell payment page-la <span class="p99">₹99</span> pay pannunga.</b><br>Pay panna apram indha page-ku thirumba vaanga. Plan thaanaa open aagum.</div>
     <p class="small"><span class="pw-spin"></span> Payment-kaaga wait panrom…</p>
     <button type="button" class="btn ghost" id="pwReopen">Payment page-a thirumba open pannunga</button>
     <button type="button" class="link" id="pwRecheck">Pay pannitten, check pannunga</button>
@@ -510,7 +518,7 @@ footer a{color:var(--muted)}
   <h2 id="jTitle">Daily-a track pannunga</h2>
   <div class="offer" id="jOffer">
     <div class="big save">50% off</div>
-    <p>Oru maasathula <b>₹2,000</b> save panni inga log pannunga. Mentell app launch aagumbodhu unga subscription <b>paadhi vilai</b>. Adhu neenga save pannura real panam.</p>
+    <p>Oru maasathula <b class="saveTarget">₹2,000</b> save panni inga log pannunga. Mentell app launch aagumbodhu unga subscription <b>paadhi vilai</b>. Adhu neenga save pannura real panam.</p>
   </div>
   <p class="lede" style="margin-bottom:6px">Every day save / spend log pannunga. Fire on aagum, EMI seekiram mudiyum.</p>
   <div class="fld" id="jNameF"><label for="jName">Peyar</label><input class="txt" id="jName" autocomplete="name" maxlength="40"></div>
@@ -554,7 +562,7 @@ footer a{color:var(--muted)}
     <div class="fld"><label for="tCity">Unga ooru</label><input class="txt" id="tCity" maxlength="40" placeholder="eg. Coimbatore"></div>
     <p class="small" style="margin-top:14px">Velai</p>
     <div class="chips"><button type="button" class="chip" data-tjob="private">Private / IT job</button><button type="button" class="chip" data-tjob="govt">Govt job</button><button type="button" class="chip" data-tjob="business">Own business</button><button type="button" class="chip" data-tjob="daily">Driver / daily wage</button><button type="button" class="chip" data-tjob="home">Homemaker</button><button type="button" class="chip" data-tjob="other">Other</button></div>
-    <p class="small" style="margin-top:10px">App-ku ₹99/month pay pannuveengala?</p>
+    <p class="small" style="margin-top:10px">App-ku <span class="p99">₹99</span>/month pay pannuveengala?</p>
     <div class="chips"><button type="button" class="chip" data-tpay="yes">Yes</button><button type="button" class="chip" data-tpay="maybe">Maybe</button><button type="button" class="chip" data-tpay="no">No</button></div>
     <p class="err" id="tLaunchErr"></p>
     <button type="button" class="btn" id="tLaunchBtn" style="width:100%">Tell me the launch date</button>
@@ -583,7 +591,7 @@ footer a{color:var(--muted)}
 
 </main>
 
-<footer><p>Estimates only, not financial advice. Prepay pannumpodhu unga bank terms check pannunga. <a href="/about/">About Mentell</a> · <a href="https://wa.me/919629843122" target="_blank" rel="noopener" data-wa="footer">Help on WhatsApp</a></p></footer>
+<footer><p>Estimates only, not financial advice. Prepay pannumpodhu unga bank terms check pannunga. <a href="/about/">About Mentell</a> · <a href="/terms/">Terms</a> · <a href="/refund/">Refunds</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="https://wa.me/919629843122" target="_blank" rel="noopener" data-wa="footer">Help on WhatsApp</a></p></footer>
 
 <nav class="bar" aria-label="Steps">
   <div class="bar-in">
@@ -602,7 +610,7 @@ footer a{color:var(--muted)}
 </div>
 <div class="modal" id="rsModal" role="dialog" aria-modal="true" aria-labelledby="rsH">
   <div class="sheet">
-    <h3 id="rsH">₹99 pay panniteengala? Plan open pannunga</h3>
+    <h3 id="rsH"><span class="p99">₹99</span> pay panniteengala? Plan open pannunga</h3>
     <p class="small">Razorpay page-la potta <b>same WhatsApp number + email</b> podunga (payment receipt email-la irukum). Endha browser-la irundhaalum open aagum.</p>
     <input class="pw-in" id="rsPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
     <input class="pw-in" id="rsEmail" type="email" inputmode="email" autocomplete="email" placeholder="Email (Razorpay-la pottadhu)" maxlength="80">
@@ -645,15 +653,115 @@ const WK = 52/12, DM = 30.4;            // same constants as the old calculator
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const inr = n => '₹' + Math.round(n||0).toLocaleString('en-IN');
-const rs = n => 'Rs ' + Math.round(n||0).toLocaleString('en-IN'); // PDF fonts have no ₹ glyph
+const inr = n => (n<0?'-':'') + RG.s + Math.abs(Math.round(n||0)).toLocaleString(RG.l);   // [v23] this country's currency
+const rs = n => (RG.c==='INR' ? 'Rs ' : RG.c + ' ') + Math.round(n||0).toLocaleString(RG.l); // PDF fonts have no ₹ glyph
 function compact(n, cur){
-  cur = cur || '₹'; n = Math.round(n||0); const a = Math.abs(n), s = n<0?'-':'';
+  cur = cur || RG.s; n = Math.round(n||0); const a = Math.abs(n), s = n<0?'-':'';
+  if (!INDIA && !RG.k){ if (a >= 1e6) return s+cur + (a/1e6).toFixed(2).replace(/\.?0+$/,'') + 'M'; if (a >= 1e4) return s+cur + Math.round(a/1e3) + 'K'; return s+cur + a.toLocaleString(RG.l); }
   if (a >= 1e7) return s+cur + (a/1e7).toFixed(2).replace(/\.?0+$/,'') + ' Cr';
   if (a >= 1e5) return s+cur + (a/1e5).toFixed(2).replace(/\.?0+$/,'') + ' L';
-  return s+cur + a.toLocaleString('en-IN');
+  return s+cur + a.toLocaleString(RG.l);
 }
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ================= [v23] country: currency, amounts, phone code, price ================= */
+// u = local currency per 1 US dollar (defaults abroad are set in dollars); LK is converted from ₹ (k)
+const REGIONS = {
+  IN:{n:'India',c:'INR',s:'₹',l:'en-IN',cc:'91'},
+  LK:{n:'Sri Lanka',c:'LKR',s:'Rs ',l:'en-LK',cc:'94',k:3.5},
+  US:{n:'USA',c:'USD',s:'$',l:'en-US',cc:'1',u:1}, CA:{n:'Canada',c:'CAD',s:'C$',l:'en-CA',cc:'1',u:1.37},
+  GB:{n:'UK',c:'GBP',s:'£',l:'en-GB',cc:'44',u:0.79}, EU:{n:'Europe',c:'EUR',s:'€',l:'en-IE',cc:'',u:0.92},
+  AE:{n:'UAE',c:'AED',s:'AED ',l:'en-AE',cc:'971',u:3.67}, SA:{n:'Saudi Arabia',c:'SAR',s:'SAR ',l:'en-US',cc:'966',u:3.75},
+  QA:{n:'Qatar',c:'QAR',s:'QAR ',l:'en-US',cc:'974',u:3.64}, KW:{n:'Kuwait',c:'KWD',s:'KD ',l:'en-US',cc:'965',u:0.31},
+  OM:{n:'Oman',c:'OMR',s:'OMR ',l:'en-US',cc:'968',u:0.385}, BH:{n:'Bahrain',c:'BHD',s:'BD ',l:'en-US',cc:'973',u:0.376},
+  SG:{n:'Singapore',c:'SGD',s:'S$',l:'en-SG',cc:'65',u:1.35}, MY:{n:'Malaysia',c:'MYR',s:'RM ',l:'en-MY',cc:'60',u:4.7},
+  AU:{n:'Australia',c:'AUD',s:'A$',l:'en-AU',cc:'61',u:1.52}, NZ:{n:'New Zealand',c:'NZD',s:'NZ$',l:'en-NZ',cc:'64',u:1.66}
+};
+const TZ_REGION = {'Asia/Kolkata':'IN','Asia/Calcutta':'IN','Asia/Colombo':'LK','Europe/London':'GB','Asia/Dubai':'AE','Asia/Riyadh':'SA',
+  'Asia/Qatar':'QA','Asia/Kuwait':'KW','Asia/Muscat':'OM','Asia/Bahrain':'BH','Asia/Singapore':'SG','Asia/Kuala_Lumpur':'MY',
+  'Pacific/Auckland':'NZ','America/Toronto':'CA','America/Vancouver':'CA','America/Edmonton':'CA','America/Winnipeg':'CA','America/Halifax':'CA'};
+const REGION = (()=>{
+  try{ const r = localStorage.getItem('mentell_region'); if (r && REGIONS[r]) return r; }catch(e){}
+  let tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
+  if (TZ_REGION[tz]) return TZ_REGION[tz];
+  if (/^Australia\//.test(tz)) return 'AU';
+  if (/^America\//.test(tz)) return 'US';
+  if (/^Europe\//.test(tz)) return 'EU';
+  return tz ? (/^Asia\/(Kolkata|Calcutta)$/.test(tz) ? 'IN' : 'US') : 'IN';
+})();
+const RG = REGIONS[REGION], INDIA = REGION === 'IN';
+function niceNum(v){ if (!v) return 0; const a = Math.abs(v), p = a >= 10000 ? 1000 : a >= 1000 ? 100 : a >= 100 ? 10 : a >= 20 ? 5 : 1; return Math.max(1, Math.round(v/p)*p); }
+// an amount for this country: ₹ value for India (and Sri Lanka, converted), US-dollar value elsewhere
+function AMT(inrValue, usdValue){ if (INDIA) return inrValue; if (RG.k) return niceNum(inrValue*RG.k); return niceNum((usdValue==null ? inrValue/85 : usdValue)*RG.u); }
+function setRegion(r){ try{ localStorage.setItem('mentell_region', r); }catch(e){} location.reload(); }
+
+/* phone: Indian numbers as before ('91' + 10 digits); others '+' + country code + number */
+const PHONE_CODES = [['91','India'],['94','Sri Lanka'],['65','Singapore'],['60','Malaysia'],['971','UAE'],['966','Saudi Arabia'],['974','Qatar'],
+  ['965','Kuwait'],['968','Oman'],['973','Bahrain'],['1','USA / Canada'],['44','UK'],['61','Australia'],['64','New Zealand'],['49','Germany'],
+  ['33','France'],['31','Netherlands'],['353','Ireland'],['41','Switzerland'],['46','Sweden'],['47','Norway'],['39','Italy'],['34','Spain'],
+  ['27','South Africa'],['230','Mauritius'],['880','Bangladesh'],['977','Nepal'],['960','Maldives'],['852','Hong Kong'],['81','Japan'],['','Other (type +code)']];
+function isIndianPhone(p){ return /^91[6-9]\d{9}$/.test(String(p||'')); }
+function phoneBox(id){
+  const inp = $(id); if (!inp || inp.dataset.cc) return;
+  const sel = document.createElement('select'); sel.className = 'cc'; sel.setAttribute('aria-label', 'Country code');
+  sel.innerHTML = PHONE_CODES.map(([c,n])=>`<option value="${c}">${c ? '+'+c+' ' : ''}${n}</option>`).join('');
+  sel.value = RG.cc || (INDIA ? '91' : '');
+  const wrap = document.createElement('div'); wrap.className = 'ccwrap';
+  inp.parentNode.insertBefore(wrap, inp); wrap.appendChild(sel); wrap.appendChild(inp);
+  inp.dataset.cc = '1'; inp.removeAttribute('maxlength'); inp.setAttribute('maxlength', '20');
+  const hint = () => { inp.placeholder = sel.value === '91' ? '10 digits' : (sel.value ? 'Number' : '+code number'); };
+  sel.addEventListener('change', hint); hint();
+}
+function fillPhone(id, phone){
+  const inp = $(id); if (!inp) return; phoneBox(id); const sel = inp.parentNode.querySelector('select.cc');
+  const p = String(phone||'');
+  if (!p){ inp.value = ''; return; }
+  if (isIndianPhone(p)){ sel.value = '91'; inp.value = p.slice(2); return; }
+  const d = p.replace(/\D/g,''), code = PHONE_CODES.map(x=>x[0]).filter(Boolean).sort((a,b)=>b.length-a.length).find(c=>d.startsWith(c) && c !== '91');
+  if (code){ sel.value = code; inp.value = d.slice(code.length); } else { sel.value = ''; inp.value = '+' + d; }
+}
+// → {ok, phone} with phone = '91XXXXXXXXXX' (India) or '+<code><number>'; err = 'in' | 'intl'
+function readPhone(id){
+  const inp = $(id), sel = inp && inp.parentNode.querySelector('select.cc');
+  const raw = String(inp ? inp.value : '').trim(); let cc = sel ? sel.value : '91';
+  let d = raw.replace(/\D/g,'');
+  if (/^(\+|00)/.test(raw)){ if (raw.startsWith('00')) d = d.slice(2); const m = PHONE_CODES.map(x=>x[0]).filter(Boolean).sort((a,b)=>b.length-a.length).find(c=>d.startsWith(c)); cc = m === '91' ? '91' : ''; if (m === '91') d = d.slice(2); }
+  else if (cc && cc !== '91') d = cc + d.replace(/^0+/, '');
+  if (cc === '91'){
+    if (d.length===12 && d.startsWith('91')) d = d.slice(2);
+    if (d.length===11 && d.startsWith('0')) d = d.slice(1);
+    return /^[6-9]\d{9}$/.test(d) ? {ok:true, phone:'91'+d} : {ok:false, err:'in'};
+  }
+  return /^[1-9]\d{7,14}$/.test(d) && !d.startsWith('91') ? {ok:true, phone:'+'+d} : {ok:false, err:'intl'};
+}
+const PHONE_ERR_INTL = 'Country code-oda full WhatsApp number podunga.';
+
+/* price: ₹99 for an Indian number, $2 for others (before the number is known: by country) */
+function buyerIndia(){ return LEAD && LEAD.phone ? isIndianPhone(LEAD.phone) : INDIA; }
+function PRICE(){
+  return buyerIndia() ? {minor:9900, cur:'INR', label:'₹99', product:'money_plan_99', page:String(CFG.paymentPageUrl||''), methods:'UPI · Card · Net banking'}
+                      : {minor:200, cur:'USD', label:'$2', product:'money_plan_usd', page:String(CFG.paymentPageUrlUsd||''), methods:'Visa · Mastercard · Amex'};
+}
+function money(minor, cur){ cur = cur || 'INR'; const v = minor/100, dec = minor % 100 ? 2 : 0;
+  return cur === 'INR' ? '₹' + v.toLocaleString('en-IN', {minimumFractionDigits:dec, maximumFractionDigits:2}) : (cur === 'USD' ? '$' : cur + ' ') + v.toFixed(dec); }
+function showPrices(){ const p = PRICE(); $$('.p99').forEach(e=>e.textContent = p.label); const m = $('#pwMethods'); if (m) m.textContent = p.methods; }
+
+/* adapt the lists and defaults to this country (India: unchanged) */
+function adaptRegion(){
+  if (INDIA) return;
+  const E = {home:[250000,1800], personal:[15000,400], vehicle:[20000,450], credit:[6000,200], gold:[5000,250], education:[30000,350], app:[1000,150], business:[30000,700], other:[2000,150]};
+  EMI_TYPES.forEach(t=>{ const u = E[t.id] || [t.bal/85, t.emi/85]; t.bal = AMT(t.bal, u[0]); t.emi = AMT(t.emi, u[1]); });
+  const X = {rent:[1500,8000], grocery:[500,3000], travel:[250,1500], power:[150,800], phone:[80,400], school:[0,5000], medical:[0,2000], family:[0,5000], help:[0,3000], chit:[0,5000], other:[0,3000]};
+  EXPENSES.forEach(e=>{ const u = X[e.id] || [e.def/85, e.max/85]; e.def = e.def ? AMT(e.def, u[0]) : 0; e.max = AMT(e.max, u[1]); });
+  const H = {smoke:[12,3,40,1], drink:[40,5,300,5], tea:[4,1,15,1], food:[30,5,150,1], quick:[25,5,150,1], ott:[12,1,50,1], movie:[40,5,200,5], shop:[60,5,500,5], other:[50,5,1000,5]};
+  HABITS.forEach(h=>{ const u = H[h.id]; if (!u) return;
+    if (h.id === 'smoke' && !RG.k){ h.b.l = 'Price a pack of 20'; h.f = DM/20; }   // abroad: price a pack (one cigarette is under 1)
+    if (h.other) h.b.l = RG.s.trim() + ' a month';
+    h.b.def = AMT(h.b.def, u[0]); h.b.min = AMT(h.b.min, u[1]); h.b.max = AMT(h.b.max, u[2]); h.b.step = RG.k ? AMT(h.b.step, 1) : Math.max(1, niceNum(u[3]*RG.u));
+    if (h.b.min >= h.b.max) h.b.min = 1;
+  });
+}
+
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function dateIn(m, capped){ if (capped) return '40+ years'; const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+m); return MON[d.getMonth()]+' '+d.getFullYear(); }
 function monthsLabel(m){ const y=Math.floor(m/12), r=m%12; return (y? y+(y===1?' year':' years'):'') + (y&&r?' ':'') + (r||!y? r+(r===1?' month':' months'):''); }
@@ -793,6 +901,7 @@ const HABITS = [
    wins:[['One less worry','Money you can finally account for']]}
 ];
 const HB = Object.fromEntries(HABITS.map(h=>[h.id,h]));
+adaptRegion();   // [v23]
 const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry at night'],['Calmer mind','You know what to do each month: less panic, more control'],['Peace at home','Fewer money arguments when everyone sees the same plan']];
 
 /* ================= state ================= */
@@ -903,7 +1012,7 @@ function pop(el){ const mo=M(); if (mo && !reduced) mo.animate(el, {transform:['
 function sliderHTML(key, label, val, o){
   const t = o.log ? Math.round(1000*Math.log(Math.max(val,o.min)/o.min)/Math.log(o.max/o.min)) : val;
   return `<div class="fld"><div class="fld-top"><label for="n-${key}">${esc(label)}</label>
-    <div class="val">${o.pre?`<span>${o.pre}</span>`:''}<input id="n-${key}" data-key="${key}" inputmode="decimal" value="${o.pct? val : Math.round(val).toLocaleString('en-IN')}" aria-label="${esc(label)}">${o.suf?`<span>${o.suf}</span>`:''}</div></div>
+    <div class="val">${o.pre?`<span>${o.pre}</span>`:''}<input id="n-${key}" data-key="${key}" inputmode="decimal" value="${o.pct? val : Math.round(val).toLocaleString(RG.l)}" aria-label="${esc(label)}">${o.suf?`<span>${o.suf}</span>`:''}</div></div>
     <input type="range" data-key="${key}" min="${o.log?0:o.min}" max="${o.log?1000:o.max}" step="${o.log?1:(o.step||1)}" value="${t}" aria-label="${esc(label)} slider" data-log="${o.log?1:0}"${o.pct?' data-pct="1"':''} data-min="${o.min}" data-max="${o.max}" data-step="${o.step||1}"></div>`;
 }
 function niceRound(v, step){ step = step||1; if (v>=1e6) step=Math.max(step,10000); else if (v>=1e5) step=Math.max(step,1000); else if (v>=1e4) step=Math.max(step,500); else if (v>=1000) step=Math.max(step,100); return Math.round(v/step)*step; }
@@ -913,7 +1022,7 @@ function bindSliders(root, onChange){
       const min=+r.dataset.min, max=+r.dataset.max;
       let v = r.dataset.log==='1' ? niceRound(min*Math.pow(max/min, +r.value/1000), +r.dataset.step) : +r.value;
       const box = root.querySelector(`input[id="n-${r.dataset.key}"]`);
-      if (box) box.value = (r.dataset.pct ? v : Math.round(v).toLocaleString('en-IN'));
+      if (box) box.value = (r.dataset.pct ? v : Math.round(v).toLocaleString(RG.l));
       onChange(r.dataset.key, v);
     });
   });
@@ -925,7 +1034,7 @@ function bindSliders(root, onChange){
       if (r){ const min=+r.dataset.min, max=+r.dataset.max; r.value = r.dataset.log==='1' ? Math.round(1000*Math.log(Math.min(Math.max(v,min),max)/min)/Math.log(max/min)) : Math.min(Math.max(v,min),max); }
       onChange(b.dataset.key, v);
     });
-    b.addEventListener('blur', ()=>{ const v=parseFloat(String(b.value).replace(/[^\d.]/g,''))||0; b.value = /rate/.test(b.dataset.key) ? v : Math.round(v).toLocaleString('en-IN'); });
+    b.addEventListener('blur', ()=>{ const v=parseFloat(String(b.value).replace(/[^\d.]/g,''))||0; b.value = /rate/.test(b.dataset.key) ? v : Math.round(v).toLocaleString(RG.l); });
   });
 }
 
@@ -1014,8 +1123,8 @@ function drawEmiCards(){
     const stuck = l.balance>0 && l.emi>0 && emiStuck(l);
     return `<div class="card" data-li="${i}">
       <div class="card-h"><b>${esc(t.n)}</b><button type="button" class="x" data-rm="${i}">Remove</button></div>
-      ${sliderHTML('bal'+i, 'Innum kattanum (balance)', l.balance, {pre:'₹', min:5000, max:20000000, log:true, step:1000})}
-      ${sliderHTML('emi'+i, t.emiLabel||'EMI every month', l.emi, {pre:'₹', min:500, max:300000, log:true, step:100})}
+      ${sliderHTML('bal'+i, 'Innum kattanum (balance)', l.balance, {pre:RG.s, min:AMT(5000,100), max:AMT(20000000,2000000), log:true, step:AMT(1000,10)})}
+      ${sliderHTML('emi'+i, t.emiLabel||'EMI every month', l.emi, {pre:RG.s, min:AMT(500,10), max:AMT(300000,20000), log:true, step:AMT(100,5)})}
       ${sliderHTML('rate'+i, 'Interest a year (theriyalana appadiye vidunga)', l.rate, {suf:'%', min:0, max:48, step:.5, pct:true})}
       <p class="err" data-stuck="${i}">${stuck?'Indha EMI interest-a mattum dhaan kattudhu. Balance kuraiyadhu. Noor kitta pesunga.':''}</p>
     </div>`;
@@ -1048,10 +1157,10 @@ $('#noEmi').addEventListener('click', ()=>{ S.noEmi = true; S.emis = []; save();
 
 /* ---------- 3 salary ---------- */
 function renderSalary(){
-  if (!S.salary) S.salary = 30000;
-  $('#salaryCard').innerHTML = sliderHTML('sal', 'Take-home a month', S.salary, {pre:'₹', min:5000, max:500000, log:true, step:500});
+  if (!S.salary) S.salary = AMT(30000, 4000);
+  $('#salaryCard').innerHTML = sliderHTML('sal', 'Take-home a month', S.salary, {pre:RG.s, min:AMT(5000,300), max:AMT(500000,50000), log:true, step:AMT(500,50)});
   bindSliders($('#salaryCard'), (k,v)=>{ S.salary = v; save(); updateNext(); setChips(); });
-  $('#salChips').innerHTML = [15000,25000,40000,60000,100000].map(v=>`<button type="button" class="chip" data-sal="${v}" aria-pressed="false">${compact(v)}</button>`).join('');
+  $('#salChips').innerHTML = (INDIA||RG.k ? [15000,25000,40000,60000,100000].map(v=>AMT(v)) : [1500,2500,4000,6000,10000].map(v=>AMT(0,v))).map(v=>`<button type="button" class="chip" data-sal="${v}" aria-pressed="false">${compact(v)}</button>`).join('');
   setChips();
 }
 function setChips(){ $$('[data-sal]').forEach(c=>c.setAttribute('aria-pressed', String(+c.dataset.sal===S.salary))); }
@@ -1075,16 +1184,14 @@ function renderSnap(){
 }
 
 /* ---------- 5 lead ---------- */
-function renderLead(){ $('#lName').value = LEAD.name||''; $('#lPhone').value = LEAD.phone||''; }
+function renderLead(){ $('#lName').value = LEAD.name||''; fillPhone('#lPhone', LEAD.phone); }
 function submitLead(){
   const name = $('#lName').value.trim().replace(/\s+/g,' ');
-  let ph = $('#lPhone').value.replace(/\D/g,'');
-  if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
-  if (ph.length===11 && ph.startsWith('0')) ph = ph.slice(1);
+  const RP = readPhone('#lPhone');
   if (name.length < 2){ $('#leadErr').textContent = 'Unga peyar podunga.'; $('#lName').focus(); return false; }
-  if (!/^[6-9]\d{9}$/.test(ph)){ $('#leadErr').textContent = '10-digit WhatsApp number podunga (6, 7, 8 or 9-la start aagum).'; $('#lPhone').focus(); return false; }
+  if (!RP.ok){ $('#leadErr').textContent = RP.err==='in' ? '10-digit WhatsApp number podunga (6, 7, 8 or 9-la start aagum).' : PHONE_ERR_INTL; $('#lPhone').focus(); return false; }
   $('#leadErr').textContent = '';
-  LEAD = {name, phone:'91'+ph};
+  LEAD = {name, phone:RP.phone};
   try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); sessionStorage.setItem(GATE_KEY,'1'); }catch(e){}
   sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, totalEmi:totEMI(), emisCount:validEmis().length,
     item:`Money plan lead: ${validEmis().length} EMI(s), EMI ${Math.round(totEMI()/Math.max(S.salary,1)*100)}% of salary`});
@@ -1095,7 +1202,7 @@ function submitLead(){
 /* ---------- 6 expenses ---------- */
 function renderExpenses(){
   EXPENSES.forEach(e=>{ if (S.exp[e.id]==null) S.exp[e.id] = e.def; });
-  $('#expList').innerHTML = EXPENSES.map(e=>`<div class="card">${sliderHTML('x_'+e.id, e.n + (e.hint?` (${e.hint})`:''), S.exp[e.id]||0, {pre:'₹', min:0, max:e.max, step:100})}</div>`).join('');
+  $('#expList').innerHTML = EXPENSES.map(e=>`<div class="card">${sliderHTML('x_'+e.id, e.n + (e.hint?` (${e.hint})`:''), S.exp[e.id]||0, {pre:RG.s, min:0, max:e.max, step:AMT(100,5)})}</div>`).join('');
   bindSliders($('#expList'), (k,v)=>{ S.exp[k.slice(2)] = v; save(); updExp(); });
   updExp(true);
 }
@@ -1127,7 +1234,7 @@ const SB_URL = String(CFG.supabaseUrl||''), SB_KEY = String(CFG.supabasePublisha
 const PAY_MOCK = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('paymock') || '';   // test mode, never on the live site
 function paidOk(){ const p = S.paid; return !!(p && p.o && (p.f || (p.u && Date.parse(p.u) > Date.now()))); }
 function unlocked(){ let member = false; try{ member = hasSession(); }catch(e){} return !PAYWALL || paidOk() || member; }
-const rupees = paise => '₹' + (paise/100).toLocaleString('en-IN', {minimumFractionDigits: paise % 100 ? 2 : 0, maximumFractionDigits: 2});
+const rupees = (minor, cur) => money(minor, cur || (PAY && PAY.cur) || PRICE().cur);   // [v23] ₹99 or $2
 let PAY = null;   // the order being paid
 
 function renderPaywall(){
@@ -1163,10 +1270,10 @@ function showPay(state){
   }
 }
 function setPrice(o){
-  $('#pwPrice').textContent = rupees(o.amount);
+  $('#pwPrice').textContent = rupees(o.amount, o.currency);
   $('#pwWas').hidden = $('#pwOffer').hidden = !o.offer_percent;
   $('#pwPer').textContent = o.period_days ? `/ ${o.period_days} naal` : 'one time';
-  $('#pwPay').textContent = `${rupees(o.amount)} pay panni plan paarunga`;
+  $('#pwPay').textContent = `${rupees(o.amount, o.currency)} pay panni plan paarunga`;
 }
 async function payApi(fn, body){
   if (PAY_MOCK) return payMock(fn);
@@ -1215,12 +1322,13 @@ function newToken(){
   return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
 }
 function paywallSeen(){
+  showPrices(); if (!PAY) setPrice({amount:PRICE().minor, currency:PRICE().cur, period_days:30});   // [v23] by the number they gave
   if (!PAYWALL || paidOk()) return;
   loadProof();
   // [v21.1] the payment is matched by number: ask them to keep the same one on the Razorpay page
   const ten = String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '');
   $('#pwNum').hidden = !ten;
-  if (ten) $('#pwNum').innerHTML = `Payment page-la <b>idhe number</b> podunga: <b>${esc(ten.slice(0,5) + ' ' + ten.slice(5))}</b>. Vera number pottaa plan open aagaadhu.`;
+  if (ten) $('#pwNum').innerHTML = `Payment page-la <b>idhe number</b> podunga: <b>${esc(isIndianPhone(LEAD.phone) ? ten.slice(0,5) + ' ' + ten.slice(5) : ten)}</b>. Vera number pottaa plan open aagaadhu.`;
   if (!LEAD.phone) return;
   const d = new Date().toISOString().slice(0,10);
   if (S.rtDay === d) return;
@@ -1246,21 +1354,21 @@ function openPayPage(){
 function markPaid(st){
   S.paid = {o:PAY.order_id, u:st.access_until||null, f:!!st.forever}; S.pendingPay = null; save();
   showPay('paid');
-  track('purchase', {currency:'INR', value:PAY.amount/100, transaction_id:PAY.order_id, items:[{item_id:'money_plan_99', item_name:'Mentell Money Plan', price:PAY.amount/100, quantity:1}]});
-  sendRow({event:'paid', name:LEAD.name, phone:LEAD.phone, paid:1, item:`₹${PAY.amount/100} money plan paid (order ${PAY.order_id})`});
+  track('purchase', {currency:PAY.cur||'INR', value:PAY.amount/100, transaction_id:PAY.order_id, items:[{item_id:PAY.cur==='USD'?'money_plan_usd':'money_plan_99', item_name:'Mentell Money Plan', price:PAY.amount/100, quantity:1}]});
+  sendRow({event:'paid', name:LEAD.name, phone:LEAD.phone, paid:1, item:`${money(PAY.amount, PAY.cur||'INR')} money plan paid (order ${PAY.order_id})`});
 }
 async function pay(){
   const err = $('#pwErr'); err.textContent = '';
   if (!LEAD.phone || !LEAD.name){                     // came without the lead form (e.g. hand-off): ask here
     const name = $('#pwName').value.trim().replace(/\s+/g,' ');
-    let ph = $('#pwPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+    const RP = readPhone('#pwPhone');
     if (name.length < 2){ err.textContent = 'Unga peyar podunga.'; return; }
-    if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit WhatsApp number podunga.'; return; }
-    LEAD = {name, phone:'91'+ph};
+    if (!RP.ok){ err.textContent = RP.err==='in' ? '10-digit WhatsApp number podunga.' : PHONE_ERR_INTL; return; }
+    LEAD = {name, phone:RP.phone};
     try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){}
     sendRow({event:'lead', name, phone:LEAD.phone, income:S.salary, item:'Lead from the ₹99 paywall'});
   }
-  if (PAGE_URL) return payOnPage();
+  if (PAGE_URL || !buyerIndia()) return payOnPage();   // [v23] $2 is always on its Payment Page
   const btn = $('#pwPay'); btn.disabled = true; btn.textContent = 'Opening…';
   track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}]});
   try{
@@ -1280,7 +1388,7 @@ async function pay(){
     err.textContent = e.message==='too_many_orders' ? 'Konjam neram kazhichu try pannunga.' : e.message==='bad_phone' ? 'WhatsApp number sariyaa illa.' : 'Network problem. Thirumba try pannunga.';
     track('payment_error', {error:String(e.message||'').slice(0,40)});
   }finally{
-    btn.disabled = false; setPrice(PAY || {amount:9900, period_days:30});
+    btn.disabled = false; setPrice(PAY || {amount:PRICE().minor, currency:PRICE().cur, period_days:30});
   }
 }
 // The page lost the Checkout callback (UPI app switch, closed sheet): ask the server, which asks Razorpay, every 3 s for 2 minutes.
@@ -1318,14 +1426,18 @@ async function rpcAnon(fn, args){
   if (!r.ok) throw new Error((j && j.message) || 'http_'+r.status);
   return j;
 }
-function pageUrl(){ return PAGE_URL + (PAGE_URL.includes('?') ? '&' : '?') + 'phone=' + encodeURIComponent(String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '')); }
+function pageUrl(){ const P = PRICE().page; return P + (P.includes('?') ? '&' : '?') + 'phone=' + encodeURIComponent(String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '')); }
 async function payOnPage(){
   const btn = $('#pwPay'), err = $('#pwErr'); btn.disabled = true; btn.textContent = 'Opening…';
-  track('begin_checkout', {currency:'INR', value:99, items:[{item_id:'money_plan_99'}], method:'payment_page'});
+  if (!/^https:\/\/pages\.razorpay\.com\//.test(PRICE().page)){   // [v23] $2 page not live yet
+    btn.disabled = false; btn.textContent = `${PRICE().label} pay panni plan paarunga`;
+    err.innerHTML = `International payment (${PRICE().label}) seekiram varum. Ippodhaikku ${waHelp()}, Noor plan open panni tharuvaar.`; track('intl_pay_waiting'); return;
+  }
+  track('begin_checkout', {currency:PRICE().cur, value:PRICE().minor/100, items:[{item_id:PRICE().product}], method:'payment_page'});
   try{
-    const o = PAY_MOCK ? {order_id:'00000000-0000-4000-8000-0000000000'+String(Date.now()%90+10), amount_paise:9900, period_days:30}
-                       : await rpcAnon('start_page_order', {p_phone:LEAD.phone, p_name:LEAD.name});
-    PAY = {order_id:o.order_id, amount:o.amount_paise, t:Date.now()};
+    const o = PAY_MOCK ? {order_id:'00000000-0000-4000-8000-0000000000'+String(Date.now()%90+10), amount_paise:PRICE().minor, currency:PRICE().cur, period_days:30}
+                       : await rpcAnon('start_page_order', {p_phone:LEAD.phone, p_name:LEAD.name, p_product:PRICE().product});
+    PAY = {order_id:o.order_id, amount:o.amount_paise, cur:o.currency||PRICE().cur, t:Date.now()};
     S.pendingPay = {o:o.order_id, a:o.amount_paise, t:PAY.t}; save();
     if (!PAY_MOCK){
       if (!openPayPage()) return;      // pop-up blocked: pay in this tab; coming back resumes the check
@@ -1335,7 +1447,7 @@ async function payOnPage(){
     const m = String(e.message||'');
     err.textContent = /too_many_orders/.test(m) ? 'Konjam neram kazhichu try pannunga.' : /bad_phone/.test(m) ? 'WhatsApp number sariyaa illa.' : 'Network problem. Thirumba try pannunga.';
     track('payment_error', {error:m.slice(0,40), method:'payment_page'});
-  }finally{ btn.disabled = false; btn.textContent = '₹99 pay panni plan paarunga'; }
+  }finally{ btn.disabled = false; btn.textContent = `${PRICE().label} pay panni plan paarunga`; }
 }
 async function pageStatus(){
   if (PAY_MOCK) return (Date.now() - PAY.t > 4000 && PAY_MOCK !== 'fail') ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status:'created'};
@@ -1367,18 +1479,18 @@ $('#pwRecheck').addEventListener('click', ()=>{ track('payment_page_recheck'); p
    typed on the Razorpay page bring the paid order back (restore_access, max 8 tries / phone / hour).
    From then on it is the same as paying here: order_status re-checks it on every visit. */
 function waHelp(order){
-  return `<a href="https://wa.me/${esc(String(CFG.whatsappNumber||'919629843122'))}?text=${encodeURIComponent('Mentell ₹99 paid, plan open aagala.' + (order ? ' Order: '+order : ''))}" target="_blank" rel="noopener">Noor-ku WhatsApp pannunga</a>`;
+  return `<a href="https://wa.me/${esc(String(CFG.whatsappNumber||'919629843122'))}?text=${encodeURIComponent('Mentell ' + PRICE().label + ' paid, plan open aagala.' + (order ? ' Order: '+order : ''))}" target="_blank" rel="noopener">Noor-ku WhatsApp pannunga</a>`;
 }
 function openRestore(where){
   track('restore_open', {location:where});
-  $('#rsPhone').value = String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '');
+  fillPhone('#rsPhone', LEAD.phone);
   $('#rsErr').textContent = ''; $('#rsModal').classList.add('on');
 }
 async function restorePaid(){
   const err = $('#rsErr'), btn = $('#rsGo'); err.textContent = '';
-  let ph = $('#rsPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+  const RP = readPhone('#rsPhone'), ph = RP.phone;
   const em = $('#rsEmail').value.trim();
-  if (!/^[6-9]\d{9}$/.test(ph)){ err.textContent = '10-digit WhatsApp number podunga.'; return; }
+  if (!RP.ok){ err.textContent = RP.err==='in' ? '10-digit WhatsApp number podunga.' : PHONE_ERR_INTL; return; }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ err.textContent = 'Email sariyaa podunga.'; return; }
   btn.disabled = true; btn.textContent = 'Checking…';
   try{
@@ -1386,7 +1498,7 @@ async function restorePaid(){
                        : await rpcAnon('restore_access', {p_phone:ph, p_email:em});
     if (!(r && r.found && r.status === 'paid')){
       track('restore_access', {ok:false});
-      err.innerHTML = `Indha number + email-oda ₹99 payment kidaikkala. Ippo dhaan pay pannirundhaa 1 nimisham kazhichu thirumba try pannunga. Illana payment screenshot-oda ${waHelp()}.`;
+      err.innerHTML = `Indha number + email-oda ${PRICE().label} payment kidaikkala. Ippo dhaan pay pannirundhaa 1 nimisham kazhichu thirumba try pannunga. Illana payment screenshot-oda ${waHelp()}.`;
       return;
     }
     S.paid = {o:r.order_id, u:r.access_until||null, f:!!r.forever}; S.pendingPay = null; PAY = null; save();
@@ -1396,7 +1508,7 @@ async function restorePaid(){
     const PW = SCREENS.indexOf('paywall');
     if (S.at >= PW){ go(PW, {replace:true}); return; }      // their answers are on this phone: the paywall shows Unlocked
     const u = r.forever ? '' : new Date(r.access_until).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
-    $('#rsOkTxt').textContent = (u ? `Unga ₹99 plan ${u} varaikkum. ` : 'Unga ₹99 plan ready. ') + 'Indha browser-la unga numbers illa: Start tap panni podunga (3 nimisham), plan full-a open aagum.';
+    $('#rsOkTxt').textContent = (u ? `Unga ${PRICE().label} plan ${u} varaikkum. ` : `Unga ${PRICE().label} plan ready. `) + 'Indha browser-la unga numbers illa: Start tap panni podunga (3 nimisham), plan full-a open aagum.';
     $('#rsOk').hidden = false; $('#rsLink').hidden = true;
     go(0, {replace:true});
   }catch(e){
@@ -1440,7 +1552,7 @@ function renderAmounts(){
     return `<div class="card"><div class="card-h"><b>${esc(h.other && S.otherName ? S.otherName : h.n)}</b></div>
       ${h.other ? `<div class="fld"><label for="oName">Adhu enna?</label><input class="txt" id="oName" maxlength="40" placeholder="eg. lottery, gaming, betting app" value="${esc(S.otherName)}"></div>` :
         sliderHTML('ha_'+h.id, h.a.l, v.a, {min:h.a.min, max:h.a.max, step:h.a.step})}
-      ${sliderHTML('hb_'+h.id, h.b.l, v.b, {pre:'₹', min:h.b.min, max:h.b.max, step:h.b.step})}
+      ${sliderHTML('hb_'+h.id, h.b.l, v.b, {pre:RG.s, min:h.b.min, max:h.b.max, step:h.b.step})}
       <div class="sum"><span>Every month</span><b id="hs_${h.id}">${inr(habitSpend(h.id))}</b></div></div>`;
   }).join('');
   bindSliders($('#habList'), (k,v)=>{
@@ -1753,7 +1865,7 @@ $('#iosCopy').addEventListener('click', async ()=>{
    Entries are saved on the phone first, then sent; if the network fails they wait
    in a queue and go next time. The server decides streak, month total and 50% off. */
 const TRK_KEY = 'mentell_trk', TRK_DATA = 'mentell_trk_data', TRK_Q = 'mentell_trk_queue';
-const SAVE_TARGET = 2000, MIN_FIRE = 20;
+const SAVE_TARGET = AMT(2000, 50), MIN_FIRE = AMT(20, 1);
 let TRK = null, TD = null, joinMode = 'signup', entryKind = 'save';
 try{ TRK = JSON.parse(localStorage.getItem(TRK_KEY)||'null'); TD = JSON.parse(localStorage.getItem(TRK_DATA)||'null'); }catch(e){}
 const hasSession = () => !!(TRK && TRK.token && TRK.phone);
@@ -1850,7 +1962,7 @@ function applyServer(r){
 /* ---------- join (create account / login) ---------- */
 function renderJoin(){
   if (!$('#jName').value) $('#jName').value = LEAD.name || '';
-  if (!$('#jPhone').value) $('#jPhone').value = (LEAD.phone||'').replace(/^91/,'');
+  if (!$('#jPhone').value) fillPhone('#jPhone', LEAD.phone);
   setJoinMode(joinMode);
 }
 function setJoinMode(m){
@@ -1879,9 +1991,9 @@ const JOIN_ERR = {phone:'10-digit WhatsApp number podunga.', password:'Password 
 async function submitJoin(){
   if (joinMode==='signup' && !unlocked()){ track('trk_signup_blocked'); go(SCREENS.indexOf('paywall')); return; }   // [v16] new tracker accounts come with the ₹99 plan
   const btn = $('#next'); if (btn.dataset.busy) return;
-  let ph = $('#jPhone').value.replace(/\D/g,''); if (ph.length===12 && ph.startsWith('91')) ph = ph.slice(2);
+  const RP = readPhone('#jPhone'), ph = RP.ok ? (isIndianPhone(RP.phone) ? RP.phone.slice(2) : RP.phone) : '';
   const pw = $('#jPass').value, name = $('#jName').value.trim();
-  if (!/^[6-9]\d{9}$/.test(ph)){ $('#joinErr').textContent = JOIN_ERR.phone; return; }
+  if (!RP.ok){ $('#joinErr').textContent = RP.err==='in' ? JOIN_ERR.phone : PHONE_ERR_INTL; return; }
   if (joinMode==='signup' && name.length<2){ $('#joinErr').textContent = JOIN_ERR.name; return; }
   const code = $('#jCode').value.replace(/\D/g,'');
   if (joinMode==='recover' && code.length!==6){ $('#joinErr').textContent = '6-digit recovery code podunga. Code illana Noor-ku WhatsApp pannunga.'; return; }
@@ -2035,7 +2147,7 @@ function nudge(justSaved){
   if (today) return h<17 ? `Inniku ${inr(today)} save aachu. Evening-um oru chance irukku.` : `Inniku ${inr(today)} save. Naalaikku kaalai paappom.`;
   if (h < 12) return `Kaalai vanakkam ${name}. Inniku oru chinna save podhum, fire on aagum.`;
   if (h < 17) return st ? `${st} naal streak. Lunch-la oru Swiggy skip pannuna inga log pannunga.` : 'Lunch-la veliya saapadu skip pannuna, inga log pannunga.';
-  return st ? `Fire anaiya poguthu. ${st} naal streak-a kaapaathunga: oru ₹20 save kooda podhum.` : 'Inniku innum log pannala. Oru tea skip panniyaa? Adhu kooda save dhaan.';
+  return st ? `Fire anaiya poguthu. ${st} naal streak-a kaapaathunga: oru ${inr(MIN_FIRE)} save kooda podhum.` : 'Inniku innum log pannala. Oru tea skip panniyaa? Adhu kooda save dhaan.';
 }
 function renderTracker(){
   if (!hasSession()){ go(SCREENS.indexOf('join'), {replace:true}); return; }
@@ -2062,8 +2174,8 @@ function renderTracker(){
 }
 function chipsFor(kind){
   if (kind==='save'){
-    const c = habitsOn().map(h=>{ const v=S.habits[h.id]; const per = h.other ? (Math.round((+v.b||0)/30/10)*10 || 50) : Math.round(+v.b||0); return ['Skipped ' + (h.other&&S.otherName?S.otherName:h.n), Math.max(per,10)]; });
-    return c.concat([['Tea skip',20],['Walked, no auto',50],['Cooked at home',200],['Other saving',100]]).slice(0,10);
+    const c = habitsOn().map(h=>{ const v=S.habits[h.id]; const per = h.other ? (Math.round((+v.b||0)/30/10)*10 || AMT(50,2)) : Math.round((+v.b||0) * (h.id==='smoke' && !INDIA && !RG.k ? 1/20 : 1)); return ['Skipped ' + (h.other&&S.otherName?S.otherName:h.n), Math.max(per,AMT(10,1))]; });
+    return c.concat([['Tea skip',AMT(20,3)],['Walked, no auto',AMT(50,2)],['Cooked at home',AMT(200,8)],['Other saving',AMT(100,5)]]).slice(0,10);
   }
   return EXPENSES.slice(0,6).map(e=>[e.n, 0]).concat([['Food outside',0],['Shopping',0],['Other spend',0]]);
 }
@@ -2101,7 +2213,7 @@ async function flush(){
 }
 async function addEntry(){
   const amt = Math.round(+String($('#tAmt').value).replace(/[^\d.]/g,'')||0);
-  if (!(amt>0) || amt>100000){ $('#tEntryErr').textContent = '₹1 to ₹1,00,000 podunga.'; return; }
+  if (!(amt>0) || amt>AMT(100000,5000)){ $('#tEntryErr').textContent = `${inr(1)} to ${inr(AMT(100000,5000))} podunga.`; return; }
   const chip = document.querySelector('[data-tcat][aria-pressed="true"]');
   const dayBtn = document.querySelector('[data-tday][aria-pressed="true"]');
   const dayOff = dayBtn ? +dayBtn.dataset.tday : 0;
@@ -2242,6 +2354,14 @@ $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; c
     go(SCREENS.indexOf(paidOk() ? 'dashboard' : 'paywall'), {replace:true});
   }).catch(()=>{});
   if (TRACKER_URL) $('#loginLink').hidden = false;
+  $$('.langs a').forEach(a=>a.addEventListener('click', e=>{ e.preventDefault(); track('lang_change', {to:a.dataset.lang}); location.href = a.getAttribute('href') + location.hash; }));
+  // [v23] phone boxes with country codes, ₹99 / $2, country + language switches
+  ['#lPhone','#pwPhone','#rsPhone','#jPhone'].forEach(phoneBox); showPrices();
+  $$('.big, #tSaved, #tSpent').forEach(e=>{ if (e.textContent.trim()==='₹0') e.textContent = inr(0); });
+  $$('.saveTarget').forEach(e=>e.textContent = inr(SAVE_TARGET));
+  const wl = document.querySelector('.scr[data-s="welcome"]');
+  if (wl) wl.insertAdjacentHTML('beforeend', `<p class="small rgline">Country: <select id="rgSel" aria-label="Country and currency">${Object.keys(REGIONS).map(k=>`<option value="${k}"${k===REGION?' selected':''}>${REGIONS[k].n} (${REGIONS[k].s.trim()})</option>`).join('')}</select></p>`);
+  const rgs = $('#rgSel'); if (rgs) rgs.addEventListener('change', ()=>{ track('region_change', {to:rgs.value}); setRegion(rgs.value); });
   if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
   recheckPaid();   // [v16] refund / expiry since the last visit
   go(0, {replace:true});

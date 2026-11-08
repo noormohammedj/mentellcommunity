@@ -22,6 +22,8 @@ window.MENTELL_CONFIG = {
   /* [v16.2] Where the ₹99 is paid: the Mentell Razorpay Payment Page (full pages.razorpay.com address,
      so the phone can be pre-filled; the short link is rzp.io/rzp/bLStKNl3). The page's payment is matched
      to the buyer by phone through the Razorpay webhook. '' = pay inside the page with Razorpay Checkout. */
+  /* [v23] the $2 page for buyers outside India (Razorpay Payment Page in USD). '' = not live yet: the page asks them to WhatsApp Noor. */
+  paymentPageUrlUsd: '',
   paymentPageUrl: 'https://pages.razorpay.com/pl_Tuags50lJ7O4hm/view',
  
   /* Razorpay Payment Links (public links, not keys) */
