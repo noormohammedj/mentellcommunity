@@ -54,6 +54,7 @@ button:disabled{opacity:.5;cursor:default}
     <h1>Inniku yaarukku message?</h1>
     <p class="muted small" id="when"></p>
     <div class="stats" id="stats"></div>
+    <p class="small muted" id="nStats"></p>
     <div class="tip"><b>How:</b> tap <b>WhatsApp</b> → the message opens ready in WhatsApp → send. The person leaves this list for 3 days (marked "sent"). Send to about 50 new people a day at most, so WhatsApp doesn't flag your number. People who reply "venaam": tap <b>Not interested</b>.</div>
     <div id="list"></div>
     <button class="ghost wide" id="reload">Refresh list</button>
@@ -176,7 +177,11 @@ function render(){
     });
   });
 }
+async function loadNotify(){
+  try{ const n = await rpc('admin_notify_stats', {}); $('#nStats').textContent = 'Automatic messages: WhatsApp ' + (n.whatsapp_on ? 'on' : 'off') + ', email ' + (n.email_on ? 'on' : 'off') + ' · sent in 24 h: ' + n.sent_today + ' · waiting: ' + n.waiting + ' · scheduled: ' + n.scheduled + ' · failed (7 days): ' + n.failed; }catch(e){}
+}
 async function load(){
+  loadNotify();
   $('#reload').disabled = true;
   try{ ROWS = await rpc('admin_followups', {}) || []; $('#when').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'}); render(); }
   catch(e){ if (e.message === 'login'){ $('#app').hidden = true; $('#login').hidden = false; } else $('#list').innerHTML = `<p class="err">${esc(e.message)}</p>`; }

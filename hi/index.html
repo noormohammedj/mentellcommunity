@@ -288,6 +288,14 @@ footer a{color:var(--muted)}
 .pw-list li{padding:12px 0 12px 22px;border-bottom:1px solid var(--line);position:relative}
 .pw-list li::before{content:'';position:absolute;left:0;top:19px;width:10px;height:10px;background:var(--ink)}
 .pw-list b{display:block}.pw-list span{color:var(--muted);font-size:14px}
+
+/* [v25] soft in-app strip in the bottom bar; payment-failed screen */
+.ia{display:none;max-width:var(--max);margin:0 auto 10px;background:var(--surface);padding:10px 12px;font-size:14px;line-height:1.35}
+.ia.on{display:block}
+.ia-b{display:flex;gap:8px;margin-top:8px}.ia-b button{flex:1;font:inherit;font-weight:700;padding:9px 10px;border:2px solid var(--ink);cursor:pointer}
+.ia-b .ia-p{background:var(--ink);color:var(--paper)}.ia-b .ia-g{background:var(--paper);color:var(--ink)}
+.pw-fail{border-left:4px solid var(--out)}
+#pwFailed .btn{display:block;width:100%;margin-top:10px;text-align:center}
 /* [v21] what ₹99 opens comes first; proof + refund under the button */
 .pw-what{font-weight:800;margin:18px 0 0}
 .pw-list.top{margin:6px 0 4px}
@@ -311,9 +319,6 @@ footer a{color:var(--muted)}
 <link rel="alternate" hreflang="x-default" href="https://mentell.co.in/en/">
 </head>
 <body>
-<div class="inapp" id="inapp" role="region" aria-label="Browser warning">
-  <div class="inapp-in"><p><b>Instagram ब्राउज़र आपका डेटा नहीं रखता।</b> यह पेज Chrome में खोलें।</p><button type="button" id="inappBtn">Open in Chrome</button></div>
-</div>
 <header class="top">
   <div class="top-row"><a class="brand" href="/" aria-label="Mentell home">mentell</a><span class="count" id="count" aria-live="polite"></span></div>
   <div class="prog" aria-hidden="true"><i id="prog"></i></div>
@@ -398,27 +403,29 @@ footer a{color:var(--muted)}
     <div><small>ऐसे ही चलता रहा तो</small><div class="d" id="pwNow"></div><div class="sub" id="pwNowSub"></div></div>
     <div><small>Mentell प्लान के साथ</small><div class="d pw-blur" id="pwPlan" aria-label="Hidden until you unlock"></div><div class="sub"><span class="pw-blur" id="pwSooner"></span></div></div>
   </div>
-  <p class="pw-what" id="pwWhat"><span class="p99">₹99</span> में क्या मिलेगा</p>
-  <ul class="pw-list top" aria-label="What ₹99 opens">
-    <li><b>क्या कम करें, और कितना</b><span>आपकी आदतों से हर महीने की सटीक बचत</span></li>
-    <li><b>EMI जार: कौन सा लोन पहले बंद करें</b><span>सबसे ज़्यादा ब्याज वाला पहले। एक बंद होते ही उसकी EMI अगले जार में</span></li>
-    <li><b>सटीक EMI-मुक्त तारीख + बचा हुआ ब्याज</b><span>बोनस या इंक्रीमेंट से एक एक्स्ट्रा EMI देने पर कितना जल्दी</span></li>
-    <li><b>डेली ट्रैकर, 30 दिन</b><span>“मैंने बचाया” लिखें, स्ट्रीक बनाएँ, तारीख पास आती देखें</span></li>
-    <li><b>पूरा प्लान PDF</b><span>एक पेज जो पूरा परिवार पढ़ सके</span></li>
+  <p class="pw-what" id="pwWhat"><span class="p99">₹99</span> में आपका प्लान:</p>
+  <ul class="pw-list top" aria-label="What you get">
+    <li class="pw-emi-only"><b>आपकी सटीक EMI-मुक्त तारीख</b></li>
+    <li id="pwBenSavedLi" class="pw-emi-only"><b id="pwBenSaved"></b></li>
+    <li class="pw-emi-only"><b>कौन सा लोन पहले बंद करें: EMI जार का क्रम</b></li>
+    <li><b>क्या कम करें, हर महीने कितना बचेगा</b></li>
+    <li><b>30 दिन का डेली ट्रैकर + पूरा PDF प्लान</b></li>
+    <li><b>अटके तो Noor को WhatsApp</b></li>
   </ul>
   <div id="pwReady">
-    <div class="pw-price"><span class="now" id="pwPrice"><span class="p99">₹99</span></span><s id="pwWas" hidden><span class="p99">₹99</span></s><span class="per" id="pwPer">/ 30 दिन</span></div>
+    <div class="pw-price"><span class="now" id="pwPrice"><span class="p99">₹99</span></span><s id="pwWas" hidden><span class="p99">₹99</span></s><span class="per" id="pwPer">· 30 दिन · सिर्फ़ एक बार · कोई ऑटो-डेबिट नहीं</span></div>
     <span class="pw-offer" id="pwOffer" hidden>लॉन्च ऑफ़र · 50% छूट</span>
     <div id="pwWho" hidden>
       <p class="small">रसीद के लिए आपका WhatsApp नंबर:</p>
       <input class="pw-in" id="pwName" autocomplete="name" placeholder="आपका नाम" maxlength="40">
       <input class="pw-in" id="pwPhone" inputmode="numeric" autocomplete="tel" placeholder="10-digit WhatsApp number" maxlength="14">
     </div>
-    <button type="button" class="btn" id="pwPay"><span class="p99">₹99</span> भुगतान करें और प्लान देखें</button>
+    <button type="button" class="btn" id="pwPay"><span class="p99">₹99</span> देकर मेरी EMI-मुक्त तारीख देखें</button>
     <p class="err" id="pwErr"></p>
-    <div class="pw-trust"><span id="pwMethods">UPI · Card · Net banking</span><span>Razorpay सुरक्षित</span><span>कोई ऑटो-डेबिट नहीं</span></div>
+    <div class="pw-trust"><span id="pwMethods">UPI · Card · Netbanking</span><span>Razorpay secure</span></div>
     <p class="small pw-num" id="pwNum" hidden></p>
     <p class="pw-proof" id="pwProof" hidden></p>
+    <p class="small" id="pwConsent" hidden>भुगतान के बाद आपके प्लान का लिंक और रोज़ के रिमाइंडर WhatsApp पर आएँगे।</p>
     <p class="small pw-refund">पसंद नहीं आया? 7 दिन में WhatsApp करें, पूरा <span class="p99">₹99</span> वापस। कोई सवाल नहीं।</p>
     <div id="pwInapp" class="callout" hidden><b>आप Instagram ब्राउज़र में हैं।</b> Chrome में खोलकर भुगतान करें, ताकि प्लान आपके फ़ोन में रहे।<button type="button" class="btn ghost" id="pwInappBtn">Open in Chrome</button></div>
     <button type="button" class="link" id="pwHave">भुगतान कर चुके हैं? मेरा प्लान खोलें</button>
@@ -432,11 +439,20 @@ footer a{color:var(--muted)}
     <p class="small"><span class="pw-spin"></span> आपके भुगतान का इंतज़ार…</p>
     <button type="button" class="btn ghost" id="pwReopen">पेमेंट पेज फिर से खोलें</button>
     <button type="button" class="link" id="pwRecheck">मैंने भुगतान कर दिया, जाँचें</button>
+    <p class="small" id="pwOtherHint" hidden>पेमेंट पेज पर "UPI QR" या कोई दूसरा UPI ऐप चुनें।</p>
     <p class="small" id="pwPageHelp"></p>
     <button type="button" class="link" id="pwHave2">दूसरे ब्राउज़र में भुगतान किया? नंबर + ईमेल से खोलें</button>
   </div>
+  <div id="pwFailed" hidden>
+    <div class="callout pw-fail"><b>भुगतान पूरा नहीं हुआ</b><br><span id="pwFailWhy"></span><br><span class="small">पैसा कटा है तो बैंक आमतौर पर 5–7 कामकाजी दिनों में लौटा देता है।</span></div>
+    <button type="button" class="btn" id="pwRetry">फिर से कोशिश करें</button>
+    <button type="button" class="btn ghost" id="pwOther">दूसरा UPI ऐप / QR</button>
+    <a class="btn ghost" id="pwFailWa" target="_blank" rel="noopener">Noor को WhatsApp</a>
+    <p class="small" id="pwFailMore" hidden>अब भी दिक्कत? Noor को WhatsApp करें, वे भुगतान लिंक भेज देंगे।</p>
+  </div>
   <div id="pwPaid" hidden>
     <div class="pw-done"><b>खुल गया ✓</b><p id="pwUntil">आपका प्लान तैयार है।</p></div>
+    <div class="callout" id="pwSave" hidden><b>यह लिंक सेव करें</b><br>किसी भी फ़ोन पर एक टैप में आपका प्लान खुलेगा।<a class="btn" id="pwSaveWa" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:10px">लिंक मेरे WhatsApp पर भेजें</a></div>
     <button type="button" class="btn" id="pwGo">मेरा प्लान देखें →</button>
   </div>
 </section>
@@ -529,6 +545,7 @@ footer a{color:var(--muted)}
   <div class="fld"><label for="jPass" id="jPassL">पासवर्ड (6+ अक्षर/अंक)</label><div class="pw"><input class="txt" id="jPass" type="password" autocomplete="new-password" maxlength="64"><button type="button" id="jShow">Show</button></div></div>
   <p class="err" id="joinErr" role="alert"></p>
   <p class="note" id="jNote">आपका पासवर्ड हमें कभी नहीं दिखता। साइनअप के बाद 6 अंकों का रिकवरी कोड दिखेगा, उसका स्क्रीनशॉट ले लें।</p>
+  <button type="button" class="link" id="jSend">भुगतान कर चुके हैं? लिंक WhatsApp पर भेजें</button><br>
   <button type="button" class="link" id="jForgot" hidden>पासवर्ड भूल गए?</button><br>
   <button type="button" class="link" id="jSwitch">पहले से अकाउंट है? लॉग इन</button><br>
   <button type="button" class="link" id="jLater">अभी नहीं, सिर्फ़ PDF</button>
@@ -596,6 +613,7 @@ footer a{color:var(--muted)}
 <footer><p>सिर्फ़ अनुमान, वित्तीय सलाह नहीं। प्रीपेमेंट से पहले अपने बैंक की शर्तें देखें। <a href="/about/">Mentell के बारे में</a> · <a href="/terms/">Terms</a> · <a href="/refund/">Refunds</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="https://wa.me/919629843122" target="_blank" rel="noopener" data-wa="footer">WhatsApp पर मदद</a></p></footer>
 
 <nav class="bar" aria-label="Steps">
+  <div class="ia" id="inapp" role="region" aria-label="Browser tip"><div>आप यहीं जारी रख सकते हैं ✓ <span class="small">टिप: Chrome में खोलें तो आपके जवाब फ़ोन में सेव रहेंगे।</span></div><div class="ia-b"><button type="button" class="ia-p" id="iaStay">यहीं जारी रखें</button><button type="button" class="ia-g" id="inappBtn">Chrome में खोलें</button></div></div>
   <div class="bar-in">
     <button type="button" class="btn ghost" id="back" aria-label="Back">पीछे</button>
     <button type="button" class="btn" id="next">Start</button>
@@ -618,6 +636,8 @@ footer a{color:var(--muted)}
     <input class="pw-in" id="rsEmail" type="email" inputmode="email" autocomplete="email" placeholder="ईमेल (जो Razorpay पर डाला था)" maxlength="80">
     <button type="button" class="btn" id="rsGo">मेरा प्लान खोलें</button>
     <p class="err" id="rsErr"></p>
+    <button type="button" class="link" id="rsSend">भुगतान कर चुके हैं? लिंक WhatsApp पर भेजें</button>
+    <p class="small" id="rsSendMsg"></p>
     <button type="button" class="link" id="rsClose">Close</button>
   </div>
 </div>
@@ -741,7 +761,7 @@ const PHONE_ERR_INTL = 'कंट्री कोड के साथ पूर�
 /* price: ₹99 for an Indian number, $2 for others (before the number is known: by country) */
 function buyerIndia(){ return LEAD && LEAD.phone ? isIndianPhone(LEAD.phone) : INDIA; }
 function PRICE(){
-  return buyerIndia() ? {minor:9900, cur:'INR', label:'₹99', product:'money_plan_99', page:String(CFG.paymentPageUrl||''), methods:'UPI · Card · Net banking'}
+  return buyerIndia() ? {minor:9900, cur:'INR', label:'₹99', product:'money_plan_99', page:String(CFG.paymentPageUrl||''), methods:'UPI · Card · Netbanking'}
                       : {minor:200, cur:'USD', label:'$2', product:'money_plan_usd', page:String(CFG.paymentPageUrlUsd||''), methods:'Visa · Mastercard · Amex'};
 }
 function money(minor, cur){ cur = cur || 'INR'; const v = minor/100, dec = minor % 100 ? 2 : 0;
@@ -908,10 +928,10 @@ const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry a
 
 /* ================= state ================= */
 // [v16] ₹99 paywall after 'stand'; the YouTube gate is gone (payment replaces it)
-const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','paywall','calm','habits','habit_amounts','cut_choice','dashboard','extra_emi','body_mind','join','tracker','pdf'];
+const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','habits','habit_amounts','cut_choice','paywall','calm','dashboard','extra_emi','body_mind','join','tracker','pdf'];   // [v25] habits before the price
 // v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
 // sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
-function fresh(){ return {v:15, sv:16, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:''}; }
+function fresh(){ return {v:15, sv:17, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:''}; }
 // [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
 // "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
 const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
@@ -927,11 +947,18 @@ function migrate(raw){
 }
 // [v16] progress saved before v16 points at old screen numbers: move it to the same screen by name
 const SCREENS_V15 = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','calm','habits','habit_amounts','cut_choice','yt_gate','dashboard','extra_emi','body_mind','join','tracker','pdf'];
+// [v25] the order before 14 Nov 2026 (habits after the price)
+const SCREENS_V16 = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','paywall','calm','habits','habit_amounts','cut_choice','dashboard','extra_emi','body_mind','join','tracker','pdf'];
 function loadState(raw){
   const s = Object.assign(fresh(), migrate(raw));
-  if (raw.sv !== 16){
-    const name = SCREENS_V15[raw.at] === 'yt_gate' ? 'dashboard' : SCREENS_V15[raw.at];
-    s.at = Math.max(0, SCREENS.indexOf(name)); s.sv = 16;
+  if (raw.sv !== 17){
+    let name = raw.sv === 16 ? SCREENS_V16[raw.at] : (SCREENS_V15[raw.at] === 'yt_gate' ? 'dashboard' : SCREENS_V15[raw.at]);
+    // not paid yet and saved on/after the price screen: habits now come first, so they go back to them unless already answered
+    if (!(raw.paid && raw.paid.o) && SCREENS.indexOf(name) >= SCREENS.indexOf('paywall')){
+      const done = !!raw.noHabit || Object.values(raw.habits || {}).some(h => h && h.on);
+      name = done ? 'paywall' : 'habits';
+    }
+    s.at = Math.max(0, SCREENS.indexOf(name)); s.sv = 17;
   }
   return s;
 }
@@ -1093,6 +1120,7 @@ function go(i, opts){
   window.scrollTo(0,0);
   enter(scr);
   if (!opts.fromPop){ try{ history[opts.replace?'replaceState':'pushState']({s:i, p:opts.replace ? (history.state && history.state.p) : from}, '', '#'+name); }catch(e){} }
+  iaUpdate();   // [v25]
   track('mm_screen', {screen_name:name, step:i});
   if (!seen[name]){ seen[name]=1; track('mm_'+name+'_view'); }
   if (name==='lead_form') track('gate_open');
@@ -1242,12 +1270,9 @@ let PAY = null;   // the order being paid
 function renderPaywall(){
   const p = plans();
   if (p){
-    const sooner = Math.max(0, p.now.months - p.yearly.months);
     $('#hPay').textContent = 'ऐसे ही चलता रहा तो EMI ख़त्म होने में बहुत समय लगेगा।';
     $('#pwNow').textContent = dateIn(p.now.months, p.now.capped);
     $('#pwNowSub').textContent = 'Interest ' + inr(p.now.totalInterest);
-    $('#pwPlan').textContent = dateIn(p.yearly.months, p.yearly.capped);
-    $('#pwSooner').textContent = sooner >= 12 ? `${Math.floor(sooner/12)} साल ${sooner%12} महीने पहले` : sooner > 0 ? `${sooner} महीने पहले` : 'जल्दी ख़त्म करने का रास्ता';
   } else {
     $('#pwEyebrow').textContent = 'आपका बचत प्लान';
     $('#hPay').textContent = 'हम दिखाएँगे कि हर महीने ठीक कितना बचा सकते हैं।';
@@ -1257,16 +1282,18 @@ function renderPaywall(){
     $('#pwPlan').textContent = 'सटीक रकम';          // no made-up number: the real one comes from their habits, next screens
     $('#pwSooner').textContent = 'अगली स्क्रीन पर';
   }
+  paywallBenefits(p);
   $('#pwWho').hidden = !!(LEAD.phone && LEAD.name);
   if (LEAD.name) $('#pwName').value = LEAD.name;
   $('#pwInapp').hidden = !(PAGE_URL && /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent||'')) || DEVICE==='android';   // [v16.3] [v21] Android pays in Chrome
   if (!resumePagePay()) showPay(paidOk() ? 'paid' : 'ready');
 }
 function showPay(state){
-  $('#pwReady').hidden = state !== 'ready'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid'; $('#pwPage').hidden = state !== 'page';
+  $('#pwReady').hidden = state !== 'ready'; $('#pwFailed').hidden = state !== 'failed'; $('#pwChecking').hidden = state !== 'checking'; $('#pwPaid').hidden = state !== 'paid'; $('#pwPage').hidden = state !== 'page';
   document.querySelector('[data-s="paywall"]').classList.toggle('pw-open', state === 'paid');
   $('#pwWhat').hidden = $('.pw-list.top').hidden = state === 'paid';
   if (state === 'paid'){
+    showSaveLink();
     const u = S.paid && S.paid.u ? new Date(S.paid.u).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) : '';
     $('#pwUntil').textContent = S.paid && S.paid.f ? 'आपका प्लान तैयार है।' : `आपका प्लान तैयार है। ट्रैकर ${u} तक।`;
   }
@@ -1274,8 +1301,8 @@ function showPay(state){
 function setPrice(o){
   $('#pwPrice').textContent = rupees(o.amount, o.currency);
   $('#pwWas').hidden = $('#pwOffer').hidden = !o.offer_percent;
-  $('#pwPer').textContent = o.period_days ? `/ ${o.period_days} naal` : 'one time';
-  $('#pwPay').textContent = `${rupees(o.amount, o.currency)}: भुगतान करें और प्लान देखें`;
+  $('#pwPer').textContent = T25.per(o.period_days);
+  $('#pwPay').textContent = T25.pay(rupees(o.amount, o.currency));
 }
 async function payApi(fn, body){
   if (PAY_MOCK) return payMock(fn);
@@ -1306,7 +1333,7 @@ function openCheckout(o){
       image:'https://mentell.co.in/apple-touch-icon.png',   // Mentell's logo on the sheet (the Razorpay account's own logo is thedayzero's)
       handler:r=>resolve({ok:true, r}), modal:{ondismiss:()=>resolve({dismissed:true}), confirm_close:true}
     });
-    rzp.on('payment.failed', ()=>resolve({failed:true}));
+    rzp.on('payment.failed', e=>resolve({failed:true, why:(e && e.error ? [e.error.reason, e.error.description].join(' ') : '')}));
     rzp.open();
   });
 }
@@ -1315,6 +1342,7 @@ function openCheckout(o){
 let proofDone = false;
 function loadProof(){
   if (proofDone || PAY_MOCK || !PAYWALL) return; proofDone = true;
+  rpcAnon('notify_live', {}).then(v=>{ if (v === true) $('#pwConsent').hidden = false; }).catch(()=>{});
   rpcAnon('recent_buyers', {}).then(n=>{ n = +n||0; if (n >= 10){ $('#pwProof').textContent = `इस हफ़्ते ${n} लोगों ने प्लान लिया।`; $('#pwProof').hidden = false; } }).catch(()=>{});
 }
 function newToken(){
@@ -1328,9 +1356,7 @@ function paywallSeen(){
   if (!PAYWALL || paidOk()) return;
   loadProof();
   // [v21.1] the payment is matched by number: ask them to keep the same one on the Razorpay page
-  const ten = String(LEAD.phone||'').replace(/^91(?=\d{10}$)/, '');
-  $('#pwNum').hidden = !ten;
-  if (ten) $('#pwNum').innerHTML = `पेमेंट पेज पर <b>यही नंबर</b> डालें: <b>${esc(isIndianPhone(LEAD.phone) ? ten.slice(0,5) + ' ' + ten.slice(5) : ten)}</b>। दूसरा नंबर डालने पर प्लान नहीं खुलेगा।`;
+  receiptLine();
   if (!LEAD.phone) return;
   const d = new Date().toISOString().slice(0,10);
   if (S.rtDay === d) return;
@@ -1361,7 +1387,7 @@ function markPaid(st){
 }
 async function pay(){
   const err = $('#pwErr'); err.textContent = '';
-  if (!LEAD.phone || !LEAD.name){                     // came without the lead form (e.g. hand-off): ask here
+  if (!LEAD.phone || !LEAD.name || !$('#pwWho').hidden){   // came without the lead form (e.g. hand-off), or chose to change the number
     const name = $('#pwName').value.trim().replace(/\s+/g,' ');
     const RP = readPhone('#pwPhone');
     if (name.length < 2){ err.textContent = 'अपना नाम लिखें।'; return; }
@@ -1378,7 +1404,7 @@ async function pay(){
     PAY = await payApi('create-order', {phone:LEAD.phone, name:LEAD.name});
     setPrice(PAY);
     const res = await openCheckout(PAY);
-    if (res.failed){ track('payment_failed'); err.textContent = 'भुगतान नहीं हुआ। पैसा कटा है तो 5–7 दिन में लौट आएगा। फिर से कोशिश करें।'; return; }
+    if (res.failed){ track('payment_failed'); showPayFailed(res.why); return; }
     showPay('checking');
     if (res.ok){
       const st = await payApi('verify-payment', Object.assign({order_id:PAY.order_id}, res.r));
@@ -1432,7 +1458,7 @@ function pageUrl(){ const P = PRICE().page; return P + (P.includes('?') ? '&' : 
 async function payOnPage(){
   const btn = $('#pwPay'), err = $('#pwErr'); btn.disabled = true; btn.textContent = 'Opening…';
   if (!/^https:\/\/pages\.razorpay\.com\//.test(PRICE().page)){   // [v23] $2 page not live yet
-    btn.disabled = false; btn.textContent = `${PRICE().label}: भुगतान करें और प्लान देखें`;
+    btn.disabled = false; btn.textContent = T25.pay(PRICE().label);
     err.innerHTML = `अंतरराष्ट्रीय भुगतान (${PRICE().label}) जल्द आ रहा है। अभी के लिए ${waHelp()}, Noor आपका प्लान खोल देंगे।`; track('intl_pay_waiting'); return;
   }
   track('begin_checkout', {currency:PRICE().cur, value:PRICE().minor/100, items:[{item_id:PRICE().product}], method:'payment_page'});
@@ -1449,9 +1475,13 @@ async function payOnPage(){
     const m = String(e.message||'');
     err.textContent = /too_many_orders/.test(m) ? 'थोड़ी देर बाद कोशिश करें।' : /bad_phone/.test(m) ? 'यह WhatsApp नंबर सही नहीं लगता।' : 'नेटवर्क की समस्या। फिर से कोशिश करें।';
     track('payment_error', {error:m.slice(0,40), method:'payment_page'});
-  }finally{ btn.disabled = false; btn.textContent = `${PRICE().label}: भुगतान करें और प्लान देखें`; }
+  }finally{ btn.disabled = false; btn.textContent = T25.pay(PRICE().label); }
 }
 async function pageStatus(){
+  if (PAY_MOCK && /^(timeout|nomobile|pagefail)$/.test(PAY_MOCK)){   // [v25] ?paymock=timeout|nomobile|pagefail: fails once, a retry pays
+    if (PAY.rt) return Date.now() - PAY.rt > 3000 ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status:'created'};
+    return Date.now() - PAY.t > 3000 ? {status:'created', failed_at:new Date(PAY.t + 3000).toISOString(), fail_reason: PAY_MOCK==='timeout' ? 'payment_timed_out | Customer – Payment Timed Out' : PAY_MOCK==='nomobile' ? 'Customer – Registered Mobile Number Not Found' : 'payment_failed'} : {status:'created'};
+  }
   if (PAY_MOCK) return (Date.now() - PAY.t > 4000 && PAY_MOCK !== 'fail') ? {status:'paid', access_until:new Date(Date.now()+30*864e5).toISOString()} : {status:'created'};
   return rpcAnon('order_status', {p_order:PAY.order_id});
 }
@@ -1462,7 +1492,11 @@ async function pollPage(){
   const end = Date.now() + 20*60000;
   try{
     while (Date.now() < end && PAY){
-      try{ const st = await pageStatus(); if (st && st.status === 'paid'){ markPaid(st); return; } }catch(e){}
+      try{
+        const st = await pageStatus(); if (st && st.status === 'paid'){ markPaid(st); return; }
+        const fa = st && st.failed_at ? Date.parse(st.failed_at) : 0;   // [v25] the webhook says this attempt failed
+        if (fa && fa > lastFailAt && fa >= (PAY.rt || PAY.t || 0) - 60000){ lastFailAt = fa; showPayFailed(st.fail_reason); }
+      }catch(e){}
       if (PAY) $('#pwPageHelp').innerHTML = `भुगतान के 2 मिनट बाद भी नहीं खुला? भुगतान के स्क्रीनशॉट के साथ ${waHelp(PAY.order_id)}।`;
       await new Promise(r=>{ const t = setTimeout(r, 4000); document.addEventListener('visibilitychange', function v(){ if (!document.hidden){ clearTimeout(t); document.removeEventListener('visibilitychange', v); r(); } }); });
     }
@@ -1504,7 +1538,7 @@ async function restorePaid(){
       return;
     }
     S.paid = {o:r.order_id, u:r.access_until||null, f:!!r.forever}; S.pendingPay = null; PAY = null; save();
-    if (!LEAD.phone){ LEAD.phone = '91'+ph; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
+    if (!LEAD.phone){ LEAD.phone = ph; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
     track('restore_access', {ok:true});
     $('#rsModal').classList.remove('on');
     const PW = SCREENS.indexOf('paywall');
@@ -1838,8 +1872,7 @@ function openOutside(where){
   }
 }
 if (INAPP){
-  $('#inapp').classList.add('on');
-  if (DEVICE!=='android') $('#inappBtn').textContent = DEVICE==='ios' ? 'Open in Safari' : 'Open in browser';
+  iaUpdate();
   track('inapp_detected', {app:INAPP_APP, platform:DEVICE});
 }
 $('#inappBtn').addEventListener('click', ()=>openOutside('strip'));
@@ -2010,7 +2043,7 @@ async function submitJoin(){
   delete btn.dataset.busy; btn.disabled = false; btn.textContent = NEXT_LABEL.join;
   if (!r || !r.ok){
     let msg = JOIN_ERR[r && r.err] || JOIN_ERR.server;
-    if (r && (r.err==='wrong' || r.err==='bad_code') && r.left) msg += ` Innum ${r.left} try.`;
+    if (r && (r.err==='wrong' || r.err==='bad_code') && r.left) msg += ` ${r.left} कोशिश बाकी।`;
     if (r && r.err==='bad_code') msg += ' कोड भी नहीं? Noor को WhatsApp करें।';
     if (r && r.err==='locked') msg = `बहुत गलत कोशिशें। ${r.mins||30} मिनट बाद कोशिश करें। पासवर्ड भूल गए? Noor को WhatsApp करें।`;
     $('#joinErr').textContent = msg;
@@ -2018,11 +2051,11 @@ async function submitJoin(){
     return;
   }
   $('#jPass').value = ''; $('#jCode').value = '';
-  TRK = {phone:'91'+ph, token:r.token, refresh:r.refresh, exp:r.exp, name:r.name}; trkSaveLocal();
-  if (!LEAD.phone){ LEAD = {name:r.name, phone:'91'+ph}; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
+  TRK = {phone:RP.phone.replace(/^\+/, ''), token:r.token, refresh:r.refresh, exp:r.exp, name:r.name}; trkSaveLocal();
+  if (!LEAD.phone){ LEAD = {name:r.name, phone:RP.phone}; try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); }catch(e){} }
   applyServer(r);
   track(joinMode==='login'?'trk_login':joinMode==='recover'?'trk_recover':'trk_signup', {result:'ok'});
-  if (joinMode==='signup') sendRow({event:'tracker_signup', name:r.name, phone:'91'+ph, item:'Created daily tracker account'});
+  if (joinMode==='signup') sendRow({event:'tracker_signup', name:r.name, phone:RP.phone, item:'Created daily tracker account'});
   joinMode = 'signup';
   go(SCREENS.indexOf('tracker'));
   if (r.recoveryCode) showCode(r.recoveryCode);
@@ -2327,12 +2360,136 @@ $('#back').addEventListener('click', ()=>{
 });
 $('#startFresh').addEventListener('click', ()=>{ NEXT_LABEL.welcome = 'Start'; const yt = S.yt, paid = S.paid, pend = S.pendingPay; S = fresh(); S.yt = yt; S.paid = paid; S.pendingPay = pend; save(); track('mm_restart'); go(0, {replace:true}); $('#resume').hidden = true; $('#next').textContent = 'Start'; });
 
+/* ================= [v25] best-plan teaser, clear payment failures, WhatsApp asked once, soft Instagram strip ================= */
+const T25 = {
+  sooner: g => `${g} तक पहले`, saved: x => `${x} तक ब्याज बचाने का तरीका`,
+  gap: m => { const y = Math.floor(m/12), r = m%12; return (y ? y + ' साल' : '') + (y && r ? ' ' : '') + (r || !y ? r + ' महीने' : ''); },
+  receipt: m => `रसीद WhatsApp पर <b>${m}</b> पर आएगी।`, same: 'पेमेंट पेज पर भी यही नंबर डालें।',
+  why: {no_mobile:'यह नंबर आपके UPI ऐप में रजिस्टर नहीं है। दूसरा ऐप आज़माएँ: GPay, PhonePe या Paytm।',
+        timeout:'समय ख़त्म हो गया। फिर से कोशिश करें और 2 मिनट के अंदर UPI ऐप में मंज़ूर करें।',
+        other:'कुछ गड़बड़ हुई। फिर से कोशिश करें, या दूसरा भुगतान तरीका इस्तेमाल करें।'},
+  wa: (price, why, date) => `नमस्ते Noor, मेरा ${price} का भुगतान पूरा नहीं हुआ (${why})।${date ? ' मेरा प्लान दिखाता है कि मैं ' + date + ' तक EMI-मुक्त हो सकता हूँ।' : ''} कृपया भुगतान लिंक भेजें।`,
+  pay: p => `${p} देकर मेरी EMI-मुक्त तारीख देखें`, per: d => d ? '· ' + d + ' दिन · सिर्फ़ एक बार · कोई ऑटो-डेबिट नहीं' : '· सिर्फ़ एक बार'
+};
+// 1. the paywall promise uses their own best plan (cuts + 1 extra EMI a year), the same numbers the dashboard shows after paying
+function paywallBenefits(p){
+  const li = $('#pwBenSavedLi'), emiOnly = $$('.pw-emi-only'), sub = $('#pwSooner') && $('#pwSooner').parentNode;
+  if (!p){ emiOnly.forEach(e=>e.hidden = true); return; }
+  emiOnly.forEach(e=>e.hidden = false);
+  const gap = Math.max(0, p.now.months - p.both.months), saved = Math.max(0, Math.round(p.now.totalInterest - p.both.totalInterest));
+  $('#pwPlan').textContent = dateIn(p.both.months, p.both.capped);
+  $('#pwSooner').textContent = gap > 0 ? T25.sooner(T25.gap(gap)) : '';
+  if (sub) sub.hidden = !(gap > 0);
+  li.hidden = !(saved > 0); if (saved > 0) $('#pwBenSaved').textContent = T25.saved(inr(saved));
+}
+// 4. WhatsApp asked once: the number from the lead form, masked, with a way to change it
+function maskPhone(p){
+  p = String(p||'');
+  if (isIndianPhone(p)){ const d = p.slice(2); return '+91 ' + d.slice(0,2) + 'xxx xx' + d.slice(7); }
+  const d = p.replace(/\D/g,''); return '+' + d.slice(0, Math.min(4, d.length - 3)) + ' xxx ' + d.slice(-3);
+}
+function receiptLine(){
+  const el = $('#pwNum'); if (!el) return;
+  const show = !!(LEAD.phone && LEAD.name) && $('#pwWho').hidden;
+  el.hidden = !show; if (!show) return;
+  el.innerHTML = `${T25.receipt(esc(maskPhone(LEAD.phone)))} <button type="button" class="link" id="pwChange">${esc('बदलना है?')}</button><br><span class="small">${esc(T25.same)}</span>`;
+  $('#pwChange').addEventListener('click', ()=>{
+    track('mm_receipt_change'); $('#pwWho').hidden = false; el.hidden = true;
+    $('#pwName').value = LEAD.name || ''; fillPhone('#pwPhone', LEAD.phone); $('#pwPhone').focus();
+  });
+}
+// 3. payment failed: say why, and three ways forward
+let payFails = 0, lastFailAt = 0;
+function failKind(t){ t = String(t||'').toLowerCase(); return /mobile.?number.?not.?found|registered.?mobile|not.?registered/.test(t) ? 'no_mobile' : /timed?.?out|timeout/.test(t) ? 'timeout' : 'other'; }
+function showPayFailed(text){
+  const k = failKind(text); payFails++;
+  track('mm_pay_failed', {reason:k});
+  $('#pwFailWhy').textContent = T25.why[k];
+  $('#pwFailMore').hidden = payFails < 2;
+  const p = plans();
+  $('#pwFailWa').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(T25.wa(PRICE().label, k.replace('_',' '), p ? dateIn(p.both.months, p.both.capped) : ''))}`;
+  showPay('failed');
+}
+function retryPay(other){
+  if (PAY && PAY.order_id && S.pendingPay && S.pendingPay.o === PAY.order_id){   // the Payment Page order is still open: pay the same one
+    if (PAY_MOCK) PAY.rt = Date.now(); else openPayPage();
+    $('#pwOtherHint').hidden = !other; showPay('page'); pagePolling = false; pollPage();
+  } else { showPay('ready'); pay(); }
+}
+$('#pwRetry').addEventListener('click', ()=>{ track('mm_pay_retry', {how:'same'}); retryPay(false); });
+$('#pwOther').addEventListener('click', ()=>{ track('mm_pay_retry', {how:'other'}); retryPay(true); });
+$('#pwFailWa').addEventListener('click', ()=>track('mm_pay_failed_wa'));
+// 2. Instagram's browser: a soft strip in the bottom bar, closed for the session once dismissed, gone from the paywall on
+// (from the paywall the answers are kept on the server: resume link, and the personal link after paying)
+var iaClosed = false;   // var: iaUpdate() can run before this line (Instagram check at start-up)
+function iaDismissed(){ if (iaClosed) return true; try{ return sessionStorage.getItem('mm_ia_x') === '1'; }catch(e){ return false; } }
+function iaUpdate(){ const el = $('#inapp'); if (el) el.classList.toggle('on', INAPP && !iaDismissed() && cur < SCREENS.indexOf('paywall')); }
+$('#iaStay').addEventListener('click', ()=>{ iaClosed = true; try{ sessionStorage.setItem('mm_ia_x','1'); }catch(e){} track('inapp_continue'); iaUpdate(); });
+
+/* ================= [v24] the personal link: nobody loses what they paid for ================= */
+const L24 = {"opening": "आपका प्लान खुल रहा है…", "badlink": "यह लिंक नहीं चला। अपने नंबर + ईमेल से प्लान खोलें।", "consent": "भुगतान के बाद आपके प्लान का लिंक और रोज़ के रिमाइंडर WhatsApp पर आएँगे।", "save_h": "यह लिंक सेव करें", "save_p": "किसी भी फ़ोन पर एक टैप में आपका प्लान खुलेगा।", "save_btn": "लिंक मेरे WhatsApp पर भेजें", "save_msg": "मेरे Mentell प्लान का लिंक (संभालकर रखें):", "send": "भुगतान कर चुके हैं? लिंक WhatsApp पर भेजें", "sent": "अगर आपने भुगतान किया है तो एक मिनट में लिंक आएगा। WhatsApp और ईमेल देखें।", "nochan": "अभी के लिए नंबर + ईमेल से खोलें, या Noor को WhatsApp करें।", "many": "बहुत बार कोशिश हो गई। एक घंटे बाद कोशिश करें।", "bad_phone": "सही WhatsApp नंबर डालें।", "left": "${r.left} कोशिश बाकी।"};
+function waDigits(p){ return String(p||'').replace(/\D/g,''); }
+// after paying: their own link, one tap to keep it in their own WhatsApp ("message yourself")
+async function showSaveLink(){
+  const box = $('#pwSave'); if (!box || PAY_MOCK || !S.paid || !S.paid.o) return;
+  try{
+    const tok = await rpcAnon('my_access_link', {p_order:S.paid.o}); if (!tok) return;
+    const url = location.origin + location.pathname + '?a=' + tok, to = waDigits(LEAD.phone);
+    $('#pwSaveWa').href = (to ? 'https://wa.me/' + to : 'https://wa.me/') + '?text=' + encodeURIComponent(L24.save_msg + '\n' + url);
+    box.hidden = false; track('link_offer');
+  }catch(e){}
+}
+$('#pwSaveWa') && $('#pwSaveWa').addEventListener('click', ()=>track('link_saved'));
+// "Send my link": only the number is needed; the server answers the same whether or not the number has paid
+async function sendMyLink(id, out){
+  const RP = readPhone(id); if (!RP.ok){ out.textContent = L24.bad_phone; return; }
+  out.textContent = '…';
+  try{
+    const r = await rpcAnon('request_my_link', {p_phone:RP.phone});
+    out.textContent = r && (r.whatsapp || r.email) ? L24.sent : L24.nochan; track('link_request', {channels:!!(r && (r.whatsapp || r.email))});
+  }catch(e){ out.textContent = /too_many_tries/.test(String(e.message)) ? L24.many : /bad_phone/.test(String(e.message)) ? L24.bad_phone : L24.nochan; }
+}
+$('#rsSend') && $('#rsSend').addEventListener('click', ()=>sendMyLink('#rsPhone', $('#rsSendMsg')));
+$('#jSend') && $('#jSend').addEventListener('click', ()=>sendMyLink('#jPhone', $('#joinErr')));
+// opened from the personal link (?a=<token>, saved by mentell-config.js)
+async function openPersonalLink(tok){
+  const c = document.createElement('div'); c.textContent = L24.opening;
+  c.style.cssText = 'position:fixed;inset:0;background:#fff;color:#000;z-index:9999;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;padding:24px;text-align:center';
+  document.body.appendChild(c);
+  try{
+    let r = null;
+    try{ const x = await fetch(`${SB_URL}/functions/v1/account`, {method:'POST', headers:{'Content-Type':'application/json', apikey:SB_KEY}, body:JSON.stringify({action:'link', token:tok})}); r = await x.json().catch(()=>null); }catch(e){}
+    if (!r || !r.ok){ track('link_open', {result:(r && r.err) || 'error'}); openRestore('badlink'); $('#rsErr').textContent = L24.badlink; return; }
+    const ph = /^\+91[6-9]\d{9}$/.test(String(r.phone)) ? String(r.phone).slice(1) : String(r.phone||'');
+    if (r.plan && r.plan.v === 15 && !S.salary){ const keep = {paid:S.paid, pendingPay:S.pendingPay}; S = Object.assign(loadState(r.plan), keep); }
+    LEAD = {name:r.name || LEAD.name || '', phone:ph};
+    try{ localStorage.setItem(LEAD_KEY, JSON.stringify(LEAD)); sessionStorage.setItem(GATE_KEY,'1'); }catch(e){}
+    S.paid = r.active && r.order ? {o:r.order.id, u:r.order.access_until || null, f:!!r.order.forever} : null;
+    S.pendingPay = null; save();
+    track('link_open', {result:r.active ? 'ok' : 'expired', login:!!r.session});
+    $('#rsLink').hidden = true; $('#resume').hidden = true;
+    if (!r.active){ go(SCREENS.indexOf('paywall'), {replace:true}); return; }
+    if (r.session){
+      const digits = ph.replace(/^\+/, '');
+      if (TRK && TRK.phone !== digits){ TD = null; try{ localStorage.removeItem(TRK_Q); }catch(e){} }
+      TRK = {phone:digits, name:r.name}; keepSession(r.session);
+      const st = await api({action:'me'});
+      applyServer(st && st.ok ? st : {ok:true, name:r.name, logs:[]});
+      go(SCREENS.indexOf('tracker'), {replace:true}); flush(); return;
+    }
+    if (S.salary) go(SCREENS.indexOf('dashboard'), {replace:true});
+  } finally { c.remove(); }
+}
+
 /* boot */
 (function boot(){
   const target = (location.hash||'').slice(1);
   const ti = SCREENS.indexOf(target);
   const canResume = S.at > 0;
   if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
+  // [v24] personal link (?a=<token>): plan + tracker on any phone
+  let acc = null; try{ acc = sessionStorage.getItem('mm_access'); sessionStorage.removeItem('mm_access'); }catch(e){}
+  if (acc && PAYWALL && !PAY_MOCK) openPersonalLink(acc);
   // [v22] give-access link (?g=<id>, saved by mentell-config.js): the plan opens on this phone
   let gift = null; try{ gift = sessionStorage.getItem('mm_gift'); sessionStorage.removeItem('mm_gift'); }catch(e){}
   if (gift && PAYWALL && !PAY_MOCK) rpcAnon('redeem_gift', {p_id:gift}).then(r=>{

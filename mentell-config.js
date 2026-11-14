@@ -230,10 +230,10 @@ window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
   /* [v21] WhatsApp follow-up link: ?r=<token> is kept for this tab only and removed before GA. */
   (function followup() {
     // [v22] ?g=<id> = give-access link, same handling
-    var t = qp('r'), g = qp('g'); if (!t && !g) return;
+    var t = qp('r'), g = qp('g'), a = qp('a'); if (!t && !g && !a) return;
     var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    try { if (t && uuid.test(t)) sessionStorage.setItem('mm_rt', t.toLowerCase()); if (g && uuid.test(g)) sessionStorage.setItem('mm_gift', g.toLowerCase()); } catch (e) {}
-    try { var u = new URL(location.href); u.searchParams.delete('r'); u.searchParams.delete('g'); history.replaceState(null, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams : '') + u.hash); } catch (e) {}
+    try { if (t && uuid.test(t)) sessionStorage.setItem('mm_rt', t.toLowerCase()); if (g && uuid.test(g)) sessionStorage.setItem('mm_gift', g.toLowerCase()); if (a && uuid.test(a)) sessionStorage.setItem('mm_access', a.toLowerCase()); } catch (e) {}
+    try { var u = new URL(location.href); u.searchParams.delete('r'); u.searchParams.delete('g'); u.searchParams.delete('a'); history.replaceState(null, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams : '') + u.hash); } catch (e) {}
   })();
   /* Keep only plain numbers / short safe text / booleans, a few levels deep. */
   function clean(v, depth) {
