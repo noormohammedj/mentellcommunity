@@ -19,6 +19,14 @@ window.MENTELL_CONFIG = {
   /* ₹99 plan on financial.html: paid through Razorpay Checkout (create-order / verify-payment
      Edge Functions). false = no paywall, the whole plan stays free as in v15. */
   paywall: true,
+  /* [v26, 22 Nov 2026] FREE TIER SWITCH. false = no free results anywhere (launch test):
+       /financial/, /en/, /hi/: the ₹99 screen comes straight after the expenses; the 'where you
+         stand' result, habits and cuts open only after paying.
+       /physical/: the FREE diet chart card is hidden; only the ₹499 plan and 1:1 training show.
+       home page: the 'Free' labels on the Money and Body cards switch to the paid wording.
+     true = everything goes back to how it was before 22 Nov 2026 (free result, then ₹99).
+     /mental/ and /business/ have no paid tier, so this switch does not touch them. */
+  freeTier: false,
   /* [v16.2] Where the ₹99 is paid: the Mentell Razorpay Payment Page (full pages.razorpay.com address,
      so the phone can be pre-filled; the short link is rzp.io/rzp/bLStKNl3). The page's payment is matched
      to the buyer by phone through the Razorpay webhook. '' = pay inside the page with Razorpay Checkout. */

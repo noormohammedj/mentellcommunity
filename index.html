@@ -188,15 +188,15 @@ footer p{font-size:.85rem;color:var(--text-light)}
 
 <!-- HERO: the one choice -->
 <section class="home-hero">
-  <div class="home-eyebrow"><span></span> Free tools · No signup · 2 minutes</div>
+  <div class="home-eyebrow"><span></span> <i data-paid-text="Tamil-first · 2 minutes to start" style="font-style:normal">Free tools · No signup · 2 minutes</i></div>
   <h1>Body. Mind. Money.<br>Where do you want to <span class="grad-text">start today?</span></h1>
-  <p>Pick the one problem bothering you most right now. Tap that card, get your free result in 2 minutes.</p>
+  <p data-paid-text="Pick the one problem bothering you most right now. Tap that card and start in 2 minutes.">Pick the one problem bothering you most right now. Tap that card, get your free result in 2 minutes.</p>
 
   <div class="pillar-grid">
     <a href="/physical/" class="pillar-card" data-pillar="physical">
       <div class="pillar-top">
         <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M4 9l3-3 3 3-3 3-3-3zm10 10l3-3 3 3-3 3-3-3zM3 17l4 4M17 3l4 4"/></svg></div>
-        <span class="pillar-chip">Free · 1 min</span>
+        <span class="pillar-chip" data-paid-text="₹499 plan">Free · 1 min</span>
       </div>
       <div class="pillar-name">Physical Wellness</div>
       <div class="pillar-desc">BMR calculator + 21-day Tamil Nadu diet plan. Real home food, no starving.</div>
@@ -206,7 +206,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
         <li>Confused what to eat — idli, rice, chapati?</li>
         <li>No energy by evening</li>
       </ul>
-      <div class="pillar-btn">Get my free diet plan <span class="arrow">→</span></div>
+      <div class="pillar-btn"><i data-paid-text="Get my diet plan" style="font-style:normal">Get my free diet plan</i> <span class="arrow">→</span></div>
     </a>
     <a href="/mental/" class="pillar-card" data-pillar="mental">
       <div class="pillar-top">
@@ -226,7 +226,7 @@ footer p{font-size:.85rem;color:var(--text-light)}
     <a href="/financial/" class="pillar-card" data-pillar="financial">
       <div class="pillar-top">
         <div class="pillar-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h11l4 4v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/><path d="M16 12a2 2 0 100 .01"/></svg></div>
-        <span class="pillar-chip">Free · 2 min</span>
+        <span class="pillar-chip" data-paid-text="₹99 plan">Free · 2 min</span>
       </div>
       <div class="pillar-name">Financial Wellness</div>
       <div class="pillar-desc">Lifestyle Leak Calculator. Find where your salary leaks + what one change becomes in 10 years.</div>
@@ -243,11 +243,13 @@ footer p{font-size:.85rem;color:var(--text-light)}
   <div class="how">
     <div class="how-step"><b>1</b><span>Pick one card above</span></div>
     <div class="how-line"></div>
-    <div class="how-step"><b>2</b><span>Get your free result in 2 min</span></div>
+    <div class="how-step"><b>2</b><span data-paid-text="Get your plan in 2 min">Get your free result in 2 min</span></div>
     <div class="how-line"></div>
     <div class="how-step"><b>3</b><span>Want help sticking to it? Join our 90-day coaching</span></div>
   </div>
 </section>
+<script>/* [v26] free tier off (mentell-config.js freeTier:false): swap the "Free" wording on Money and Body */
+(function(){ if ((window.MENTELL_CONFIG||{}).freeTier !== false) return; document.querySelectorAll('[data-paid-text]').forEach(function(e){ e.textContent = e.getAttribute('data-paid-text'); }); })();</script>
 
 <!-- FOOTER -->
 <p style="text-align:center;padding:18px 16px;font-size:15px">Money plan in: <a href="/financial/">Tamil</a> · <a href="/en/">English</a> · <a href="/hi/">हिन्दी</a></p>
