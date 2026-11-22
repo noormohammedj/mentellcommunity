@@ -14,7 +14,7 @@
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Mentell"/>
 <meta property="og:locale" content="en_IN"/>
-<meta property="og:title" content="When will you be free of EMIs? Free plan, 3 minutes"/>
+<meta property="og:title" content="When will you be free of EMIs? Your plan in 3 minutes"/>
 <meta property="og:description" content="EMI, salary, expenses, habits. See where you stand and your EMI-free date."/>
 <meta property="og:url" content="https://mentell.co.in/en/"/>
 <meta property="og:image" content="https://mentell.co.in/og-financial.png"/>
@@ -22,6 +22,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mentell Money: EMI-free plan","url":"https://mentell.co.in/en/","applicationCategory":"FinanceApplication","operatingSystem":"Any","inLanguage":["en-IN","ta"],"description":"Free money planner for salaried families in Tamil Nadu: EMI vs salary, family expenses, habit cuts, EMI-free date, PDF report.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Mentell","url":"https://mentell.co.in/","logo":"https://mentell.co.in/apple-touch-icon.png"}}</script>
 <!-- config BEFORE the GA tag: it strips hand-off data from the URL before GA reads it -->
 <script src="/mentell-config.js"></script>
+<script src="/friends/friends.js?v=1" defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,8 +34,9 @@
    Only these tokens carry colour. Red = money going out / short. Green = money saved.
    No other hardcoded colours in this file except the PDF (which can't read CSS). */
 :root{
-  --paper:#ffffff; --ink:#000000; --surface:#f2f2f2; --muted:#6b6b6b; --line:#d9d9d9;
-  --out:#b3261e; --save:#0f6b3e;
+  /* [v27] beige look */
+  --paper:#F4EEE3; --ink:#2A231D; --surface:#EADFCC; --muted:#7A6F64; --line:#DDD1BF;
+  --out:#A8432F; --save:#2E6B4A;
   --pad:20px; --max:560px;
   --f:'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
@@ -331,7 +333,8 @@ footer a{color:var(--muted)}
 <!-- 1 welcome -->
 <section class="scr" data-s="welcome" aria-labelledby="hWelcome">
   <h1 id="hWelcome" data-anim>EMI pressure?</h1>
-  <p class="lede" data-anim>3 minutes. Your full picture and your EMI-free date. <b>Free.</b></p>
+  <p class="lede" data-anim>3 minutes. Your full picture and your EMI-free date. <b id="wFree">Free.</b></p>
+  <div data-friend="kuruvi" data-lang="en" data-anim></div>
   <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: where you stand</li><li>What to cut, and how much you save</li><li>Your EMI-free date + a PDF plan</li></ol>
   <div id="resume" hidden class="callout" data-anim><b>You stopped halfway.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
   <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Log in</button>
@@ -2525,6 +2528,7 @@ async function openPersonalLink(tok){
   const rgs = $('#rgSel'); if (rgs) rgs.addEventListener('change', ()=>{ track('region_change', {to:rgs.value}); setRegion(rgs.value); });
   if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
   recheckPaid();   // [v16] refund / expiry since the last visit
+  if (!FREE_TIER){ const wf = $('#wFree'); if (wf) wf.remove(); }   // [v27] no 'Free.' promise while the free tier is off
   go(0, {replace:true});
   // [v16.2] back from the Payment Page: straight to the paywall, which keeps checking that order
   if (PAGE_URL && S.pendingPay && !paidOk() && Date.now() - S.pendingPay.t < 864e5 && !hasSession()){ go(SCREENS.indexOf('paywall'), {replace:true}); return; }
