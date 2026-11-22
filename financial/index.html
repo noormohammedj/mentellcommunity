@@ -254,6 +254,23 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;background:var(--ink)
 .t-save{color:var(--save)}
 .x{background:none;border:0;cursor:pointer;color:var(--muted);font-size:18px;padding:4px 6px;min-width:32px}
 .t-sec{margin-top:26px}
+/* [v26] Payanam: the road to the EMI-free date */
+.t-road{border:2px solid var(--ink);padding:14px 14px 10px;margin:0 0 18px}
+.t-road-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.t-road-top b{display:block;font-weight:800;font-stretch:75%;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.t-road-gain{text-align:right}
+.t-road-gain b{color:var(--save)}
+.t-road-delta{min-height:24px;font-weight:700;color:var(--save);margin:8px 0 4px;font-size:16px}
+.t-road svg{display:block;width:100%;height:auto}
+.t-road .note{font-size:12px;margin-top:6px}
+#rAuto{transition:transform 1.1s cubic-bezier(.3,.8,.3,1) .5s}
+#rCoin{opacity:0}
+#rCoin.drop{animation:rCoin .55s ease-in forwards}
+#rPot.wob{animation:rPot .4s ease-out .5s}
+@keyframes rCoin{0%{opacity:1;transform:translateY(-34px)}85%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(4px)}}
+@keyframes rPot{0%,100%{transform:rotate(0)}30%{transform:rotate(-8deg)}65%{transform:rotate(6deg)}}
+#rPot{transform-box:fill-box;transform-origin:50% 100%}
+@media (prefers-reduced-motion:reduce){#rAuto{transition:none}#rCoin.drop,#rPot.wob{animation:none}}
 .t-sec h3{font-size:20px;font-weight:800;font-stretch:75%;margin-bottom:6px}
 footer{max-width:var(--max);margin:0 auto;padding:0 var(--pad) 30px;font-size:13px;color:var(--muted)}
 footer a{color:var(--muted)}
@@ -556,6 +573,33 @@ footer a{color:var(--muted)}
   <div class="t-head"><span class="t-fire" id="tFire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3.5 4.5 5.6 4.5 10.2A4.5 4.5 0 0 1 12 17a4.5 4.5 0 0 1-4.5-4.6c0-2 .9-3.4 2-4.5.2 1.6 1 2.6 2.1 3.1C11.2 8.5 11 5.3 12 2z" fill="currentColor"/><path d="M12 22c4 0 7-2.9 7-7 0-2.5-1.1-4.6-2.6-6.2.1 3.6-2 6.2-4.4 6.2-1.5 0-2.6-.8-3.1-2.2C7.6 14 7 15.2 7 16.5 7 19.6 9.2 22 12 22z" fill="currentColor" opacity=".55"/></svg></span>
     <div><div class="big" id="tStreak">0</div><span class="small" id="tStreakL">days on fire</span></div></div>
   <p class="t-nudge" id="tNudge" aria-live="polite"></p>
+  <div class="t-road" id="tRoad" hidden>
+    <div class="t-road-top"><div><span class="small">Unga EMI-free date</span><b id="rDate">—</b></div><div class="t-road-gain"><b id="rGain">0</b><span class="small" id="rGainL">naal closer</span></div></div>
+    <p class="t-road-delta" id="rDelta" aria-live="polite"></p>
+    <svg viewBox="0 0 400 200" role="img" aria-labelledby="rAlt"><title id="rAlt">Unga auto, EMI-free date veedu-kku pogum road-la. Ovvoru save-um auto-va munnadi thallum.</title>
+      <path d="M18 168 C90 168 110 118 180 120 S280 164 334 108" fill="none" stroke="var(--ink)" stroke-width="24" stroke-linecap="round" id="rRoad"/>
+      <path d="M18 168 C90 168 110 118 180 120 S280 164 334 108" fill="none" stroke="var(--paper)" stroke-width="2" stroke-dasharray="8 9"/>
+      <g id="rGates"></g>
+      <g transform="translate(334 58)">
+        <rect x="-20" y="12" width="40" height="34" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
+        <path d="M-26 14 L0 -8 L26 14Z" fill="var(--ink)"/>
+        <rect x="-6" y="26" width="12" height="20" fill="var(--ink)"/>
+        <text x="0" y="-16" text-anchor="middle" font-weight="800" font-size="13" fill="var(--ink)" id="rHome">—</text>
+      </g>
+      <g transform="translate(40 34)">
+        <g id="rPot"><ellipse cx="0" cy="12" rx="17" ry="14" fill="#b5522e"/><rect x="-8" y="-5" width="16" height="6" rx="2" fill="#b5522e"/><rect x="-5" y="-3" width="10" height="2" fill="var(--ink)"/></g>
+        <circle id="rCoin" cx="0" cy="-4" r="6" fill="#f2b705" stroke="#8a6500" stroke-width="1.5"/>
+        <text x="0" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)" id="rPotL"></text>
+      </g>
+      <g id="rAuto"><g transform="translate(-18 -32)">
+        <path d="M4 26 V12 Q4 2 16 2 H24 Q34 2 34 14 V26Z" fill="#f5c518" stroke="var(--ink)" stroke-width="1.5"/>
+        <rect x="2" y="0" width="34" height="5" rx="2" fill="var(--ink)"/>
+        <path d="M22 8 H31 V17 H22Z" fill="var(--paper)"/>
+        <circle cx="10" cy="28" r="4.5" fill="var(--ink)"/><circle cx="30" cy="28" r="4.5" fill="var(--ink)"/>
+      </g></g>
+    </svg>
+    <p class="note">Estimate: neenga save panna panam adhiga interest ulla loan-la prepay pannina, mudinja loan-oda EMI-a adutha loan-ku pottaa. Prepay-ku munnadi bank terms check pannunga.</p>
+  </div>
   <div class="t-health" id="tHealth" hidden aria-live="polite"></div>
   <div class="t-btns"><button type="button" class="btn green" data-tkind="save">I saved</button><button type="button" class="btn" data-tkind="spend">I spent</button></div>
   <div class="t-entry" id="tEntry" hidden>
@@ -929,7 +973,7 @@ const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry a
 const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','habits','habit_amounts','cut_choice','paywall','calm','dashboard','extra_emi','body_mind','join','tracker','pdf'];   // [v25] habits before the price
 // v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
 // sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
-function fresh(){ return {v:15, sv:17, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:''}; }
+function fresh(){ return {v:15, sv:17, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:'', roadAt:''}; }
 // [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
 // "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
 const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
@@ -2182,12 +2226,95 @@ function nudge(justSaved){
   if (h < 17) return st ? `${st} naal streak. Lunch-la oru Swiggy skip pannuna inga log pannunga.` : 'Lunch-la veliya saapadu skip pannuna, inga log pannunga.';
   return st ? `Fire anaiya poguthu. ${st} naal streak-a kaapaathunga: oru ${inr(MIN_FIRE)} save kooda podhum.` : 'Inniku innum log pannala. Oru tea skip panniyaa? Adhu kooda save dhaan.';
 }
+/* ---------- [v26] Payanam: the road to the EMI-free date ----------
+   Every saving logged is treated as a prepayment on the highest-interest loan (same avalanche
+   order as the plan). The date moves closer by exactly what that prepayment saves. Months are
+   fractional so a small saving moves the date a little instead of nothing. Spends don't move it. */
+const ROAD_DM = 30.44;
+function roadSim(emis, order, lumps){
+  const st = emis.map(l=>({B:+l.balance, r:(+l.rate||0)/1200, E:+l.emi, end:null}));
+  let left = st.length, li = 0, freed = 0;
+  const shut = (s, t)=>{ s.B = 0; s.end = t; left--; freed += s.E; };
+  for (let m=1; m<=MLR.MAX_MONTHS && left>0; m++){
+    while (li < lumps.length && lumps[li][0] < m){      // savings logged during this month: prepay, highest interest first
+      let amt = lumps[li][1]; const t = Math.max(m-1, lumps[li][0]); li++;
+      for (const k of order){ const s = st[k]; if (s.end!==null || amt<=0) continue; const p = Math.min(amt, s.B); s.B -= p; amt -= p; if (s.B<=0.005) shut(s, t); }
+    }
+    let pool = freed;                                    // EMIs of closed loans roll to the next loan, as in the plan
+    for (const k of order){
+      const s = st[k]; if (s.end!==null) continue;
+      const due = s.B + s.B*s.r, avail = s.E + pool;
+      if (due <= avail){ pool = avail - due; shut(s, m - 1 + due/avail); } else { s.B = due - avail; pool = 0; }
+    }
+  }
+  const ends = st.map(s=>s.end);
+  return {months: left>0 ? MLR.MAX_MONTHS : Math.max(0, ...ends), capped: left>0, ends};
+}
+function roadStart(){
+  if (!S.roadAt){
+    const first = myLogs().filter(l=>l.kind==='save').map(l=>l.date).sort()[0];
+    S.roadAt = first && first < istDay(0) ? first : istDay(0); save();
+  }
+  return S.roadAt;
+}
+const dayNum = d => Date.parse(d + 'T00:00:00Z')/864e5;
+function roadState(){
+  const emis = validEmis().filter(l=>!emiStuck(l));
+  if (!emis.length) return null;
+  const order = MLR.strategyOrder(emis, 'avalanche'), start = roadStart();
+  const saves = myLogs().filter(l=>l.kind==='save' && +l.amount>0);
+  const lumps = saves.map(l=>[Math.max(0, (dayNum(l.date) - dayNum(start))/ROAD_DM), +l.amount]);
+  // the server may know of older savings than the logs it sends back: count those from day one
+  const pend = new Set(queue().map(q=>q.entry && q.entry.id)), seen = saves.filter(l=>!pend.has(l.id)).reduce((a,l)=>a+(+l.amount),0);
+  const older = Math.max(0, ((TD && +TD.savedTotal) || 0) - seen);
+  if (older) lumps.push([0, older]);
+  lumps.sort((a,b)=>a[0]-b[0]);
+  const base = roadSim(emis, order, []), now = roadSim(emis, order, lumps);
+  if (base.capped) return null;
+  const elapsed = Math.max(0, (dayNum(istDay(0)) - dayNum(start))/ROAD_DM);
+  return {emis, start, base, now, elapsed, gain: Math.max(0, (base.months - now.months)*ROAD_DM)};
+}
+function roadDate(start, months){ const d = new Date((dayNum(start) + months*ROAD_DM)*864e5); return d.getUTCDate() + ' ' + MON[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); }
+function closerText(days){ return days >= 1 ? (days < 10 ? days.toFixed(1) : Math.round(days)) + ' naal' : Math.max(1, Math.round(days*24)) + ' mani'; }
+
+function renderRoad(){
+  const R = roadState(), box = $('#tRoad');
+  box.hidden = !R; if (!R) return null;
+  const T = R.base.months, pos = t => Math.max(0, Math.min(1, (T - R.now.months + t)/T));
+  const road = $('#rRoad'), L = road.getTotalLength(), at = t => road.getPointAtLength(pos(t)*L);
+  $('#rDate').textContent = roadDate(R.start, R.now.months);
+  $('#rHome').textContent = roadDate(R.start, R.now.months).replace(/^\d+ /, '');
+  $('#rGain').textContent = R.gain >= 1 ? Math.round(R.gain) : (R.gain > 0 ? '<1' : '0');
+  $('#rGainL').textContent = 'naal closer';
+  const a = at(R.elapsed); $('#rAuto').setAttribute('transform', `translate(${a.x.toFixed(1)} ${a.y.toFixed(1)})`);
+  let k = 0;
+  $('#rGates').innerHTML = R.emis.map((l,i)=>{
+    const e = R.now.ends[i];
+    if (e==null || e <= R.elapsed || e >= R.now.months - 0.05) return '';   // closed already, or the last one (that's the home)
+    const q = at(e), h = 30 + (k++ % 2)*24, n = ((LT[l.type]||{}).n || 'Loan').replace(/ EMI$/,'').replace(/ \/.*$/,'');
+    return `<g transform="translate(${q.x.toFixed(1)} ${q.y.toFixed(1)})"><rect x="-2" y="-${h}" width="4" height="${h}" fill="var(--ink)"/><rect x="-2" y="-${h}" width="26" height="6" fill="var(--out)"/><text x="-4" y="-${h+5}" font-size="10" font-weight="700" fill="var(--ink)">${esc(n)}</text></g>`;
+  }).join('');
+  $('#rPotL').textContent = inr(monthSaved());
+  return R;
+}
+function roadCelebrate(amt, gainBefore){
+  const R = roadState(); if (!R || gainBefore==null) return;
+  const d = R.gain - gainBefore;
+  $('#rDelta').textContent = d > 0 ? `${inr(amt)} save → ${closerText(d)} closer!` : '';
+  if (!reduced){
+    const c = $('#rCoin'), p = $('#rPot');
+    c.classList.remove('drop'); p.classList.remove('wob'); void c.getBoundingClientRect();
+    c.classList.add('drop'); p.classList.add('wob');
+  }
+  track('trk_road_gain', {days: Math.round(d*10)/10});
+}
 function renderTracker(){
   if (!hasSession()){ go(SCREENS.indexOf('join'), {replace:true}); return; }
   const st = localStreak(), ms = monthSaved(), q = (TD && TD.qualified) || ms >= SAVE_TARGET;
   $('#tStreak').textContent = st; $('#tFire').classList.toggle('off', !st);
   $('#tStreakL').textContent = st===1 ? 'day on fire' : 'days on fire';
   $('#tNudge').textContent = (CELEB && Date.now() < CELEB.until) ? CELEB.text : nudge();
+  renderRoad();
   renderWell();
   $('#tMonth').textContent = inr(ms) + ' / ' + inr(SAVE_TARGET);
   $('#tMeter').style.width = Math.min(100, ms/SAVE_TARGET*100) + '%';
@@ -2253,6 +2380,7 @@ async function addEntry(){
   const qty = $('#tQtyRow').hidden ? 1 : Math.max(1, +$('#tQty').textContent||1);
   const entry = {id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), date:istDay(dayOff), kind:entryKind, cat:(chip?chip.dataset.tcat:'Other') + (qty>1 ? ' ×'+qty : ''), amount:amt, note:$('#tNote').value.trim().slice(0,80)};
   const before = localStreak(), monthBefore = monthSaved();
+  const roadBefore = entryKind==='save' ? (roadState()||{}).gain : null;
   TD = TD || {logs:[]}; TD.logs = (TD.logs||[]).concat([entry]); trkSaveLocal();
   setQueue(queue().concat([{action:'log', entry}]));
   $('#tEntry').hidden = true;
@@ -2260,6 +2388,7 @@ async function addEntry(){
   if (entryKind==='save'){
     CELEB = {text:nudge(amt), until:Date.now()+8000}; $('#tNudge').textContent = CELEB.text; celebrate(amt, localStreak() > before);
     showHealth(entry);
+    roadCelebrate(amt, roadBefore);
     if (monthSaved() >= SAVE_TARGET && monthBefore < SAVE_TARGET) track('trk_qualified');
   }
   track('trk_log', {kind:entryKind, day: dayOff ? 'yesterday' : 'today', streak: localStreak()});
