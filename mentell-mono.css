@@ -3,7 +3,8 @@
    Archivo (condensed for headings, wide for the wordmark), square corners, black buttons.
    Loaded last on every pillar page; the pages keep their own layouts, tools, forms and payments. */
 :root{
-  --x-paper:#ffffff; --x-ink:#000000; --x-surface:#f2f2f2; --x-muted:#6b6b6b; --x-line:#d9d9d9; --x-out:#b3261e; --x-save:#0f6b3e;
+  /* [v27, 22 Nov 2026] warm beige paper, brown-black ink (was white / black) */
+  --x-paper:#F4EEE3; --x-ink:#2A231D; --x-surface:#EADFCC; --x-muted:#7A6F64; --x-line:#DDD1BF; --x-out:#A8432F; --x-save:#2E6B4A;
   --x-f:'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   /* old violet system → financial.html system */
   --navy:var(--x-paper); --navy-2:var(--x-surface); --blue:var(--x-ink); --blue-dark:var(--x-ink); --blue-light:var(--x-surface);

@@ -103,6 +103,13 @@ window.MENTELL_CONFIG = {
   }
 };
  
+/* [v27] free tier off: the shared header button says what it costs */
+(function () {
+  if ((window.MENTELL_CONFIG || {}).freeTier !== false) return;
+  function swap() { var b = document.querySelectorAll('.x-btn'); for (var i = 0; i < b.length; i++) if (/^\s*Free plan\s*$/.test(b[i].textContent)) b[i].textContent = '\u20B999 plan'; }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', swap); else swap();
+})();
+
 /* Backward compatibility: older code on physical/mental reads these globals. */
 window.MENTELL_LEADS_URL = window.MENTELL_CONFIG.googleSheetWebhook;
 window.MENTELL_ROADMAP_PAY_URL = window.MENTELL_CONFIG.loanPlanPaymentLink;
