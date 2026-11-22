@@ -929,7 +929,7 @@ const MIND_WINS = [['Better sleep','A clear plan and a date reduce money worry a
 const SCREENS = ['welcome','emis','salary','snap_emi','lead_form','expenses','stand','habits','habit_amounts','cut_choice','paywall','calm','dashboard','extra_emi','body_mind','join','tracker','pdf'];   // [v25] habits before the price
 // v stays 15 (the Instagram hand-off in mentell-config.js only carries v15 answers).
 // sv = screen-list version: 16 = paywall after 'stand', no YouTube gate. paid = {o: order id, u: access until, f: forever}.
-function fresh(){ return {v:15, sv:17, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:''}; }
+function fresh(){ return {v:15, sv:17, emis:[], noEmi:false, salary:0, exp:{}, habits:{}, cuts:{}, otherName:'', yt:false, at:0, planSent:false, paid:null, pendingPay:null, rt:'', rtDay:'', sawStand:false}; }
 // [v15.3] Answers saved before 29 Oct 2026 used other key names for the EMI list and the
 // "no EMI" flag. Find them by shape (list of {balance, emi, rate}; a "no…" flag) and move them.
 const KNOWN = new Set(Object.keys(fresh()).concat(['noHabit','summary']));
@@ -1101,13 +1101,16 @@ function go(i, opts){
   // [v16] the plan after 'stand' is paid: without access, everything past the paywall leads back to it
   // (tracker members logging in on a new phone still reach their login and tracker)
   const PW = SCREENS.indexOf('paywall');
+  // [v26] free tier off (mentell-config.js freeTier:false): the results before the price (stand → cut_choice) are paid too
+  const ST = SCREENS.indexOf('stand');
+  if (!FREE_TIER && !unlocked() && i >= ST && i < PW) i = dir > 0 ? PW : ST - 1;
   if (i > PW && !unlocked() && !(SCREENS[i]==='join' && joinMode==='login') && !(SCREENS[i]==='tracker' && hasSession())){ i = PW; if (opts.fromPop) opts = {replace:true}; }
   const name = SCREENS[i];
   $$('.scr').forEach(s=>s.classList.remove('on'));
   const scr = document.querySelector(`.scr[data-s="${name}"]`);
   RENDER[name] && RENDER[name]();
   scr.classList.add('on');
-  cur = i; if (i > S.at) S.at = i; save();
+  cur = i; if (i > S.at) S.at = i; if (name==='stand') S.sawStand = true; save();
   const real = SCREENS.filter(n=>n!=='welcome').length;
   $('#count').textContent = i===0 ? '' : `${i} / ${real}`;
   $('#prog').style.width = (i/(SCREENS.length-1)*100)+'%';
@@ -1261,6 +1264,8 @@ const PAYWALL = CFG.paywall !== false && /^https:\/\//.test(String(CFG.supabaseU
 const SB_URL = String(CFG.supabaseUrl||''), SB_KEY = String(CFG.supabasePublishableKey||'');
 const PAY_MOCK = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get('paymock') || '';   // test mode, never on the live site
 function paidOk(){ const p = S.paid; return !!(p && p.o && (p.f || (p.u && Date.parse(p.u) > Date.now()))); }
+// [v26] false = no free result: see freeTier in mentell-config.js
+const FREE_TIER = CFG.freeTier !== false || !PAYWALL;
 function unlocked(){ let member = false; try{ member = hasSession(); }catch(e){} return !PAYWALL || paidOk() || member; }
 const rupees = (minor, cur) => money(minor, cur || (PAY && PAY.cur) || PRICE().cur);   // [v23] ₹99 or $2
 let PAY = null;   // the order being paid
@@ -1560,7 +1565,7 @@ $('#rsEmail').addEventListener('keydown', e=>{ if (e.key==='Enter') restorePaid(
 $('#rsClose').addEventListener('click', ()=>$('#rsModal').classList.remove('on'));
 $('#pwInappBtn').addEventListener('click', ()=>openOutside('paywall'));
 $('#pwPay').addEventListener('click', pay);
-$('#pwGo').addEventListener('click', ()=>{ track('paywall_continue'); go(cur+1); });
+$('#pwGo').addEventListener('click', ()=>{ track('paywall_continue'); go(!FREE_TIER && !S.sawStand ? SCREENS.indexOf('stand') : cur+1); });   // [v26] paid with the free tier off: show the skipped results first
 
 /* ---------- 9 habits ---------- */
 function renderHabits(){

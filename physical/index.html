@@ -733,11 +733,11 @@ footer p{font-size:.85rem;color:var(--text-light)}
 <section class="section services-section" id="services">
   <div class="section-inner">
     <div class="eyebrow">Pick One</div>
-    <h2 class="section-title">3 ways to <em>get started.</em></h2>
+    <h2 class="section-title"><span id="waysN">3</span> ways to <em>get started.</em></h2>
     <p class="section-sub">Most people go straight for the ₹499 plan — it's personal, it's yours, and it's less than one doctor visit.</p>
     <div class="plans-grid">
 
-      <div class="plan-card">
+      <div class="plan-card" id="freePlanCard">
         <div class="plan-icon">🥗</div>
         <div class="plan-price">FREE</div>
         <div class="plan-name">Free Diet Chart</div>
@@ -1044,6 +1044,11 @@ function mentellShowPaidBanner(){
   if(banner) banner.style.display = 'flex';
 }
 // Diet wizard is hidden until the user picks a plan (Free tile, or pays / continues).
+// [v26] free tier off (mentell-config.js freeTier:false): no free diet chart, only the paid plans
+(function(){ if ((window.MENTELL_CONFIG||{}).freeTier !== false) return;
+  function hideFree(){ var c = document.getElementById('freePlanCard'); if (c) c.remove(); var n = document.getElementById('waysN'); if (n) n.textContent = '2'; }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hideFree); else hideFree();
+})();
 function mentellRevealDietTool(){
   var section = document.getElementById('dietplan');
   if(section) section.style.display = 'block';
