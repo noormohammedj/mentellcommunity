@@ -2286,7 +2286,7 @@ function renderRoad(){
   $('#rHome').textContent = roadDate(R.start, R.now.months).replace(/^\d+ /, '');
   $('#rGain').textContent = R.gain >= 1 ? Math.round(R.gain) : (R.gain > 0 ? '<1' : '0');
   $('#rGainL').textContent = 'naal closer';
-  const a = at(R.elapsed); $('#rAuto').setAttribute('transform', `translate(${a.x.toFixed(1)} ${a.y.toFixed(1)})`);
+  const a = at(R.elapsed); $('#rAuto').style.transform = `translate(${a.x.toFixed(1)}px,${a.y.toFixed(1)}px)`;   // CSS transform, so the move animates
   let k = 0;
   $('#rGates').innerHTML = R.emis.map((l,i)=>{
     const e = R.now.ends[i];
