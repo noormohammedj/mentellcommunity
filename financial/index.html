@@ -373,8 +373,9 @@ footer a{color:var(--muted)}
 <section class="scr" data-s="welcome" aria-labelledby="hWelcome">
   <h1 id="hWelcome" data-anim>EMI pressure&#8209;a?</h1>
   <p class="lede" data-anim>3 nimisham. Unga full picture, unga EMI-free date. <b id="wFree">Free.</b></p>
-  <div data-friend="kuruvi" data-lang="ta" data-anim></div>
+  <button type="button" class="btn" id="wStart" data-anim style="width:100%;margin:4px 0 18px">Start pannunga &rarr;</button>
   <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: neenga enga irukkeenga</li><li>Edhai cut panna, evlo save aagum</li><li>Unga EMI-free date + PDF plan</li></ol>
+  <div data-friend="kuruvi" data-lang="ta" class="mf-sm" data-anim></div>
   <div id="resume" hidden class="callout" data-anim><b>Neenga paadhi-la vittu ponga.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
   <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Login</button>
   <div id="rsOk" hidden class="callout"><b>Unlocked ✓</b> <span id="rsOkTxt"></span></div>
@@ -1217,6 +1218,7 @@ function go(i, opts){
   if (name==='body_mind') NEXT_LABEL.body_mind = TRACKER_URL ? (hasSession() ? 'Open my tracker' : 'Track daily, get 50% off') : 'Get my PDF';
   $('#back').style.display = (i===0 || name==='tracker') ? 'none' : '';
   const nx = $('#next'); nx.style.display = (name==='pdf' || name==='paywall') ? 'none' : ''; nx.textContent = NEXT_LABEL[name] || 'Next';
+  const wsb = $('#wStart'); if (wsb && name==='welcome'){ nx.style.display = 'none'; wsb.textContent = (NEXT_LABEL.welcome || 'Start') + ' →'; }   // [v28] one Start, under the headline
   window.scrollTo(0,0);
   enter(scr);
   if (!opts.fromPop){ try{ history[opts.replace?'replaceState':'pushState']({s:i, p:opts.replace ? (history.state && history.state.p) : from}, '', '#'+name); }catch(e){} }
@@ -2838,7 +2840,7 @@ async function openPersonalLink(tok){
   const target = (location.hash||'').slice(1);
   const ti = SCREENS.indexOf(target);
   const canResume = S.at > 0;
-  if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; }
+  if (canResume){ $('#resume').hidden = false; NEXT_LABEL.welcome = 'Continue'; const wsr = $('#wStart'); if (wsr) wsr.textContent = NEXT_LABEL.welcome + ' →'; }
   // [v24] personal link (?a=<token>): plan + tracker on any phone
   let acc = null; try{ acc = sessionStorage.getItem('mm_access'); sessionStorage.removeItem('mm_access'); }catch(e){}
   if (acc && PAYWALL && !PAY_MOCK) openPersonalLink(acc);
@@ -2875,6 +2877,7 @@ async function openPersonalLink(tok){
   const rgs = $('#rgSel'); if (rgs) rgs.addEventListener('change', ()=>{ track('region_change', {to:rgs.value}); setRegion(rgs.value); });
   if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
   recheckPaid();   // [v16] refund / expiry since the last visit
+  { const ws = $('#wStart'); if (ws) ws.addEventListener('click', ()=>{ track('cta_click', {location:'welcome_inline'}); $('#next').click(); }); }   // [v28] Start right under the headline
   if (!FREE_TIER){ const wf = $('#wFree'); if (wf) wf.remove(); }   // [v27] no 'Free.' promise while the free tier is off
   go(0, {replace:true});
   // [v28] Instagram / Facebook browser: the sheet once per visit, on the first screen
