@@ -430,6 +430,12 @@
       el.classList.toggle('free', free);
       var c = el.__chr; if (c && !c.classList.contains('flying')) { if (free) place(c, 316, 143); else place(c, 150, 168); }
     },
+    /* tracker cage: '' = normal, 'sad' = nothing saved yet today (kept until the next save) */
+    cageMood: function (el, m) {
+      if (!el || !el.__chr) return; m = m || '';
+      if (el.__mood === m) return; el.__mood = m;
+      mood(el.__chr, m || null);
+    },
     cageCheer: function (el) {
       if (!el || !el.__chr) return; var c = el.__chr;
       if (el.classList.contains('free')) { mood(c, 'sing', 1600); SFX.song(); return; }
