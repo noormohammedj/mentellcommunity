@@ -69,6 +69,7 @@
   var CSS = [
     '.mf{position:relative;margin:18px 0 22px;border:1.5px solid var(--mf-line,#DDD1BF);background:var(--mf-card,#FBF8F2);padding:10px 10px 8px;max-width:560px;font-family:Archivo,system-ui,sans-serif;color:#2A231D}',
     '.mf svg.mf-sc{display:block;width:100%;height:auto;overflow:visible}',
+    '.mf.mf-sm{max-width:340px;margin:6px auto 14px;padding:6px 8px 6px}.mf.mf-sm .mf-cap{font-size:13px;padding:8px 10px}.mf.mf-sm .mf-bar button{padding:6px 9px;font-size:12px}',
     '.mf-cap{position:absolute;left:12px;right:12px;top:10px;background:rgba(30,24,19,.92);color:#FBF3E6;padding:10px 12px;font-weight:700;font-size:15px;line-height:1.4;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;pointer-events:none}',
     '.mf-cap.on{opacity:1;transform:none}',
     '.mf-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}',
@@ -396,8 +397,8 @@
     mute.addEventListener('click', function () { muted = !muted; lsSet('mf_mute', muted ? '1' : '0'); if (muted) hush(); labels(); qa(document, '.mf .mf-mute').forEach(function (b) { b.textContent = muted ? (UI[lang] || UI.en).unmute : (UI[lang] || UI.en).mute; }); });
     qa(el, '.mf-l').forEach(function (b) { b.addEventListener('click', function () { lang = b.getAttribute('data-l'); lsSet('mf_lang', lang); labels(); if (running) run(); }); });
     q(el, 'svg').addEventListener('click', function (e) { var c = e.target.closest && e.target.closest('.chr'); if (!c) return; unlock(); VOICE_OF[c.getAttribute('data-c')](); mood(c, 'sing', 1500); });
-    /* first visit: play once when it comes into view */
-    if (!lsGet('mf_seen_' + kind) && el.getAttribute('data-autoplay') !== 'off') {
+    /* first visit: play once when it comes into view, only where data-autoplay="on" */
+    if (!lsGet('mf_seen_' + kind) && el.getAttribute('data-autoplay') === 'on') {   /* [v2] off by default: it talked over the first screen */
       if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting && x.intersectionRatio > .5) { io.disconnect(); setTimeout(run, 500); } }); }, { threshold: [.5, .8] });
         io.observe(el);
