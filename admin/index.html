@@ -33,7 +33,7 @@ button:disabled{opacity:.5;cursor:default}
 .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .name{font-weight:800;font-size:18px}
 .facts{color:var(--muted);font-size:14px;margin-top:2px}
-.msg{background:var(--surface);font-size:14px;padding:10px;margin-top:10px;white-space:pre-wrap}
+.msg{background:var(--surface);font-size:14px;padding:10px;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.acts>*{flex:1 1 auto}
 .tip{background:var(--surface);padding:12px;font-size:14px;margin-top:14px}
 @media (max-width:420px){.stats{grid-template-columns:repeat(2,1fr)}}
@@ -58,6 +58,15 @@ button:disabled{opacity:.5;cursor:default}
     <div class="tip"><b>How:</b> tap <b>WhatsApp</b> → the message opens ready in WhatsApp → send. The person leaves this list for 3 days (marked "sent"). Send to about 50 new people a day at most, so WhatsApp doesn't flag your number. People who reply "venaam": tap <b>Not interested</b>.</div>
     <div id="list"></div>
     <button class="ghost wide" id="reload">Refresh list</button>
+    <section id="sheet" hidden>
+    <h2>Old leads · Google Sheet (Oct–Nov)</h2>
+    <p class="muted small">People from the "Mentell Leads" Sheet (before 7 Nov), who are not in the list above. Paid people are taken out using your Razorpay export. The files stay on this phone; nothing is uploaded.</p>
+    <div class="tip"><b>1.</b> Sheet: File → Download → CSV.<br><b>2.</b> Razorpay Dashboard → Transactions → Payments → dates 1 Oct to today → Export (CSV).<br>Pick both files below. Sent and "Not interested" are remembered on this phone only, so use the same phone each day.</div>
+    <label class="small" for="sFile" style="display:block;margin-top:12px"><b>Leads Sheet CSV</b></label><input id="sFile" type="file" accept=".csv,text/csv">
+    <label class="small" for="pFile" style="display:block;margin-top:12px"><b>Razorpay payments CSV</b> (needed, so nobody who paid gets a message)</label><input id="pFile" type="file" accept=".csv,text/csv">
+    <p class="small muted" id="sStats"></p>
+    <div id="sList"></div>
+    </section>
 
     <h2 id="giftH">Free access link</h2>
     <p class="muted small">For someone who can't pay here (abroad, no UPI), goodwill, or a creator. The link opens the full money plan on their phone. No Indian number needed. Days count from the first time they open it. (The daily tracker login still needs an Indian number.)</p>
@@ -123,21 +132,31 @@ $('#go').addEventListener('click', async ()=>{
 $('#out').addEventListener('click', ()=>{ T = null; keep(); location.reload(); });
 $('#reload').addEventListener('click', load);
 
+/* [26 Nov 2026] Kuruvi ₹99 campaign. While CAMPAIGN is set, every unpaid lead gets the short
+   Tamil + English Kuruvi message, renewals (paid people) are hidden, and the Google Sheet section shows.
+   Set CAMPAIGN = '' to go back to the normal per-stage follow-up messages. */
+const CAMPAIGN = 'kuruvi99';
+function kuruvi(name, l){
+  const n = first(name), hi = n ? `Hi ${n}` : 'Hi';
+  return `${hi}, Noor from Mentell 🙏\nNeengalum loan koondula maatikitta namma Kuruvi dhaan. Unga sondha saving-la free aagalaam.\nYou're our Kuruvi too, caught in the loan cage. Your own savings can set you free.\nFirst step, just ₹99 🐦 ${l}\nVenaam-na / not interested: reply STOP`;
+}
 const STAGE = {
   tapped_pay: ['Pay panna start panninaanga', 'Started paying, didn’t finish (last 3 days). Message first.'],
   saw_offer: ['₹99 offer paarthaanga', 'Saw the ₹99 screen, didn’t buy (last 3 days).'],
   renew: ['Renewal', 'Plan ends within 5 days, or ended in the last week.'],
   older: ['Older leads', 'Did the money plan 4–60 days ago, never bought, never messaged. 50 a day.']
 };
+if (CAMPAIGN) delete STAGE.renew;
 function link(r){
   const u = new URL(SITE + '/financial/');
   if (r.rt) u.searchParams.set('r', r.rt);
-  u.searchParams.set('utm_source', 'whatsapp'); u.searchParams.set('utm_medium', 'followup'); u.searchParams.set('utm_campaign', r.stage);
+  u.searchParams.set('utm_source', 'whatsapp'); u.searchParams.set('utm_medium', 'followup'); u.searchParams.set('utm_campaign', CAMPAIGN || r.stage);
   return u.toString();
 }
 function first(n){ const f = String(n||'').trim().split(/\s+/)[0]; return f ? f.charAt(0).toUpperCase() + f.slice(1) : ''; }
 function message(r){
   const n = first(r.name), hi = n ? `Hi ${n}` : 'Hi', l = link(r);
+  if (CAMPAIGN) return kuruvi(r.name, l);
   if (r.stage === 'tapped_pay') return `${hi}, Noor here from Mentell 🙏\nNeenga ₹99 plan pay panna start panneenga, aana complete aagala pola. Edhavadhu problem-aa?\nIndha link-la unga plan apdiye irukku, 1 nimisham-la mudikkalaam: ${l}\nUPI work aagalana reply pannunga, naan help panren.`;
   if (r.stage === 'saw_offer') return `${hi}, Noor here from Mentell 🙏\nNeenga potta EMI details vechu unga plan ready${r.emi_free_now ? `. Ippo irukura maari pona, EMI mudiya ${r.emi_free_now} aagum` : ''}.\nEdha first close pannanum, maasam evlo save pannalaam, unga EMI-free date: ellam ₹99-la: ${l}\nDoubt irundha inga reply pannunga.`;
   if (r.stage === 'renew') return `${hi}, Noor here from Mentell 🙏\nUnga ₹99 plan ${r.plan_ends && Date.parse(r.plan_ends) < Date.now() ? 'mudinjiduchu' : 'innum konja naal-la mudiyudhu'}. Plan-um tracker-um continue panna: ${l}\nIndha maasam evlo save panneenga? Reply pannunga!`;
@@ -150,7 +169,7 @@ function ago(t){
 }
 async function mark(btn, card, r, status){
   btn.disabled = true;
-  try{ await rpc('admin_mark', {p_profile:r.profile_id, p_status:status, p_note:(status==='follow_up' ? 'whatsapp: ' : '') + r.stage}); card.classList.add('done'); card.querySelectorAll('button').forEach(b=>b.disabled = true); }
+  try{ await rpc('admin_mark', {p_profile:r.profile_id, p_status:status, p_note:(status==='follow_up' ? 'whatsapp: ' : '') + (CAMPAIGN ? CAMPAIGN + ' ' : '') + r.stage}); card.classList.add('done'); card.querySelectorAll('button').forEach(b=>b.disabled = true); }
   catch(e){ btn.disabled = false; alert('Save aagala: ' + e.message); }
 }
 let ROWS = [];
@@ -183,10 +202,94 @@ async function loadNotify(){
 async function load(){
   loadNotify();
   $('#reload').disabled = true;
-  try{ ROWS = await rpc('admin_followups', {}) || []; $('#when').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'}); render(); }
+  try{ ROWS = (await rpc('admin_followups', {}) || []).filter(r => !(CAMPAIGN && r.stage === 'renew')); $('#when').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'}); render(); if (SHEET && PAID) renderSheet(); }
   catch(e){ if (e.message === 'login'){ $('#app').hidden = true; $('#login').hidden = false; } else $('#list').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
   finally{ $('#reload').disabled = false; }
 }
+/* ---- old Google Sheet leads (Kuruvi campaign) ---- */
+function csvRows(text){
+  const out = []; let row = [], f = '', q = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i];
+    if (q){ if (c === '"'){ if (text[i+1] === '"'){ f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ','){ row.push(f); f = ''; }
+    else if (c === '\n' || c === '\r'){ if (c === '\r' && text[i+1] === '\n') i++; row.push(f); out.push(row); row = []; f = ''; }
+    else f += c;
+  }
+  if (f !== '' || row.length){ row.push(f); out.push(row); }
+  return out.filter(r => r.some(x => String(x).trim() !== ''));
+}
+function ten(v){
+  let d = String(v || '').replace(/\D/g, '');
+  if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+  if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+  return /^[6-9]\d{9}$/.test(d) ? d : '';
+}
+const SK = 'mentell_sheet_done';
+let SDONE = {}; try{ SDONE = JSON.parse(localStorage.getItem(SK) || '{}') || {}; }catch(e){}
+const sKeep = () => { try{ localStorage.setItem(SK, JSON.stringify(SDONE)); }catch(e){} };
+let SHEET = null, PAID = null;
+function readFile(inp){ return new Promise((ok, no) => { const f = inp.files && inp.files[0]; if (!f) return ok(null); const fr = new FileReader(); fr.onload = () => ok(String(fr.result || '')); fr.onerror = no; fr.readAsText(f); }); }
+/* Leads from the Sheet: by column name, so column order never matters. */
+function sheetLeads(text){
+  const rows = csvRows(text); if (rows.length < 2) return [];
+  const h = rows[0].map(x => x.trim().toLowerCase());
+  const col = re => h.findIndex(x => re.test(x));
+  const cPh = col(/^(whatsapp|phone|number|mobile|contact)/), cName = col(/^name/), cPaid = col(/^paid/), cEv = col(/^event/), cAt = col(/^timestamp/);
+  if (cPh < 0) throw new Error('No WhatsApp / phone column in the Sheet file.');
+  return rows.slice(1).map(r => ({ phone: ten(r[cPh]), name: cName >= 0 ? r[cName].trim() : '', paid: cPaid >= 0 ? String(r[cPaid]).trim() : '', event: cEv >= 0 ? String(r[cEv]) : '', at: cAt >= 0 ? r[cAt] : '' }));
+}
+/* Every Indian mobile anywhere in the Razorpay export counts as paid (contact column, notes, etc.). */
+function paidPhones(text){
+  const set = new Set();
+  csvRows(text).forEach(r => r.forEach(cell => { (String(cell).match(/\+?\d[\d\s-]{8,15}\d/g) || []).forEach(m => { const t = ten(m); if (t) set.add(t); }); }));
+  return set;
+}
+function paidFlag(v){ v = String(v || '').trim().toLowerCase(); return !!v && !/^(no|false|0|n|-|unpaid|not paid)$/.test(v); }
+function renderSheet(){
+  const box = $('#sList'), st = $('#sStats'); box.innerHTML = '';
+  if (!SHEET || !PAID){ st.textContent = !SHEET ? 'Pick the Sheet CSV.' : 'Now pick the Razorpay payments CSV. The list shows only after it, so paid people are never messaged.'; return; }
+  const inList = new Set(ROWS.map(r => ten(r.phone)).filter(Boolean));
+  const seen = new Set(); let paid = 0, bad = 0, dup = 0, done = 0;
+  const paidInSheet = new Set(SHEET.filter(r => r.phone && (paidFlag(r.paid) || /paid|payment|success/i.test(r.event))).map(r => r.phone));
+  const todo = [];
+  SHEET.forEach(r => {
+    if (!r.phone){ bad++; return; }
+    if (seen.has(r.phone)) return; seen.add(r.phone);
+    if (PAID.has(r.phone) || paidInSheet.has(r.phone)){ paid++; return; }
+    if (inList.has(r.phone)){ dup++; return; }
+    if (SDONE[r.phone]){ done++; return; }
+    todo.push(r);
+  });
+  const today = new Date().toDateString(), sentToday = Object.values(SDONE).filter(x => x.s === 'sent' && new Date(x.t).toDateString() === today).length;
+  const left = Math.max(0, 50 - sentToday), show = todo.slice(0, left);
+  st.textContent = `${todo.length} to message · ${paid} paid (left out) · ${dup} already in the list above · ${done} done before · ${bad} rows without a valid number · sent today ${sentToday}/50`;
+  if (!todo.length){ box.innerHTML = '<p class="tip">Sheet-la innum yaarum illa.</p>'; return; }
+  if (!show.length){ box.innerHTML = '<p class="tip">50 sent today. Naalaiku continue pannunga, so WhatsApp doesn’t flag your number.</p>'; return; }
+  show.forEach(r => {
+    const l = `${SITE}/financial/?utm_source=whatsapp&utm_medium=sheet&utm_campaign=${CAMPAIGN}`, msg = kuruvi(r.name, l);
+    const c = document.createElement('div'); c.className = 'card';
+    c.innerHTML = `<div class="row"><span class="name">${esc(r.name || 'No name')}</span><span class="muted small">••••••••${esc(r.phone.slice(-2))}</span></div>
+      <div class="facts">${esc(r.at ? 'Sheet · ' + r.at : 'Sheet')}</div><div class="msg">${esc(msg)}</div>
+      <div class="acts"><a class="btn" target="_blank" rel="noopener" href="https://wa.me/91${esc(r.phone)}?text=${encodeURIComponent(msg)}">WhatsApp</a><button class="ghost" data-a="no">Not interested</button></div>`;
+    const set = s => { SDONE[r.phone] = {s, t: Date.now()}; sKeep(); c.classList.add('done'); c.querySelectorAll('button').forEach(b => b.disabled = true); };
+    c.querySelector('a.btn').addEventListener('click', () => setTimeout(() => { set('sent'); renderSheetStats(); }, 300));
+    c.querySelector('[data-a="no"]').addEventListener('click', () => { set('no'); renderSheetStats(); });
+    box.appendChild(c);
+  });
+}
+function renderSheetStats(){ const n = Object.values(SDONE).filter(x => x.s === 'sent' && new Date(x.t).toDateString() === new Date().toDateString()).length; $('#sStats').textContent = $('#sStats').textContent.replace(/sent today \d+\/50/, `sent today ${n}/50`); }
+async function loadSheetFiles(){
+  try{
+    const [a, b] = await Promise.all([readFile($('#sFile')), readFile($('#pFile'))]);
+    SHEET = a ? sheetLeads(a) : null; PAID = b ? paidPhones(b) : null;
+    renderSheet();
+  }catch(e){ $('#sStats').textContent = 'File read aagala: ' + e.message; }
+}
+$('#sFile').addEventListener('change', loadSheetFiles);
+$('#pFile').addEventListener('change', loadSheetFiles);
+
 /* ---- free access links ---- */
 function giftMessage(name, url, days){
   const n = first(name), hi = n ? `Hi ${n}` : 'Hi';
@@ -235,6 +338,7 @@ async function start(){
     const ok = await rpc('am_admin', {});
     $('#login').hidden = true; $('#app').hidden = false; $('#out').hidden = false;
     if (!ok){ $('#list').innerHTML = '<p class="tip">Indha login admin illa. Supabase SQL Editor-la indha login number-oda admin line-a run pannunga (UPLOAD-STEPS.md paarunga).</p>'; $('#stats').innerHTML = ''; return; }
+    if (CAMPAIGN) $('#sheet').hidden = false;
     load(); loadGifts();
   }catch(e){ T = null; keep(); $('#login').hidden = false; $('#app').hidden = true; }
 }
