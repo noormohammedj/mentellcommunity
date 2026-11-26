@@ -100,7 +100,7 @@
       var W = window.innerWidth, H = window.innerHeight, w = Math.max(W, H * 16 / 9), h = w * 9 / 16;
       frame.style.width = w + 'px'; frame.style.height = h + 'px';
       var tall = W / H < 1.25, s = 1, dy = 0;
-      if (zoomOut && tall) { s = W / w; dy = -H * 0.14; }
+      if (zoomOut && tall) { s = W / w; dy = -H * 0.1; }
       frame.style.transform = 'translate(-50%,-50%) translateY(' + dy + 'px) scale(' + s + ')';
     }
     layout(); window.addEventListener('resize', layout);
