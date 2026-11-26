@@ -422,6 +422,8 @@
 
   window.MentellFriends = {
     init: init,
+    /* play one named sound (chirp, song, flap, clink, unlock, chime...) if sound is on */
+    sfx: function (n, a) { if (SFX[n]) SFX[n](a); },
     mount: function (el) { init(); mount(el); },
     /* tracker cage: frac = share of the way to EMI-free (0..1), locks = loans, open = loans closed */
     cageSet: function (el, s) {

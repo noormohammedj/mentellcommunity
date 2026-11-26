@@ -22,7 +22,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mentell Money: EMI-free plan","url":"https://mentell.co.in/financial/","applicationCategory":"FinanceApplication","operatingSystem":"Any","inLanguage":["en-IN","ta"],"description":"Free money planner for salaried families in Tamil Nadu: EMI vs salary, family expenses, habit cuts, EMI-free date, PDF report.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Mentell","url":"https://mentell.co.in/","logo":"https://mentell.co.in/apple-touch-icon.png"}}</script>
 <!-- config BEFORE the GA tag: it strips hand-off data from the URL before GA reads it -->
 <script src="/mentell-config.js"></script>
-<script src="/friends/friends.js?v=2" defer></script>
+<script src="/friends/friends.js?v=3" defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,6 +94,29 @@ h2{font-size:clamp(36px,10.5vw,56px);margin-bottom:12px}
 /* bottom action bar */
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--paper);border-top:1px solid var(--line);padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom))}
 .bar-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px}
+/* [v29] welcome: Kuruvi in the loan trap + "Click here to free me" */
+.trap{position:relative;width:100%;aspect-ratio:16/9;background:var(--surface) url(/financial/media/kuruvi-trap.jpg) center/cover no-repeat;border:2px solid var(--ink);overflow:hidden;margin:0 0 14px}
+.trap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:transparent}
+.trap .trap-free{opacity:0;transition:opacity .18s}
+.trap.freeing .trap-free{opacity:1}
+.trap-flash{position:absolute;inset:0;background:var(--paper);opacity:0;pointer-events:none}
+.trap.freeing .trap-flash{animation:trapFlash .5s ease-out}
+@keyframes trapFlash{0%{opacity:.85}100%{opacity:0}}
+.freeme{appearance:none;position:relative;overflow:hidden;width:100%;min-height:64px;margin:0 0 20px;padding:16px 18px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font:inherit;font-weight:800;font-stretch:100%;font-size:clamp(16px,4.9vw,21px);letter-spacing:.01em;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.freeme[hidden]{display:none}
+.freeme::before{content:"";position:absolute;inset:5px;border:2px solid var(--save);pointer-events:none;animation:fmRing 1.4s ease-out infinite}
+.freeme::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(244,238,227,.35),transparent);transform:skewX(-18deg);animation:fmShine 2.2s ease-in-out infinite}
+.freeme svg{flex:none;color:var(--save);background:var(--paper);padding:3px;width:34px;height:34px;animation:fmShake 2.2s ease-in-out infinite}
+.freeme.in{animation:fmPop .45s cubic-bezier(.2,1.6,.4,1)}
+.freeme:active{transform:translateY(2px)}
+.freeme.go{background:var(--save);border-color:var(--save)}
+.freeme.go .fm-shackle{transform:translate(0,-34px) rotate(-14deg);transform-origin:165px 80px;transition:transform .25s}
+.freeme.go::before,.freeme.go::after,.freeme.go svg{animation:none}
+@keyframes fmRing{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.03,1.25)}}
+@keyframes fmShine{0%,55%{left:-60%}100%{left:130%}}
+@keyframes fmShake{0%,70%,100%{transform:rotate(0)}74%{transform:rotate(-12deg)}78%{transform:rotate(10deg)}82%{transform:rotate(-8deg)}86%{transform:rotate(6deg)}90%{transform:rotate(0)}}
+@keyframes fmPop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.freeme::before,.freeme::after,.freeme svg,.freeme.in,.trap.freeing .trap-flash{animation:none}}
 .btn{appearance:none;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:700;font-size:17px;padding:16px 18px;cursor:pointer;flex:1;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px}
 .btn.ghost{background:var(--paper);color:var(--ink);flex:0 0 auto}
 .btn.yt{background:var(--out);border-color:var(--out)}
@@ -352,9 +375,20 @@ footer a{color:var(--muted)}
 <section class="scr" data-s="welcome" aria-labelledby="hWelcome">
   <h1 id="hWelcome" data-anim>EMI pressure&#8209;a?</h1>
   <p class="lede" data-anim>3 nimisham. Unga full picture, unga EMI-free date. <b id="wFree">Free.</b></p>
-  <button type="button" class="btn" id="wStart" data-anim style="width:100%;margin:4px 0 18px">Start pannunga &rarr;</button>
+  <!-- [v29] Kuruvi flies into the loan trap; "Click here to free me" frees it and opens the calculator -->
+  <div class="trap" id="trap" data-anim>
+    <video id="trapVid" muted playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="none" poster="/financial/media/kuruvi-trap.jpg" aria-label="A sparrow flies into a cage marked Loan trap">
+      <source src="/financial/media/kuruvi-trap.webm" type='video/webm; codecs="av01.0.04M.08"'>
+      <source src="/financial/media/kuruvi-trap.mp4" type='video/mp4; codecs="avc1.4D401F"'>
+    </video>
+    <video id="freeVid" class="trap-free" muted playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="none" aria-hidden="true"></video>
+    <i class="trap-flash" aria-hidden="true"></i>
+  </div>
+  <button type="button" class="freeme" id="freeMe" hidden>
+    <svg viewBox="0 0 256 256" width="26" height="26" aria-hidden="true"><path class="fm-shackle" d="M88 112V80a40 40 0 0 1 77.5-14" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="square"/><rect x="40" y="112" width="176" height="112" fill="none" stroke="currentColor" stroke-width="18"/><rect x="118" y="148" width="20" height="40" fill="currentColor"/></svg>
+    <span>Click here to free me</span>
+  </button>
   <ol class="steps" data-anim style="margin:0 0 22px"><li>EMI vs salary: neenga enga irukkeenga</li><li>Edhai cut panna, evlo save aagum</li><li>Unga EMI-free date + PDF plan</li></ol>
-  <div data-friend="kuruvi" data-lang="ta" class="mf-sm" data-anim></div>
   <div id="resume" hidden class="callout" data-anim><b>Neenga paadhi-la vittu ponga.</b><br><button type="button" class="link" id="startFresh">Start fresh</button></div>
   <button type="button" class="link" id="loginLink" hidden data-anim>Already tracking? Login</button>
   <div id="rsOk" hidden class="callout"><b>Unlocked ✓</b> <span id="rsOkTxt"></span></div>
@@ -1168,7 +1202,7 @@ function go(i, opts){
   if (name==='body_mind') NEXT_LABEL.body_mind = TRACKER_URL ? (hasSession() ? 'Open my tracker' : 'Track daily, get 50% off') : 'Get my PDF';
   $('#back').style.display = (i===0 || name==='tracker') ? 'none' : '';
   const nx = $('#next'); nx.style.display = (name==='pdf' || name==='paywall') ? 'none' : ''; nx.textContent = NEXT_LABEL[name] || 'Next';
-  const wsb = $('#wStart'); if (wsb && name==='welcome'){ nx.style.display = 'none'; wsb.textContent = (NEXT_LABEL.welcome || 'Start') + ' →'; }   // [v28] one Start, under the headline
+  const wsb = $('#wStart'); if (name==='welcome'){ nx.style.display = 'none'; if (wsb) wsb.textContent = (NEXT_LABEL.welcome || 'Start') + ' →'; }   // [v28] one Start, under the headline ([v29] #freeMe is that Start)
   window.scrollTo(0,0);
   enter(scr);
   if (!opts.fromPop){ try{ history[opts.replace?'replaceState':'pushState']({s:i, p:opts.replace ? (history.state && history.state.p) : from}, '', '#'+name); }catch(e){} }
@@ -2665,6 +2699,42 @@ async function openPersonalLink(tok){
   if (PAYWALL && !paidOk()) $('#rsLink').hidden = false;   // [v16.3]
   recheckPaid();   // [v16] refund / expiry since the last visit
   { const ws = $('#wStart'); if (ws) ws.addEventListener('click', ()=>{ track('cta_click', {location:'welcome_inline'}); $('#next').click(); }); }   // [v28] Start right under the headline
+  // [v29] Kuruvi flies into the loan trap (muted autoplay, ~150 KB), then "Click here to free me":
+  // the clip runs backwards (the sparrow flies out) and the calculator opens. Slow data / reduced motion: still poster, button at once.
+  (function trap(){
+    const box = $('#trap'), v = $('#trapVid'), fv = $('#freeVid'), btn = $('#freeMe');
+    if (!box || !v || !btn) return;
+    const cn = navigator.connection || {};
+    const lite = cn.saveData || /(^|-)2g$/.test(cn.effectiveType||'') || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    let shown = false, busy = false, played = false;
+    const show = why => { if (shown) return; shown = true; btn.hidden = false; btn.classList.add('in'); track('mm_freeme_show', {why}); };
+    const loadFree = () => { if (lite || !fv || fv.dataset.ok) return; fv.dataset.ok = '1'; fv.innerHTML = v.innerHTML.replace(/kuruvi-trap/g, 'kuruvi-free'); fv.preload = 'auto'; try{ fv.load(); }catch(e){} };
+    if (lite){ show('lite'); }
+    else {
+      v.preload = 'auto';
+      v.addEventListener('timeupdate', ()=>{ if (v.currentTime >= 4.4) show('caged'); });
+      v.addEventListener('playing', ()=>{ if (!played){ played = true; track('mm_trap_play'); } loadFree(); }, {once:true});
+      v.addEventListener('ended', ()=>show('ended'));
+      v.addEventListener('error', ()=>show('error'), true);
+      setTimeout(()=>{ if (!played) show('slow'); }, 3500);   // still loading on a weak signal: don't make them wait
+      setTimeout(()=>show('timer'), 9000);
+      const p = v.play(); if (p && p.catch) p.catch(()=>show('blocked'));   // iPhone Low Power mode etc.
+    }
+    const proceed = () => { busy = false; btn.classList.remove('go'); box.classList.remove('freeing'); $('#next').click(); };
+    btn.addEventListener('click', ()=>{
+      if (busy) return; busy = true;
+      track('cta_click', {location:'welcome_freeme'});
+      const F = window.MentellFriends; if (F && F.sfx){ F.sfx('unlock'); setTimeout(()=>{ F.sfx('flap', 500); F.sfx('song'); }, 350); }
+      btn.classList.add('go'); try{ v.pause(); }catch(e){}
+      if (!fv || lite || fv.readyState < 2){ setTimeout(proceed, 450); return; }   // free clip not ready: no waiting
+      box.classList.add('freeing'); fv.currentTime = 0; fv.playbackRate = 1.4;
+      let done = false; const fin = () => { if (done) return; done = true; proceed(); };
+      fv.addEventListener('ended', fin, {once:true}); setTimeout(fin, 3600);
+      const q = fv.play(); if (q && q.catch) q.catch(fin);
+    });
+    // back on the welcome screen later: the trapped frame + the button, no replay
+    window.addEventListener('popstate', ()=>{ try{ fv && fv.pause(); }catch(e){} box.classList.remove('freeing'); });
+  })();
   if (!FREE_TIER){ const wf = $('#wFree'); if (wf) wf.remove(); }   // [v27] no 'Free.' promise while the free tier is off
   go(0, {replace:true});
   // [v16.2] back from the Payment Page: straight to the paywall, which keeps checking that order
