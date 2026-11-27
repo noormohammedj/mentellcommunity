@@ -494,6 +494,40 @@
   }
   function hideSay() { bubble.classList.remove('on'); }
 
+  /* ---------- Kuruvi's mate (a hen sparrow, Pixabay clip 38521) visits on save days ---------- */
+  var MATE = { src: 'mate.webp', w: 166, h: 150, n: 39, ax: 83, ay: 141, hop: [0, 14], idle: [15, 38] };
+  var mateImg = null, mateCv = null, mateOn = false;
+  function mateVisit() {
+    if (mateOn || reduced) return; mateOn = true;
+    var go = function () {
+      if (!mateCv) { mateCv = document.createElement('canvas'); mateCv.className = 'kv-bird kv-mate'; mateCv.style.pointerEvents = 'none'; layer.insertBefore(mateCv, bubble); }
+      var s = SCALE * 1.7, cx = mateCv.getContext('2d');
+      mateCv.width = Math.round(MATE.w * s * dpr); mateCv.height = Math.round(MATE.h * s * dpr);
+      mateCv.style.width = (MATE.w * s) + 'px'; mateCv.style.height = (MATE.h * s) + 'px'; mateCv.style.zIndex = 4;
+      var bt = barTop(), x1 = Math.max(60, cageBox.x - 38), y = bt + 1, x0 = x1 - 70;
+      function draw(f, x, a) {
+        cx.setTransform(1, 0, 0, 1, 0, 0); cx.clearRect(0, 0, mateCv.width, mateCv.height);
+        cx.drawImage(mateImg, f * MATE.w, 0, MATE.w, MATE.h, 0, 0, mateCv.width, mateCv.height);
+        mateCv.style.opacity = a; mateCv.style.transform = 'translate(' + (x - MATE.ax * s).toFixed(1) + 'px,' + (y - MATE.ay * s).toFixed(1) + 'px)';
+      }
+      // drops in, hops twice toward Kuruvi, sits and chirps with him, then hops away
+      tween(380, function (k) { draw(MATE.hop[0], x0, k); mateCv.style.transform += ' translateY(' + ((1 - k) * -40).toFixed(1) + 'px)'; })
+        .then(function () { SND.chirp(2); return tween(1200, function (k) { var f = MATE.hop[0] + Math.min(MATE.hop[1] - MATE.hop[0], Math.floor(k * (MATE.hop[1] - MATE.hop[0] + 1))); draw(f, x0 + (x1 - x0) * ease(k), 1); }); })
+        .then(function () {
+          say(LANG === 'en' ? 'She came to see you saving!' : LANG === 'hi' ? 'वो आपकी बचत देखने आई!' : 'Ava-um vandhuta! Neenga save pannadhu paathu.', true);
+          if (!state.inCage) fly({ x: x1 - 56, y: y }).then(function () { state.at = 'mate'; state.perch = null; state.busy = true; setTimeout(function () { state.busy = false; goRoof(); }, 6500); });
+          setTimeout(function () { SND.chirp(3); }, 600); setTimeout(function () { chirp(2); }, 1500);
+          var n = MATE.idle[1] - MATE.idle[0] + 1;
+          return tween(7000, function (k) { var t = Math.floor(k * n * 3) % (2 * n - 2); var f = MATE.idle[0] + (t < n ? t : 2 * n - 2 - t); draw(f, x1, 1); });
+        })
+        .then(function () { return tween(500, function (k) { draw(MATE.hop[0] + 3, x1 + k * 50, 1 - k); }); })
+        .then(function () { mateOn = false; });
+    };
+    if (mateImg && mateImg.complete) go();
+    else { mateImg = new Image(); mateImg.onload = go; mateImg.onerror = function () { mateOn = false; }; mateImg.src = BASE + MATE.src; }
+    track('kv_mate');
+  }
+
   /* ---------- public API ---------- */
   var queue = Promise.resolve();
   function then(fn) { queue = queue.then(function () { return waitIdle(); }).then(fn).catch(function () {}); return queue; }
@@ -537,11 +571,12 @@
         return p.then(function () {
           SND.song();
           var a = { x: vw() * .25, y: vh() * .3 }, b = { x: vw() * .75, y: vh() * .22 };
-          return fly(a, { fast: true }).then(function () { return fly(b, { fast: true }); }).then(goRoof).then(function () { return chirp(3); });
+          return fly(a, { fast: true }).then(function () { return fly(b, { fast: true }); }).then(goRoof).then(function () { return chirp(3); }).then(function () { mateVisit(); });
         });
       });
     },
     say: function (t) { then(function () { say(t); }); },
+    mate: function () { then(function () { mateVisit(); }); },
     enter: function () {   // arrive from off-screen (after the intro clip)
       then(function () {
         state.inCage = false; cageEl.classList.add('open'), cageFront.classList.add('open'); state.s = SCALE;

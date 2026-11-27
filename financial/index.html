@@ -2366,6 +2366,7 @@ function renderRoad(){
   kv('locks', R.emis.length - R.now.ends.filter(e=>e!=null && e <= R.elapsed).length);
   kv('freedom', pos(R.elapsed));
   kv('cage', !sumDay(istDay(0),'save'));
+  if (sumDay(istDay(0),'save')){ try{ if (localStorage.getItem('kv_mate_day') !== istDay(0)){ localStorage.setItem('kv_mate_day', istDay(0)); setTimeout(()=>kv('mate'), 2500); } }catch(e){} }   // [v29] his mate visits once on each save day
   return R;
 }
 function roadCelebrate(amt, gainBefore){
