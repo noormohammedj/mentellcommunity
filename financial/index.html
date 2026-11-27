@@ -23,7 +23,9 @@
 <!-- config BEFORE the GA tag: it strips hand-off data from the URL before GA reads it -->
 <script src="/mentell-config.js"></script>
 <script src="/friends/friends.js?v=3" defer></script>
-<script src="/financial/intro.js?v=1" data-lang="ta" defer></script>
+<script src="/financial/intro.js?v=2" data-lang="ta" defer></script>
+<script>window.KURUVI_START_CAGED=false;</script>
+<script src="/kuruvi/kuruvi.js?v=1" data-lang="ta" defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,6 +97,7 @@ h2{font-size:clamp(36px,10.5vw,56px);margin-bottom:12px}
 /* bottom action bar */
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--paper);border-top:1px solid var(--line);padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom))}
 .bar-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px}
+.bar-in{padding-right:132px}   /* [v29] Kuruvi's cage (and its sound button) stand at the bar's right end */
 .btn{appearance:none;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:700;font-size:17px;padding:16px 18px;cursor:pointer;flex:1;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px}
 .btn.ghost{background:var(--paper);color:var(--ink);flex:0 0 auto}
 .btn.yt{background:var(--out);border-color:var(--out)}
@@ -265,7 +268,8 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;background:var(--ink)
 .t-road-gain b{color:var(--save)}
 .t-road-delta{min-height:24px;font-weight:700;color:var(--save);margin:8px 0 4px;font-size:16px}
 .t-road svg{display:block;width:100%;height:auto}
-#tRoad > svg{display:none}   /* [v27] the road picture is replaced by Kuruvi's cage (#rCage); its maths still runs */
+#tRoad > svg{display:none} #rCage{display:none}   /* [v29] the live Kuruvi cage (kuruvi.js) replaces this drawing */
+   /* [v27] the road picture is replaced by Kuruvi's cage (#rCage); its maths still runs */
 .t-road .note{font-size:12px;margin-top:6px}
 #rAuto{transition:transform 1.1s cubic-bezier(.3,.8,.3,1) .5s}
 #rCoin{opacity:0}
@@ -331,6 +335,42 @@ footer a{color:var(--muted)}
 .pw-spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pwr .8s linear infinite;vertical-align:-2px}
 @keyframes pwr{to{transform:rotate(1turn)}}
 @media (prefers-reduced-motion:reduce){.pw-spin{animation:none}.pw-blur{transition:none}}
+
+/* ===== [v29] polish pass (27 Nov 2026): calmer header, lifted cards, one green accent for progress ===== */
+:root{ --card:#FBF8F2; --shadow:0 1px 0 rgba(42,35,29,.06), 0 8px 24px -14px rgba(42,35,29,.28); }
+body{background:var(--paper) radial-gradient(120% 60% at 50% -10%, #FBF7EF 0%, rgba(251,247,239,0) 60%) no-repeat}
+.top{background:rgba(244,238,227,.92);-webkit-backdrop-filter:saturate(1.2) blur(10px);backdrop-filter:saturate(1.2) blur(10px)}
+.top-row{padding:14px var(--pad) 12px;gap:14px}
+.brand{font-size:21px}
+.count{margin-left:auto;font-weight:600;letter-spacing:.02em}
+.prog{height:2px;background:var(--line)}
+.prog i{background:var(--save)}
+/* language links sit inside the top row, not stranded under the bar */
+.langs{position:absolute;top:0;right:max(calc(var(--pad) + 52px), calc((100% - var(--max))/2 + var(--pad) + 52px));height:50px;display:flex;align-items:center;gap:2px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.langs a{padding:6px 8px;border-radius:2px}
+.langs a[aria-current]{text-decoration:none;background:var(--ink);color:var(--paper)}
+header.top{position:sticky}
+main{padding-top:30px}
+h1{margin-bottom:14px} h2{margin-bottom:14px}
+.lede{font-size:17px;line-height:1.5;margin-bottom:26px}
+/* tiles and cards: a lighter sheet lifted off the paper */
+.tile,.card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.tile{position:relative;padding:16px 14px;min-height:84px;transition:transform .18s cubic-bezier(.2,.8,.2,1),background .2s,color .2s,box-shadow .2s}
+.tile small{font-size:0}
+.tile small::before{content:"";display:block;width:22px;height:22px;border:1.5px solid currentColor;border-radius:50%;opacity:.5;background:linear-gradient(currentColor,currentColor) center/10px 1.5px no-repeat,linear-gradient(currentColor,currentColor) center/1.5px 10px no-repeat}
+.tile:hover{transform:translateY(-2px)}
+.tile:active{transform:translateY(0) scale(.98)}
+.tile[aria-pressed="true"]{box-shadow:none}
+.card{padding:18px 16px}
+.chip{border-width:1px;background:var(--card);border-radius:999px;padding:9px 16px}
+.chip[aria-pressed="true"]{background:var(--ink)}
+.steps li{border-bottom-color:var(--line)}
+.steps li::before{border-radius:50%;border-width:1px}
+.callout{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.bar{background:rgba(244,238,227,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top-color:var(--line)}
+.btn{border-radius:2px;letter-spacing:.01em;transition:transform .12s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:1;background:var(--surface);border-color:var(--surface);color:var(--muted)}
 </style>
 <link rel="alternate" hreflang="ta" href="https://mentell.co.in/financial/">
 <link rel="alternate" hreflang="en" href="https://mentell.co.in/en/">
@@ -732,6 +772,17 @@ function compact(n, cur){
   if (a >= 1e5) return s+cur + (a/1e5).toFixed(2).replace(/\.?0+$/,'') + ' L';
   return s+cur + a.toLocaleString(RG.l);
 }
+/* [v29] live Kuruvi companion (/kuruvi/kuruvi.js). Calls before it loads are queued. */
+function kv(fn, ...a){
+  if (fn==='screen'){ const [scr, name] = a; if (name==='tracker') return; a = [scr]; }
+  if (window.Kuruvi && window.Kuruvi[fn]) { try{ window.Kuruvi[fn](...a); }catch(e){} }
+  else (window.KURUVI_Q = window.KURUVI_Q || []).push([fn, a]);
+}
+document.addEventListener('kuruvi:intro-done', ()=>kv('enter'));
+document.addEventListener('click', e=>{
+  const t = e.target.closest('.tile,.chip,.card .x,[data-lt]');
+  if (t && !e.target.closest('.kv-layer')) setTimeout(()=>{ const c = t.closest('[data-lt]') ? document.querySelector('#emiList .card:last-child') : t; kv('look', c || t); }, 350);
+});
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ================= [v23] country: currency, amounts, phone code, price ================= */
@@ -1171,6 +1222,7 @@ function go(i, opts){
   const wsb = $('#wStart'); if (name==='welcome'){ nx.style.display = 'none'; if (wsb) wsb.textContent = (NEXT_LABEL.welcome || 'Start') + ' →'; }   // [v28] one Start, under the headline
   window.scrollTo(0,0);
   enter(scr);
+  kv('screen', scr, name);   // [v29] Kuruvi flies over to the new screen
   if (!opts.fromPop){ try{ history[opts.replace?'replaceState':'pushState']({s:i, p:opts.replace ? (history.state && history.state.p) : from}, '', '#'+name); }catch(e){} }
   iaUpdate();   // [v25]
   track('mm_screen', {screen_name:name, step:i});
@@ -1221,6 +1273,7 @@ function drawEmiCards(){
   });
   const has = S.emis.length>0;
   $('#noEmi').style.display = has ? 'none' : '';
+  kv('locks', S.emis.length);   // [v29] one padlock on Kuruvi's cage per loan
 }
 document.addEventListener('click', e=>{
   const t = e.target.closest('[data-lt]');
@@ -2309,6 +2362,10 @@ function renderRoad(){
   $('#rPotL').textContent = inr(monthSaved());
   // [v27] Kuruvi: bars = share of the way to the EMI-free date, one padlock per loan, open when that loan closes
   if (window.MentellFriends) MentellFriends.cageSet($('#rCage'), {frac: pos(R.elapsed), locks: R.emis.length, open: R.now.ends.filter(e=>e!=null && e <= R.elapsed).length});
+  // [v29] live Kuruvi: locks = loans still running, in the cage until today's save, flies home when debt-free
+  kv('locks', R.emis.length - R.now.ends.filter(e=>e!=null && e <= R.elapsed).length);
+  kv('freedom', pos(R.elapsed));
+  kv('cage', !sumDay(istDay(0),'save'));
   return R;
 }
 function roadCelebrate(amt, gainBefore){
@@ -2321,6 +2378,7 @@ function roadCelebrate(amt, gainBefore){
     c.classList.add('drop'); p.classList.add('wob');
   }
   if (window.MentellFriends) MentellFriends.cageCheer($('#rCage'));   // [v27]
+  kv('cheer');   // [v29]
   track('trk_road_gain', {days: Math.round(d*10)/10});
 }
 function renderTracker(){

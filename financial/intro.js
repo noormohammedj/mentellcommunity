@@ -151,6 +151,7 @@
 
     function close(toCalc) {
       if (closed) return; closed = true;
+      try { document.dispatchEvent(new CustomEvent('kuruvi:intro-done', { detail: { freed: !!toCalc } })); } catch (e) {}
       if (toCalc) { var nx = document.getElementById('next'); if (nx) nx.click(); }
       el.classList.add('out'); root.style.overflow = prevOv;
       try { v.pause(); fv.pause(); } catch (e) {}
