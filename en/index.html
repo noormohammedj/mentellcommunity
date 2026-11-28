@@ -50,7 +50,7 @@ a{color:inherit}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* header */
-.top{position:sticky;top:0;z-index:20;background:var(--paper)}
+header.top{position:sticky;top:0;z-index:20;background:var(--paper)}
 .top-row{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--pad) 10px}
 .brand{font-weight:800;font-stretch:125%;letter-spacing:-.02em;font-size:20px;text-decoration:none}
 .count{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -263,7 +263,7 @@ footer a{color:var(--muted)}
 
 @media (min-width:700px){ main{padding-top:40px} .tiles{grid-template-columns:repeat(3,1fr)} }
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} .breath::before{transform:scale(.75)} }
-@media print{ .bar,.top,.inapp{display:none} }
+@media print{ .bar,header.top,.inapp{display:none} }
 /* [v16] ₹99 paywall */
 [data-s="paywall"] [hidden]{display:none!important}
 .pw-eyebrow{letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px}

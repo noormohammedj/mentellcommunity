@@ -25,7 +25,7 @@
 <script src="/friends/friends.js?v=3" defer></script>
 <script src="/financial/intro.js?v=2" data-lang="ta" defer></script>
 <script>window.KURUVI_START_CAGED=false;</script>
-<script src="/kuruvi/kuruvi.js?v=1" data-lang="ta" defer></script>
+<script src="/kuruvi/kuruvi.js?v=2" data-lang="ta" defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYPL2VHDKP"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CYPL2VHDKP');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +52,7 @@ a{color:inherit}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* header */
-.top{position:sticky;top:0;z-index:20;background:var(--paper)}
+header.top{position:sticky;top:0;z-index:20;background:var(--paper)}
 .top-row{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--pad) 10px}
 .brand{font-weight:800;font-stretch:125%;letter-spacing:-.02em;font-size:20px;text-decoration:none}
 .count{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -285,7 +285,7 @@ footer a{color:var(--muted)}
 
 @media (min-width:700px){ main{padding-top:40px} .tiles{grid-template-columns:repeat(3,1fr)} }
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} .breath::before{transform:scale(.75)} }
-@media print{ .bar,.top,.inapp{display:none} }
+@media print{ .bar,header.top,.inapp{display:none} }
 /* [v16] ₹99 paywall */
 [data-s="paywall"] [hidden]{display:none!important}
 .pw-eyebrow{letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
@@ -339,7 +339,7 @@ footer a{color:var(--muted)}
 /* ===== [v29] polish pass (27 Nov 2026): calmer header, lifted cards, one green accent for progress ===== */
 :root{ --card:#FBF8F2; --shadow:0 1px 0 rgba(42,35,29,.06), 0 8px 24px -14px rgba(42,35,29,.28); }
 body{background:var(--paper) radial-gradient(120% 60% at 50% -10%, #FBF7EF 0%, rgba(251,247,239,0) 60%) no-repeat}
-.top{background:rgba(244,238,227,.92);-webkit-backdrop-filter:saturate(1.2) blur(10px);backdrop-filter:saturate(1.2) blur(10px)}
+header.top{background:rgba(244,238,227,.92);-webkit-backdrop-filter:saturate(1.2) blur(10px);backdrop-filter:saturate(1.2) blur(10px)}
 .top-row{padding:14px var(--pad) 12px;gap:14px}
 .brand{font-size:21px}
 .count{margin-left:auto;font-weight:600;letter-spacing:.02em}
