@@ -6,7 +6,7 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="manifest" href="/site.webmanifest">
+<link rel="manifest" href="/financial/app.webmanifest">
 <meta name="theme-color" content="#000000">
 <title>EMI pressure-la irundhu veliya vara plan | Mentell Money</title>
 <meta name="description" content="Free, 3 minutes. EMI, salary, family expenses: see where you stand, pick what to cut, and get your EMI-free date. Tanglish. Download as PDF."/>
@@ -319,6 +319,27 @@ footer a{color:var(--muted)}
 .ia.on{display:block}
 .ia-b{display:flex;gap:8px;margin-top:8px}.ia-b button{flex:1;font:inherit;font-weight:700;padding:9px 10px;border:2px solid var(--ink);cursor:pointer}
 .ia-b .ia-p{background:var(--ink);color:var(--paper)}.ia-b .ia-g{background:var(--paper);color:var(--ink)}
+/* [v28] in-app browser sheet, the "save your plan" step after paying, one-tap saves, reminder */
+.ia-modal{background:rgba(20,16,12,.78)}
+.ia-modal .sheet .btn{width:100%;margin-top:12px}
+.ia-modal [hidden],.pw-keep [hidden]{display:none!important}
+.ia-eye{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.sheet .ia-steps{list-style:none;margin:14px 0 4px;padding:0;counter-reset:st}
+.ia-steps li{counter-increment:st;display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1.5px solid var(--line);font-size:17px}
+.ia-steps li:before{content:counter(st);flex:0 0 30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--paper);font-weight:800}
+.ia-dots{display:inline-block;border:1.5px solid var(--ink);padding:0 8px;letter-spacing:.1em}
+.ia-arrow{position:fixed;top:4px;right:10px;width:78px;height:104px;z-index:51;animation:iaNudge 1.4s ease-in-out infinite}
+@keyframes iaNudge{50%{transform:translate(4px,-6px)}}
+.pw-keep{border:2px solid var(--save);padding:16px;margin:14px 0}
+.pw-keep .btn{width:100%;margin-top:12px}
+.t-quick{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 2px}
+.t-quick button{flex:1 1 auto;border:1.5px solid var(--save);background:var(--paper);color:var(--ink);font:inherit;font-size:15px;font-weight:600;padding:10px 12px;cursor:pointer;min-height:44px}
+.t-quick button b{color:var(--save);font-weight:800;margin-right:4px}
+.t-quick button:active{background:var(--save);color:var(--paper)}.t-quick button:active b{color:var(--paper)}
+.t-undo{margin-top:6px}.t-undo .link{padding:4px 0}
+.t-cagel{text-align:center;margin-top:2px}
+.t-remind{border:1.5px solid var(--ink);padding:14px}
+@media (prefers-reduced-motion:reduce){.ia-arrow{animation:none}}
 .pw-fail{border-left:4px solid var(--out)}
 #pwFailed .btn{display:block;width:100%;margin-top:10px;text-align:center}
 /* [v21] what ₹99 opens comes first; proof + refund under the button */
@@ -512,6 +533,12 @@ h1{margin-bottom:14px} h2{margin-bottom:14px}
   </div>
   <div id="pwPaid" hidden>
     <div class="pw-done"><b>Unlocked ✓</b><p id="pwUntil">Unga plan ready.</p></div>
+    <div class="pw-keep" id="pwKeep" hidden>
+      <b>Last step: unga plan-a Instagram-la irundhu veliya edunga</b>
+      <p class="small">Instagram close panna indha page thirumba kidaikkaadhu. Ippove veliya open pannunga: login thevai illa, plan appadiye varum.</p>
+      <button type="button" class="btn green" id="pwKeepGo">Chrome-la en plan open pannunga</button>
+      <a class="btn ghost" id="pwKeepWa" target="_blank" rel="noopener">Link-a en WhatsApp-ku anuppu</a>
+    </div>
     <div class="callout" id="pwSave" hidden><b>Indha link-a save pannunga</b><br>Endha phone-la irundhaalum unga plan ore tap-la open aagum.<a class="btn" id="pwSaveWa" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:10px">Link-a en WhatsApp-ku anuppu</a></div>
     <button type="button" class="btn" id="pwGo">Plan paarunga →</button>
   </div>
@@ -622,6 +649,7 @@ h1{margin-bottom:14px} h2{margin-bottom:14px}
     <div class="t-road-top"><div><span class="small">Unga EMI-free date</span><b id="rDate">—</b></div><div class="t-road-gain"><b id="rGain">0</b><span class="small" id="rGainL">naal closer</span></div></div>
     <p class="t-road-delta" id="rDelta" aria-live="polite"></p>
     <div data-friend-cage id="rCage"></div>
+    <p class="small t-cagel" id="rCageL" aria-live="polite"></p>
     <svg viewBox="0 0 400 200" role="img" aria-labelledby="rAlt"><title id="rAlt">Unga auto, EMI-free date veedu-kku pogum road-la. Ovvoru save-um auto-va munnadi thallum.</title>
       <path d="M18 168 C90 168 110 118 180 120 S280 164 334 108" fill="none" stroke="var(--ink)" stroke-width="24" stroke-linecap="round" id="rRoad"/>
       <path d="M18 168 C90 168 110 118 180 120 S280 164 334 108" fill="none" stroke="var(--paper)" stroke-width="2" stroke-dasharray="8 9"/>
@@ -648,6 +676,8 @@ h1{margin-bottom:14px} h2{margin-bottom:14px}
   </div>
   <div class="t-health" id="tHealth" hidden aria-live="polite"></div>
   <div class="t-btns"><button type="button" class="btn green" data-tkind="save">I saved</button><button type="button" class="btn" data-tkind="spend">I spent</button></div>
+  <div class="t-quick" id="tQuick" role="group" aria-label="One tap save"></div>
+  <p class="small t-undo" id="tUndoRow" hidden><span id="tUndoTxt"></span> <button type="button" class="link" id="tUndo">Undo</button></p>
   <div class="t-entry" id="tEntry" hidden>
     <h3 id="tEntryH">Edhai save panneenga?</h3>
     <div class="chips" id="tCats"></div>
@@ -659,6 +689,12 @@ h1{margin-bottom:14px} h2{margin-bottom:14px}
     <div class="t-btns"><button type="button" class="btn ghost" id="tCancel">Cancel</button><button type="button" class="btn green" id="tSaveBtn">Save + fire</button></div>
   </div>
   <div class="t-today"><div><span class="small">Saved today</span><b class="t-save" id="tSaved">₹0</b></div><div><span class="small">Spent today</span><b id="tSpent">₹0</b></div></div>
+  <div class="t-sec t-remind" id="tRemind" hidden>
+    <h3>Daily 9 PM reminder</h3>
+    <p class="small">Ovvoru naal raathiri 9 mani-ku unga phone ninaivu paduthum. Tap panna neraa unga tracker open aagum. 30 naal, apram thaanaa nirkum.</p>
+    <button type="button" class="btn ghost" id="tRemindBtn" style="width:100%">Reminder set pannunga</button>
+  </div>
+  <p class="callout" id="tRemindDone" hidden><b>Reminder ready.</b> Calendar-la save pannunga. Daily 9 mani-ku Kuruvi kooppidum.</p>
   <div class="t-sec"><h3>Indha maasam</h3><div class="meter"><i id="tMeter"></i></div><p class="small"><b id="tMonth">₹0 / ₹2,000</b></p><p class="note" id="tOffer"></p></div>
   <div class="t-sec t-well" id="tWell" hidden><h3>Udambu · Manasu · Panam</h3><p class="small">Indha maasam neenga log pannadhu, unga life-la enna maathuchu:</p><div id="tWellList"></div><p class="note">Estimates from public health research (WHO, UCL). General information, not medical advice.</p></div>
   <div class="t-sec"><h3>Last 14 days</h3><div class="t-days" id="tDays"></div></div>
@@ -701,7 +737,7 @@ h1{margin-bottom:14px} h2{margin-bottom:14px}
 <footer><p>Estimates only, not financial advice. Prepay pannumpodhu unga bank terms check pannunga. <a href="/about/">About Mentell</a> · <a href="/terms/">Terms</a> · <a href="/refund/">Refunds</a> · <a href="/privacy/">Privacy</a> · <a href="/contact/">Contact</a> · <a href="https://wa.me/919629843122" target="_blank" rel="noopener" data-wa="footer">Help on WhatsApp</a></p></footer>
 
 <nav class="bar" aria-label="Steps">
-  <div class="ia" id="inapp" role="region" aria-label="Browser tip"><div>Inga-ve continue pannalaam ✓ <span class="small">Tip: Chrome-la open panna unga answers phone-la save aagum.</span></div><div class="ia-b"><button type="button" class="ia-p" id="iaStay">Inga continue</button><button type="button" class="ia-g" id="inappBtn">Chrome-la open</button></div></div>
+  <div class="ia" id="inapp" role="region" aria-label="Browser tip"><div id="iaTxt">Inga-ve continue pannalaam ✓ <span class="small">Tip: Chrome-la open panna unga answers phone-la save aagum.</span></div><div class="ia-b"><button type="button" class="ia-p" id="iaStay">Inga continue</button><button type="button" class="ia-g" id="inappBtn">Chrome-la open</button></div></div>
   <div class="bar-in">
     <button type="button" class="btn ghost" id="back" aria-label="Back">Back</button>
     <button type="button" class="btn" id="next">Start</button>
@@ -727,6 +763,20 @@ h1{margin-bottom:14px} h2{margin-bottom:14px}
     <button type="button" class="link" id="rsSend">Payment panniteengala? Link-a WhatsApp-la anuppunga</button>
     <p class="small" id="rsSendMsg"></p>
     <button type="button" class="link" id="rsClose">Close</button>
+  </div>
+</div>
+<div class="modal ia-modal" id="iaSheet" role="dialog" aria-modal="true" aria-labelledby="iaSH">
+  <svg class="ia-arrow" id="iaArrow" viewBox="0 0 90 120" aria-hidden="true" hidden><path d="M18 114 C22 70 42 38 72 16" fill="none" stroke="#F4EEE3" stroke-width="4" stroke-linecap="round"/><path d="M52 12 L74 14 L70 36" fill="none" stroke="#F4EEE3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="sheet">
+    <p class="ia-eye" id="iaSEye">Instagram browser</p>
+    <h3 id="iaSH">Chrome-la open pannunga</h3>
+    <p id="iaSP"></p>
+    <ol class="ia-steps" id="iaSSteps" hidden><li><span>Mela right corner-la <b class="ia-dots">•••</b> tap pannunga</span></li><li><span><b id="iaSStep2">Open in external browser</b> tap pannunga</span></li></ol>
+    <button type="button" class="btn green" id="iaSGo">Chrome-la open pannunga</button>
+    <a class="btn ghost" id="iaSWa" target="_blank" rel="noopener" hidden>Link-a en WhatsApp-ku anuppu</a>
+    <p class="small" id="iaSHint"></p>
+    <button type="button" class="link" id="iaSCopy">Link copy pannunga</button><br>
+    <button type="button" class="link" id="iaSStay">Inga-ve continue pannunga</button>
   </div>
 </div>
 <div class="modal" id="iosModal" role="dialog" aria-modal="true" aria-labelledby="iosH">
@@ -1978,11 +2028,80 @@ function openOutside(where){
     $('#iosUrl').value = url; $('#iosModal').classList.add('on'); $('#iosH').textContent = DEVICE==='ios' ? 'Safari-la open pannunga' : 'Browser-la open pannunga';
   }
 }
+/* [v28] Instagram / Facebook open links in their own browser. Its storage is not Chrome's or Safari's, and once
+   Instagram is closed people can't find the page again, even after paying. So:
+   1. on landing, a sheet: Android opens Chrome straight away (intent), iPhone shows ••• → Open in external browser
+      (iPhone has no way to leave Instagram's browser from the page itself).
+   2. after paying here, the personal link (?a=<token>) is written into this page's own address, so Instagram's
+      ••• → Open in browser carries the paid plan out; Android gets one tap to open it in Chrome; WhatsApp keeps a copy.
+   The token never reaches GA (page_location is set without it). Sheet off: inappSheet:false in mentell-config.js. */
+const IA_SHEET = CFG.inappSheet !== false;
+let IA_MODE = 'land', planUrl = null;
+function iaBrowserName(){ return DEVICE==='ios' ? 'Safari' : 'Chrome'; }
+function iaAppName(){ return INAPP_APP==='facebook' ? 'Facebook' : INAPP_APP==='instagram' || !INAPP_APP ? 'Instagram' : INAPP_APP.charAt(0).toUpperCase() + INAPP_APP.slice(1); }
+// the personal link for the paid order (same as the "save this link" one), kept for this page view
+async function planLink(){
+  if (planUrl) return planUrl;
+  if (!S.paid || !S.paid.o) return null;
+  if (PAY_MOCK){ planUrl = location.origin + location.pathname + '?a=00000000-0000-4000-8000-0000000000ab'; return planUrl; }
+  if (!PAYWALL) return null;
+  try{
+    const tok = String(await rpcAnon('my_access_link', {p_order:S.paid.o}) || '');
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(tok)) planUrl = location.origin + location.pathname + '?a=' + tok.toLowerCase();
+  }catch(e){}
+  return planUrl;
+}
+function putLinkInAddress(url){
+  try{
+    if (typeof window.gtag === 'function') window.gtag('set', {page_location: location.origin + location.pathname});   // before the address changes
+    history.replaceState(history.state, '', location.pathname + new URL(url).search + location.hash);
+  }catch(e){}
+}
+function intentTo(url){
+  const u = new URL(url);
+  location.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+}
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }catch(e){}
+  try{ const a = document.createElement('textarea'); a.value = t; a.setAttribute('readonly',''); a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); const ok = document.execCommand('copy'); a.remove(); return ok; }catch(e){ return false; }
+}
+// paid, still inside Instagram: take the plan out (needs the link already fetched, so the tap still counts as a tap)
+function keepOut(where){
+  track('inapp_keep', {where, platform:DEVICE, ok:!!planUrl});
+  if (!planUrl){ planLink(); openOutside(where); return; }   // the hand-off link carries the paid order too
+  putLinkInAddress(planUrl);
+  if (DEVICE==='android') intentTo(planUrl); else iaSheetOpen('paid');
+}
+function iaSheetOpen(mode){
+  IA_MODE = mode;
+  const ios = DEVICE !== 'android', B = iaBrowserName(), A = iaAppName();
+  $('#iaSEye').textContent = A + ' browser';
+  $('#iaSH').textContent = mode==='paid' ? `Unga plan-a ${B}-ku edunga` : `${B}-la open pannunga, plan kaanaama pogaadhu`;
+  $('#iaSP').textContent = mode==='paid' ? `Payment aachu ✓. ${A} close aanaalum plan pogaama irukka, ippove ${B}-la open pannunga. Login thevai illa, plan appadiye varum.`
+    : `Neenga ${A}-oda browser-la irukeenga. ${A} close panna, indha page-um neenga pay panra plan-um thirumba kidaikkaama pogalaam.`;
+  $('#iaSSteps').hidden = !ios; $('#iaArrow').toggleAttribute('hidden', !ios); $('#iaSGo').hidden = ios;   // (an <svg> has no .hidden)
+  $('#iaSStep2').textContent = INAPP_APP==='instagram' ? 'Open in external browser' : 'Open in browser';
+  $('#iaSGo').textContent = mode==='paid' ? 'Chrome-la en plan open pannunga' : 'Chrome-la open pannunga';
+  $('#iaSHint').textContent = ios ? '' : 'Open aagalaiyaa? Mela ⋮ tap panni "Open in Chrome".';
+  $('#iaSWa').hidden = !(mode==='paid' && planUrl); if (mode==='paid' && planUrl) $('#iaSWa').href = waSelf(planUrl);
+  $('#iaSCopy').textContent = 'Link copy pannunga';
+  $('#iaSStay').textContent = mode==='paid' ? 'Apram pannren' : 'Inga-ve continue pannunga';
+  $('#iaSheet').classList.add('on');
+  track('inapp_sheet', {mode, app:INAPP_APP, platform:DEVICE});
+}
+$('#iaSGo').addEventListener('click', ()=>{ track('inapp_sheet_go', {mode:IA_MODE}); if (IA_MODE==='paid' && planUrl) intentTo(planUrl); else openOutside('sheet'); });
+$('#iaSCopy').addEventListener('click', async ()=>{
+  const ok = await copyText(IA_MODE==='paid' && planUrl ? planUrl : handoffUrl());
+  $('#iaSCopy').textContent = ok ? `Copied. ${iaBrowserName()} open panni paste pannunga` : 'Copy aagala. ••• → Open in browser use pannunga';
+  track('inapp_copy_link', {ok, where:'sheet', mode:IA_MODE});
+});
+$('#iaSWa').addEventListener('click', ()=>track('link_saved', {inapp:true, where:'sheet'}));
+$('#iaSStay').addEventListener('click', ()=>{ $('#iaSheet').classList.remove('on'); track('inapp_sheet_stay', {mode:IA_MODE}); });
 if (INAPP){
   iaUpdate();
   track('inapp_detected', {app:INAPP_APP, platform:DEVICE});
 }
-$('#inappBtn').addEventListener('click', ()=>openOutside('strip'));
+$('#inappBtn').addEventListener('click', ()=>paidOk() ? keepOut('strip') : openOutside('strip'));
 $('#iosClose').addEventListener('click', ()=>$('#iosModal').classList.remove('on'));
 $('#iosCopy').addEventListener('click', async ()=>{
   const i = $('#iosUrl'); let ok=false;
@@ -2287,6 +2406,10 @@ function nudge(justSaved){
   if (justSaved) return [`Semma ${name}! ${inr(justSaved)} unga pocket-la. Fire on.`, `${st} naal fire. Idhe maadhiri dhaan EMI balance kuraiyum.`, left ? `Innum ${inr(left)} save panna 50% off unlocked.` : '50% off unlocked. Fire-a anaiya vidaadheenga.'][Math.floor(Math.random()*3)];
   if (TD && TD.qualified && today) return 'Inniku-um fire on. 50% off already unga kaila.';
   if (today) return h<17 ? `Inniku ${inr(today)} save aachu. Evening-um oru chance irukku.` : `Inniku ${inr(today)} save. Naalaikku kaalai paappom.`;
+  if (sumDay(istDay(-1),'save') < MIN_FIRE){   // [v28] missed yesterday: logging it keeps the streak
+    let n = 0; for (let d = -2; sumDay(istDay(d),'save') >= MIN_FIRE; d--) n++;
+    if (n >= 2) return `Nethu log panna marandheengala? "I saved" → Yesterday select pannunga, unga ${n} naal streak thirumba varum.`;
+  }
   if (h < 12) return `Kaalai vanakkam ${name}. Inniku oru chinna save podhum, fire on aagum.`;
   if (h < 17) return st ? `${st} naal streak. Lunch-la oru Swiggy skip pannuna inga log pannunga.` : 'Lunch-la veliya saapadu skip pannuna, inga log pannunga.';
   return st ? `Fire anaiya poguthu. ${st} naal streak-a kaapaathunga: oru ${inr(MIN_FIRE)} save kooda podhum.` : 'Inniku innum log pannala. Oru tea skip panniyaa? Adhu kooda save dhaan.';
@@ -2389,6 +2512,9 @@ function renderTracker(){
   $('#tStreakL').textContent = st===1 ? 'day on fire' : 'days on fire';
   $('#tNudge').textContent = (CELEB && Date.now() < CELEB.until) ? CELEB.text : nudge();
   renderRoad();
+  renderKuruviToday();
+  renderQuick();
+  remindShow();
   renderWell();
   $('#tMonth').textContent = inr(ms) + ' / ' + inr(SAVE_TARGET);
   $('#tMeter').style.width = Math.min(100, ms/SAVE_TARGET*100) + '%';
@@ -2406,6 +2532,55 @@ function renderTracker(){
   $('#tSync').textContent = pend.size ? `${pend.size} entr${pend.size===1?'y':'ies'} waiting for internet` : '';
   $('#tName').textContent = (TD&&TD.name) || TRK.name || '';
 }
+/* ---------- [v28] daily habit: one-tap saves, Kuruvi waits for today's save, a daily reminder ---------- */
+function renderQuick(){
+  const q = chipsFor('save').filter(c=>+c[1] > 0).slice(0,3);
+  $('#tQuick').innerHTML = q.map(([n,a])=>`<button type="button" data-tquick="${esc(n)}" data-ta="${a}" aria-label="${esc(n)}: save ${esc(inr(a))} today"><b>+${esc(inr(a))}</b>${esc(n)}</button>`).join('');
+}
+let undoT = null;
+function quickLog(cat, amt){
+  const e = commitEntry('save', cat, amt, 0, '', 'quick');
+  $('#tUndoTxt').textContent = `${inr(amt)} · ${cat} saved.`; $('#tUndo').dataset.id = e.id; $('#tUndoRow').hidden = false;
+  clearTimeout(undoT); undoT = setTimeout(()=>{ $('#tUndoRow').hidden = true; }, 8000);
+}
+$('#tUndo').addEventListener('click', async ()=>{
+  const id = $('#tUndo').dataset.id; $('#tUndoRow').hidden = true; if (!id) return;
+  CELEB = null; track('trk_quick_undo'); await removeEntry(id); renderTracker();
+});
+function renderKuruviToday(){
+  const cg = $('#rCage'), L = $('#rCageL'); if (!cg || !L || $('#tRoad').hidden) return;
+  const free = cg.classList.contains('free'), today = sumDay(istDay(0),'save') >= MIN_FIRE;
+  if (window.MentellFriends && MentellFriends.cageMood) MentellFriends.cageMood(cg, free || today ? '' : 'sad');
+  L.textContent = free ? 'Kuruvi free! Ini unga panam unga kaila.' : today ? 'Kuruvi happy. Naalaikkum oru save, cage innum thirakkum.' : 'Kuruvi inniku unga save-kaaga wait pannudhu. Oru tap podhum.';
+}
+function remindShow(){
+  let done = false; try{ done = localStorage.getItem('mm_remind')==='1'; }catch(e){}
+  $('#tRemind').hidden = done || INAPP;
+  if (!done && !INAPP) planLink();   // fetched now, so the tap opens the calendar straight away
+}
+function setReminder(){
+  const link = planUrl || (location.origin + location.pathname);
+  const t = new Date(); t.setHours(21, 0, 0, 0); if (t.getTime() < Date.now() + 5*60000) t.setDate(t.getDate() + 1);   // 9 PM on their phone's clock
+  const end = new Date(t.getTime() + 10*60000), z = d => d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const title = 'Mentell: inniku save-a log pannunga', body = 'Kuruvi wait pannudhu. Oru tap-la log pannunga: ' + link;
+  if (DEVICE==='android'){
+    const g = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) + '&details=' + encodeURIComponent(body) +
+      '&dates=' + z(t) + '/' + z(end) + '&recur=' + encodeURIComponent('RRULE:FREQ=DAILY;COUNT=30');
+    if (!window.open(g, '_blank')) location.href = g;
+  } else {
+    const ex = v => String(v).replace(/\\/g,'\\\\').replace(/([,;])/g,'\\$1').replace(/\n/g,'\\n');
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mentell//Money tracker//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT',
+      'UID:' + newToken() + '@mentell.co.in','DTSTAMP:' + z(new Date()),'DTSTART:' + z(t),'DURATION:PT10M','RRULE:FREQ=DAILY;COUNT=30',
+      'SUMMARY:' + ex(title),'DESCRIPTION:' + ex(body),'URL:' + link,
+      'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:' + ex(title),'TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+    const u = URL.createObjectURL(new Blob([ics], {type:'text/calendar'})), a = document.createElement('a');
+    a.href = u; a.download = 'mentell-daily-reminder.ics'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u), 60000);
+  }
+  try{ localStorage.setItem('mm_remind','1'); }catch(e){}
+  $('#tRemind').hidden = true; $('#tRemindDone').hidden = false;
+  track('trk_reminder_set', {platform:DEVICE, link:planUrl ? 'personal' : 'page'});
+}
+$('#tRemindBtn').addEventListener('click', setReminder);
 function chipsFor(kind){
   if (kind==='save'){
     const c = habitsOn().map(h=>{ const v=S.habits[h.id]; const per = h.other ? (Math.round((+v.b||0)/30/10)*10 || AMT(50,2)) : Math.round((+v.b||0) * (h.id==='smoke' && !INDIA && !RG.k ? 1/20 : 1)); return ['Skipped ' + (h.other&&S.otherName?S.otherName:h.n), Math.max(per,AMT(10,1))]; });
@@ -2452,21 +2627,31 @@ async function addEntry(){
   const dayBtn = document.querySelector('[data-tday][aria-pressed="true"]');
   const dayOff = dayBtn ? +dayBtn.dataset.tday : 0;
   const qty = $('#tQtyRow').hidden ? 1 : Math.max(1, +$('#tQty').textContent||1);
-  const entry = {id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), date:istDay(dayOff), kind:entryKind, cat:(chip?chip.dataset.tcat:'Other') + (qty>1 ? ' ×'+qty : ''), amount:amt, note:$('#tNote').value.trim().slice(0,80)};
+  $('#tEntry').hidden = true;
+  commitEntry(entryKind, (chip?chip.dataset.tcat:'Other') + (qty>1 ? ' ×'+qty : ''), amt, dayOff, $('#tNote').value.trim().slice(0,80), 'form');
+}
+function commitEntry(kind, cat, amt, dayOff, note, how){
+  const entry = {id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), date:istDay(dayOff), kind, cat, amount:amt, note};
   const before = localStreak(), monthBefore = monthSaved();
-  const roadBefore = entryKind==='save' ? (roadState()||{}).gain : null;
+  const roadBefore = kind==='save' ? (roadState()||{}).gain : null;
   TD = TD || {logs:[]}; TD.logs = (TD.logs||[]).concat([entry]); trkSaveLocal();
   setQueue(queue().concat([{action:'log', entry}]));
-  $('#tEntry').hidden = true;
   renderTracker();
-  if (entryKind==='save'){
+  if (kind==='save'){
     CELEB = {text:nudge(amt), until:Date.now()+8000}; $('#tNudge').textContent = CELEB.text; celebrate(amt, localStreak() > before);
     showHealth(entry);
     roadCelebrate(amt, roadBefore);
     if (monthSaved() >= SAVE_TARGET && monthBefore < SAVE_TARGET) track('trk_qualified');
   }
-  track('trk_log', {kind:entryKind, day: dayOff ? 'yesterday' : 'today', streak: localStreak()});
+  track('trk_log', {kind, day: dayOff ? 'yesterday' : 'today', streak: localStreak(), how});
   flush();
+  return entry;
+}
+async function removeEntry(id){
+  TD.logs = TD.logs.filter(l=>l.id!==id); trkSaveLocal();
+  const q = queue();
+  if (q.some(x=>x.entry && x.entry.id===id)) setQueue(q.filter(x=>x.entry.id!==id));
+  else { try{ const r = await api({action:'del', phone:TRK.phone, token:TRK.token, id}); if (r && r.ok) applyServer(r); }catch(err){} }
 }
 function celebrate(amt, newDay){
   const f = $('#tFire'), mo = M();
@@ -2479,16 +2664,14 @@ function celebrate(amt, newDay){
 }
 document.addEventListener('click', async e=>{
   const k = e.target.closest('[data-tkind]'); if (k){ openEntry(k.dataset.tkind); return; }
+  const qk = e.target.closest('[data-tquick]'); if (qk){ quickLog(qk.dataset.tquick, +qk.dataset.ta); return; }
   const c = e.target.closest('[data-tcat]'); if (c){ $$('[data-tcat]').forEach(x=>x.setAttribute('aria-pressed', String(x===c))); if (+c.dataset.ta) $('#tAmt').value = c.dataset.ta; setQtyFor(c); return; }
   const d = e.target.closest('[data-tday]'); if (d){ $$('[data-tday]').forEach(x=>x.setAttribute('aria-pressed', String(x===d))); return; }
   const del = e.target.closest('[data-tdel]');
   if (del){
     const id = del.dataset.tdel;
     if (del.dataset.confirm!=='1'){ del.dataset.confirm='1'; del.textContent='Delete?'; setTimeout(()=>{ if(del.isConnected){ del.dataset.confirm=''; del.textContent='×'; } }, 3000); return; }
-    TD.logs = TD.logs.filter(l=>l.id!==id); trkSaveLocal();
-    const q = queue();
-    if (q.some(x=>x.entry && x.entry.id===id)) setQueue(q.filter(x=>x.entry.id!==id));
-    else { try{ const r = await api({action:'del', phone:TRK.phone, token:TRK.token, id}); if (r && r.ok) applyServer(r); }catch(err){} }
+    await removeEntry(id);
     renderTracker(); track('trk_delete'); return;
   }
   const pay = e.target.closest('[data-tpay]'); if (pay){ $$('[data-tpay]').forEach(x=>x.setAttribute('aria-pressed', String(x===pay))); return; }
@@ -2520,7 +2703,18 @@ $('#tLogout').addEventListener('click', ()=>{
 });
 $('#tPdf').addEventListener('click', ()=>{ track('cta_click', {location:'tracker_pdf'}); go(SCREENS.indexOf('pdf')); });
 $('#tPlan').addEventListener('click', ()=>{ track('cta_click', {location:'tracker_plan'}); go(SCREENS.indexOf('dashboard')); });
-$('#tInstall').addEventListener('click', ()=>{ $('#tInstallSteps').hidden = !$('#tInstallSteps').hidden; track('trk_install_tip', {platform:DEVICE}); });
+let installEvt = null;   // [v28]
+window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); installEvt = e; });
+window.addEventListener('appinstalled', ()=>{ installEvt = null; track('pwa_installed'); });
+if ((window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone){ $('#tInstall').hidden = true; track('pwa_open'); }
+$('#tInstall').addEventListener('click', async ()=>{
+  if (installEvt){
+    const ev = installEvt; installEvt = null; track('trk_install_prompt', {platform:DEVICE});
+    try{ ev.prompt(); const c = await ev.userChoice; track('trk_install_choice', {outcome:c && c.outcome}); }catch(e){}
+    return;
+  }
+  $('#tInstallSteps').hidden = !$('#tInstallSteps').hidden; track('trk_install_tip', {platform:DEVICE});
+});
 $('#loginLink').addEventListener('click', ()=>{ joinMode='login'; track('cta_click', {location:'welcome_login'}); go(SCREENS.indexOf('join')); });
 window.addEventListener('online', flush);
 document.addEventListener('visibilitychange', ()=>{ if (!document.hidden && SCREENS[cur]==='tracker'){ renderTracker(); flush(); } });
@@ -2623,22 +2817,41 @@ $('#pwFailWa').addEventListener('click', ()=>track('mm_pay_failed_wa'));
 // (from the paywall the answers are kept on the server: resume link, and the personal link after paying)
 var iaClosed = false;   // var: iaUpdate() can run before this line (Instagram check at start-up)
 function iaDismissed(){ if (iaClosed) return true; try{ return sessionStorage.getItem('mm_ia_x') === '1'; }catch(e){ return false; } }
-function iaUpdate(){ const el = $('#inapp'); if (el) el.classList.toggle('on', INAPP && !iaDismissed() && cur < SCREENS.indexOf('paywall')); }
+function iaUpdate(){
+  const el = $('#inapp'); if (!el) return;
+  const PW = SCREENS.indexOf('paywall'), paidHere = INAPP && paidOk() && cur > PW;   // [v28] paid, still in Instagram
+  el.classList.toggle('on', INAPP && !iaDismissed() && (cur < PW || paidHere));
+  if (paidHere){
+    if (!planUrl) planLink();
+    $('#iaTxt').innerHTML = `<b>Unga plan ${esc(iaAppName())}-la mattum irukku.</b> <span class="small">Close panna kaanaama pogum. ${esc(iaBrowserName())}-la save pannunga.</span>`;
+    $('#inappBtn').textContent = 'Save my plan';
+  }
+}
 $('#iaStay').addEventListener('click', ()=>{ iaClosed = true; try{ sessionStorage.setItem('mm_ia_x','1'); }catch(e){} track('inapp_continue'); iaUpdate(); });
 
 /* ================= [v24] the personal link: nobody loses what they paid for ================= */
 const L24 = {"opening": "Unga plan open aagudhu…", "badlink": "Indha link work aagala. Unga number + email-la open pannunga.", "consent": "Payment aanadhum unga plan link-um daily reminders-um WhatsApp-la varum.", "save_h": "Indha link-a save pannunga", "save_p": "Endha phone-la irundhaalum unga plan ore tap-la open aagum.", "save_btn": "Link-a en WhatsApp-ku anuppu", "save_msg": "En Mentell plan link (delete pannaadheenga):", "send": "Payment panniteengala? Link-a WhatsApp-la anuppunga", "sent": "Neenga pay panniirundhaa, unga link 1 nimisham-la varum. WhatsApp-um email-um check pannunga.", "nochan": "Ippo number + email-la open pannunga. Illana Noor-ku WhatsApp pannunga.", "many": "Romba thadava try panniteenga. 1 mani neram kazhichu try pannunga.", "bad_phone": "WhatsApp number sariyaa podunga.", "left": "Innum ${r.left} try."};
 function waDigits(p){ return String(p||'').replace(/\D/g,''); }
 // after paying: their own link, one tap to keep it in their own WhatsApp ("message yourself")
+function waSelf(url){ const to = waDigits(LEAD.phone); return (to ? 'https://wa.me/' + to : 'https://wa.me/') + '?text=' + encodeURIComponent(L24.save_msg + '\n' + url); }
 async function showSaveLink(){
-  const box = $('#pwSave'); if (!box || PAY_MOCK || !S.paid || !S.paid.o) return;
-  try{
-    const tok = await rpcAnon('my_access_link', {p_order:S.paid.o}); if (!tok) return;
-    const url = location.origin + location.pathname + '?a=' + tok, to = waDigits(LEAD.phone);
-    $('#pwSaveWa').href = (to ? 'https://wa.me/' + to : 'https://wa.me/') + '?text=' + encodeURIComponent(L24.save_msg + '\n' + url);
-    box.hidden = false; track('link_offer');
-  }catch(e){}
+  const box = $('#pwSave'); if (!box || !S.paid || !S.paid.o) return;
+  const url = await planLink(); if (!url) return;
+  if (INAPP){   // [v28] paid inside Instagram: the plan has to leave Instagram before Instagram is closed
+    putLinkInAddress(url);
+    box.hidden = true; $('#pwKeep').hidden = false;
+    $('#pwKeepGo').textContent = DEVICE==='android' ? 'Chrome-la en plan open pannunga' : `${iaBrowserName()}-la en plan open pannunga`;
+    $('#pwKeepWa').href = waSelf(url);
+    $('#pwGo').classList.add('ghost'); $('#pwGo').textContent = 'Inga-ve plan paarunga';
+    track('link_offer', {inapp:true});
+    if (S.iaPaidSheet !== S.paid.o){ S.iaPaidSheet = S.paid.o; save(); iaSheetOpen('paid'); }   // once per payment
+    return;
+  }
+  $('#pwSaveWa').href = waSelf(url);
+  box.hidden = false; track('link_offer');
 }
+$('#pwKeepGo').addEventListener('click', ()=>keepOut('paid_screen'));
+$('#pwKeepWa').addEventListener('click', ()=>track('link_saved', {inapp:true}));
 $('#pwSaveWa') && $('#pwSaveWa').addEventListener('click', ()=>track('link_saved'));
 // "Send my link": only the number is needed; the server answers the same whether or not the number has paid
 async function sendMyLink(id, out){
@@ -2726,6 +2939,11 @@ async function openPersonalLink(tok){
   { const ws = $('#wStart'); if (ws) ws.addEventListener('click', ()=>{ track('cta_click', {location:'welcome_inline'}); $('#next').click(); }); }   // [v28] Start right under the headline
   if (!FREE_TIER){ const wf = $('#wFree'); if (wf) wf.remove(); }   // [v27] no 'Free.' promise while the free tier is off
   go(0, {replace:true});
+  // [v28] Instagram / Facebook browser: the sheet once per visit, on the first screen
+  if (INAPP && IA_SHEET && !paidOk() && !hasSession() && !acc && !gift && !rt){
+    let shown = false; try{ shown = sessionStorage.getItem('mm_ia_sheet')==='1'; sessionStorage.setItem('mm_ia_sheet','1'); }catch(e){}
+    if (!shown) setTimeout(()=>{ if (SCREENS[cur]==='welcome' && !document.querySelector('.modal.on')) iaSheetOpen('land'); }, 700);
+  }
   // [v16.2] back from the Payment Page: straight to the paywall, which keeps checking that order
   if (PAGE_URL && S.pendingPay && !paidOk() && Date.now() - S.pendingPay.t < 864e5 && !hasSession()){ go(SCREENS.indexOf('paywall'), {replace:true}); return; }
   // [v16.3] the Payment Page sent them back to a browser that didn't start the payment (Instagram → Chrome): ask number + email
