@@ -14,8 +14,8 @@
      Kuruvi.cheer()             a saving was logged: song + a lap of the screen
      Kuruvi.look(el)            hop over to something the person just touched
      Kuruvi.say(text)           short speech bubble
-   No libraries. Sprites are WebP strips drawn on one canvas; sounds are short clips
-   from the same footage plus Web Audio, muted until the first tap (browser rule).
+   No libraries. Sprites are WebP strips drawn on one canvas; sounds are short synthesized house-sparrow calls (c1-c4) and a wing flutter (c5)
+   (no speech from the clip) plus Web Audio, muted until the first tap (browser rule).
    ===================================================================== */
 (function () {
   'use strict';
@@ -130,14 +130,24 @@
   }
   function loadSounds() {
     if (!ac()) return;
-    ['k1', 'k2', 'k3', 'k4', 'k5'].forEach(function (k) {
+    ['c1', 'c2', 'c3', 'c4', 'c5'].forEach(function (k) {
       if (bufs[k]) return; bufs[k] = 'loading';
       fetch(BASE + k + '.mp3').then(function (r) { return r.arrayBuffer(); })
         .then(function (b) { return new Promise(function (res, rej) { AC.decodeAudioData(b, res, rej); }); })
         .then(function (d) { bufs[k] = d; }).catch(function () { bufs[k] = null; });
     });
   }
-  function canPlay() { return !muted && unlocked && ac(); }
+  // One voice at a time: stay quiet while the intro clip (with its own sound) is on screen
+  // or the tab is in the background, and keep idle chatter rare so it never feels like a loop.
+  function introOn() { var k = document.getElementById('kIntro'); return !!(k && !k.classList.contains('out')); }
+  function canPlay() { return !muted && unlocked && !document.hidden && !introOn() && ac(); }
+  var lastIdleChirp = 0, lastChirp = 0;
+  function softChirpOk() { var n = Date.now(); if (n - lastChirp < 15000) return false; lastChirp = n; return true; }   // reactions, not every tap
+  function idleChirpOk() { var n = Date.now(); if (n - lastIdleChirp < 45000) return false; lastIdleChirp = n; return true; }
+  document.addEventListener('visibilitychange', function () {
+    if (!AC) return;
+    try { if (document.hidden) AC.suspend(); else if (unlocked) AC.resume(); } catch (e) {}
+  });
   function clip(k, rate, gain, when) {
     if (!canPlay() || !bufs[k] || bufs[k] === 'loading') return false;
     var s = AC.createBufferSource(), g = AC.createGain();
@@ -153,19 +163,19 @@
   var SND = {
     chirp: function (n) {
       if (!canPlay()) return;
-      if (!clip(pick(['k1', 'k2', 'k3', 'k4']), rnd(.95, 1.12), .9)) {
+      if (!clip(pick(['c1', 'c2', 'c3', 'c4']), rnd(.95, 1.12), .9)) {
         var t = AC.currentTime + .02; for (var i = 0; i < (n || 3); i++) { var L = rnd(.06, .11); cheep(t, rnd(3200, 4100), L, .22); t += L + rnd(.05, .12); }
       }
     },
     song: function () {
       if (!canPlay()) return;
-      clip('k1', 1.05, .9); clip('k3', 1.12, .8, .45); clip('k4', 1, .8, .95);
+      clip('c1', 1.05, .9); clip('c3', 1.12, .8, .45); clip('c4', 1, .8, .95);
       var t = AC.currentTime + 1.5; for (var i = 0; i < 6; i++) { cheep(t, 3600 + (i % 2) * 600, .07, .14); t += .13; }
     },
-    sad: function () { if (canPlay() && !clip('k2', .82, .7)) { var t = AC.currentTime + .02; cheep(t, 2600, .16, .16); cheep(t + .3, 2300, .2, .14); } },
+    sad: function () { if (canPlay() && !clip('c2', .82, .7)) { var t = AC.currentTime + .02; cheep(t, 2600, .16, .16); cheep(t + .3, 2300, .2, .14); } },
     flap: function () {
       if (!canPlay()) return;
-      if (clip('k5', rnd(.95, 1.1), .55)) return;
+      if (clip('c5', rnd(.95, 1.1), .55)) return;
       var b = AC.createBuffer(1, AC.sampleRate * .4, AC.sampleRate), d = b.getChannelData(0);
       for (var i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.max(0, Math.sin(i / d.length * Math.PI * 6)) * .5;
       var s = AC.createBufferSource(), f = AC.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 900; s.buffer = b; s.connect(f).connect(master); s.start();
@@ -241,8 +251,13 @@
     if (/^H[12]$/.test(el.tagName)) {     // end of the heading's last line
       var range = document.createRange(); range.selectNodeContents(el);
       var rs = range.getClientRects(); var last = rs[rs.length - 1] || r;
-      x = Math.min(last.right + 34, r.right - 10); if (x > vw() - 40) x = last.right - 30;
-      return { x: clamp(x, 40, vw() - 40), y: last.top + 6, el: el };
+      // stand beside the last word, feet on its baseline, so he never sits on top of the words;
+      // no room there (big headings on a phone) -> the top-right corner, above the heading
+      var feet = last.bottom - 4, head = feet - 76, clear = last.right;
+      for (var i = 0; i < rs.length; i++) if (rs[i].bottom > head && rs[i].width > 2) clear = Math.max(clear, rs[i].right);
+      x = clear + 30;
+      if (x <= Math.min(r.right + 10, vw() - 40)) return { x: x, y: feet, el: el };
+      return { x: clamp(r.right - 36, 40, vw() - 40), y: r.top - 2, el: el };
     }
     x = side === 'l' ? r.left + 34 : side === 'c' ? r.left + r.width / 2 : r.right - 36;
     return { x: clamp(x, 40, vw() - 40), y: r.top + 1, el: el };
@@ -327,7 +342,7 @@
     state.busy = true; state.at = 'air'; hideSay();
     shadow.style.opacity = '0';
     SND.flap();
-    if (Math.random() < .5) SND.chirp(2);
+    if (Math.random() < .5 && softChirpOk()) SND.chirp(2);
     // take-off: frames 0..14 while rising a little
     return playFrames('takeoff', 0, 8, 26, flip, function (k) { lift = k * 10; place(); })
       .then(function () {
@@ -383,12 +398,12 @@
     var r = Math.random();
     if (state.inCage) {
       if (r < .45) { flutterInCage(); return; }
-      if (r < .75) { chirp(2); return; }
+      if (r < .75) { if (idleChirpOk()) chirp(2); return; }
       hopInCage(); return;
     }
-    if (r < .35) { chirp(3); return; }
+    if (r < .35) { if (idleChirpOk()) chirp(3); return; }
     if (r < .6 && state.at === 'el') {   // shuffle along the perch
-      var el = state.perch && state.perch.el; if (!el) return;
+      var el = state.perch && state.perch.el; if (!el || /^H[12]$/.test(el.tagName)) return;   // headings: stay beside the words
       var rr = el.getBoundingClientRect(); var nx = clamp(state.x + rnd(-60, 60), rr.left + 24, rr.right - 24);
       state.busy = true; hop(nx, state.y).then(function () { state.busy = false; state.perch.side = 'x'; state.perch.fx = nx - rr.left; }); return;
     }
@@ -537,7 +552,7 @@
     v: 1,
     screen: function (el) {
       then(function () {
-        if (state.inCage) { if (Math.random() < .5) chirp(2); return; }
+        if (state.inCage) { if (softChirpOk()) chirp(2); return; }
         var h = el && (el.matches && el.matches('h1,h2') ? el : el.querySelector && el.querySelector('h1,h2'));
         if (h && visible(perchOf(h))) return land(h, 'r');
         return goRoof();
@@ -546,7 +561,7 @@
     look: function (el) {
       if (!el || state.inCage || state.busy) return;
       var p = perchOf(el, 'r'); if (!visible(p)) return;
-      then(function () { return land(el, 'r').then(function () { if (Math.random() < .6) chirp(2); }); });
+      then(function () { return land(el, 'r').then(function () { if (softChirpOk()) chirp(2); }); });
     },
     locks: function (n) {
       n = Math.max(0, Math.min(8, n | 0)); if (n === state.locks) return;
